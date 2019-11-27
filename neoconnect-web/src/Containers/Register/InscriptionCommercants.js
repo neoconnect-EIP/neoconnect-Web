@@ -69,7 +69,7 @@ export default class ShopSignUp extends React.Component{
     handleResponse = (res) => {
         console.log("res: ", res.status)
         if (res.status === 200)
-            this.props.history.push('/login')
+            this.props.history.push('/landing-page/login')
     }
 
     handleSubmit = () => {
@@ -98,7 +98,7 @@ export default class ShopSignUp extends React.Component{
                 <div className="landing-page-mid-div">
                     <h1 style={{textAlign: "center", paddingTop: "30px", marginTop: "0"}}>Inscription commercant</h1>
                     <Form className="formular" onSubmit={this.handleSubmit}>
-                        <div className="input-form">
+                        <div className="input-form" style={{paddingTop: "40px"}}>
                             <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
                             <Input
                                    type="text"
@@ -108,7 +108,7 @@ export default class ShopSignUp extends React.Component{
                                    onChange={this.handleUsernameChange}
                             />
                         </div>
-                        <div className="input-form">
+                        <div className="input-form" style={{marginBottom: "20px"}}>
                             <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
                             <Input
                                    type="password"

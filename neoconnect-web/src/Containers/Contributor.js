@@ -13,7 +13,7 @@ export default class Contributors extends React.Component{
             <div>
                 <div className="landing-page-mid-div">
                     <div style={{textAlign: "center", paddingTop: "30px"}}>
-                        <h1>who are our Collaborators</h1>
+                        <h1>Contributors</h1>
                     </div>
                 </div>
             </div>

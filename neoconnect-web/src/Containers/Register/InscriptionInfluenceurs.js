@@ -13,7 +13,6 @@ export default class InfluencerSignUp extends React.Component{
             password2: "",
             full_name: "",
             email: "",
-
             adress: "",
             city: "",
             prone: "",
@@ -87,7 +86,17 @@ export default class InfluencerSignUp extends React.Component{
         console.log(e)
         let body = {
             "pseudo": this.state.username,
-            "password": this.state.password
+            "password": this.state.password,
+            full_name: this.state.full_name,
+            email: this.state.email,
+            phone: this.state.phone,
+            postal: this.state.adress,
+            city: this.state.city,
+            theme: this.state.theme,
+            facebook: this.state.facebook,
+            twitter: this.state.twitter,
+            snapchat: this.state.snapchat,
+            instagram: this.state.instagram,
         };
         console.log("body: ", body);
         body = JSON.stringify(body);
@@ -102,7 +111,7 @@ export default class InfluencerSignUp extends React.Component{
                 <div className="landing-page-mid-div">
                     <h1 style={{textAlign: "center", paddingTop: "30px", marginTop: "0"}}>Inscription influenceur</h1>
                     <Form className="formular" onSubmit={this.handleSubmit}>
-                        <div className="input-form">
+                        <div className="input-form" style={{paddingTop: "40px"}}>
                             <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
                             <Input
                                    type="text"
@@ -232,7 +241,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleSnapchatChange}
                             />
                         </div>
-                        <div>
+                        <div style={{marginTop: "30px", paddingBottom: "30px"}}>
                             <Button onClick={this.handleSubmit} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Register</Button>
                         </div>
                     </Form>

@@ -6,22 +6,22 @@
 .header {
     background-image: linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121);
     width: 100%;
-    height: 65px;
+    height: 75px;
 }
 
 .logo {
     margin-top: -0.5rem;
-    margin-left: 0.375rem;
+    margin-left: 1.375rem;
     width: 5rem;
-    height: 4.375rem;
+    height: 5rem;
 }
 
 .header-btn {
     float: right;
     position: relative;
-    margin: 12px;
-    font-size: 22px;
-    padding-left: 15px;
+    margin: 1rem;
+    font-size: 1.375rem;
+    padding-left: 1rem;
     border-left: 0.1rem solid white;
     text-decoration: none;
 }
@@ -38,11 +38,10 @@
 
 .landing-page-mid-div {
     display: block;
-    margin-right: auto;
-    margin-left: auto;
     position: relative;
+    margin: auto;
     z-index: 2;
-    height: 872px;
+    height: auto;
     width: 52rem;
     background-color: white;
     text-align: center;
@@ -58,10 +57,11 @@
 }
 
 .aside {
-    background-image: linear-gradient(65deg, #ff4343, #982d2d, #712121);
+    background-image: linear-gradient(65deg, #ff4343, #b93737, #5a1a1a);
     width: 200px;
     height: 100%;
     position: fixed;
+    box-shadow: 1px 1px 18px 3px;
 }
 
 .aside-button {
@@ -167,8 +167,10 @@ span {
 }
 
 .about-faq {
-    text-align: center;
+    text-align: left;
     padding-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .input-form {
@@ -199,4 +201,12 @@ span {
     position: relative;
     margin-left: auto;
     margin-right: auto;
+}
+
+.posted-ad-send-button {
+    width: 150px;
+    height: 30px;
+    border-radius: 30px;
+    margin-top: 30px;
+    background-image: linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121);
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Switch, Route } from "react-router-dom"
+import backgroundImage from "../assets/Equinox-Shop.jpg";
 import "./index.css"
 import Header from "../Components/Header";
 import InfluencerSignUp from "./Register/InscriptionInfluenceurs";
@@ -7,7 +8,19 @@ import ShopSignUp from "./Register/InscriptionCommercants";
 import Login from "./Login/Login";
 import About from "./About";
 import Contributors from "./Contributor";
-import backgroundImage from "../assets/Equinox-Shop.jpg";
+import ResetPassword from "./Register/ResetPassword";
+import Contact from "./Contact";
+import {Grid} from "@material-ui/core";
+import shopBanner1 from "../assets/backgroundBoutique.jpg";
+import chatShop from "../assets/chat_red.png";
+import queuShop from "../assets/queue.png";
+import deliveryShop from "../assets/delivery.png";
+import influencerBanner1 from "../assets/backgroundInf.jpeg";
+import chatInf from "../assets/chat.png";
+import socialSaheInf from "../assets/social_share_red.png";
+import followerInf from "../assets/followers_red.png";
+import download from "../assets/dldOurApp.jpg";
+import storeLogo from "../assets/storeLogo.png"
 
 export default class LandingPage extends React.Component{
     constructor(props) {
@@ -16,20 +29,89 @@ export default class LandingPage extends React.Component{
     }
 
     render() {
+        console.log(this.props.location["pathname"]);
         return (
             <div className="landing-page-header">
                 <Header />
-                <div style={{backgroundImage: "url(" + backgroundImage + ")", position: "relative", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "100%", zIndex: "0"}}>
-                    <div style={{height: "872px"}}>
-                        <Switch>
-                            <Route path="/landing-page/login" component={Login}/>
-                            <Route path="/landing-page/about" component={About}/>
-                            <Route path="/landing-page/contributors" component={Contributors}/>
-                            <Route path="/landing-page/influencer-sign-up" component={InfluencerSignUp}/>
-                            <Route path="/landing-page/shop-sign-up" component={ShopSignUp}/>
-                        </Switch>
-                    </div>
-                </div>
+                {
+                    this.props.location["pathname"] === "/landing-page" ?
+                        <div className="about">
+                            <div style={{display: "block", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: "2", height: "auto", width: "100%"}}>
+                                <Grid container>
+                                    <Grid item xs={12}  style={{backgroundImage: "url(" + shopBanner1 + ")", position: "relative", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "700px", boxShadow: "0px 6px 20px 0px black"}}>
+                                        <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(#712121, #982d2d, #ff4343)", paddingTop: "100px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
+                                            Boutique
+                                        </h1>
+                                        <h2 style={{textAlign: "center", color: "white", marginTop: "80px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h2>
+                                        <h6 style={{textAlign: "center", color: "white", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Neoconnect est la plateforme idéale pour les marques qui souhaitent entrer en<br/>
+                                            contact en quelques clics avec une communauté de jeunes influenceurs</h6>
+                                    </Grid>
+                                    <Grid container style={{backgroundColor: "white", paddingLeft: "100px", paddingRight: "100px", height: "700px"}}>
+                                        <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
+                                            <img src={chatShop} style={{width: "100%", height: "300px"}}/>
+                                            <h5 style={{textAlign: "center", padding: "10px"}}>Mise en relation avec des influenceurs</h5>
+                                            <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "12px"}}>Choisissez quel influenceurs arborera vos produit pour les mettre en valeur</p>
+                                        </Grid>
+                                        <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
+                                            <img src={queuShop} style={{width: "100%", height: "300px"}}/>
+                                            <h5 style={{textAlign: "center", padding: "10px"}}>Gagnez en visibilité</h5>
+                                            <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "12px"}}>Bénéficier de notre reseau pour faire votre publicité et gagné de la clientel rapidement</p>
+                                        </Grid>
+                                        <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
+                                            <img src={deliveryShop} style={{width: "100%", height: "300px"}}/>
+                                            <h5 style={{textAlign: "center", padding: "10px"}}>Agrandisser votre commerces</h5>
+                                            <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "12px"}}>Optez pour une de nos solutions qui permettra à votre entreprise de s'agrandir plus vite</p>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={12} style={{backgroundImage: "url(" + influencerBanner1 + ")", position: "relative", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "700px", boxShadow: "0px 0px 20px 0px black"}}>
+                                        <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(#712121, #982d2d, #ff4343)", paddingTop: "80px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
+                                            Influenceur
+                                        </h1>
+                                        <h2 style={{textAlign: "center", color: "white", marginTop: "60px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h2>
+                                        <h6 style={{textAlign: "center", color: "white", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Devenez un influenceur incontournable</h6>
+                                    </Grid>
+                                    <Grid container style={{backgroundColor: "white", paddingLeft: "100px", paddingRight: "100px", height: "700px"}}>
+                                        <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
+                                            <img src={chatInf} style={{width: "100%", height: "300px"}}/>
+                                            <h5 style={{textAlign: "center", padding: "10px"}}>Mise en relation avec des marques</h5>
+                                            <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "12px"}}>Crééz des relation avec differentes marque pour de futur partenariats</p>
+                                        </Grid>
+                                        <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
+                                            <img src={socialSaheInf} style={{width: "100%", height: "300px"}}/>
+                                            <h5 style={{textAlign: "center", padding: "10px"}}>Publication du produit</h5>
+                                            <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "12px"}}>Recevez le produit d'une marque et partagez le sur vos reseaux sociaux</p>
+                                        </Grid>
+                                        <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
+                                            <img src={followerInf} style={{width: "100%", height: "300px"}}/>
+                                            <h5 style={{textAlign: "center", padding: "10px"}}>Faite de votre passion un métier</h5>
+                                            <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "12px"}}>Gagnez des followers, des produits de marque et de la notoriété grace à notre reseaux</p>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={12}  style={{backgroundImage: "url(" + download + ")", position: "relative", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "700px", boxShadow: "0px -6px 20px 0px black"}}>
+                                        <h1 style={{textAlign: "center", color: "white", lineHeight: "normal", paddingTop: "145px", fontSize: "92px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>
+                                            Téléchargez notre application
+                                        </h1>
+                                        <h2 style={{textAlign: "center", color: "white", marginTop: "60px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Disponible sur toutes les platformes</h2>
+                                        <img src={storeLogo} alt={"Error: no Logo"} style={{width: "37.5rem"}}/>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        </div>
+                        :
+                        <div style={{backgroundImage: "url(" + backgroundImage + ")", position: "relative", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "100%", zIndex: "0"}}>
+                            <div style={{height: "872px"}}>
+                                <Switch>
+                                    <Route path="/landing-page/login" component={Login}/>
+                                    <Route path="/landing-page/about" component={About}/>
+                                    <Route path="/landing-page/contributors" component={Contributors}/>
+                                    <Route path="/landing-page/influencer-sign-up" component={InfluencerSignUp}/>
+                                    <Route path="/landing-page/shop-sign-up" component={ShopSignUp}/>
+                                    <Route path="/landing-page/reset-password" component={ResetPassword}/>
+                                    <Route path="/landing-page/contact" component={Contact}/>
+                                </Switch>
+                            </div>
+                        </div>
+                }
             </div>
         );
     }

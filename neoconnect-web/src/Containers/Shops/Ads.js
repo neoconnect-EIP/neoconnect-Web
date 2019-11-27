@@ -1,11 +1,11 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Table, TableBody, TableCell, TableHead, TableRow, Grid, Fab, Modal, TextField }from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TableRow, Modal, Fab, TextField, Grid }from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
 import EmailIcon from '@material-ui/icons/Email';
-
 import "../../index.css"
 
 class Ads extends React.Component {
@@ -16,7 +16,6 @@ class Ads extends React.Component {
             visible: false,
             acutalId: null,
             message: "",
-
         };
     }
 
@@ -29,6 +28,7 @@ class Ads extends React.Component {
             .then(res => this.setState({adsData: res}))
             .catch(error => console.error('Error:', error));
     }
+
 
     handleVisibleModal = () => {
         this.setState({visible: !this.state.visible})
@@ -54,16 +54,16 @@ class Ads extends React.Component {
 
     render() {
 
-        function createData(annoncer: string, item: string, startDate: string, endDate: string) {
-            return { annoncer, item, startDate, endDate };
+        function createData(id: int, annoncer: string, item: string, startDate: string, endDate: string) {
+            return { id, annoncer, item, startDate, endDate };
         }
 
         const rows = [
-            createData('Gucci', 't-shirt', "01/12/2019", "01/12/2019"),
-            createData('Champion', "Sweatshirt", "01/12/2019", "01/12/2019"),
-            createData('Louis Vuitton', "Sac banane", "01/12/2019", "01/12/2019"),
-            createData('Mike Amiri', "Pantalon", "01/12/2019", "01/12/2019"),
-            createData('Dior', "Sneakers", "01/12/2019", "01/12/2019"),
+            createData(1,'Philip Perou', 't-shirt', "01/12/2019", "01/12/2019"),
+            createData(2,'Amine Mojito', "Sweatshirt", "01/12/2019", "01/12/2019"),
+            createData(3,'Louis Norris', "Sac banane", "01/12/2019", "01/12/2019"),
+            createData(4,'Michael cohen', "Pantalon", "01/12/2019", "01/12/2019"),
+            createData(5,'Amanda Tyler', "Sneakers", "01/12/2019", "01/12/2019"),
         ];
 
         return (
@@ -74,7 +74,7 @@ class Ads extends React.Component {
                 >
                     <Grid container style={{width: "800px", height: "350px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center"}}>
                         <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121)"}}>
-                            <h2 style={{color: "white"}}>Contact Shop</h2>
+                            <h2 style={{color: "white"}}>Contact candidat</h2>
                         </Grid>
                         <Grid item xs={12}>
 
@@ -102,33 +102,33 @@ class Ads extends React.Component {
                         </Grid>
                     </Grid>
                 </Modal>
-                <h1 style={{marginTop: "30px", marginBottom: "30px"}}>List of your registered ads</h1>
-                    <Table>
-                        <TableHead style={{backgroundImage: "linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121)"}}>
-                            <TableRow>
-                                <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Annoncer</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Item</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Start at</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>End at</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white"}}>Action</TableCell>
+                <h1 style={{marginTop: "30px", marginBottom: "30px"}}>List of your posted ads</h1>
+                <Table>
+                    <TableHead style={{backgroundImage: "linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121)"}}>
+                        <TableRow>
+                            <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Candidats</TableCell>
+                            <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Item</TableCell>
+                            <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Start at</TableCell>
+                            <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>End at</TableCell>
+                            <TableCell style={{width: "5 rem", color: "white"}}>Action</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map(row => (
+                            <TableRow style={{height: "2 rem"}}>
+                                <TableCell align="center" style={{width: "5 rem"}}>{row.annoncer}</TableCell>
+                                <TableCell align="center" style={{width: "5 rem"}}>{row.item}</TableCell>
+                                <TableCell align="center" style={{width: "5 rem"}}>{row.startDate}</TableCell>
+                                <TableCell align="center" style={{width: "5 rem"}}>{row.endDate}</TableCell>
+                                <TableCell align="center" style={{width: "5 rem"}}>
+                                    <Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal()}><ContactMailIcon /></Fab>
+                                    <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>
+                                    <Fab aria-label="delete" style={{margin: "5px"}}><DeleteIcon /></Fab>
+                                </TableCell>
                             </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map(row => (
-                                <TableRow style={{height: "2 rem"}}>
-                                    <TableCell align="center" style={{width: "5 rem"}}>{row.annoncer}</TableCell>
-                                    <TableCell align="center" style={{width: "5 rem"}}>{row.item}</TableCell>
-                                    <TableCell align="center" style={{width: "5 rem"}}>{row.startDate}</TableCell>
-                                    <TableCell align="center" style={{width: "5 rem"}}>{row.endDate}</TableCell>
-                                    <TableCell align="center" style={{width: "5 rem"}}>
-                                        <Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal()}><ContactMailIcon /></Fab>
-                                        <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>
-                                        <Fab aria-label="delete" style={{margin: "5px"}}><DeleteIcon /></Fab>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
         );
     }

@@ -5,6 +5,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Card, CardHeader, CardContent, Button, Grid, Modal}from '@material-ui/core';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import StarIcon from '@material-ui/icons/Star';
 
 import gucci1 from "../../assets/gucci1.jpeg"
 import gucci2 from "../../assets/gucci2.jpeg"
@@ -23,22 +24,36 @@ class Advertisements extends React.Component{
         this.state = {
             visible: false,
             actualId: null,
+            adsData: null,
+            fonction: null,
         };
     }
 
     componentDidMount = () => {
         fetch("http://168.63.65.106/offer/list", { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {console.log("start res: ", res.json())})
+            .then(res => res.json())
+            .then(res => this.setState({adsData: res}))
             .catch(error => console.error('Error:', error));
     }
 
-    handleModal = (id) => {
+    handleModal = (id, fonction) => {
         this.setState({visible: !this.state.visible, actualId: id})
+        if (this.state.fonction) {
+            this.setState({fonction: ""})
+        } else {
+          this.setState({fonction: fonction})
+        }
     }
 
     handleAnnonceSubsribe = (item) => {
-        console.log("id: ", item);
         fetch(`http://168.63.65.106/offer/apply/${item[0].id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {console.log("start res: ", res.json())})
+            .catch(error => console.error('Error:', error));
+        this.handleModal(item[0].id)
+    }
+
+    handleAnnonceNotation = (item) => {
+        fetch(`http://168.63.65.106/offer/rate/${item[0].id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {console.log("start res: ", res.json())})
             .catch(error => console.error('Error:', error));
         this.handleModal(item[0].id)
@@ -53,29 +68,49 @@ class Advertisements extends React.Component{
     }
 
     handleCard = (title, brand, item) => {
-        console.log("actualId: ", this.state.actualId);
+        console.log("adsData: ", this.state.adsData);
         return (
             <Grid item xs={12} md={6} lg={4}>
                 <Modal
                     open={this.state.visible && item[0].id === this.state.actualId}
                     onClose={() => this.handleModal(0)}
                 >
-                    <div style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center"}}>
-                        <h3>Subscribe to this annonce ?</h3>
-                        <h4 style={{marginBottom: "30px"}}>{brand}</h4>
-                        <Button style={{backgroundColor: "#d23e3e", margin: "10px", color: "white"}} onClick={() => this.handleModal(0)}>Cancel</Button>
-                        <Button style={{backgroundColor: "#d23e3e", margin: "10px", color: "white"}} onClick={() => this.handleAnnonceSubsribe(item)}>Subscribe</Button>
-                    </div>
+                    {
+                        this.state.fonction === "subscribe" ?
+                            <div style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", backgroundImage: "linear-gradient(0deg, #ff4343, #982d2d, #712121)"}}>
+                                <h3 style={{color: "white"}}>Subscribe to this annonce ?</h3>
+                                <h4 style={{marginBottom: "30px", color: "white"}}>{brand}</h4>
+                                <Button style={{backgroundImage: "linear-gradient(180deg, #ff4343, #982d2d, #712121)", margin: "10px", boxShadow: "4px 3px 6px"}} onClick={() => this.handleModal(0)}>Cancel</Button>
+                                <Button style={{backgroundImage: "linear-gradient(180deg, #ff4343, #982d2d, #712121)", margin: "10px", boxShadow: "4px 3px 6px"}} onClick={() => this.handleAnnonceSubsribe(item)}>Subscribe</Button>
+                            </div>
+                            :
+                            <Grid container style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", backgroundImage: "linear-gradient(0deg, #ff4343, #982d2d, #712121)"}}>
+                                <Grid item xs={12}>
+                                    <h3 style={{color: "white"}}>Rate this ads !</h3>
+                                </Grid>
+                                <Grid item style={{position: "relative", marginRight: "auto", marginLeft: "auto"}}>
+                                    <StarIcon  onClick={() => this.handleModal(item[0].id, "notation")} style={{float: "right", marginTop: "8px", color: "grey"}}/>
+                                    <StarIcon  onClick={() => this.handleModal(item[0].id, "notation")} style={{float: "right", marginTop: "8px", color: "grey"}}/>
+                                    <StarIcon  onClick={() => this.handleModal(item[0].id, "notation")} style={{float: "right", marginTop: "8px", color: "grey"}}/>
+                                    <StarIcon  onClick={() => this.handleModal(item[0].id, "notation")} style={{float: "right", marginTop: "8px", color: "grey"}}/>
+                                    <StarIcon  onClick={() => this.handleModal(item[0].id, "notation")} style={{float: "right", marginTop: "8px", color: "grey"}}/>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button style={{backgroundImage: "linear-gradient(180deg, #ff4343, #982d2d, #712121)", margin: "10px", boxShadow: "4px 3px 6px"}} onClick={() => this.handleAnnonceNotation(item)}>Rate</Button>
+                                </Grid>
+                            </Grid>
+                    }
                 </Modal>
-                <Card style={{height: "355px", border: " solid #d23e3e", margin: "50px"}}>
-                    <CardHeader className="col" title={title} subheader={brand} style={{width: "100%", height: "50px", overflowY: "hide"}}/>
+                <Card style={{height: "355px", boxShadow: "#807e7e 1px 2px 7px 0px", margin: "50px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>
+                    <CardHeader className="col" title={`Annonced by ${brand}`} style={{width: "100%", height: "50px", overflowY: "hide", color: "white"}}/>
                     <CardContent style={{width: "100%", height: "280px"}}>
                         <Carousel style={{height: "280px"}} showThumbs={false} infiniteLoop={true} centerSlidePercentage={80}>
                                 {
                                     item[0].images.map(x => this.displayImage(x))
                                 }
                         </Carousel>
-                        <Button onClick={() => this.handleModal(item[0].id)} style={{height: "30px",marginTop: "5px", backgroundColor: "#d23e3e", color: "white", fontSize: "10px"}}>Subscribe</Button>
+                        <Button onClick={() => this.handleModal(item[0].id, "subscribe")} style={{height: "30px",marginTop: "5px", backgroundColor: "black", fontSize: "10px"}}>Subscribe</Button>
+                        <StarIcon  onClick={() => this.handleModal(item[0].id, "notation")} style={{float: "right", marginTop: "8px", color: "gold"}}/>
                     </CardContent>
                 </Card>
             </Grid>
@@ -88,15 +123,14 @@ class Advertisements extends React.Component{
         var item3 = [{id: 3, images: [{image: amiri1}, {image: amiri2}, {image: amiri3}]}];
         var item4 = [{id: 4, images: [{image: champion1}, {image: champion2}, {image: champion3}]}];
 
-        console.log("item1: ", item1[0].id);
         return (
             <div style={{position: "relative", marginLeft: "-30px", textAlign: "center"}}>
                 <h1 style={{marginTop: "30px", marginBottom: "30px"}}>List of Advertisements</h1>
                 <Grid container className="advertisements-list">
-                    { this.handleCard("Card number 1", "Annonced by Guccy", item1) }
-                    { this.handleCard("Card number 2", "Annonced by Champion", item2) }
-                    { this.handleCard("Card number 3", "Annonced by Amiri", item3) }
-                    { this.handleCard("Card number 4", "Annonced by Champion", item4) }
+                    { this.handleCard("Card number 1", "Guccy", item1) }
+                    { this.handleCard("Card number 2", "Champion", item2) }
+                    { this.handleCard("Card number 3", "Amiri", item3) }
+                    { this.handleCard("Card number 4", "Champion", item4) }
                 </Grid>
             </div>
         );

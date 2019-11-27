@@ -6,8 +6,8 @@ import Advertisements from "./Influencers/Advertisements";
 import Ads from "./Influencers/Ads";
 import InfluenceurStatus from "./Influencers/InfluenceurStatus";
 import FindShop from "./Influencers/FindShop";
-import "./index.css"
 import EditProfile from "./Influencers/EditProfile";
+import "./index.css"
 
 export default class Dashboard extends React.Component {
     constructor(props) {
@@ -16,11 +16,10 @@ export default class Dashboard extends React.Component {
     }
 
     render() {
-        console.log("userData: ", this.state.userData)
         return (
             <Grid container>
                 <Grid item xs={2}>
-                    <Aside/>
+                    <Aside isShop={false}/>
                 </Grid>
                 <Grid item xs={10} style={{marginLeft: "-30px"}}>
                         <Switch>
