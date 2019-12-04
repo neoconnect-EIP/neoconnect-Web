@@ -23,7 +23,7 @@ export default class Login extends React.Component{
 
     handleResponse = (res) => {
         if (res.userType) {
-            res.userType === "influencer" ? this.props.history.push('/dashboard/advertisements') : this.props.history.push('/landing-page/login')
+            res.userType === "influencer" ? this.props.history.push('/dashboard/advertisements') : this.props.history.push('/shop-dashboard/ads')
         }
     }
 
@@ -33,7 +33,7 @@ export default class Login extends React.Component{
             "password": this.state.password,
         };
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106/inf/login", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        fetch("http://168.63.65.106/login", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {return res.json()})
             .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
