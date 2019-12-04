@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Switch, Route } from "react-router-dom";
+import {Router, Switch, Route, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history"
 import LandingPage from "./Containers/LandingPage";
 import Dashboard from "./Containers/Dashboard";
@@ -16,6 +16,7 @@ ReactDOM.render(
             <Route path="/landing-page" component={LandingPage} />
             <Route path="/dashboard" component={Dashboard}/>
             <Route path="/shop-dashboard" component={ShopDashboard}/>
+            <Redirect from="/" to="/landing-page"/>
         </Switch>
     </Router>
     , document.getElementById('root')

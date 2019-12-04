@@ -1,0 +1,34 @@
+.footer {
+    background-color: #292929;
+    /*background: #17212F;*/
+    padding: 100px 0;
+}
+
+.footer-button {
+    color: white;
+    font-size: 20px;
+}
+
+.footer-button:hover {
+    text-decoration: underline black;
+}
+
+.landing-div {
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 700px;
+}
+
+.first-div {
+    background-image: url("../assets/backgroundBoutique.jpg");
+}
+
+.second-div {
+    background-image: url("../assets/backgroundInf.jpeg");
+}
+
+.third-div {
+    background-image: url("../assets/dldOurApp.jpg");
+}
