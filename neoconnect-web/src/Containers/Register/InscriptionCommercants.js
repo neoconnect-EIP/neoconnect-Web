@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Icon, Button } from 'antd';
-import { Input } from '@material-ui/core';
+import {Grid, Input} from '@material-ui/core';
 import "../index.css"
 
 
@@ -67,7 +67,6 @@ export default class ShopSignUp extends React.Component{
     }
 
     handleResponse = (res) => {
-        console.log("res: ", res.status)
         if (res.status === 200)
             this.props.history.push('/landing-page/login')
     }
@@ -94,126 +93,128 @@ export default class ShopSignUp extends React.Component{
 
     render() {
         return (
-            <div>
-                <div className="landing-page-mid-div">
-                    <h1 style={{textAlign: "center", paddingTop: "30px", marginTop: "0"}}>Inscription commercant</h1>
+            <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
+                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px"}}>
+                    <h1 style={{textAlign: "center", paddingTop: "30px", marginBottom: "40px"}}>Inscription commercant</h1>
                     <Form className="formular" onSubmit={this.handleSubmit}>
-                        <div className="input-form" style={{paddingTop: "40px"}}>
-                            <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                   type="text"
-                                   name="username"
-                                   placeholder="Username"
-                                   value={this.state.username}
-                                   onChange={this.handleUsernameChange}
-                            />
-                        </div>
-                        <div className="input-form" style={{marginBottom: "20px"}}>
-                            <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                   type="password"
-                                   name="password"
-                                   placeholder="Password"
-                                   value={this.state.password}
-                                   onChange={this.handlePasswordChange}
-                                   size="large"
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="password"
-                                name="password2"
-                                placeholder="Password confirmation"
-                                value={this.state.password2}
-                                onChange={this.handlePassword2Change}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="text"
-                                name="full name"
-                                placeholder="Full name"
-                                value={this.state.full_name}
-                                onChange={this.handleFullNameChange}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="mail" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="text"
-                                name="email"
-                                placeholder="Email"
-                                value={this.state.email}
-                                onChange={this.handleEmailChange}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="text"
-                                name="adress"
-                                placeholder="Adress"
-                                value={this.state.adress}
-                                onChange={this.handleAdressChange}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="text"
-                                name="city"
-                                placeholder="City"
-                                value={this.state.city}
-                                onChange={this.handleCityChange}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="mobile" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="text"
-                                name="phone"
-                                placeholder="Phone number"
-                                value={this.state.phone}
-                                onChange={this.handlePhoneChange}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="shopping" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="text"
-                                name="theme"
-                                placeholder="theme"
-                                value={this.state.theme}
-                                onChange={this.handleThemeChange}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="shop" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input
-                                type="text"
-                                name="society"
-                                placeholder="Society"
-                                value={this.state.society}
-                                onChange={this.handleSocietyChange}
-                            />
-                        </div>
-                        <div className="input-form">
-                            <Icon type="info" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                            <Input  type="text"
-                                    name="function"
-                                    placeholder="Function"
-                                    value={this.state.function}
-                                    onChange={this.handleFunctionChange}
-                            />
-                        </div>
-                        <div>
-                            <Button onClick={this.handleSubmit} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Register</Button>
-                        </div>
+                        <Grid container spacing={2}>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Input
+                                       type="text"
+                                       name="username"
+                                       placeholder="Username"
+                                       value={this.state.username}
+                                       onChange={this.handleUsernameChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Input
+                                    type="text"
+                                    name="full name"
+                                    placeholder="Full name"
+                                    value={this.state.full_name}
+                                    onChange={this.handleFullNameChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" style={{marginBottom: "20px"}} xs={6}>
+                                <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Input
+                                       type="password"
+                                       name="password"
+                                       placeholder="Password"
+                                       value={this.state.password}
+                                       onChange={this.handlePasswordChange}
+                                       size="large"
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Input
+                                    type="password"
+                                    name="password2"
+                                    placeholder="Password confirmation"
+                                    value={this.state.password2}
+                                    onChange={this.handlePassword2Change}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={12}>
+                                <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Input
+                                    type="text"
+                                    name="adress"
+                                    placeholder="Adress"
+                                    value={this.state.adress}
+                                    onChange={this.handleAdressChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Input
+                                    type="text"
+                                    name="city"
+                                    placeholder="City"
+                                    value={this.state.city}
+                                    onChange={this.handleCityChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="mail" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Input
+                                    type="text"
+                                    name="email"
+                                    placeholder="Email"
+                                    value={this.state.email}
+                                    onChange={this.handleEmailChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="mobile" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Input
+                                    type="text"
+                                    name="phone"
+                                    placeholder="Phone number"
+                                    value={this.state.phone}
+                                    onChange={this.handlePhoneChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="shopping" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Input
+                                    type="text"
+                                    name="theme"
+                                    placeholder="theme"
+                                    value={this.state.theme}
+                                    onChange={this.handleThemeChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="shop" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Input
+                                    type="text"
+                                    name="society"
+                                    placeholder="Society"
+                                    value={this.state.society}
+                                    onChange={this.handleSocietyChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={6}>
+                                <Icon type="info" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Input  type="text"
+                                        name="function"
+                                        placeholder="Function"
+                                        value={this.state.function}
+                                        onChange={this.handleFunctionChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} style={{marginTop: "20px", marginBottom: "20px"}}>
+                                <Button onClick={this.handleSubmit} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Register</Button>
+                            </Grid>
+                        </Grid>
                     </Form>
-                </div>
-            </div>
+                </Grid>
+            </Grid>
         );
     }
 }

@@ -9,7 +9,6 @@ import ShopSignUp from "./Register/InscriptionCommercants";
 import Login from "./Login/Login";
 import About from "./About";
 import Contributors from "./Contributor";
-import ResetPassword from "./Register/ResetPassword";
 import Contact from "./Contact";
 import chatShop from "../assets/chat_red.png";
 import queuShop from "../assets/queue.png";
@@ -19,6 +18,8 @@ import socialSaheInf from "../assets/social_share_red.png";
 import followerInf from "../assets/followers_red.png";
 import storeLogo from "../assets/storeLogo.png"
 import Footer from "../Components/Footer";
+import UpdatePassword from "./Register/UpdatePassword";
+import ForgotPassword from "./Register/ForgotPassword";
 
 export default class LandingPage extends React.Component{
     constructor(props) {
@@ -27,7 +28,6 @@ export default class LandingPage extends React.Component{
     }
 
     render() {
-        console.log(this.props.location["pathname"]);
         return (
             <div className="landing-page-header">
                 <Header />
@@ -95,18 +95,18 @@ export default class LandingPage extends React.Component{
                             <Footer/>
                         </div>
                         :
-                        <div style={{backgroundImage: "url(" + backgroundImage + ")", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "100%", zIndex: "0"}}>
-                            <div style={{height: "872px"}}>
+                        <div style={{backgroundImage: "url(" + backgroundImage + ")", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "100%", position: "fixed"}}>
                                 <Switch>
                                     <Route path="/landing-page/login" exact component={Login}/>
                                     <Route path="/landing-page/about" component={About}/>
                                     <Route path="/landing-page/contributors" component={Contributors}/>
                                     <Route path="/landing-page/influencer-sign-up" component={InfluencerSignUp}/>
                                     <Route path="/landing-page/shop-sign-up" component={ShopSignUp}/>
-                                    <Route path="/landing-page/reset-password" component={ResetPassword}/>
+                                    <Route path="/landing-page/forgot-password" component={ForgotPassword}/>
+                                    <Route path="/landing-page/reset-password" component={ForgotPassword}/>
+                                    <Route path="/landing-page/update-password" component={UpdatePassword}/>
                                     <Route path="/landing-page/contact" component={Contact}/>
                                 </Switch>
-                            </div>
                         </div>
                 }
             </div>
