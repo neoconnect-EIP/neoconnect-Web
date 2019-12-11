@@ -18,6 +18,11 @@ class Aside extends React.Component{
         };
     }
 
+    handleDeconexion = () => {
+        localStorage.clear();
+        this.props.history.push('/landing-page')
+    }
+
     render() {
         return (
             <div>
@@ -49,6 +54,9 @@ class Aside extends React.Component{
                                     Find influencers
                                 </Fab>
                             </div>
+                            {/*<div style={{marginBottom: "25px"}}>
+                                <Button onClick={this.handleDeconexion}>Se Déconnecter</Button>
+                            </div>*/}
                         </div>
                         :
                         <div className="aside">
@@ -77,6 +85,9 @@ class Aside extends React.Component{
                                     Find shop
                                 </Fab>
                             </div>
+                            {/*<div style={{marginBottom: "25px"}}>
+                                <Button onClick={this.handleDeconexion}>Se Déconnecter</Button>
+                            </div>*/}
                         </div>
                 }
             </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Switch, Route } from "react-router-dom"
-import {Grid} from "@material-ui/core";
+import {Grid, Card, CardContent, CardMedia, CardActionArea} from "@material-ui/core";
 import backgroundImage from "../assets/Equinox-Shop.jpg";
 import "./index.css"
 import Header from "../Components/Header";
@@ -18,7 +18,7 @@ import socialSaheInf from "../assets/social_share_red.png";
 import followerInf from "../assets/followers_red.png";
 import storeLogo from "../assets/storeLogo.png"
 import Footer from "../Components/Footer";
-import UpdatePassword from "./Register/UpdatePassword";
+import ResetPassword from "./Register/ResetPassword";
 import ForgotPassword from "./Register/ForgotPassword";
 
 export default class LandingPage extends React.Component{
@@ -45,19 +45,40 @@ export default class LandingPage extends React.Component{
                                 </Grid>
                                 <Grid container style={{backgroundColor: "white", paddingLeft: "100px", paddingRight: "100px", height: "700px"}}>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
-                                        <img src={chatShop} style={{width: "100%", height: "300px"}}/>
-                                        <h5 style={{textAlign: "center", padding: "10px"}}>Mise en relation avec des influenceurs</h5>
-                                        <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Choisissez quel influenceurs arborera vos produit pour les mettre en valeur</p>
+                                        <Card style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                            <CardMedia
+                                                image={chatShop}
+                                                style={{width: "auto", height: "300px", margin: "10px"}}
+                                            />
+                                            <CardContent>
+                                                <h5 style={{textAlign: "center", padding: "10px"}}>Mise en relation avec des influenceurs</h5>
+                                                <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Choisissez quel influenceurs arborera vos produit pour les mettre en valeur</p>
+                                            </CardContent>
+                                        </Card>
                                     </Grid>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
-                                        <img src={queuShop} style={{width: "100%", height: "300px"}}/>
-                                        <h5 style={{textAlign: "center", padding: "10px"}}>Gagnez en visibilité</h5>
-                                        <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Bénéficier de notre reseau pour faire votre publicité et gagné de la clientel rapidement</p>
+                                        <Card style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                            <CardMedia
+                                                image={queuShop}
+                                                style={{width: "auto", height: "300px", margin: "10px"}}
+                                            />
+                                            <CardContent>
+                                                <h5 style={{textAlign: "center", padding: "10px"}}>Gagnez en visibilité</h5>
+                                                <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Bénéficier de notre reseau pour faire votre publicité et gagné de la clientel rapidement</p>
+                                            </CardContent>
+                                        </Card>
                                     </Grid>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
-                                        <img src={deliveryShop} style={{width: "100%", height: "300px"}}/>
-                                        <h5 style={{textAlign: "center", padding: "10px"}}>Agrandisser votre commerces</h5>
-                                        <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Optez pour une de nos solutions qui permettra à votre entreprise de s'agrandir plus vite</p>
+                                        <Card style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                            <CardMedia
+                                                image={deliveryShop}
+                                                style={{width: "auto", height: "300px", margin: "10px"}}
+                                            />
+                                            <CardContent>
+                                                <h5 style={{textAlign: "center", padding: "10px"}}>Agrandisser votre commerces</h5>
+                                                <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Optez pour une de nos solutions qui permettra à votre entreprise de s'agrandir plus vite</p>
+                                            </CardContent>
+                                        </Card>
                                     </Grid>
                                 </Grid>
                                 <Grid className="landing-div second-div" item xs={12}>
@@ -69,19 +90,40 @@ export default class LandingPage extends React.Component{
                                 </Grid>
                                 <Grid container style={{backgroundColor: "white", paddingLeft: "100px", paddingRight: "100px", height: "700px"}}>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
-                                        <img src={chatInf} style={{width: "100%", height: "300px"}}/>
-                                        <h5 style={{textAlign: "center", padding: "10px"}}>Mise en relation avec des marques</h5>
-                                        <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Crééz des relation avec differentes marque pour de futur partenariats</p>
+                                        <Card style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                            <CardMedia
+                                                image={chatInf}
+                                                style={{width: "auto", height: "300px", margin: "10px"}}
+                                            />
+                                            <CardContent>
+                                                <h5 style={{textAlign: "center", padding: "10px"}}>Mise en relation avec des marques</h5>
+                                                <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Crééz des relation avec differentes marque pour de futur partenariats</p>
+                                            </CardContent>
+                                        </Card>
                                     </Grid>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
-                                        <img src={socialSaheInf} style={{width: "100%", height: "300px"}}/>
-                                        <h5 style={{textAlign: "center", padding: "10px"}}>Publication du produit</h5>
-                                        <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Recevez le produit d'une marque et partagez le sur vos reseaux sociaux</p>
+                                        <Card style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                            <CardMedia
+                                                image={socialSaheInf}
+                                                style={{width: "auto", height: "300px", margin: "10px"}}
+                                            />
+                                            <CardContent>
+                                                <h5 style={{textAlign: "center", padding: "10px"}}>Publication du produit</h5>
+                                                <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Recevez le produit d'une marque et partagez le sur vos reseaux sociaux</p>
+                                            </CardContent>
+                                        </Card>
                                     </Grid>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
-                                        <img src={followerInf} style={{width: "100%", height: "300px"}}/>
-                                        <h5 style={{textAlign: "center", padding: "10px"}}>Faite de votre passion un métier</h5>
-                                        <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Gagnez des followers, des produits de marque et de la notoriété grace à notre reseaux</p>
+                                        <Card style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                            <CardMedia
+                                                image={followerInf}
+                                                style={{width: "auto", height: "300px", margin: "10px"}}
+                                            />
+                                            <CardContent>
+                                                <h5 style={{textAlign: "center", padding: "10px"}}>Faite de votre passion un métier</h5>
+                                                <p style={{textAlign: "center", padding: "15px", paddingLeft: "15px", paddingRight: "15px", fontSize: "15px"}}>Gagnez des followers, des produits de marque et de la notoriété grace à notre reseaux</p>
+                                            </CardContent>
+                                        </Card>
                                     </Grid>
                                 </Grid>
                                 <Grid className="landing-div third-div" item xs={12}>
@@ -103,8 +145,7 @@ export default class LandingPage extends React.Component{
                                     <Route path="/landing-page/influencer-sign-up" component={InfluencerSignUp}/>
                                     <Route path="/landing-page/shop-sign-up" component={ShopSignUp}/>
                                     <Route path="/landing-page/forgot-password" component={ForgotPassword}/>
-                                    <Route path="/landing-page/reset-password" component={ForgotPassword}/>
-                                    <Route path="/landing-page/update-password" component={UpdatePassword}/>
+                                    <Route path="/landing-page/reset-password" component={ResetPassword}/>
                                     <Route path="/landing-page/contact" component={Contact}/>
                                 </Switch>
                         </div>

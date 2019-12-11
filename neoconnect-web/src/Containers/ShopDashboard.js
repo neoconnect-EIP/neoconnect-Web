@@ -7,6 +7,7 @@ import EditProfile from "./Shops/EditProfile";
 import FindInfluencers from "./Shops/FindInfluencers";
 import Ads from "./Shops/Ads";
 import PostAd from "./Shops/PostAd";
+import shopBackground from "../assets/Equinox-Shop.jpg"
 import "./index.css"
 
 export default class ShopDashboard extends React.Component {
@@ -18,11 +19,11 @@ export default class ShopDashboard extends React.Component {
     render() {
         console.log("userData: ", this.state.userData)
         return (
-            <Grid container>
-                <Grid item xs={2}>
+            <div>
+                <div>
                     <Aside isShop={true}/>
-                </Grid>
-                <Grid item xs={10} style={{marginLeft: "-30px"}}>
+                </div>
+                <div style={{marginLeft: "200px"}}>
                     <Switch>
                         <Route path="/shop-dashboard/post-ad" component={PostAd}/>
                         <Route path="/shop-dashboard/ads" component={Ads}/>
@@ -30,8 +31,8 @@ export default class ShopDashboard extends React.Component {
                         <Route path="/shop-dashboard/status" component={FindInfluencers}/>
                         <Route path="/shop-dashboard/edit-profile" component={EditProfile}/>
                     </Switch>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
         );
     }
 }

@@ -67,13 +67,16 @@ class Ads extends React.Component {
         ];
 
         return (
-            <div style={{position: "relative", textAlign: "center"}}>
+            <Grid container justify="center">
+                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
+                    <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>Liste de vos annonces</h1>
+                </Grid>
                 <Modal
                     open={this.state.visible}
                     onClose={() => this.handleVisibleModal()}
                 >
                     <Grid container style={{width: "800px", height: "350px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center"}}>
-                        <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121)"}}>
+                        <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #d64f4f, #d64f4f, #e86868, #d64f4f, #d64f4f)"}}>
                             <h2 style={{color: "white"}}>Contact candidat</h2>
                         </Grid>
                         <Grid item xs={12}>
@@ -102,34 +105,35 @@ class Ads extends React.Component {
                         </Grid>
                     </Grid>
                 </Modal>
-                <h1 style={{marginTop: "30px", marginBottom: "30px"}}>List of your posted ads</h1>
-                <Table>
-                    <TableHead style={{backgroundImage: "linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121)"}}>
-                        <TableRow>
-                            <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Candidats</TableCell>
-                            <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Item</TableCell>
-                            <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Start at</TableCell>
-                            <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>End at</TableCell>
-                            <TableCell style={{width: "5 rem", color: "white"}}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map(row => (
-                            <TableRow style={{height: "2 rem"}}>
-                                <TableCell align="center" style={{width: "5 rem"}}>{row.annoncer}</TableCell>
-                                <TableCell align="center" style={{width: "5 rem"}}>{row.item}</TableCell>
-                                <TableCell align="center" style={{width: "5 rem"}}>{row.startDate}</TableCell>
-                                <TableCell align="center" style={{width: "5 rem"}}>{row.endDate}</TableCell>
-                                <TableCell align="center" style={{width: "5 rem"}}>
-                                    <Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal()}><ContactMailIcon /></Fab>
-                                    <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>
-                                    <Fab aria-label="delete" style={{margin: "5px"}}><DeleteIcon /></Fab>
-                                </TableCell>
+                <Grid container style={{marginTop: "130px", padding: "25px", backgroundColor: "white"}} justify="center">
+                    <Table>
+                        <TableHead style={{backgroundImage: "linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121)"}}>
+                            <TableRow>
+                                <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Candidats</TableCell>
+                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Item</TableCell>
+                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Start at</TableCell>
+                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>End at</TableCell>
+                                <TableCell style={{width: "5 rem", color: "white"}}>Action</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map(row => (
+                                <TableRow style={{height: "2 rem"}}>
+                                    <TableCell align="center" style={{width: "5 rem"}}>{row.annoncer}</TableCell>
+                                    <TableCell align="center" style={{width: "5 rem"}}>{row.item}</TableCell>
+                                    <TableCell align="center" style={{width: "5 rem"}}>{row.startDate}</TableCell>
+                                    <TableCell align="center" style={{width: "5 rem"}}>{row.endDate}</TableCell>
+                                    <TableCell align="center" style={{width: "5 rem"}}>
+                                        <Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal()}><ContactMailIcon /></Fab>
+                                        <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>
+                                        <Fab aria-label="delete" style={{margin: "5px"}}><DeleteIcon /></Fab>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Grid>
+            </Grid>
         );
     }
 }

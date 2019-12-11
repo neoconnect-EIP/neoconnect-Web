@@ -14,7 +14,7 @@ export default class About extends React.Component{
         return (
             <Grid className="about-faq" container>
                 <Grid item xs={12} style={{marginBottom: "50px"}}>
-                    <h1 style={{textAlign: "center", color: "white", marginBottom: "20px"}}>Neolink</h1>
+                    <h1 style={{textAlign: "center", color: "white", marginBottom: "20px"}}>Neoconnect</h1>
                     <h2 style={{textAlign: "center", color: "white"}}>FAQ</h2>
                 </Grid>
                 <Grid item xs={6} style={{paddingLeft: "50px", paddingRight: "50px", marginBottom: "30px"}}>
@@ -56,7 +56,7 @@ export default class About extends React.Component{
                     </p>
                 </Grid>
                 <Grid item xs={6} style={{paddingLeft: "50px", paddingRight: "50px", marginBottom: "30px"}}>
-                    <h4 style={{color: "white"}}>Pourquoi nous et pas quelque chose d'autre ?</h4>
+                    <h4 style={{color: "white"}}>Pourquoi nous et pas une autre platforme ?</h4>
                     <p> Notre platforme contrairement aux autres services de mise en relation influenceurs/commerces, s'adresse à une clientel plus accessible.<br/>
                         Si vous débutez en tant qu'influenceurs ou en tant que commercants notre platforme est la mieu adapter a vos objectifs.
                     </p>

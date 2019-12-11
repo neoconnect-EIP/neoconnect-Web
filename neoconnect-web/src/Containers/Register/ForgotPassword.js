@@ -49,14 +49,14 @@ export default class ForgotPassword extends React.Component{
                 <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px"}}>
                     {
                         this.state.mailSend ?
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <h2>Le lien</h2>
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <h2>Le lien</h2>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "ff4343"}}/>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "ff4343"}}/>
-                            </Grid>
-                        </Grid>
                         :
                             <Form className="formular" onSubmit={this.handleSubmit}>
                                 <Grid container style={{marginTop: "40px", marginBottom: "40px"}} spacing={3}>

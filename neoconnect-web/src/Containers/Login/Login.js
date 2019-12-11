@@ -20,11 +20,6 @@ export default class Login extends React.Component{
         this.setState({password: e.target.value});
     }
 
-    handleSnackbar = () => {
-        console.log("here2")
-        this.setState({openSnackbar: !this.state.openSnackbar})
-    }
-
     handleResponse = (res) => {
         if (res.userType) {
             res.userType === "influencer" ? this.props.history.push('/dashboard/advertisements') : this.props.history.push('/shop-dashboard/ads')
@@ -55,6 +50,7 @@ export default class Login extends React.Component{
             <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
                 <div className="landing-page-mid-div" style={{transform: "translateY(-65px)", borderRadius: "12px"}}>
                     <Form onSubmit={this.handleSubmit} style={{paddingTop: "50px", textAlign: "center"}}>
+                        <h2 style={{marginBottom: "30px"}}>Connexion</h2>
                         <div className="input-form">
                             <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
                             <Input type="text"
@@ -84,7 +80,7 @@ export default class Login extends React.Component{
                                 <Button onClick={this.handleSubmit} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Login</Button>
                             </Grid>
                             <Grid item xs={12}>
-                                <a style={{color: "red"}} onClick={this.forgotPassword}>forgot password</a>
+                                <a style={{color: "black", textDecoration: "underline"}} onClick={this.forgotPassword}>forgot password</a>
                             </Grid>
                         </Grid>
                     </Form>

@@ -22,48 +22,11 @@ export default class ShopSignUp extends React.Component{
         }
     }
 
-    handleUsernameChange = (e) => {
-        this.setState({username: e.target.value});
-    }
+    handleChange = (e) => {
+        let change = {}
 
-    handlePasswordChange = (e) => {
-        this.setState({password: e.target.value});
-    }
-
-    handlePassword2Change = (e) => {
-        this.setState({password2: e.target.value});
-    }
-
-    handleFullNameChange = (e) => {
-        this.setState({full_name: e.target.value});
-    }
-
-    handleEmailChange = (e) => {
-        this.setState({email: e.target.value});
-    }
-
-    handleAdressChange = (e) => {
-        this.setState({adress: e.target.value});
-    }
-
-    handleCityChange = (e) => {
-        this.setState({city: e.target.value});
-    }
-
-    handlePhoneChange = (e) => {
-        this.setState({phone: e.target.value});
-    }
-
-    handleThemeChange = (e) => {
-        this.setState({theme: e.target.value});
-    }
-
-    handleFunctionChange = (e) => {
-        this.setState({function: e.target.value});
-    }
-
-    handleSocietyChange = (e) => {
-        this.setState({society: e.target.value});
+        change[e.target.name] = e.target.value
+        this.setState(change)
     }
 
     handleResponse = (res) => {
@@ -105,17 +68,17 @@ export default class ShopSignUp extends React.Component{
                                        name="username"
                                        placeholder="Username"
                                        value={this.state.username}
-                                       onChange={this.handleUsernameChange}
+                                       onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
                                 <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
                                 <Input
                                     type="text"
-                                    name="full name"
+                                    name="full_name"
                                     placeholder="Full name"
                                     value={this.state.full_name}
-                                    onChange={this.handleFullNameChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" style={{marginBottom: "20px"}} xs={6}>
@@ -125,7 +88,7 @@ export default class ShopSignUp extends React.Component{
                                        name="password"
                                        placeholder="Password"
                                        value={this.state.password}
-                                       onChange={this.handlePasswordChange}
+                                       onChange={this.handleChange}
                                        size="large"
                                 />
                             </Grid>
@@ -136,7 +99,7 @@ export default class ShopSignUp extends React.Component{
                                     name="password2"
                                     placeholder="Password confirmation"
                                     value={this.state.password2}
-                                    onChange={this.handlePassword2Change}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={12}>
@@ -146,7 +109,7 @@ export default class ShopSignUp extends React.Component{
                                     name="adress"
                                     placeholder="Adress"
                                     value={this.state.adress}
-                                    onChange={this.handleAdressChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -156,7 +119,7 @@ export default class ShopSignUp extends React.Component{
                                     name="city"
                                     placeholder="City"
                                     value={this.state.city}
-                                    onChange={this.handleCityChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -166,7 +129,7 @@ export default class ShopSignUp extends React.Component{
                                     name="email"
                                     placeholder="Email"
                                     value={this.state.email}
-                                    onChange={this.handleEmailChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -176,7 +139,7 @@ export default class ShopSignUp extends React.Component{
                                     name="phone"
                                     placeholder="Phone number"
                                     value={this.state.phone}
-                                    onChange={this.handlePhoneChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -186,7 +149,7 @@ export default class ShopSignUp extends React.Component{
                                     name="theme"
                                     placeholder="theme"
                                     value={this.state.theme}
-                                    onChange={this.handleThemeChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -196,7 +159,7 @@ export default class ShopSignUp extends React.Component{
                                     name="society"
                                     placeholder="Society"
                                     value={this.state.society}
-                                    onChange={this.handleSocietyChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -205,7 +168,7 @@ export default class ShopSignUp extends React.Component{
                                         name="function"
                                         placeholder="Function"
                                         value={this.state.function}
-                                        onChange={this.handleFunctionChange}
+                                        onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12} style={{marginTop: "20px", marginBottom: "20px"}}>

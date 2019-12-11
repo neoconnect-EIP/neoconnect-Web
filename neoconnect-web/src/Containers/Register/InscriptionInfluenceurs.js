@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Icon, Button } from 'antd';
-import {Grid, Input} from '@material-ui/core';
+import {Grid, Input, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import "../index.css"
 
 
@@ -8,7 +8,7 @@ export default class InfluencerSignUp extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            pseudo: "",
             password: "",
             password2: "",
             full_name: "",
@@ -16,7 +16,7 @@ export default class InfluencerSignUp extends React.Component{
             adress: "",
             city: "",
             prone: "",
-            theme: "",
+            theme: null,
             instagram: "",
             facebook: "",
             twitter: "",
@@ -24,56 +24,11 @@ export default class InfluencerSignUp extends React.Component{
         }
     }
 
-    handleUsernameChange = (e) => {
-        this.setState({username: e.target.value});
-    }
+    handleChange = (e) => {
+        let change = {}
 
-    handlePasswordChange = (e) => {
-        this.setState({password: e.target.value});
-    }
-
-    handlePassword2Change = (e) => {
-        this.setState({password2: e.target.value});
-    }
-
-    handleFullNameChange = (e) => {
-        this.setState({full_name: e.target.value});
-    }
-
-    handleEmailChange = (e) => {
-        this.setState({email: e.target.value});
-    }
-
-    handleAdressChange = (e) => {
-        this.setState({adress: e.target.value});
-    }
-
-    handleCityChange = (e) => {
-        this.setState({city: e.target.value});
-    }
-
-    handlePhoneChange = (e) => {
-        this.setState({phone: e.target.value});
-    }
-
-    handleThemeChange = (e) => {
-        this.setState({theme: e.target.value});
-    }
-
-    handleInstagramChange = (e) => {
-        this.setState({instagram: e.target.value});
-    }
-
-    handleFacebookChange = (e) => {
-        this.setState({facebook: e.target.value});
-    }
-
-    handleTwitterChange = (e) => {
-        this.setState({twitter: e.target.value});
-    }
-
-    handleSnapchatChange = (e) => {
-        this.setState({snapchat: e.target.value});
+        change[e.target.name] = e.target.value
+        this.setState(change)
     }
 
     handleResponse = (res) => {
@@ -82,22 +37,20 @@ export default class InfluencerSignUp extends React.Component{
     }
 
     handleSubmit = e => {
-        console.log(e)
         let body = {
-            "pseudo": this.state.username,
+            "pseudo": this.state.pseudo,
             "password": this.state.password,
-            full_name: this.state.full_name,
-            email: this.state.email,
-            phone: this.state.phone,
-            postal: this.state.adress,
-            city: this.state.city,
-            theme: this.state.theme,
-            facebook: this.state.facebook,
-            twitter: this.state.twitter,
-            snapchat: this.state.snapchat,
-            instagram: this.state.instagram,
+            "full_name": this.state.full_name,
+            "email": this.state.email,
+            "phone": this.state.phone,
+            "postal": this.state.adress,
+            "city": this.state.city,
+            "theme": this.state.theme,
+            "facebook": this.state.facebook,
+            "twitter": this.state.twitter,
+            "snapchat": this.state.snapchat,
+            "instagram": this.state.instagram,
         };
-        console.log("body: ", body);
         body = JSON.stringify(body);
         fetch("http://168.63.65.106/inf/register", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => { res.json(); this.handleResponse(res)})
@@ -115,20 +68,20 @@ export default class InfluencerSignUp extends React.Component{
                                 <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
                                 <Input
                                        type="text"
-                                       name="username"
+                                       name="pseudo"
                                        placeholder="Username"
                                        value={this.state.username}
-                                       onChange={this.handleUsernameChange}
+                                       onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
                                 <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
                                 <Input
                                     type="text"
-                                    name="full name"
+                                    name="full_name"
                                     placeholder="Full name"
                                     value={this.state.full_name}
-                                    onChange={this.handleFullNameChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -138,7 +91,7 @@ export default class InfluencerSignUp extends React.Component{
                                        name="password"
                                        placeholder="Password"
                                        value={this.state.password}
-                                       onChange={this.handlePasswordChange}
+                                       onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -148,7 +101,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="password2"
                                     placeholder="Password confirmation"
                                     value={this.state.password2}
-                                    onChange={this.handlePassword2Change}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -158,7 +111,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="email"
                                     placeholder="Email"
                                     value={this.state.email}
-                                    onChange={this.handleEmailChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -168,7 +121,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="phone"
                                     placeholder="Phone number"
                                     value={this.state.phone}
-                                    onChange={this.handlePhoneChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={12}>
@@ -178,7 +131,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="adress"
                                     placeholder="Adress"
                                     value={this.state.adress}
-                                    onChange={this.handleAdressChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -188,18 +141,29 @@ export default class InfluencerSignUp extends React.Component{
                                     name="city"
                                     placeholder="City"
                                     value={this.state.city}
-                                    onChange={this.handleCityChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid className="input-form" xs={6}>
-                                <Icon type="skin" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                <Input
-                                    type="text"
-                                    name="theme"
-                                    placeholder="theme"
-                                    value={this.state.theme}
-                                    onChange={this.handleThemeChange}
-                                />
+                                <Icon type="skin" style={{ color: '#d23e3e', marginRight: "8px", transform: "translateY(15px)"}} />
+                                <FormControl variant="outlined" style={{width: "150px"}}>
+                                    <InputLabel id="demo-simple-select-outlined-label">
+                                        Theme
+                                    </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-outlined-label"
+                                        name="theme"
+                                        value={this.state.theme}
+                                        onChange={this.handleChange}
+                                    >
+                                        <MenuItem value={1}>Mode</MenuItem>
+                                        <MenuItem value={2}>Cosmetique</MenuItem>
+                                        <MenuItem value={3}>Hight tech</MenuItem>
+                                        <MenuItem value={4}>Food</MenuItem>
+                                        <MenuItem value={5}>Jeux vidéo</MenuItem>
+                                        <MenuItem value={6}>Sport/fitness</MenuItem>
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid className="input-form" xs={6}>
                                 <Icon type="instagram" style={{ color: '#d23e3e', marginRight: "8px"}} />
@@ -208,7 +172,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="instagram"
                                     placeholder="Instagram"
                                     value={this.state.instagram}
-                                    onChange={this.handleInstagramChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -218,7 +182,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="facebook"
                                     placeholder="Facebook"
                                     value={this.state.facebook}
-                                    onChange={this.handleFacebookChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -228,7 +192,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="twitter"
                                     placeholder="Twitter"
                                     value={this.state.twitter}
-                                    onChange={this.handleTwitterChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
@@ -238,7 +202,7 @@ export default class InfluencerSignUp extends React.Component{
                                     name="snapchat"
                                     placeholder="Snapchat"
                                     value={this.state.snapchat}
-                                    onChange={this.handleSnapchatChange}
+                                    onChange={this.handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12} style={{marginTop: "20px", marginBottom: "20px"}}>
