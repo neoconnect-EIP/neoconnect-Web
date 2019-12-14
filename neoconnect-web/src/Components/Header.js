@@ -33,10 +33,10 @@ class Header extends React.Component{
                 <Button class="header-btn" onClick={() => this.props.history.push('/landing-page/about')}>A propos</Button>
                 <Button class="header-btn" onClick={() => this.props.history.push('/landing-page/contributors')}>Nos collaborateurs</Button>
                 <Modal className="inscription-modal"
-                       style={{width: "400px", height: "100px", display: "block", marginLeft: "auto", marginRight: "auto", backgroundColor: "transparent"}}
-                       aria-labelledby="Êtes vous Influenceur ou commercant ?"
-                       open={this.state.visible}
-                       onClose={this.showModal}
+                         style={{width: "400px", height: "100px", display: "block", marginLeft: "auto", marginRight: "auto", backgroundColor: "transparent"}}
+                         aria-labelledby="Êtes vous Influenceur ou commercant ?"
+                         open={this.state.visible}
+                         onClose={this.showModal}
                 >
                     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
                         <Grid container style={{height: "100%", width: "100%", textAlign: "center", marginLeft: 0}}>

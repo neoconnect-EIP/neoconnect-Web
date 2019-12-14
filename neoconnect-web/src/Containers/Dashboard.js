@@ -9,6 +9,7 @@ import FindShop from "./Influencers/FindShop";
 import EditProfile from "./Influencers/EditProfile";
 import "./index.css"
 import backgroundStatus from "../assets/backgroundStatus.jpg";
+import adsItem from "./Influencers/adsItem";
 
 export default class Dashboard extends React.Component {
     constructor(props) {
@@ -25,6 +26,7 @@ export default class Dashboard extends React.Component {
                 <div style={{marginLeft: "200px"}}>
                     <Switch>
                         <Route path="/dashboard/advertisements" component={Advertisements}/>
+                        <Route path="/dashboard/item" component={adsItem}/>
                         <Route path="/dashboard/ads" component={Ads}/>
                         <Route path="/dashboard/status" component={InfluenceurStatus}/>
                         <Route path="/dashboard/shops" component={FindShop}/>
