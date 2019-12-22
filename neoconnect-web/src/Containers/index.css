@@ -85,6 +85,7 @@
     margin-left: auto;
     margin-right: auto;
     padding-top: 10px;
+    cursor: pointer;
 }
 
 .aside-button:hover {
@@ -122,7 +123,7 @@ span {
 
 .formular {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 2rem;
 }
 
 .formular-input {
@@ -211,9 +212,25 @@ span {
 }
 
 .posted-ad-send-button {
-    width: 150px;
-    height: 30px;
-    border-radius: 30px;
-    margin-top: 30px;
+    width: 9.375rem;
+    height: 1.875rem;
+    border-radius: 8px;
+    margin-top: 1.875rem;
     background-Image: linear-gradient(65deg, #e86868, #d64f4f, #d64f4f);
+}
+
+.findShopCard {
+    height: auto;
+    box-shadow: #807e7e 2px 2px 8px;
+    margin: 50px;
+    border-radius: 6px;
+    background-color: #ebebeb;
+}
+
+.findShopCard:hover {
+    height: auto;
+    box-shadow: #807e7e 2px 2px 15px ;
+    margin: 50px;
+    border-radius: 6px;
+    background-color: #ebebeb;
 }

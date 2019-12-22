@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import { Button, Fab, Grid, Modal, Slide } from '@material-ui/core/';
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import "../index.css"
 import "./index.css"
 import whiteLogo from "../assets/logo_white.png";
@@ -12,8 +10,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import PeopleIcon from '@material-ui/icons/People';
-import CancelIcon from '@material-ui/icons/Cancel';
 import PersonIcon from '@material-ui/icons/Person';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 class Aside extends React.Component{
     constructor(props) {
@@ -31,6 +29,10 @@ class Aside extends React.Component{
 
     handleModal = () => {
         this.setState({visible: !this.state.visible})
+    }
+
+    handlePage = (page) => {
+        this.props.history.push(page)
     }
 
     render() {
@@ -57,66 +59,49 @@ class Aside extends React.Component{
                     this.props.isShop ?
                         <div className="aside">
                             <img className="aside-logo" src={whiteLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/shop-dashboard/post-ad">
-                                    <PostAddIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Post ad
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/post-ad")} style={{color: "white"}}>
+                                <PostAddIcon style={{float: "left", marginLeft: "20px"}}/>
+                                Post ad
                             </div>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/shop-dashboard/ads">
-                                    <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Ads
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/ads")} style={{color: "white"}}>
+                                <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
+                                Ads
                             </div>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/shop-dashboard/status">
-                                    <AccountCircleIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Status
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/status")} style={{color: "white"}}>
+                                <AccountCircleIcon style={{float: "left", marginLeft: "20px"}}/>
+                                Status
                             </div>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/shop-dashboard/influencers">
-                                    <PeopleIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Find influencers
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/influencers")} style={{color: "white"}}>
+                                <PeopleIcon style={{float: "left", marginLeft: "20px"}}/>
+                                Find influencers
                             </div>
-                            <div style={{marginBottom: "25px"}}>
-                                <Button onClick={this.handleModal}>Se Déconnecter</Button>
+                            <div className="aside-button" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", borderBottom: "none", color: "white"}}>
+                                <PersonIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
+                                Déconnexion
                             </div>
                         </div>
                         :
                         <div className="aside">
                             <img className="aside-logo" src={whiteLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/dashboard/advertisements">
-                                    <LocalActivityIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Advertisements
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/advertisements")} style={{color: "white"}}>
+                                <LocalActivityIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Advertisements
                             </div>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/dashboard/ads">
-                                    <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Ads
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/ads")} style={{color: "white"}}>
+                                <AssignmentIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Ads
                             </div>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/dashboard/status">
-                                    <AccountCircleIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Profile
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/status")} style={{color: "white"}}>
+                                <AccountCircleIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Profile
                             </div>
-                            <div className="aside-button">
-                                <Fab class="aside-button-fab" href="/dashboard/shops">
-                                    <StorefrontIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Find shop
-                                </Fab>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/shops")} style={{color: "white"}}>
+                                <StorefrontIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Find shop
                             </div>
-                            <div className="aside-button" onClick={() => this.handleModal()} style={{position: "absolute", bottom: "20px", borderBottom: "none"}}>
-                                <Fab class="aside-button-fab">
-                                    <PersonIcon style={{float: "left", marginLeft: "20px"}}/>
-                                    Deconnection
-                                </Fab>
+                            <div className="aside-button" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", borderBottom: "none", color: "white"}}>
+                                    <PersonIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
+                                    Déconnexion
                             </div>
                         </div>
                 }

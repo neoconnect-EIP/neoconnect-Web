@@ -39,9 +39,9 @@ export default class LandingPage extends React.Component{
                                     <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(#712121, #982d2d, #ff4343)", paddingTop: "100px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
                                         Boutique
                                     </h1>
-                                    <h2 style={{textAlign: "center", color: "white", marginTop: "80px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h2>
-                                    <h6 style={{textAlign: "center", color: "white", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Neoconnect est la plateforme idéale pour les marques qui souhaitent entrer en<br/>
-                                        contact en quelques clics avec une communauté de jeunes influenceurs</h6>
+                                    <h1 style={{textAlign: "center", color: "white", marginTop: "80px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h1>
+                                    <h4 style={{textAlign: "center", color: "white", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Neoconnect est la plateforme idéale pour les marques qui souhaitent entrer en<br/>
+                                        contact en quelques clics avec une communauté de jeunes influenceurs</h4>
                                 </Grid>
                                 <Grid container style={{backgroundColor: "white", paddingLeft: "100px", paddingRight: "100px", height: "700px"}}>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>
@@ -85,8 +85,8 @@ export default class LandingPage extends React.Component{
                                     <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(#712121, #982d2d, #ff4343)", paddingTop: "80px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
                                         Influenceur
                                     </h1>
-                                    <h2 style={{textAlign: "center", color: "white", marginTop: "60px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h2>
-                                    <h6 style={{textAlign: "center", color: "white", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Devenez un influenceur incontournable</h6>
+                                    <h1 style={{textAlign: "center", color: "white", marginTop: "60px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h1>
+                                    <h4 style={{textAlign: "center", color: "white", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Devenez un influenceur incontournable</h4>
                                 </Grid>
                                 <Grid container style={{backgroundColor: "white", paddingLeft: "100px", paddingRight: "100px", height: "700px"}}>
                                     <Grid item xs={4} style={{padding: "30px", position: "relative", marginTop: "auto", marginBottom: "auto"}}>

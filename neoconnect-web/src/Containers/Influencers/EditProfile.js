@@ -108,22 +108,18 @@ class EditProfile extends React.Component{
 
     render() {
         return (
-            <div style={{padding: "25px"}}>
-                <div style={{backgroundImage: "url(" + baniereInf + ")", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "300px", position: "fixed", zIndex: "-1", marginLeft: "-120px"}}>
-                    <h1 style={{marginTop: "30px", marginBottom: "30px", color: "white", textAlign: "center"}}>Edit Profile</h1>
-                </div>
+            <Grid container justify="center">
+                <div style={{backgroundImage: "url(" + "http://www.favorisxp.com/fonds-decran/logos/supreme/supreme-zipper-new-york-times-square-fond-ecran-gratuit-pc-hd-wallpaper.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
+                <Grid container justify="center" alignItems="center">
+                    <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : "http://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9"} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
+                </Grid>
                 {
                     this.state.pseudo ?
-                        <Card style={{boxShadow: "0 12px 18px -12px", marginTop: "12rem"}}>
-                            <Grid container justify="center" alignItems="center" style={{marginTop: "-70px"}}>
-                                <div className="picture-container">
-                                    <div className="picture" style={{marginRight: "auto", marginLeft: "auto"}}>
-                                        <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : avatar} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white"}}/>
-                                        <input type="file" onChange={e => this.handleImageChange(e)} style={{marginTop: "190px"}} />
-                                    </div>
-                                </div>
-                            </Grid>
-                            <Grid container>
+                        <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "12rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
+                            <Grid container style={{marginTop: "13rem"}} justify="center">
+                                <Grid item xs={12} style={{textAlign: "center"}}>
+                                    <input type="file" onChange={e => this.handleImageChange(e)}/>
+                                </Grid>
                                 <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
                                     <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
                                     <Input type="text"
@@ -258,13 +254,13 @@ class EditProfile extends React.Component{
                                     <DoneIcon style={{marginLeft: "10px"}}/>
                                 </Fab>
                             </Grid>
-                        </Card>
+                        </Grid>
                     :
                     <div style={{textAlign: "center", marginTop: "350px"}}>
                         <Spin size={"large"}/>
                     </div>
                 }
-            </div>
+            </Grid>
         );
     }
 }

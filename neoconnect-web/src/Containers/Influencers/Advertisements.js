@@ -41,7 +41,6 @@ class Advertisements extends React.Component{
     }
 
     handleCard = (item) => {
-        console.log("item: ", item)
         return (
             <Grid item xs={12} md={6} lg={4}>
                 <Modal
@@ -57,21 +56,20 @@ class Advertisements extends React.Component{
                         </div>
                     </Slide>
                 </Modal>
-
-                <Card style={{height: "350px", boxShadow: "#807e7e 1px 2px 7px 0px", margin: "50px", borderRadius: "6px", backgroundColor: "#ebebeb"}}>
+                <Card style={{height: "650px", boxShadow: "#807e7e 1px 2px 7px 0px", margin: "50px", borderRadius: "6px", backgroundColor: "#ebebeb"}}>
                     <CardActionArea onClick={() => this.handleGlobalAnnonce(item.id)}>
                         <CardMedia>
-                            <img src={noImages} style={{width: "100%", height: "200px"}} alt="MISSING JPG"/>
+                            <img src={item.productImg[0]} style={{width: "100%", height: "500px"}} alt="MISSING JPG"/>
                         </CardMedia>
                     </CardActionArea>
                     <CardContent style={{width: "100%", height: "100px"}}>
-                        <h6>{`${item.productName} ${item.brand ? item.brand : "No brand"}`}</h6>
-                        <p>{`${item.productDesc} - ${item.productSex}`}</p>
+                        <h6>{`${item.productType} ${item.productBrand ? item.productBrand : "No brand"}`}</h6>
+                        <h6>{`${item.productColor ? item.productColor : "no color"}`}</h6>
                     </CardContent>
-                    <CardActions>
+                    <CardActions style={{justifyContent: "center"}}>
                         <Button onClick={() => this.handleModal(item.id)} style={{height: "28px", bottom: "5px", fontSize: "12px", backgroundColor: "black"}}>Subscribe</Button>
+                        <h6 style={{marginLeft: "3rem", marginBottom: "10px"}}>{item.mark ? item.mark : "0"}/5</h6>
                         <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-                        <h6 style={{marginBottom: "10px"}}>{item.note ? item.note : "0"}/5</h6>
                     </CardActions>
                 </Card>
             </Grid>
@@ -79,16 +77,71 @@ class Advertisements extends React.Component{
     }
 
     render() {
+        const fakeData = [
+            {
+                id: 1,
+                productImg: [
+                    "https://c.static-nike.com/a/images/t_PDP_1280_v1/f_auto/ri1pr5ogghi8fejhfc9q/react-element-55-shoe-DRf8mz.jpg",
+                ],
+                productBrand : "Nike",
+                productName : "Nike react element 55",
+                productType : "Sneakers",
+                productColor : "black/white",
+                productSex : "Femme",
+                productDesc : "La chaussure Nike React Element 55 pour Femme s'inspire des chaussures de running Nike classiques, telles que la Internationalist, en y ajoutant des motifs réfléchissants, et est dotée de la technologie Nike React.",
+                mark : 3,
+            },
+            {
+                id: 2,
+                productImg: [
+                    "http://mediaus.topshop.com/wcsstore/TopShopUS/images/catalog/TS12S28KBLK_Zoom_F_1.jpg",
+                    ],
+                productBrand : "Adidas",
+                productName : "Hoodies original 215",
+                productType : "Hoodies",
+                productColor : "black/white",
+                productSex : "Homme",
+                productDesc : "",
+                mark : 4,
+            },
+            {
+                id: 3,
+                productImg: [
+                    "https://images.ikrix.com/product_images/original/gucci-belts-gg-supreme-belt-00000093650f00s001.jpg",
+                ],
+                productBrand : "Gucci",
+                productName : "Ceinture cuire basic",
+                productType : "Belt",
+                productColor : "Argent/marrons",
+                productSex : "Homme",
+                productDesc : "Cette ceinture de la premiere collection gucci 1990, fait en cuire de veau par les meilleur artisant de la maison Gucci, sera embelire votre tenu préférer",
+                mark : 5,
+            },
+            {
+                id: 4,
+                productImg: [
+                    "https://img0.etsystatic.com/056/0/8945940/il_570xN.707442774_i0aj.jpg",
+                ],
+                productBrand : "Louis Vuitton",
+                productName : "Sac messenger capsule été 2018",
+                productType : "Sac messenger",
+                productColor : "Marron",
+                productSex : "Uni",
+                productDesc : "Item de la capsule été 2018, en colaboration avec Virgile Hablot, disponible en édition limité, faite en cuire de buffle, certie d'une boucle en or 18 carat, doublure en soie véritable",
+                mark : 2,
+            },
+        ]
+        console.log("fakeData: ", fakeData);
         return (
             <Grid container justify="center">
                 <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
-                    <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>Liste des annonce</h1>
+                    <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>Liste des annonces</h1>
                 </Grid>
                 {
-                    this.state.adsData ?
+                    fakeData ?
                         <Grid container className="advertisements-list" style={{marginTop: "120px"}}>
                             {
-                                this.state.adsData.map(item => this.handleCard(item))
+                                fakeData.map(item => this.handleCard(item))
                             }
                         </Grid>
                         :

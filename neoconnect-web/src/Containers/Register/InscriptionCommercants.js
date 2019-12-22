@@ -27,12 +27,12 @@ export default class ShopSignUp extends React.Component{
 
         change[e.target.name] = e.target.value
         this.setState(change)
-    }
+    };
 
     handleResponse = (res) => {
         if (res.status === 200)
             this.props.history.push('/landing-page/login')
-    }
+    };
 
     handleSubmit = () => {
         let body = {
@@ -58,8 +58,10 @@ export default class ShopSignUp extends React.Component{
         return (
             <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
                 <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px"}}>
-                    <h1 style={{textAlign: "center", paddingTop: "30px", marginBottom: "40px"}}>Inscription commercant</h1>
-                    <Form className="formular" onSubmit={this.handleSubmit}>
+                    <div style={{backgroundColor: "#d23e3e", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
+                        <h1 style={{textAlign: "center", color: "white"}}>Inscription boutique</h1>
+                    </div>
+                    <Form className="formular" onSubmit={this.handleSubmit} style={{marginTop: "2rem"}}>
                         <Grid container spacing={2}>
                             <Grid item className="input-form" xs={6}>
                                 <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>

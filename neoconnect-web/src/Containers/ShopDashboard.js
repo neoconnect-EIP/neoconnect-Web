@@ -9,6 +9,7 @@ import Ads from "./Shops/Ads";
 import PostAd from "./Shops/PostAd";
 import shopBackground from "../assets/Equinox-Shop.jpg"
 import "./index.css"
+import EditAd from "./Shops/EditAd";
 
 export default class ShopDashboard extends React.Component {
     constructor(props) {
@@ -26,6 +27,7 @@ export default class ShopDashboard extends React.Component {
                 <div style={{marginLeft: "200px"}}>
                     <Switch>
                         <Route path="/shop-dashboard/post-ad" component={PostAd}/>
+                        <Route path="/shop-dashboard/edit-ad" component={EditAd}/>
                         <Route path="/shop-dashboard/ads" component={Ads}/>
                         <Route path="/shop-dashboard/status" component={ShopStatus}/>
                         <Route path="/shop-dashboard/status" component={FindInfluencers}/>
