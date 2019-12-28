@@ -58,13 +58,13 @@ export default class ShopSignUp extends React.Component{
         return (
             <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
                 <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px"}}>
-                    <div style={{backgroundColor: "#d23e3e", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
+                    <div style={{backgroundImage: "linear-gradient(65deg, rgb(144, 189, 113), #1C8FDC)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
                         <h1 style={{textAlign: "center", color: "white"}}>Inscription boutique</h1>
                     </div>
                     <Form className="formular" onSubmit={this.handleSubmit} style={{marginTop: "2rem"}}>
                         <Grid container spacing={2}>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                        type="text"
                                        name="username"
@@ -74,7 +74,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                     type="text"
                                     name="full_name"
@@ -84,7 +84,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" style={{marginBottom: "20px"}} xs={6}>
-                                <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                        type="password"
                                        name="password"
@@ -95,7 +95,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                     type="password"
                                     name="password2"
@@ -105,7 +105,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={12}>
-                                <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="home" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="adress"
@@ -115,7 +115,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="home" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="city"
@@ -125,7 +125,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="mail" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="mail" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="email"
@@ -135,7 +135,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="mobile" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="mobile" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="phone"
@@ -145,7 +145,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="shopping" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="shopping" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="theme"
@@ -155,7 +155,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="shop" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="shop" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="society"
@@ -165,7 +165,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="info" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="info" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input  type="text"
                                         name="function"
                                         placeholder="Function"
@@ -174,7 +174,7 @@ export default class ShopSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item xs={12} style={{marginTop: "20px", marginBottom: "20px"}}>
-                                <Button onClick={this.handleSubmit} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Register</Button>
+                                <Button onClick={this.handleSubmit} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>REGISTER</Button>
                             </Grid>
                         </Grid>
                     </Form>

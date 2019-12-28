@@ -16,7 +16,7 @@ class Footer extends React.Component {
     render() {
         return (
           <div className="footer">
-              <Grid container style={{paddingLeft: "400px", paddingRight: "400px"}}>
+              <Grid container style={{paddingLeft: "25rem", paddingRight: "25rem"}}>
                   <Grid item xs={6}>
                       <Grid class="footer-button">
                           <a onClick={this.handleContact}>Nous contacter</a>

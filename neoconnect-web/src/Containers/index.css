@@ -4,14 +4,13 @@
 }
 
 .header {
-    background-image: linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121);
+    background-color: #292929;
     width: 100%;
-    height: 75px;
+    height: 6rem;
 }
 
 .logo {
-    margin-top: -0.5rem;
-    margin-left: 1.375rem;
+    margin: 0.5rem;
     width: 5rem;
     height: 5rem;
 }
@@ -20,6 +19,7 @@
     float: right;
     position: relative;
     margin: 1rem;
+    margin-top: 2rem;
     font-size: 1.375rem;
     padding-left: 1rem;
     background-color: transparent;
@@ -63,9 +63,10 @@
 }
 
 .aside {
-    background-image: linear-gradient(65deg, #e86868, #d64f4f, #d64f4f);
+    background-color: #292929;
     width: 200px;
     height: 100%;
+    padding-top: 0.7rem;
     position: fixed;
     box-shadow: 0 0 12px;
     z-index: 12;
@@ -213,10 +214,11 @@ span {
 
 .posted-ad-send-button {
     width: 9.375rem;
-    height: 1.875rem;
-    border-radius: 8px;
+    height: 2.5rem;
+    font-size: 1.3rem;
+    border-radius: 10px;
     margin-top: 1.875rem;
-    background-Image: linear-gradient(65deg, #e86868, #d64f4f, #d64f4f);
+    background-image: linear-gradient(65deg, #E5DF24, #1C8FDC);
 }
 
 .findShopCard {

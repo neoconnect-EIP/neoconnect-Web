@@ -2,11 +2,11 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
 import {Card, CardActionArea, CardContent, CardActions, CardMedia, Button, Grid, Modal, Slide}from '@material-ui/core';
-import {Spin} from "antd";
-import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg"
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class Advertisements extends React.Component{
     constructor(props) {
@@ -48,15 +48,17 @@ class Advertisements extends React.Component{
                     onClose={() => this.handleModal(0)}
                 >
                     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
-                        <div style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
-                            <h3 style={{color: "black"}}>Subscribe to this annonce ?</h3>
-                            <h4 style={{marginBottom: "30px", color: "black"}}>{item.brand ? item.brand : "No brand"}</h4>
-                            <Button style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleModal(0)}>Cancel</Button>
-                            <Button style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceSubsribe(item)}>Subscribe</Button>
+                        <div style={{width: "400px", height: "auto", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
+                            <div style={{marginRight: "1.5rem", marginLeft: "1.5rem", paddingTop: "-2rem", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", borderRadius: "10px"}}>
+                                <h3 style={{color: "white"}}>Subscribe to this annonce ?</h3>
+                            </div>
+                            <h4 style={{marginBottom: "30px", color: "black"}}>{item.productBrand ? item.productBrand : "No brand"}</h4>
+                            <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", fontSize: "1.3rem", borderRadius: "10px", boxShadow: "0 0 10px", marginBottom: "1rem", marginLeft: "1.5rem"}} onClick={() => this.handleModal(0)}>CANCEL</Button>
+                            <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", fontSize: "1.3rem", borderRadius: "10px", boxShadow: "0 0 10px", marginBottom: "1rem", marginLeft: "1.5rem"}} onClick={() => this.handleAnnonceSubsribe(item)}>SUBSCRIBE</Button>
                         </div>
                     </Slide>
                 </Modal>
-                <Card style={{height: "650px", boxShadow: "#807e7e 1px 2px 7px 0px", margin: "50px", borderRadius: "6px", backgroundColor: "#ebebeb"}}>
+                <Card style={{height: "auto", boxShadow: "#807e7e 1px 2px 7px 0px", margin: "50px", borderRadius: "6px", backgroundColor: "#ebebeb"}}>
                     <CardActionArea onClick={() => this.handleGlobalAnnonce(item.id)}>
                         <CardMedia>
                             <img src={item.productImg[0]} style={{width: "100%", height: "500px"}} alt="MISSING JPG"/>
@@ -67,7 +69,7 @@ class Advertisements extends React.Component{
                         <h6>{`${item.productColor ? item.productColor : "no color"}`}</h6>
                     </CardContent>
                     <CardActions style={{justifyContent: "center"}}>
-                        <Button onClick={() => this.handleModal(item.id)} style={{height: "28px", bottom: "5px", fontSize: "12px", backgroundColor: "black"}}>Subscribe</Button>
+                        <Button onClick={() => this.handleModal(item.id)} style={{width: "9.375rem", height: "2.5rem", fontSize: "1.3rem", marginBottom: "0.5rem", marginLeft: "5rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>SUBSCRIBE</Button>
                         <h6 style={{marginLeft: "3rem", marginBottom: "10px"}}>{item.mark ? item.mark : "0"}/5</h6>
                         <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
                     </CardActions>
@@ -112,7 +114,7 @@ class Advertisements extends React.Component{
                 productBrand : "Gucci",
                 productName : "Ceinture cuire basic",
                 productType : "Belt",
-                productColor : "Argent/marrons",
+                productColor : "argent/marrons",
                 productSex : "Homme",
                 productDesc : "Cette ceinture de la premiere collection gucci 1990, fait en cuire de veau par les meilleur artisant de la maison Gucci, sera embelire votre tenu préférer",
                 mark : 5,
@@ -134,7 +136,7 @@ class Advertisements extends React.Component{
         console.log("fakeData: ", fakeData);
         return (
             <Grid container justify="center">
-                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
+                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 -3px 12px"}}>
                     <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>Liste des annonces</h1>
                 </Grid>
                 {
@@ -145,9 +147,13 @@ class Advertisements extends React.Component{
                             }
                         </Grid>
                         :
-                        <div style={{textAlign: "center", marginTop: "350px"}}>
-                            <Spin size={"large"}/>
-                        </div>
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
                 }
             </Grid>
         );

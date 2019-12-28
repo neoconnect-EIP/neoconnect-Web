@@ -1,6 +1,8 @@
 import React from 'react';
 import {Form, Icon, Button, Spin} from 'antd';
 import {Grid, Input, Snackbar, SnackbarContent} from '@material-ui/core';
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 export default class Login extends React.Component{
     constructor(props) {
@@ -56,16 +58,20 @@ export default class Login extends React.Component{
                 <div className="landing-page-mid-div" style={{transform: "translateY(-65px)", borderRadius: "12px"}}>
                     {
                         this.state.isLoading ?
-                            <div style={{textAlign: "center", marginTop: "150px", marginBottom: "150px"}}>
-                                <Spin size={"large"}/>
-                            </div>
+                            <Loader
+                                type="Triangle"
+                                color="#292929"
+                                height={200}
+                                width={200}
+                                style={{marginTop: "2rem", marginBottom: "2rem"}}
+                            />
                             :
                             <Form onSubmit={this.handleSubmit} style={{paddingTop: "50px", textAlign: "center"}}>
-                                <div style={{backgroundColor: "#d23e3e", marginLeft: "5rem", marginRight: "5rem", marginTop: "-4.5rem", borderRadius: "8px", height: "3rem"}}>
-                                    <h2 style={{marginBottom: "4rem", color: "white"}}>Connexion</h2>
+                                <div style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-4.5rem", borderRadius: "8px", height: "3rem"}}>
+                                    <h2 style={{marginBottom: "4rem", color: "white"}}>Connection</h2>
                                 </div>
                                 <div className="input-form" style={{marginTop: "2rem"}}>
-                                    <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                    <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                     <Input type="text"
                                            name="email"
                                            placeholder="Username"
@@ -74,7 +80,7 @@ export default class Login extends React.Component{
                                     />
                                 </div>
                                 <div className="input-form">
-                                    <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px" }} />
+                                    <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px" }} />
                                     <Input type="password"
                                            name="password"
                                            placeholder="Password"
@@ -90,9 +96,10 @@ export default class Login extends React.Component{
                                 </div>
                                 <Grid container style={{marginTop: "50px", paddingBottom: "30px"}}>
                                     <Grid item xs={12}>
-                                        <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Login</Button>
+                                        <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{width: "9.375rem", height: "2.1875rem", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>LOGIN</Button>
                                     </Grid>
                                     <Grid item xs={12}>
+                                        <p style={{marginTop: "0.2", marginBottom: "0rem"}}>-or-</p>
                                         <a style={{color: "black", textDecoration: "underline"}} onClick={this.forgotPassword}>forgot password</a>
                                     </Grid>
                                 </Grid>

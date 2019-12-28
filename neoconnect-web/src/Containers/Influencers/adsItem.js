@@ -20,7 +20,7 @@ import {
     TextareaAutosize,
     Input
 } from '@material-ui/core';
-import {Spin, Rate} from "antd";
+import {Rate} from "antd";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StarIcon from '@material-ui/icons/Star';
@@ -29,6 +29,8 @@ import SendIcon from '@material-ui/icons/Send';
 import DeleteIcon from '@material-ui/icons/Delete';
 import noImages from "../../assets/noImages.jpg"
 import avatar from "../../assets/avatar1.png";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 
 class adsItem extends React.Component{
@@ -132,7 +134,7 @@ class adsItem extends React.Component{
                 </ListItemAvatar>
                 <p style={{color: "black", marginTop: "15px"}}>{x.comment}</p>
                 <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" style={{backgroundImage: "linear-gradient(45deg, #e86868, #d64f4f, #d64f4f)", width: "45px", height: "45px"}}>
+                    <IconButton edge="end" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", width: "45px", height: "45px"}}>
                         <DeleteIcon/>
                     </IconButton>
                 </ListItemSecondaryAction>
@@ -234,8 +236,8 @@ class adsItem extends React.Component{
                                 <div style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
                                     <h3 style={{color: "black"}}>Subscribe to this annonce ?</h3>
                                     <h4 style={{marginBottom: "30px", color: "black"}}>{fakeData.productBrand ? fakeData.productBrand : "No brand"}</h4>
-                                    <Button style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleModal("")}>Cancel</Button>
-                                    <Button style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceSubsribe(this.state.adData)}>Subscribe</Button>
+                                    <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleModal("")}>CANCEL</Button>
+                                    <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceSubsribe(this.state.adData)}>SUBSCRIBE</Button>
                                 </div>
                                 :
                                 <Grid container style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
@@ -246,7 +248,7 @@ class adsItem extends React.Component{
                                         <Rate onChange={(e) => this.handleMark(e)} />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Button style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceNotation(this.state.adData)}>Rate</Button>
+                                        <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceNotation(this.state.adData)}>RATE</Button>
                                     </Grid>
                                 </Grid>
                         }
@@ -272,8 +274,8 @@ class adsItem extends React.Component{
                                 <h3>{fakeData[this.state.urlId].productBrand ? fakeData[this.state.urlId].productBrand : "No brand"}</h3>
                                 <h3>{fakeData[this.state.urlId].productName ? fakeData[this.state.urlId].productName : "No name"}</h3>
                                 <h4>{fakeData[this.state.urlId].productSex ? fakeData[this.state.urlId].productSex : "No sex"}</h4>
-                                <Button onClick={() => this.handleModal( "subscribe")} style={{width: "100%",  backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", marginTop: "40px"}}>Subscribe</Button>
-                                <Button onClick={() => this.handleModal( "rate")} style={{width: "100%", backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", marginTop: "10px"}}>Rate</Button>
+                                <Button onClick={() => this.handleModal( "subscribe")} style={{width: "100%",  backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>SUBSCRIBE</Button>
+                                <Button onClick={() => this.handleModal( "rate")} style={{width: "100%", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", marginTop: "10px"}}>RATE</Button>
                                 <h6 style={{marginTop: "10px"}}>{`Article: ${fakeData[this.state.urlId].productName}`}</h6>
                                 <h6 style={{marginTop: "30px"}}>{`${fakeData[this.state.urlId].productDesc}`}</h6>
                             </Grid>
@@ -294,7 +296,7 @@ class adsItem extends React.Component{
                                             />
                                         </Grid>
                                         <Grid item xs={1} style={{paddingLeft: "25px"}}>
-                                            <IconButton edge="end" aria-label="delete" style={{backgroundImage: "linear-gradient(45deg, #e86868, #d64f4f, #d64f4f)", width: "45px", height: "45px"}} onClick={this.handleSendMessage}>
+                                            <IconButton edge="end" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", width: "45px", height: "45px"}} onClick={this.handleSendMessage}>
                                                 <SendIcon/>
                                             </IconButton>
                                         </Grid>
@@ -306,9 +308,13 @@ class adsItem extends React.Component{
                             </Grid>
                         </Grid>
                     :
-                    <div style={{marginTop: "350px"}}>
-                        <Spin size={"large"}/>
-                    </div>
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
                     }
             </Grid>
         );

@@ -1,13 +1,15 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import { Button, Fab, Grid} from '@material-ui/core/';
-import {Steps, message, Spin} from 'antd';
+import {Steps} from 'antd';
 import "../index.css"
 import {FormControl, Input, InputLabel, MenuItem, Select, Slide, TextField} from "@material-ui/core";
 import ImagesUploader from 'react-images-uploader';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 const { Step } = Steps;
 const steps = [
@@ -237,11 +239,13 @@ class EditAd extends React.Component {
             <Grid container justify="center">
                 {
                     this.state.isLoading ?
-                        <div style={{textAlign: "center", marginTop: "350px"}}>
-                            <Spin
-                                size={"large"}
-                            />
-                        </div>
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
                         :
                         <div>
                             <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>

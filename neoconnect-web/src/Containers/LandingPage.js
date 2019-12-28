@@ -36,7 +36,7 @@ export default class LandingPage extends React.Component{
                         <div style={{display: "block", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: "2", height: "auto", width: "100%"}}>
                             <Grid container>
                                 <Grid className="landing-div first-div" item xs={12}>
-                                    <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(#712121, #982d2d, #ff4343)", paddingTop: "100px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
+                                    <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "100px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
                                         Boutique
                                     </h1>
                                     <h1 style={{textAlign: "center", color: "white", marginTop: "80px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h1>
@@ -82,7 +82,7 @@ export default class LandingPage extends React.Component{
                                     </Grid>
                                 </Grid>
                                 <Grid className="landing-div second-div" item xs={12}>
-                                    <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(#712121, #982d2d, #ff4343)", paddingTop: "80px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
+                                    <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "80px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
                                         Influenceur
                                     </h1>
                                     <h1 style={{textAlign: "center", color: "white", marginTop: "60px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h1>
@@ -127,10 +127,10 @@ export default class LandingPage extends React.Component{
                                     </Grid>
                                 </Grid>
                                 <Grid className="landing-div third-div" item xs={12}>
-                                    <h1 style={{textAlign: "center", color: "white", lineHeight: "normal", paddingTop: "145px", fontSize: "92px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>
+                                    <h1 style={{textAlign: "center", color: "white", lineHeight: "normal", paddingTop: "145px", fontSize: "92px"}}>
                                         Téléchargez notre application
                                     </h1>
-                                    <h2 style={{textAlign: "center", color: "white", marginTop: "60px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Disponible sur toutes les platformes</h2>
+                                    <h2 style={{textAlign: "center", color: "white", marginTop: "60px"}}>Disponible sur toutes les platformes</h2>
                                     <img src={storeLogo} alt={"Error: no Logo"} style={{width: "37.5rem"}}/>
                                 </Grid>
                             </Grid>

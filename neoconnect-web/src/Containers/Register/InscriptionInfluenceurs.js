@@ -61,13 +61,13 @@ export default class InfluencerSignUp extends React.Component{
         return (
             <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
                 <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px"}}>
-                    <div style={{backgroundColor: "#d23e3e", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
+                    <div style={{backgroundImage: "linear-gradient(65deg, rgb(144, 189, 113), #1C8FDC)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
                         <h1 style={{textAlign: "center", color: "white"}}>Inscription influenceur</h1>
                     </div>
                     <Form className="formular" onSubmit={this.handleSubmit} style={{marginTop: "2rem"}}>
                         <Grid container spacing={2}>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                        type="text"
                                        name="pseudo"
@@ -77,7 +77,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                     type="text"
                                     name="full_name"
@@ -87,7 +87,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                        type="password"
                                        name="password"
@@ -97,7 +97,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                     type="password"
                                     name="password2"
@@ -107,7 +107,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="mail" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="mail" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                     type="text"
                                     name="email"
@@ -117,7 +117,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="mobile" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="mobile" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="phone"
@@ -127,7 +127,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={12}>
-                                <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}}/>
+                                <Icon type="home" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
                                 <Input
                                     type="text"
                                     name="adress"
@@ -137,7 +137,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="home" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="city"
@@ -147,7 +147,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid className="input-form" xs={6}>
-                                <Icon type="skin" style={{ color: '#d23e3e', marginRight: "8px", transform: "translateY(15px)"}} />
+                                <Icon type="skin" style={{ color: '#1C8FDC', marginRight: "8px", transform: "translateY(15px)"}} />
                                 <FormControl variant="outlined" style={{width: "150px"}}>
                                     <InputLabel id="demo-simple-select-outlined-label">
                                         Theme
@@ -168,7 +168,7 @@ export default class InfluencerSignUp extends React.Component{
                                 </FormControl>
                             </Grid>
                             <Grid className="input-form" xs={6}>
-                                <Icon type="instagram" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="instagram" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="instagram"
@@ -178,7 +178,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="facebook" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="facebook" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="facebook"
@@ -188,7 +188,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="twitter" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="twitter" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="twitter"
@@ -198,7 +198,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item className="input-form" xs={6}>
-                                <Icon type="aliwangwang" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                <Icon type="aliwangwang" style={{ color: '#1C8FDC', marginRight: "8px"}} />
                                 <Input
                                     type="text"
                                     name="snapchat"
@@ -208,7 +208,7 @@ export default class InfluencerSignUp extends React.Component{
                                 />
                             </Grid>
                             <Grid item xs={12} style={{marginTop: "20px", marginBottom: "20px"}}>
-                                <Button onClick={this.handleSubmit} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Register</Button>
+                                <Button onClick={this.handleSubmit} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>REGISTER</Button>
                             </Grid>
                         </Grid>
                     </Form>

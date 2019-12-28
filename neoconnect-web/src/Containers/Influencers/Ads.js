@@ -71,7 +71,7 @@ class Ads extends React.Component {
         console.log("userID", localStorage.getItem("userId"))
         return (
             <Grid container justify="center">
-                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
+                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 -3px 12px"}}>
                     <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>annonces postulées</h1>
                 </Grid>
                 <Modal
@@ -79,14 +79,11 @@ class Ads extends React.Component {
                     onClose={() => this.handleVisibleModal()}
                 >
                     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
-                        <Grid container style={{width: "800px", height: "350px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", padding: "25px", borderRadius: "8px"}}>
-                            <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", boxShadow: "0 2px 10px", marginTop: "-45px"}}>
+                        <Grid container style={{width: "800px", height: "auto", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", padding: "25px", borderRadius: "8px"}}>
+                            <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", boxShadow: "0 2px 10px", marginTop: "-3.5rem", borderRadius: "10px"}}>
                                 <h2 style={{color: "white", marginTop: "0.9rem"}}>Contact Shop</h2>
                             </Grid>
-                            <Grid item xs={12}>
-
-                            </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} style={{marginTop: "1rem", marginBottom: "1rem"}}>
                                 <TextField
                                     id="outlined-multiline-static"
                                     label="Message"
@@ -103,16 +100,16 @@ class Ads extends React.Component {
                                 <Fab class="posted-ad-send-button"
                                      onClick={() => this.handleSendMail()}
                                 >
-                                    <EmailIcon style={{marginRight: "5px"}}/>
+                                    <EmailIcon style={{marginRight: "0.3125rem", marginTop: "-0.3"}}/>
                                     Send
                                 </Fab>
                             </Grid>
                         </Grid>
                     </Slide>
                 </Modal>
-                <Grid container style={{marginTop: "130px", padding: "25px"}}>
+                <Grid container style={{marginTop: "8.125rem", padding: "1.5625rem"}}>
                     <Table>
-                        <TableHead style={{backgroundImage: "linear-gradient(65deg, #d64f4f, #d64f4f, #e86868, #d64f4f, #d64f4f)"}}>
+                        <TableHead style={{backgroundImage: "linear-gradient(65deg, #1C8FDC, #E5DF24, #1C8FDC)"}}>
                             <TableRow>
                                 <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Annoncer</TableCell>
                                 <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Item</TableCell>

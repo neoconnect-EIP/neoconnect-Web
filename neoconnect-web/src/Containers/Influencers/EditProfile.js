@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
 import {Avatar, Grid, Card, CardHeader, CardContent, CardMedia, Button, Fab, Input, FormControl, InputLabel, MenuItem, Select} from '@material-ui/core/';
-import {Icon, Spin} from 'antd';
+import {Icon} from 'antd';
 import DoneIcon from '@material-ui/icons/Done';
 import avatar from "../../assets/avatar1.png"
 import instagram from  "../../assets/instagram.png"
@@ -10,7 +10,8 @@ import twitter from  "../../assets/twitter.png"
 import snapchat from  "../../assets/snapchat.png"
 import facebook from  "../../assets/facebook.png"
 import "../index.css"
-import baniereInf from "../../assets/baniereiIng.jpg";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class EditProfile extends React.Component{
     constructor(props) {
@@ -249,16 +250,20 @@ class EditProfile extends React.Component{
                                 </Grid>
                             </Grid>
                             <Grid container alignItems="center" justify="center" style={{marginBottom: "30px"}}>
-                                <Fab variant="extended" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", color: "white"}} onClick={this.handleSubmit}>
+                                <Fab variant="extended" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", color: "white"}} onClick={this.handleSubmit}>
                                     Confirme
                                     <DoneIcon style={{marginLeft: "10px"}}/>
                                 </Fab>
                             </Grid>
                         </Grid>
                     :
-                    <div style={{textAlign: "center", marginTop: "350px"}}>
-                        <Spin size={"large"}/>
-                    </div>
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
                 }
             </Grid>
         );

@@ -7,7 +7,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EmailIcon from '@material-ui/icons/Email';
 import "../../index.css"
-import {Spin} from "antd";
+import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class Ads extends React.Component {
     constructor(props) {
@@ -76,7 +77,7 @@ class Ads extends React.Component {
     };
 
     render() {
-
+        const mauve = "#ac1cff";
         return (
             <Grid container justify="center">
                 <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
@@ -90,11 +91,11 @@ class Ads extends React.Component {
                         {
                             this.state.modalMode === "edit" ?
                                 <Grid container justify="center" style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
-                                    <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #d64f4f, #d64f4f, #e86868, #d64f4f, #d64f4f)", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-2.5rem"}}>
-                                        <h2 style={{color: "white", marginTop: "1rem"}}>Modification de l'annonce ?</h2>
+                                    <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
+                                        <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Modification de l'annonce ?</h2>
                                     </Grid>
                                     <Grid item style={{textAlign: "center"}}>
-                                        <h1>{`Voulez vous modifier ${this.state.actualAd.productName} ?`}</h1>
+                                        <h3 style={{marginTop: "2rem"}}>{`Voulez vous modifier ${this.state.actualAd.productName} ?`}</h3>
                                     </Grid>
                                     <Grid item xs={12} justify="center" style={{marginBottom: "1.2rem"}}>
                                         <Fab class="posted-ad-send-button" onClick={() => this.handleVisibleModal(0, "")} style={{marginRight: "3rem", height: "3rem", fontSize: "1.2rem"}}>
@@ -108,11 +109,11 @@ class Ads extends React.Component {
                                 :
                                 this.state.modalMode === "delete" ?
                                     <Grid container justify="center" style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
-                                        <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #d64f4f, #d64f4f, #e86868, #d64f4f, #d64f4f)", height: "5rem", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-2.5rem"}}>
-                                            <h2 style={{color: "white", marginTop: "1rem"}}>{`Supprimer une annonce`}</h2>
+                                        <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
+                                            <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Supprimer une annonce</h2>
                                         </Grid>
                                         <Grid item xs={12} justify="center" style={{marginBottom: "1.2rem"}}>
-                                            <h4 style={{marginTop: "2rem"}}>{`Etes vous sur de vouloir supprimer ${ this.state.actualAd.productName} ?`}</h4>
+                                            <h3 style={{marginTop: "2rem"}}>{`Etes vous sur de vouloir supprimer ${ this.state.actualAd.productName} ?`}</h3>
                                             <Fab class="posted-ad-send-button" onClick={() => this.handleVisibleModal(null, "")} style={{marginRight: "3rem", height: "3rem", fontSize: "1.2rem"}}>
                                                 ANNULER
                                             </Fab>
@@ -122,9 +123,9 @@ class Ads extends React.Component {
                                         </Grid>
                                     </Grid>
                                     :
-                                    <Grid container style={{width: "800px", height: "350px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center"}}>
-                                        <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #d64f4f, #d64f4f, #e86868, #d64f4f, #d64f4f)"}}>
-                                            <h2 style={{color: "white"}}>Contact candidat</h2>
+                                    <Grid container style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
+                                        <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
+                                            <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Contact candidat</h2>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <TextField
@@ -134,13 +135,13 @@ class Ads extends React.Component {
                                                 rows="8"
                                                 margin="normal"
                                                 variant="outlined"
-                                                style={{width: "700px", height: "160px"}}
+                                                style={{width: "43.75rem", height: "10rem", marginTop: "2rem"}}
                                                 value={this.state.message}
                                                 onChange={(value) => this.handleMessageChange(value)}
                                             />
                                         </Grid>
                                         <Grid item xs={12} alignItems="center" justify="center">
-                                            <Fab class="posted-ad-send-button" onClick={() => this.handleSendMail()}>
+                                            <Fab class="posted-ad-send-button" onClick={() => this.handleSendMail()} style={{marginTop: "1.5rem", marginBottom: "1.5rem"}}>
                                                 <EmailIcon style={{marginRight: "5px"}}/>
                                                 Send
                                             </Fab>
@@ -149,11 +150,11 @@ class Ads extends React.Component {
                         }
                     </Slide>
                 </Modal>
-                <Grid container style={{marginTop: "130px", padding: "25px", backgroundColor: "white"}} justify="center">
+                <Grid container style={{marginTop: "8.125rem", padding: "1.5625rem", backgroundColor: "white"}} justify="center">
                     {
                         this.state.adsData ?
                             <Table>
-                                <TableHead style={{backgroundImage: "linear-gradient(65deg, #712121, #982d2d, #ff4343, #982d2d, #712121)"}}>
+                                <TableHead style={{backgroundImage: "linear-gradient(65deg, #1C8FDC, #E5DF24, #1C8FDC)"}}>
                                     <TableRow>
                                         <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Name</TableCell>
                                         <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Type</TableCell>
@@ -175,7 +176,7 @@ class Ads extends React.Component {
                                                          onClick={() => this.handleVisibleModal(ad, "contact")}><ContactMailIcon/></Fab>
                                                     <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}
                                                          onClick={() => this.handleVisibleModal(ad, "edit")}><EditIcon/></Fab>
-                                                    <Fab aria-label="delete" style={{margin: "5px"}}
+                                                    <Fab aria-label="delete" style={{margin: "5px"}} color={mauve}
                                                          onClick={() => this.handleVisibleModal(ad, "delete")}><DeleteIcon/></Fab>
                                                 </TableCell>
                                             </TableRow>
@@ -184,9 +185,13 @@ class Ads extends React.Component {
                                 </TableBody>
                             </Table>
                             :
-                            <div style={{textAlign: "center", marginTop: "18.75rem"}}>
-                                <Spin size={"large"}/>
-                            </div>
+                            <Loader
+                                type="Triangle"
+                                color="#292929"
+                                height={200}
+                                width={200}
+                                style={{marginTop: "14rem"}}
+                            />
                     }
                 </Grid>
             </Grid>

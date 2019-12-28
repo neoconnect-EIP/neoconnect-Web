@@ -21,7 +21,6 @@ import {
 } from '@material-ui/core';
 import { Rate } from 'antd';
 import {LineChart, XAxis, YAxis, Line, CartesianGrid, Pie, PieChart, Cell} from 'recharts'
-import {Spin} from "antd";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import defaultShopProfilePic from "../../assets/defaultShopProfilePic.jpg"
 import defaultBoutiqueLogo from "../../assets/defaultBoutiqueLogo.jpg"
@@ -30,6 +29,9 @@ import StarIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import SendIcon from '@material-ui/icons/Send';
 import DeleteIcon from '@material-ui/icons/Delete';
 import avatar from "../../assets/avatar1.png";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -251,8 +253,6 @@ class shopProfile extends React.Component{
             },
         ]
 
-        console.log("comment: ", this.state.commentData)
-        console.log("mark: ", this.state.markData)
         return (
             <Grid container justify="center">
                 {
@@ -271,7 +271,7 @@ class shopProfile extends React.Component{
                                             <Rate onChange={(e) => this.handleMark(e)} />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Button style={{backgroundImage: "linear-gradient(65deg, #e86868, #d64f4f, #d64f4f)", margin: "10px", boxShadow: "0 0 10px"}} onClick={this.handleSendMark}>Rate</Button>
+                                            <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", margin: "10px", boxShadow: "0 0 10px"}} onClick={this.handleSendMark}>Rate</Button>
                                         </Grid>
                                     </Grid>
                                 </Slide>
@@ -333,11 +333,11 @@ class shopProfile extends React.Component{
                                             <Grid item xs={1} style={{paddingLeft: "15px"}}>
                                                 <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
                                             </Grid>
-                                            <Grid item xs={10}>
+                                            <Grid item xs={10} style={{height: "auto",}}>
                                                 <TextField
                                                     id="outlined-multiline-static"
                                                     multiline
-                                                    rows="3"
+                                                    rows={1}
                                                     variant="outlined"
                                                     name="commentInput"
                                                     placeholder="Commentaire"
@@ -347,7 +347,7 @@ class shopProfile extends React.Component{
                                                 />
                                             </Grid>
                                             <Grid item xs={1} style={{paddingLeft: "25px"}}>
-                                                <IconButton edge="end" aria-label="delete" style={{backgroundImage: "linear-gradient(45deg, #e86868, #d64f4f, #d64f4f)", width: "45px", height: "45px"}} onClick={this.handleSendMessage}>
+                                                <IconButton edge="end" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", width: "45px", height: "45px"}} onClick={this.handleSendMessage}>
                                                     <SendIcon/>
                                                 </IconButton>
                                             </Grid>
@@ -363,9 +363,13 @@ class shopProfile extends React.Component{
                             </Grid>
                         </Grid>
                         :
-                        <div style={{marginTop: "35rem"}}>
-                            <Spin size={"large"}/>
-                        </div>
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
                 }
             </Grid>
         );

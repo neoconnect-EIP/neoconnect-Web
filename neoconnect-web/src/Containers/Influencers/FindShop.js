@@ -3,9 +3,10 @@ import { withRouter } from "react-router-dom"
 import { Button, Fab } from '@material-ui/core/';
 import "../index.css"
 import {Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Modal, Slide} from "@material-ui/core";
-import {Spin} from "antd";
 import noImages from "../../assets/noImages.jpg";
 import StarIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class FindShop extends React.Component{
     constructor(props) {
@@ -124,9 +125,13 @@ class FindShop extends React.Component{
                             }
                         </Grid>
                         :
-                        <div style={{textAlign: "center", marginTop: "350px"}}>
-                            <Spin size={"large"}/>
-                        </div>
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
                 }
             </Grid>
         );
