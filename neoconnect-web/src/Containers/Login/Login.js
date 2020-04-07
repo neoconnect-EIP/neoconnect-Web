@@ -51,41 +51,52 @@ export default class Login extends React.Component{
             .catch(error => console.error('Error:', error));
     };
 
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            this.handleSubmit()
+        }
+    };
+
     render() {
 
         return (
             <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
-                <div className="landing-page-mid-div" style={{transform: "translateY(-65px)", borderRadius: "12px"}}>
+                <div className="landing-page-mid-div" style={{transform: "translateY(-65px)", borderRadius: "12px", backgroundColor: "#000000a8", backdropFilter: "blur(8px)"}}>
                     {
                         this.state.isLoading ?
                             <Loader
                                 type="Triangle"
-                                color="#292929"
+                                color="#fff"
                                 height={200}
                                 width={200}
                                 style={{marginTop: "2rem", marginBottom: "2rem"}}
                             />
                             :
                             <Form onSubmit={this.handleSubmit} style={{paddingTop: "50px", textAlign: "center"}}>
-                                <div style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-4.5rem", borderRadius: "8px", height: "3rem"}}>
-                                    <h2 style={{marginBottom: "4rem", color: "white"}}>Connection</h2>
+                                <div style={{backgroundImage: "linear-gradient(65deg, #000, #292929)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-4.5rem", borderRadius: "8px", height: "3rem"}}>
+                                    <h2 style={{marginBottom: "4rem", color: "white"}}>Connexion</h2>
                                 </div>
                                 <div className="input-form" style={{marginTop: "2rem"}}>
-                                    <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}} />
-                                    <Input type="text"
-                                           name="email"
-                                           placeholder="Username"
-                                           value={this.state.username}
-                                           onChange={this.handleEmailChange}
+                                    <Icon type="user" style={{ color: '#fff', marginRight: "8px"}} />
+                                    <Input
+                                        style={{color: "#fff"}}
+                                        type="text"
+                                        name="email"
+                                        placeholder="Username"
+                                        value={this.state.username}
+                                        onChange={this.handleEmailChange}
                                     />
                                 </div>
                                 <div className="input-form">
-                                    <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px" }} />
-                                    <Input type="password"
-                                           name="password"
-                                           placeholder="Password"
-                                           value={this.state.password}
-                                           onChange={this.handlePasswordChange}
+                                    <Icon type="lock" style={{ color: '#fff', marginRight: "8px" }} />
+                                    <Input
+                                        style={{color: "#fff"}}
+                                        type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        value={this.state.password}
+                                        onChange={this.handlePasswordChange}
+                                        onKeyPress={this.handleKeyPress}
                                     />
                                     {
                                         this.state.errorMessage ?
@@ -96,11 +107,11 @@ export default class Login extends React.Component{
                                 </div>
                                 <Grid container style={{marginTop: "50px", paddingBottom: "30px"}}>
                                     <Grid item xs={12}>
-                                        <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{width: "9.375rem", height: "2.1875rem", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>LOGIN</Button>
+                                        <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{width: "9.375rem", height: "2.1875rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>LOGIN</Button>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <p style={{marginTop: "0.2", marginBottom: "0rem"}}>-or-</p>
-                                        <a style={{color: "black", textDecoration: "underline"}} onClick={this.forgotPassword}>forgot password</a>
+                                        <p style={{color: "#fff", marginTop: "0.2", marginBottom: "0rem"}}>-or-</p>
+                                        <a style={{color: "#fff"}} onClick={this.forgotPassword}>forgot password</a>
                                     </Grid>
                                 </Grid>
                             </Form>

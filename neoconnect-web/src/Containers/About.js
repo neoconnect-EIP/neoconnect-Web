@@ -12,7 +12,7 @@ export default class About extends React.Component{
 
     render() {
         return (
-            <Grid className="about-faq" container>
+            <Grid className="about-faq" container style={{backdropFilter: "blur(8px) brightness(50%)"}}>
                 <Grid item xs={12} style={{marginBottom: "50px"}}>
                     <h1 style={{textAlign: "center", color: "white", marginBottom: "20px"}}>Neoconnect</h1>
                     <h2 style={{textAlign: "center", color: "white"}}>FAQ</h2>

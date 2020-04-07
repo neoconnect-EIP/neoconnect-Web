@@ -7,6 +7,7 @@ import Ads from "./Influencers/Ads";
 import InfluenceurStatus from "./Influencers/InfluenceurStatus";
 import FindShop from "./Influencers/FindShop";
 import EditProfile from "./Influencers/EditProfile";
+import Chat from "./Chat"
 import "./index.css"
 import adsItem from "./Influencers/adsItem";
 import shopProfile from "./Influencers/shopProfile";
@@ -32,6 +33,7 @@ export default class Dashboard extends React.Component {
                         <Route path="/dashboard/shops" component={FindShop}/>
                         <Route path="/dashboard/edit-profile" component={EditProfile}/>
                         <Route path="/dashboard/shop" component={shopProfile}/>
+                        <Route path="/dashboard/chat" component={Chat}/>
                     </Switch>
                 </div>
             </div>

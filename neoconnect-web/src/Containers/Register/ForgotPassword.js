@@ -46,29 +46,30 @@ export default class ForgotPassword extends React.Component{
     render() {
         return (
             <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
-                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px"}}>
+                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "#000000a8", backdropFilter: "blur(8px)"}}>
                     {
                         this.state.mailSend ?
                             <Grid container>
-                                <Grid style={{backgroundImage: "linear-gradient(65deg, rgb(144, 189, 113), #1C8FDC)", marginLeft: "4rem", marginRight: "4rem", marginTop: "-1.3rem", borderRadius: "8px"}} xs={12}>
+                                <Grid style={{backgroundImage: "linear-gradient(65deg, #000, #292929)", marginLeft: "4rem", marginRight: "4rem", marginTop: "-1.3rem", borderRadius: "8px"}} xs={12}>
                                     <h2 style={{color: "white"}}>Mail envoyé avec succes</h2>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "1C8FDC"}}/>
+                                    <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
                                 </Grid>
                             </Grid>
                         :
                             <Form className="formular" onSubmit={this.handleSubmit}>
-                                <Grid style={{backgroundImage: "linear-gradient(65deg, rgb(144, 189, 113), #1C8FDC)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-1.3rem", borderRadius: "8px"}}>
+                                <Grid style={{backgroundImage: "linear-gradient(65deg, #000, #292929)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-1.3rem", borderRadius: "8px", height: "3rem"}}>
                                     <h2 style={{color: "white"}}>Reset your password</h2>
                                 </Grid>
                                 <Grid container style={{marginTop: "40px", marginBottom: "40px"}} spacing={3}>
                                     <Grid iem style={{textAlign: "center"}} xs={12}>
-                                        <p style={{fontSize: "20px"}}>Un email va être envoyer sur votre messagerie, verifiez vos spam !</p>
+                                        <p style={{fontSize: "20px", color: "#ffffff"}}>Un email va être envoyer sur votre messagerie, verifiez vos spam !</p>
                                     </Grid>
                                     <Grid item className="input-form" xs={12}>
-                                        <Icon type="mail" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
+                                        <Icon type="mail" style={{ color: '#ffffff', marginRight: "8px"}}/>
                                         <Input
+                                            style={{color: "#fff"}}
                                             type="text"
                                             name="email"
                                             placeholder="Email"
@@ -85,7 +86,7 @@ export default class ForgotPassword extends React.Component{
                                             ""
                                     }
                                     <Grid item xs={12}>
-                                        <Button onClick={this.handleSubmit} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>Send mail</Button>
+                                        <Button onClick={this.handleSubmit} style={{width: "9.375rem", height: "2.1875rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>SEND MAIL</Button>
                                     </Grid>
                                 </Grid>
                             </Form>

@@ -111,7 +111,8 @@ class FindShop extends React.Component{
                 productDesc : "Item de la capsule été 2018, en colaboration avec Virgile Hablot, disponible en édition limité, faite en cuire de buffle, certie d'une boucle en or 18 carat, doublure en soie véritable",
                 mark : 2,
             },
-        ]
+        ];
+
         return (
             <Grid container justify="center">
                 <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>

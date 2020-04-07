@@ -1,26 +1,30 @@
 import React from 'react';
-import { Form, Icon, Button } from 'antd';
-import {Grid, Input, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {Form, Icon, Steps} from 'antd';
+import {Grid, Input, Button, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import "../index.css"
 
+const { Step } = Steps;
 
 export default class InfluencerSignUp extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             pseudo: "",
-            password: "",
+            password: null,
             password2: "",
             full_name: "",
             email: "",
             adress: "",
             city: "",
-            prone: "",
+            phone: "",
             theme: null,
             instagram: "",
             facebook: "",
             twitter: "",
             snapchat: "",
+            current: 0,
+            isEnd: false,
+            goodPassword: false,
         }
     }
 
@@ -51,167 +55,250 @@ export default class InfluencerSignUp extends React.Component{
             "snapchat": this.state.snapchat,
             "instagram": this.state.instagram,
         };
+
         body = JSON.stringify(body);
         fetch("http://168.63.65.106/inf/register", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };
 
+    getStepContent = (step) => {
+        switch (step) {
+            case 0:
+                return (
+                    <Grid container justify="center">
+                        <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                            <h1 style={{color: "white"}}>Identifiant et mot de passe</h1>
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="user" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="pseudo"
+                                placeholder="Username"
+                                value={this.state.username}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="lock" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                            <Icon type="lock" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="password"
+                                name="password2"
+                                placeholder="Password confirmation"
+                                value={this.state.password2}
+                                onChange={this.handleChange}
+                            />
+                            {
+                                this.state.password === this.state.password2 ?
+                                    ""
+                                    :
+                                    <p style={{color: "red"}}>Les mots de passes diffèrent</p>
+                            }
+                        </Grid>
+                    </Grid>
+                );
+            case 1:
+                return (
+                    <Grid container justify="center">
+                        <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                            <h1 style={{color: "white"}}>Informations personelles</h1>
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="user" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="full_name"
+                                placeholder="Full name"
+                                value={this.state.full_name}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="mail" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="email"
+                                placeholder="Email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="mobile" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="phone"
+                                placeholder="Phone number"
+                                value={this.state.phone}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="home" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="adress"
+                                placeholder="Adress"
+                                value={this.state.adress}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="home" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="city"
+                                placeholder="City"
+                                value={this.state.city}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="skin" style={{ color: '#fff', marginRight: "8px", transform: "translateY(15px)"}}/>
+                            <FormControl variant="outlined" style={{width: "21.7rem", color: "#fff"}}>
+                                <InputLabel id="demo-simple-select-outlined-label" style={{color: "#fff"}}>
+                                    Theme
+                                </InputLabel>
+                                <Select
+                                    style={{color: "#fff"}}
+                                    labelId="demo-simple-select-outlined-label"
+                                    name="theme"
+                                    value={this.state.theme}
+                                    onChange={this.handleChange}
+                                >
+                                    <MenuItem value={1}>Mode</MenuItem>
+                                    <MenuItem value={2}>Cosmetique</MenuItem>
+                                    <MenuItem value={3}>Hight tech</MenuItem>
+                                    <MenuItem value={4}>Food</MenuItem>
+                                    <MenuItem value={5}>Jeux vidéo</MenuItem>
+                                    <MenuItem value={6}>Sport/fitness</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                );
+            case 2:
+                return (
+                    <Grid container justify="center">
+                        <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                            <h1 style={{color: "white"}}>Renseigner vos réseaux</h1>
+                        </Grid>
+                        <Grid className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="instagram" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="instagram"
+                                placeholder="Instagram"
+                                value={this.state.instagram}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="facebook" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="facebook"
+                                placeholder="Facebook"
+                                value={this.state.facebook}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="twitter" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="twitter"
+                                placeholder="Twitter"
+                                value={this.state.twitter}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                            <Icon type="aliwangwang" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Input
+                                style={{color: "#fff"}}
+                                type="text"
+                                name="snapchat"
+                                placeholder="Snapchat"
+                                value={this.state.snapchat}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                    </Grid>
+                );
+            default:
+                return 'Unknown step';
+        }
+    };
+
+    next = () => {
+        const current = this.state.current + 1;
+        this.setState({ current });
+    }
+
+    prev = () => {
+        const current = this.state.current - 1;
+        this.setState({ current });
+    }
+
     render() {
         return (
             <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
-                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px"}}>
-                    <div style={{backgroundImage: "linear-gradient(65deg, rgb(144, 189, 113), #1C8FDC)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
-                        <h1 style={{textAlign: "center", color: "white"}}>Inscription influenceur</h1>
+                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "#000000a8", backdropFilter: "blur(8px)"}}>
+                    <div style={{backgroundImage: "linear-gradient(65deg, #000, #292929)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
+                        <h1 style={{textAlign: "center", color: "white", paddingBottom: "0.5rem"}}>Inscription influenceur</h1>
                     </div>
-                    <Form className="formular" onSubmit={this.handleSubmit} style={{marginTop: "2rem"}}>
-                        <Grid container spacing={2}>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
-                                <Input
-                                       type="text"
-                                       name="pseudo"
-                                       placeholder="Username"
-                                       value={this.state.username}
-                                       onChange={this.handleChange}
-                                />
+                    <div style={{margin: "2rem"}}>
+                        <Steps progressDot current={this.state.current}>
+                            <Step title={<p style={{color: "#fff"}}>Identifiant et mot de passe</p>}/>
+                            <Step title={<p style={{color: "#fff"}}>Informations personelles</p>}/>
+                            <Step title={<p style={{color: "#fff"}}>Renseignez votre activité</p>}/>
+                        </Steps>
+                        <Grid container className="steps-action" justify="center" style={{color: "white"}}>
+                            <Grid item={12}>
+                                {
+                                    this.getStepContent(this.state.current)
+                                }
                             </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="user" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
-                                <Input
-                                    type="text"
-                                    name="full_name"
-                                    placeholder="Full name"
-                                    value={this.state.full_name}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
-                                <Input
-                                       type="password"
-                                       name="password"
-                                       placeholder="Password"
-                                       value={this.state.password}
-                                       onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="lock" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
-                                <Input
-                                    type="password"
-                                    name="password2"
-                                    placeholder="Password confirmation"
-                                    value={this.state.password2}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="mail" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
-                                <Input
-                                    type="text"
-                                    name="email"
-                                    placeholder="Email"
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="mobile" style={{ color: '#1C8FDC', marginRight: "8px"}} />
-                                <Input
-                                    type="text"
-                                    name="phone"
-                                    placeholder="Phone number"
-                                    value={this.state.phone}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={12}>
-                                <Icon type="home" style={{ color: '#1C8FDC', marginRight: "8px"}}/>
-                                <Input
-                                    type="text"
-                                    name="adress"
-                                    placeholder="Adress"
-                                    value={this.state.adress}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="home" style={{ color: '#1C8FDC', marginRight: "8px"}} />
-                                <Input
-                                    type="text"
-                                    name="city"
-                                    placeholder="City"
-                                    value={this.state.city}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid className="input-form" xs={6}>
-                                <Icon type="skin" style={{ color: '#1C8FDC', marginRight: "8px", transform: "translateY(15px)"}} />
-                                <FormControl variant="outlined" style={{width: "150px"}}>
-                                    <InputLabel id="demo-simple-select-outlined-label">
-                                        Theme
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-outlined-label"
-                                        name="theme"
-                                        value={this.state.theme}
-                                        onChange={this.handleChange}
-                                    >
-                                        <MenuItem value={1}>Mode</MenuItem>
-                                        <MenuItem value={2}>Cosmetique</MenuItem>
-                                        <MenuItem value={3}>Hight tech</MenuItem>
-                                        <MenuItem value={4}>Food</MenuItem>
-                                        <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                        <MenuItem value={6}>Sport/fitness</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid className="input-form" xs={6}>
-                                <Icon type="instagram" style={{ color: '#1C8FDC', marginRight: "8px"}} />
-                                <Input
-                                    type="text"
-                                    name="instagram"
-                                    placeholder="Instagram"
-                                    value={this.state.instagram}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="facebook" style={{ color: '#1C8FDC', marginRight: "8px"}} />
-                                <Input
-                                    type="text"
-                                    name="facebook"
-                                    placeholder="Facebook"
-                                    value={this.state.facebook}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="twitter" style={{ color: '#1C8FDC', marginRight: "8px"}} />
-                                <Input
-                                    type="text"
-                                    name="twitter"
-                                    placeholder="Twitter"
-                                    value={this.state.twitter}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item className="input-form" xs={6}>
-                                <Icon type="aliwangwang" style={{ color: '#1C8FDC', marginRight: "8px"}} />
-                                <Input
-                                    type="text"
-                                    name="snapchat"
-                                    placeholder="Snapchat"
-                                    value={this.state.snapchat}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12} style={{marginTop: "20px", marginBottom: "20px"}}>
-                                <Button onClick={this.handleSubmit} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>REGISTER</Button>
+                            <Grid item xs={12} style={{textAlign: "center"}}>
+                                <Button disabled={this.state.current < 1} variant="contained" color="secondary"  onClick={this.prev} style={{marginRight: "2rem"}}>
+                                    PREV
+                                </Button>
+                                {
+                                    this.state.current < 2 ?
+                                        <Button  disabled={this.state.password !== this.state.password2} variant="contained" color="secondary" onClick={this.next}>
+                                            NEXT
+                                        </Button>
+                                        :
+                                        <Button onClick={this.handleSubmit} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                            REGISTER
+                                        </Button>
+                                }
                             </Grid>
                         </Grid>
-                    </Form>
+                    </div>
                 </Grid>
             </Grid>
         );

@@ -101,7 +101,7 @@ class ShopStatus extends React.Component{
                         <Grid container justify="center">
                             <div style={{backgroundImage: "url(" + "http://www.deltalightingdesign.com/images/portfolio/fullscreen/Boutique1.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
                             <Grid container justify="center" alignItems="center">
-                                <Avatar alt="Avatar not found" src={"http://salfordshoppingcentre.com/wp-content/uploads/2015/09/The-Money-Shop-Logo.png"} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "24rem", zIndex: "10"}}/>
+                                <Avatar alt="Avatar not found" src={"http://salfordshoppingcentre.com/wp-content/uploads/2015/09/The-Money-Shop-Logo.png"} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "24rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "18rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
                                 <Grid item xs={12}>

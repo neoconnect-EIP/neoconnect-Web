@@ -110,150 +110,152 @@ class EditProfile extends React.Component{
     render() {
         return (
             <Grid container justify="center">
-                <div style={{backgroundImage: "url(" + "http://www.favorisxp.com/fonds-decran/logos/supreme/supreme-zipper-new-york-times-square-fond-ecran-gratuit-pc-hd-wallpaper.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
-                <Grid container justify="center" alignItems="center">
-                    <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : "http://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9"} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
-                </Grid>
                 {
                     this.state.pseudo ?
-                        <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "12rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
-                            <Grid container style={{marginTop: "13rem"}} justify="center">
-                                <Grid item xs={12} style={{textAlign: "center"}}>
-                                    <input type="file" onChange={e => this.handleImageChange(e)}/>
-                                </Grid>
-                                <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
-                                    <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                    <Input type="text"
-                                           name="pseudo"
-                                           placeholder="Influencer name"
-                                           value={this.state.pseudo}
-                                           onChange={this.handleChange}
-                                    />
-                                </Grid>
-                                <Grid xs={6} style={{textAlign: "center", marginTop: "90px"}} xs={6}>
-                                    <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                    <Input type="text"
-                                           name="fullName"
-                                           placeholder="Full name"
-                                           value={this.state.fullName}
-                                           onChange={this.handleChange}
-                                    />
-                                </Grid>
-                                <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
-                                    <Icon type="mail" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                    <Input type="text"
-                                           name="email"
-                                           placeholder="Email"
-                                           value={this.state.email}
-                                           onChange={this.handleChange}
-                                    />
-                                </Grid>
-                                <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
-                                    <Icon type="mobile" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                    <Input type="text"
-                                           name="phone"
-                                           placeholder="Phone"
-                                           value={this.state.phone}
-                                           onChange={this.handleChange}
-                                    />
-                                </Grid>
-                                <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
-                                    <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                    <Input type="text"
-                                           name="postal"
-                                           placeholder="Postal"
-                                           value={this.state.postal}
-                                           onChange={this.handleChange}
-                                    />
-                                </Grid>
-                                <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
-                                    <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                    <Input type="text"
-                                           name="city"
-                                           placeholder="City"
-                                           value={this.state.city}
-                                           onChange={this.handleChange}
-                                    />
-                                </Grid>
-                                <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
-                                    <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                    <FormControl variant="outlined" style={{width: "182px"}}>
-                                        <InputLabel id="demo-simple-select-outlined-label">
-                                            Theme
-                                        </InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-outlined-label"
-                                            name="theme"
-                                            value={this.state.theme}
-                                            onChange={this.handleThemeChange}
-                                        >
-                                            <MenuItem value={1}>Mode</MenuItem>
-                                            <MenuItem value={2}>Cosmetique</MenuItem>
-                                            <MenuItem value={3}>Hight tech</MenuItem>
-                                            <MenuItem value={4}>Food</MenuItem>
-                                            <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                            <MenuItem value={6}>Sport/fitness</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
+                        <Grid container justify="center">
+                            <div style={{backgroundImage: "url(" + "http://www.favorisxp.com/fonds-decran/logos/supreme/supreme-zipper-new-york-times-square-fond-ecran-gratuit-pc-hd-wallpaper.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
+                            <Grid container justify="center" alignItems="center">
+                                <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : "http://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9"} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
                             </Grid>
-                            <Grid container spacing={4} style={{marginTop: "20px"}}>
-                                <Grid item xs={12} md={6} lg={6}>
-                                    <Card class="influencer-status-card-item">
-                                        <CardMedia className="influencer-status-card-media" image={instagram} />
-                                        <CardContent style={{textAlign: "center"}}>
-                                            <Input  type="text"
-                                                    name="instagram"
-                                                    placeholder="Instagram name"
-                                                    value={this.state.instagram}
-                                                    onChange={this.handleChange}
-                                            />
-                                        </CardContent>
-                                    </Card>
+                            <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "12rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
+                                <Grid container style={{marginTop: "13rem"}} justify="center">
+                                    <Grid item xs={12} style={{textAlign: "center"}}>
+                                        <input type="file" onChange={e => this.handleImageChange(e)}/>
+                                    </Grid>
+                                    <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                        <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                        <Input type="text"
+                                               name="pseudo"
+                                               placeholder="Influencer name"
+                                               value={this.state.pseudo}
+                                               onChange={this.handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid xs={6} style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                        <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                        <Input type="text"
+                                               name="fullName"
+                                               placeholder="Full name"
+                                               value={this.state.fullName}
+                                               onChange={this.handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                        <Icon type="mail" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                        <Input type="text"
+                                               name="email"
+                                               placeholder="Email"
+                                               value={this.state.email}
+                                               onChange={this.handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                        <Icon type="mobile" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                        <Input type="text"
+                                               name="phone"
+                                               placeholder="Phone"
+                                               value={this.state.phone}
+                                               onChange={this.handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                        <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                        <Input type="text"
+                                               name="postal"
+                                               placeholder="Postal"
+                                               value={this.state.postal}
+                                               onChange={this.handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                        <Icon type="home" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                        <Input type="text"
+                                               name="city"
+                                               placeholder="City"
+                                               value={this.state.city}
+                                               onChange={this.handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                        <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                        <FormControl variant="outlined" style={{width: "182px"}}>
+                                            <InputLabel id="demo-simple-select-outlined-label">
+                                                Theme
+                                            </InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-outlined-label"
+                                                name="theme"
+                                                value={this.state.theme}
+                                                onChange={this.handleThemeChange}
+                                            >
+                                                <MenuItem value={1}>Mode</MenuItem>
+                                                <MenuItem value={2}>Cosmetique</MenuItem>
+                                                <MenuItem value={3}>Hight tech</MenuItem>
+                                                <MenuItem value={4}>Food</MenuItem>
+                                                <MenuItem value={5}>Jeux vidéo</MenuItem>
+                                                <MenuItem value={6}>Sport/fitness</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} md={6} lg={6}>
-                                    <Card class="influencer-status-card-item">
-                                        <CardMedia image={twitter} className="influencer-status-card-media"/>
-                                        <CardContent style={{textAlign: "center"}}>
-                                            <Input type="text"
-                                                   name="twitter"
-                                                   placeholder="Twitter name"
-                                                   value={this.state.twitter}
-                                                   onChange={this.handleChange}/>
-                                        </CardContent>
-                                    </Card>
+                                <Grid container spacing={4} style={{marginTop: "20px"}}>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Card class="influencer-status-card-item">
+                                            <CardMedia className="influencer-status-card-media" image={instagram} />
+                                            <CardContent style={{textAlign: "center"}}>
+                                                <Input  type="text"
+                                                        name="instagram"
+                                                        placeholder="Instagram name"
+                                                        value={this.state.instagram}
+                                                        onChange={this.handleChange}
+                                                />
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Card class="influencer-status-card-item">
+                                            <CardMedia image={twitter} className="influencer-status-card-media"/>
+                                            <CardContent style={{textAlign: "center"}}>
+                                                <Input type="text"
+                                                       name="twitter"
+                                                       placeholder="Twitter name"
+                                                       value={this.state.twitter}
+                                                       onChange={this.handleChange}/>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Card class="influencer-status-card-item">
+                                            <CardMedia image={snapchat} className="influencer-status-card-media"/>
+                                            <CardContent style={{textAlign: "center"}}>
+                                                <Input type="text"
+                                                       name="snapchat"
+                                                       placeholder="Snapchat name"
+                                                       value={this.state.snapchat}
+                                                       onChange={this.handleChange}/>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Card class="influencer-status-card-item">
+                                            <CardMedia className="influencer-status-card-media" image={facebook}/>
+                                            <CardContent style={{textAlign: "center"}}>
+                                                <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
+                                                <Input type="text"
+                                                       name="facebook"
+                                                       placeholder="Facebook name"
+                                                       value={this.state.facebook}
+                                                       onChange={this.handleChange}/>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} md={6} lg={6}>
-                                    <Card class="influencer-status-card-item">
-                                        <CardMedia image={snapchat} className="influencer-status-card-media"/>
-                                        <CardContent style={{textAlign: "center"}}>
-                                            <Input type="text"
-                                                   name="snapchat"
-                                                   placeholder="Snapchat name"
-                                                   value={this.state.snapchat}
-                                                   onChange={this.handleChange}/>
-                                        </CardContent>
-                                    </Card>
+                                <Grid container alignItems="center" justify="center" style={{marginBottom: "30px"}}>
+                                    <Fab variant="extended" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", color: "white"}} onClick={this.handleSubmit}>
+                                        Confirme
+                                        <DoneIcon style={{marginLeft: "10px"}}/>
+                                    </Fab>
                                 </Grid>
-                                <Grid item xs={12} md={6} lg={6}>
-                                    <Card class="influencer-status-card-item">
-                                        <CardMedia className="influencer-status-card-media" image={facebook}/>
-                                        <CardContent style={{textAlign: "center"}}>
-                                            <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                            <Input type="text"
-                                                   name="facebook"
-                                                   placeholder="Facebook name"
-                                                   value={this.state.facebook}
-                                                   onChange={this.handleChange}/>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            </Grid>
-                            <Grid container alignItems="center" justify="center" style={{marginBottom: "30px"}}>
-                                <Fab variant="extended" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", color: "white"}} onClick={this.handleSubmit}>
-                                    Confirme
-                                    <DoneIcon style={{marginLeft: "10px"}}/>
-                                </Fab>
                             </Grid>
                         </Grid>
                     :

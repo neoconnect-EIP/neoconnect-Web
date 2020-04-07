@@ -29,7 +29,7 @@ export default class LandingPage extends React.Component{
 
     render() {
         return (
-            <div className="landing-page-header">
+            <div>
                 <Header />
                 {
                     this.props.location["pathname"] === "/landing-page" ?
@@ -130,14 +130,14 @@ export default class LandingPage extends React.Component{
                                     <h1 style={{textAlign: "center", color: "white", lineHeight: "normal", paddingTop: "145px", fontSize: "92px"}}>
                                         Téléchargez notre application
                                     </h1>
-                                    <h2 style={{textAlign: "center", color: "white", marginTop: "60px"}}>Disponible sur toutes les platformes</h2>
+                                    <h2 style={{textAlign: "center", color: "white", marginTop: "60px"}}>Disponible sur android et ios !</h2>
                                     <img src={storeLogo} alt={"Error: no Logo"} style={{width: "37.5rem"}}/>
                                 </Grid>
                             </Grid>
                             <Footer/>
                         </div>
                         :
-                        <div style={{backgroundImage: "url(" + backgroundImage + ")", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "100%", position: "fixed"}}>
+                        <div style={{backgroundImage: "url(" + "https://media.cdn-equinox.com/website/Images/Club-Assets/Clubs/Dallas/RiverOaks/April1/RiverOaks_Shop_2048x900.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "100%", position: "fixed"}}>
                                 <Switch>
                                     <Route path="/landing-page/login" exact component={Login}/>
                                     <Route path="/landing-page/about" component={About}/>

@@ -6,6 +6,7 @@ import LandingPage from "./Containers/LandingPage";
 import Dashboard from "./Containers/Dashboard";
 import ShopDashboard from "./Containers/ShopDashboard";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'antd/dist/antd.css';
 import "./index.css"
 
 const history = createBrowserHistory();

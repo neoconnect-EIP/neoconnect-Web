@@ -1,8 +1,3 @@
-.landing-page {
-    height: 100%;
-    position: relative;
-}
-
 .header {
     background-color: #292929;
     width: 100%;
@@ -13,6 +8,7 @@
     margin: 0.5rem;
     width: 5rem;
     height: 5rem;
+    cursor: pointer;
 }
 
 .header-btn {
@@ -28,8 +24,11 @@
 }
 
 .header-btn:hover {
-    text-shadow: 0 0 20px white;
-    font-size: 1.45rem;
+    text-shadow: 0 0 20px #ffffff;
+}
+
+.header-btn:active {
+    text-shadow: 0 0 20px #ffffff;
 }
 
 .landing-page-background-img {

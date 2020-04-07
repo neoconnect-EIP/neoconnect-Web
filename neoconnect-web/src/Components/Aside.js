@@ -11,6 +11,7 @@ import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 class Aside extends React.Component{
@@ -47,11 +48,14 @@ class Aside extends React.Component{
                         <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
                             <Grid container style={{height: "100%", width: "100%", textAlign: "center", marginLeft: 0}}>
                                 <Grid item style={{backgroundColor: "white", marginLeft: "200px", borderRadius: "8px", marginTop: "25px"}} xs={12}>
-                                    <div style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", width: "25rem", height: "auto", marginRight: "0.6rem", marginLeft: "0.6rem", borderRadius: "10px", marginTop: "-0.7rem"}}>
-                                        <h4 style={{textAlign: "center", color: "white"}}>Voulez vous vous déconnecter ?</h4>
+                                    <div style={{marginTop: "-2rem", marginLeft: "1rem", marginRight: "1rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)"}}>
+                                        <h4 style={{textAlign: "center", color: "white", paddingTop: "1rem", paddingBottom: "1rem"}}>Déconnexion</h4>
                                     </div>
-                                    <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", margin: "10px", boxShadow: "0 0 10px"}} onClick={this.handleModal}>NON</Button>
-                                    <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", margin: "10px", boxShadow: "0 0 10px"}} onClick={this.handleDeconexion}>OUI</Button>
+                                    <h4 style={{textAlign: "center"}}>Êtes-vous sur de vouloir vous déconnecter ?</h4>
+                                    <div style={{marginTop: "2rem", marginBottom: "2rem"}}>
+                                        <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", marginRight: "2rem", boxShadow: "0 0 10px"}} onClick={this.handleModal}>NON</Button>
+                                        <Button style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", marginLeft: "2rem", boxShadow: "0 0 10px"}} onClick={this.handleDeconexion}>OUI</Button>
+                                    </div>
                                 </Grid>
                             </Grid>
                         </Slide>
@@ -87,11 +91,11 @@ class Aside extends React.Component{
                             <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/advertisements")} style={{color: "white"}}>
                                 <LocalActivityIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-                                Advertisements
+                                Annonces
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/ads")} style={{color: "white"}}>
                                 <AssignmentIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-                                Ads
+                                Mes annonces
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/status")} style={{color: "white"}}>
                                 <AccountCircleIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
@@ -99,11 +103,15 @@ class Aside extends React.Component{
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/shops")} style={{color: "white"}}>
                                 <StorefrontIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-                                Find shop
+                                Boutiques
+                            </div>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat")} style={{color: "white"}}>
+                                <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Messagerie
                             </div>
                             <div className="aside-button" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", borderBottom: "none", color: "white"}}>
-                                    <PersonIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
-                                    Déconnexion
+                                <PersonIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
+                                Déconnexion
                             </div>
                         </div>
                 }

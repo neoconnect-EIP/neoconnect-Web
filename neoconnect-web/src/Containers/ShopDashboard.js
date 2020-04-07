@@ -6,8 +6,9 @@ import EditProfile from "./Shops/EditProfile";
 import FindInfluencers from "./Shops/FindInfluencers";
 import Ads from "./Shops/Ads";
 import PostAd from "./Shops/PostAd";
-import "./index.css"
 import EditAd from "./Shops/EditAd";
+import InfluencerProfile from "./Shops/InfluencerProfile";
+import "./index.css"
 
 export default class ShopDashboard extends React.Component {
     constructor(props) {
@@ -30,6 +31,7 @@ export default class ShopDashboard extends React.Component {
                         <Route path="/shop-dashboard/status" component={ShopStatus}/>
                         <Route path="/shop-dashboard/edit-profile" component={EditProfile}/>
                         <Route path="/shop-dashboard/influencers" component={FindInfluencers}/>
+                        <Route path="/shop-dashboard/influencer" component={InfluencerProfile}/>
                     </Switch>
                 </div>
             </div>
