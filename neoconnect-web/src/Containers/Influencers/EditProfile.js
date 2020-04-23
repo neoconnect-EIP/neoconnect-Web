@@ -12,6 +12,7 @@ import facebook from  "../../assets/facebook.png"
 import "../index.css"
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import {TextField} from "@material-ui/core";
 
 class EditProfile extends React.Component{
     constructor(props) {
@@ -23,7 +24,7 @@ class EditProfile extends React.Component{
             phone: "",
             postal: "",
             city: "",
-            theme: "",
+            userType: "",
             facebook: "",
             instagram: "",
             twitter: "",
@@ -45,12 +46,13 @@ class EditProfile extends React.Component{
             .then(res => res.json())
             .then(res => this.setState({
                 pseudo: res.pseudo,
+                userType: res.userType,
                 fullName: res.full_name,
                 email: res.email,
                 phone: res.phone,
                 postal: res.postal,
                 city: res.city,
-                theme: res.theme,
+                userDescription: res.userDescription,
                 facebook: res.facebook,
                 instagram: res.instagram,
                 twitter: res.twitter,
@@ -89,20 +91,24 @@ class EditProfile extends React.Component{
     handleSubmit = () => {
         let body = {
             "pseudo": this.state.name,
-            "profilePic": this.state.profilePic,
+            "userType": this.state.userType,
             "full_name": this.state.fullName,
             "email": this.state.email,
             "phone": this.state.phone,
             "postal": this.state.postal,
             "city": this.state.city,
-            "theme": this.state.theme,
+            "userPicture": [{"imageName": `profilePic of UserId`, "imageData": this.state.profilePic}],
+            "userDescription": this.state.userDescription,
             "facebook": this.state.facebook,
             "twitter": this.state.twitter,
             "snapchat": this.state.snapchat,
             "instagram": this.state.instagram,
         };
+        console.log("body: ", body)
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106/inf/me", { method: 'PUT', body: body, headers: {'Content-Type': 'application/json'}})
+        fetch("http://168.63.65.106/inf/me", { method: 'PUT', body: body,headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };
@@ -113,14 +119,27 @@ class EditProfile extends React.Component{
                 {
                     this.state.pseudo ?
                         <Grid container justify="center">
-                            <div style={{backgroundImage: "url(" + "http://www.favorisxp.com/fonds-decran/logos/supreme/supreme-zipper-new-york-times-square-fond-ecran-gratuit-pc-hd-wallpaper.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
+                            <div style={{backgroundColor: "#292929", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
                             <Grid container justify="center" alignItems="center">
-                                <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : "http://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9"} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
+                                <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : ""} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "12rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
                                 <Grid container style={{marginTop: "13rem"}} justify="center">
                                     <Grid item xs={12} style={{textAlign: "center"}}>
                                         <input type="file" onChange={e => this.handleImageChange(e)}/>
+                                    </Grid>
+                                    <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={12}>
+                                        <TextField
+                                            style={{width: "25rem"}}
+                                            id="standard-multiline-flexible"
+                                            label="Multiline"
+                                            multiline
+                                            rowsMax={4}
+                                            name="userDescription"
+                                            placeholder="status"
+                                            value={this.state.userDescription}
+                                            onChange={this.handleChange}
+                                        />
                                     </Grid>
                                     <Grid item style={{textAlign: "center", marginTop: "90px"}} xs={6}>
                                         <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
@@ -184,8 +203,8 @@ class EditProfile extends React.Component{
                                             </InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-outlined-label"
-                                                name="theme"
-                                                value={this.state.theme}
+                                                name="userType"
+                                                value={this.state.userType}
                                                 onChange={this.handleThemeChange}
                                             >
                                                 <MenuItem value={1}>Mode</MenuItem>

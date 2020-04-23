@@ -4,9 +4,6 @@ import { Button, Fab, Grid} from '@material-ui/core/';
 import { Steps, message} from 'antd';
 import "../index.css"
 import {FormControl, Input, InputLabel, MenuItem, Select, Slide, TextField} from "@material-ui/core";
-import ImagesUploader from 'react-images-uploader';
-import 'react-images-uploader/styles.css';
-import 'react-images-uploader/font.css';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const { Step } = Steps;
@@ -35,7 +32,14 @@ class PostAd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            productImg: null,
+            productImgName1: "",
+            productImgData1: "",
+            productImgName2: "",
+            productImgData2: "",
+            productImgName3: "",
+            productImgData3: "",
+            productImgName4: "",
+            productImgData4: "",
             productName: "",
             productSex: "",
             productDesc: "",
@@ -96,19 +100,21 @@ class PostAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12}>
-                            <h1>A quoi resemble votre item ?</h1>
-                            <ImagesUploader
-                                onChange={(e) => this.setState({images: e})}
-                                images={this.state.images}
-                                optimisticPreviews
-                                multiple={true}
-                                max={5}
-                                onLoadEnd={(res, err) => {
-                                    if (err) {
-                                        console.error(err);
-                                    }
-                                }}
-                            />
+                            <h1 style={{textAlign: "center"}}>A quoi resemble votre item ?</h1>
+                           <Grid container>
+                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem", marginTop: "3rem"}}>
+                                   <input type="file" onChange={e => this.handleImage1(e)}/>
+                               </Grid>
+                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                                   <input type="file" onChange={e => this.handleImage2(e)}/>
+                               </Grid>
+                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                                   <input type="file" onChange={e => this.handleImage3(e)}/>
+                               </Grid>
+                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                                   <input type="file" onChange={e => this.handleImage4(e)}/>
+                               </Grid>
+                           </Grid>
                         </Grid>
                     </Grid>
                 );
@@ -167,6 +173,58 @@ class PostAd extends React.Component {
         }
     };
 
+    handleImage1 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName1: file.name,
+                productImgData1: file,
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    handleImage2 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName2: file.name,
+                productImgData2: file,
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    handleImage3 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName3: file.name,
+                productImgData3: file,
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    handleImage4 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName4: file.name,
+                productImgData4: file,
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
     handleChange = (e) => {
         let change = {}
 
@@ -179,14 +237,46 @@ class PostAd extends React.Component {
             this.setState({isEnd: true})
     };
 
+    handleGolobalImg = () => {
+        const tmp = [];
+        var image1 = {};
+        var image2 = {};
+        var image3 = {};
+        var image4 = {};
+
+        if (this.state.productImgName1) {
+            image1.imageName = this.state.productImgName1;
+            image1.imageData = this.state.productImgData1;
+            tmp.push(image1)
+        }
+        if (this.state.productImgName2) {
+            image2.imageName = this.state.productImgName2;
+            image2.imageData = this.state.productImgData2;
+            tmp.push(image2)
+        }
+        if (this.state.productImgName3) {
+            image3.imageName = this.state.productImgName3;
+            image3.imageData = this.state.productImgData3;
+            tmp.push(image3)
+        }
+        if (this.state.productImgName4) {
+            image4.imageName = this.state.productImgName4;
+            image4.imageData = this.state.productImgData4;
+            tmp.push(image4)
+        }
+
+        return tmp
+    }
+
     handleSubmit = () => {
         let body = {
-            "productImg": this.state.productImg,
+            "productImg": this.handleGolobalImg(),
             "productName": this.state.productName,
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
             "productSubject": this.state.productSubject,
         };
+        console.log("body = ", body)
         body = JSON.stringify(body);
         fetch(`http://168.63.65.106/offer/insert`, {
             method: 'POST',
@@ -241,7 +331,7 @@ class PostAd extends React.Component {
                                 <h1 style={{textAlign: "center"}}>Annonce posté avec succès</h1>
                             </Grid>
                                 <Grid item xs={12} style={{textAlign: "center"}}>
-                                    <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "ff4343"}}/>
+                                    <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
                                 </Grid>
                         </Grid>
                 }

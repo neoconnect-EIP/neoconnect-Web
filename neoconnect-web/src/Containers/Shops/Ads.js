@@ -91,7 +91,7 @@ class Ads extends React.Component {
                         {
                             this.state.modalMode === "edit" ?
                                 <Grid container justify="center" style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
-                                    <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
+                                    <Grid item xs={12} style={{backgroundColor: "#292929", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
                                         <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Modification de l'annonce ?</h2>
                                     </Grid>
                                     <Grid item style={{textAlign: "center"}}>
@@ -109,7 +109,7 @@ class Ads extends React.Component {
                                 :
                                 this.state.modalMode === "delete" ?
                                     <Grid container justify="center" style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
-                                        <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
+                                        <Grid item xs={12} style={{backgroundColor: "#292929", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
                                             <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Supprimer une annonce</h2>
                                         </Grid>
                                         <Grid item xs={12} justify="center" style={{marginBottom: "1.2rem"}}>
@@ -165,22 +165,25 @@ class Ads extends React.Component {
                                 </TableHead>
                                 <TableBody>
                                     {
-                                        this.state.adsData.map(ad => (
-                                            <TableRow style={{height: "2 rem"}}>
-                                                <TableCell align="center" style={{width: "5 rem"}}>{ad.productName}</TableCell>
-                                                <TableCell align="center" style={{width: "5 rem"}}>{ad.productSubject}</TableCell>
-                                                <TableCell align="center" style={{width: "5 rem"}}>{new Date(ad.createdAt).toLocaleDateString()}</TableCell>
-                                                <TableCell align="center" style={{width: "5 rem"}}>{new Date(ad.updatedAt).toLocaleDateString()}</TableCell>
-                                                <TableCell align="center" style={{width: "5 rem"}}>
-                                                    <Fab color="primary" aria-label="add" style={{margin: "5px"}}
-                                                         onClick={() => this.handleVisibleModal(ad, "contact")}><ContactMailIcon/></Fab>
-                                                    <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}
-                                                         onClick={() => this.handleVisibleModal(ad, "edit")}><EditIcon/></Fab>
-                                                    <Fab aria-label="delete" style={{margin: "5px"}} color={mauve}
-                                                         onClick={() => this.handleVisibleModal(ad, "delete")}><DeleteIcon/></Fab>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
+                                        this.state.adsData === "No offer" ?
+                                            <h2 style={{textAlign: "center"}}>Aucune offre créé</h2>
+                                            :
+                                            this.state.adsData.map(ad => (
+                                                <TableRow style={{height: "2 rem"}}>
+                                                    <TableCell align="center" style={{width: "5 rem"}}>{ad.productName}</TableCell>
+                                                    <TableCell align="center" style={{width: "5 rem"}}>{ad.productSubject}</TableCell>
+                                                    <TableCell align="center" style={{width: "5 rem"}}>{new Date(ad.createdAt).toLocaleDateString()}</TableCell>
+                                                    <TableCell align="center" style={{width: "5 rem"}}>{new Date(ad.updatedAt).toLocaleDateString()}</TableCell>
+                                                    <TableCell align="center" style={{width: "5 rem"}}>
+                                                        {/*<Fab color="primary" aria-label="add" style={{margin: "5px"}}
+                                                             onClick={() => this.handleVisibleModal(ad, "contact")}><ContactMailIcon/></Fab>*/}
+                                                        <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}
+                                                             onClick={() => this.handleVisibleModal(ad, "edit")}><EditIcon/></Fab>
+                                                        <Fab aria-label="delete" style={{margin: "5px"}} color={mauve}
+                                                             onClick={() => this.handleVisibleModal(ad, "delete")}><DeleteIcon/></Fab>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
                                     }
                                 </TableBody>
                             </Table>

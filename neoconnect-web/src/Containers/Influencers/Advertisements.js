@@ -61,7 +61,7 @@ class Advertisements extends React.Component{
                 <Card style={{height: "auto", boxShadow: "#807e7e 8px 8px 20px -4px", margin: "50px", borderRadius: "6px", backgroundColor: "#292929"}}>
                     <CardActionArea onClick={() => this.handleGlobalAnnonce(item.id)}>
                         <CardMedia>
-                            <img src={item.productImg[0].imageData} style={{width: "100%", height: "500px"}} alt="MISSING JPG"/>
+                            <img src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData} style={{width: "100%", height: "500px"}} alt="MISSING JPG"/>
                         </CardMedia>
                     </CardActionArea>
                     <CardContent style={{width: "100%", height: "100px"}}>

@@ -19,24 +19,18 @@ import {
     InputLabel
 } from '@material-ui/core';
 import { Rate } from 'antd';
-import {LineChart, XAxis, YAxis, Line, CartesianGrid, Pie, PieChart, Cell} from 'recharts'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import defaultShopProfilePic from "../../assets/defaultShopProfilePic.jpg"
-import defaultBoutiqueLogo from "../../assets/defaultBoutiqueLogo.jpg"
-import adidasLogo from "../../assets/superthumb.jpg"
-import StarIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import SendIcon from '@material-ui/icons/Send';
-import DeleteIcon from '@material-ui/icons/Delete';
 import avatar from "../../assets/avatar1.png";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-
 
 class shopProfile extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            shopData: "",
+            shopData: [],
             activeIndex: 0,
             visible: false,
             commentData: null,
@@ -53,18 +47,6 @@ class shopProfile extends React.Component{
             .then(res => res.json())
             .then(res => this.setState({shopData: res}))
             .catch(error => console.error('Error:', error));
-
-        fetch(`http://168.63.65.106/user/comment/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => res.json())
-            .then(res => this.setState({commentData: res}))
-            .catch(error => console.error('Error:', error));
-
-        fetch(`http://168.63.65.106/user/mark/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => res.json())
-            .then(res => console.log("res", res))
-            .then(res => this.setState({markData: res.mark}))
-            .catch(error => console.error('Error:', error));
-
     }
 
     getUrlParams = (search) => {
@@ -146,50 +128,7 @@ class shopProfile extends React.Component{
     }
 
     render() {
-        const data = [
-            {
-                name: 'Annonce 1', uv: 4000, pv: 2400, amt: 2400,
-            },
-            {
-                name: 'Annonce 2', uv: 3000, pv: 1398, amt: 2210,
-            },
-            {
-                name: 'Annonce 3', uv: 2000, pv: 9800, amt: 2290,
-            },
-            {
-                name: 'Annonce 4', uv: 2780, pv: 3908, amt: 2000,
-            },
-            {
-                name: 'Annonce 5', uv: 1890, pv: 4800, amt: 2181,
-            },
-            {
-                name: 'Annonce 6', uv: 2390, pv: 3800, amt: 2500,
-            },
-            {
-                name: 'Annonce 7', uv: 3490, pv: 4300, amt: 2100,
-            },
-        ];
-        const pieData = [
-            { name: 'Group A', value: 400 },
-            { name: 'Group B', value: 300 },
-            { name: 'Group C', value: 300 },
-            { name: 'Group D', value: 200 },
-        ];
-        const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-        const RADIAN = Math.PI / 180;
-        const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, percent, index,}) => {
-            const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-            const x = cx + radius * Math.cos(-midAngle * RADIAN);
-            const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-            return (
-                <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                    {`${(percent * 100).toFixed(0)}%`}
-                </text>
-            );
-        };
-
-        console.log("mark", this.state.markData)
         return (
             <Grid container justify="center">
                 {
@@ -217,51 +156,16 @@ class shopProfile extends React.Component{
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "350px", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}}>
                                 <Grid item style={{marginTop: "13.75rem", height: "auto"}} xs={12}>
-                                    <h1 style={{textAlign: "center"}}>{this.state.shopData.shopBrand}</h1>
-                                </Grid>
-                                <Grid item xs={12} md={7} style={{marginTop: "1.1rem", paddingLeft: "5rem"}}>
-                                    <h1>Dernières annonces</h1>
-                                    <LineChart width={700} height={300} data={data}>
-                                        <XAxis dataKey="name"/>
-                                        <YAxis/>
-                                        <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
-                                        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                                        <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
-                                    </LineChart>
+                                    <h1 style={{textAlign: "center"}}>{this.state.shopData.pseudo}</h1>
                                 </Grid>
                                 <Grid item xs={7} md={5} style={{padding: "1.25rem", marginTop: "20px"}}>
                                     <h1>Déscription</h1>
-                                    <h6>{this.state.shopData.shopDesc}</h6>
+                                    <h6>{this.state.shopData.userDescription}</h6>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4} style={{marginTop: "5rem", textAlign: "center"}}>
                                     <h3 style={{textAlign: "center"}}>Note</h3>
                                     <h1 style={{marginTop: "2rem", fontSize: "6.25rem", color: "black"}}>{`0/5`}</h1>
                                     <Button style={{height: "30px", backgroundColor: "black"}} onClick={this.handleModal}>Notez cette boutique</Button>
-                                </Grid>
-                                <Grid item xs={12} md={6} lg={4} style={{marginTop: "5rem"}}>
-                                    <h3 style={{textAlign: "center"}}>Souscription aux annonces</h3>
-                                    <div style={{marginLeft: "3rem", marginTop: "-5.625rem"}}>
-                                        <PieChart width={400} height={400}>
-                                            <Pie
-                                                data={pieData}
-                                                cx={200}
-                                                cy={200}
-                                                labelLine={false}
-                                                label={renderCustomizedLabel}
-                                                outerRadius={80}
-                                                fill="#8884d8"
-                                                dataKey="value"
-                                            >
-                                                {
-                                                    pieData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                                                }
-                                            </Pie>
-                                        </PieChart>
-                                    </div>
-                                </Grid>
-                                <Grid item xs={12} md={6} lg={4} style={{marginTop: "5rem"}}>
-                                    <h3 style={{textAlign: "center"}}>Taux de réponse aux post</h3>
-                                    <h1 style={{marginTop: "2rem", textAlign: "center", fontSize: "6.25rem", color: "black"}}>73%</h1>
                                 </Grid>
                                 <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "3.125rem"}}>
                                     <h2 style={{textAlign: "center"}}>Avis</h2>
@@ -298,7 +202,10 @@ class shopProfile extends React.Component{
                                     </List>
                                     <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem"}}>
                                         {
-                                            this.state.commentData.map(x => this.handleComment(x))
+                                            /*this.state.shopData.comment === null || this.state.shopData.comment.length === 0 ?
+                                                this.state.shopData.comment.map(x => this.handleComment(x))
+                                                :
+                                                ""*/
                                         }
                                     </List>
                                 </Grid>

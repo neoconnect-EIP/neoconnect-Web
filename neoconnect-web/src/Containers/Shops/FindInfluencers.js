@@ -5,6 +5,7 @@ import "../index.css"
 import {Card, Grid, CardMedia, CardContent, CardActionArea} from "@material-ui/core";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import noImageFindInf from "../../assets/noImageFindInf.jpg"
 
 
 
@@ -37,7 +38,7 @@ class FindInfluencers extends React.Component {
                 <Card style={{width: "30rem", height: "36rem"}}>
                     <CardActionArea onClick={() => this.handleGlobalInf(inf.id)}>
                         <CardMedia>
-                            <img src={"http://img.over-blog-kiwi.com/1/43/79/80/20150125/ob_54456e_dollarphotoclub-70119328.jpg"} style={{width: "100%", height: "100%"}} alt="MISSING JPG"/>
+                            <img src={inf.profilePic ? inf.profilePic.imageData : noImageFindInf} style={{width: "100%", height: "100%"}} alt="MISSING JPG"/>
                         </CardMedia>
                     </CardActionArea>
                 </Card>
