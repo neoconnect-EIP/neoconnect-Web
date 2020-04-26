@@ -44,8 +44,7 @@ class InfluenceurStatus extends React.Component{
                         <Grid container justify="center">
                             <div style={{backgroundColor: "#292929", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
                             <Grid container justify="center" alignItems="center">
-                                {console.log("image", this.state.userData.userPicture[0].imageData)}
-                                <Avatar alt="Avatar not found" src={this.state.userData.userPicture[0].imageData} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "18.5rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
+                                <Avatar alt="Avatar not found" src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? "" : this.state.userData.userPicture[0].imageData} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "18.5rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "12rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
                                 <Grid item xs={12}>

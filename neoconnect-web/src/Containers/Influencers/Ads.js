@@ -5,20 +5,18 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import EmailIcon from '@material-ui/icons/Email';
-
 import "../../index.css"
-import backgroundStatus from "../../assets/backgroundStatus.jpg";
 import Loader from "react-loader-spinner";
 
 class Ads extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            adsData: null,
+            adsData: [],
             visible: false,
             acutalId: null,
             message: "",
-
+            isLoading: true
         };
     }
 
@@ -28,7 +26,7 @@ class Ads extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
             .then(res => res.json())
-            .then(res => this.setState({adsData: res}))
+            .then(res => this.setState({adsData: res, isLoading: false}))
             .catch(error => console.error('Error:', error));
     }
 
@@ -99,45 +97,52 @@ class Ads extends React.Component {
                         </Grid>
                     </Slide>
                 </Modal>
-                <Grid container style={{marginTop: "8.125rem", padding: "1.5625rem"}}>
-                    <Table>
-                        <TableHead style={{backgroundImage: "linear-gradient(65deg, #1C8FDC, #E5DF24, #1C8FDC)"}}>
-                            <TableRow>
-                                <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Annonceur</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Article</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Début</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Mise à jour</TableCell>
-                                <TableCell style={{width: "5 rem", color: "white"}}>Action</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
+                {
+                    this.state.isLoading ?
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
+                        :
+                        <Grid container style={{marginTop: "8.125rem", padding: "1.5625rem"}}>
                             {
-                                this.state.adsData ?
-                                    this.state.adsData.map(row => (
-                                        <TableRow style={{height: "2 rem"}}>
-                                            <TableCell align="center" style={{width: "5 rem"}}>{row.annoncer}</TableCell>
-                                            <TableCell align="center" style={{width: "5 rem"}}>{row.item}</TableCell>
-                                            <TableCell align="center" style={{width: "5 rem"}}>{row.createdAt}</TableCell>
-                                            <TableCell align="center" style={{width: "5 rem"}}>{row.updatedAt}</TableCell>
-                                            <TableCell align="center" style={{width: "5 rem"}}>
-                                                <Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal()}><ContactMailIcon /></Fab>
-                                                {/*<Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>*/}
-                                                <Fab aria-label="delete" style={{margin: "5px"}}><DeleteIcon /></Fab>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
+                                !this.state.adsData || this.state.adsData.length === 0 ?
+                                    <h1>Aucune annonce</h1>
                                     :
-                                    <Loader
-                                        type="Triangle"
-                                        color="#292929"
-                                        height={200}
-                                        width={200}
-                                        style={{marginTop: "14rem"}}
-                                    />
+                                    <Table>
+                                        <TableHead style={{backgroundImage: "linear-gradient(65deg, #1C8FDC, #E5DF24, #1C8FDC)"}}>
+                                            <TableRow>
+                                                <TableCell align="center" style={{width: "5 rem", color: "white", borderRight: "solid"}}>Annonceur</TableCell>
+                                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Article</TableCell>
+                                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Début</TableCell>
+                                                <TableCell style={{width: "5 rem", color: "white", borderRight: "solid"}}>Mise à jour</TableCell>
+                                                <TableCell style={{width: "5 rem", color: "white"}}>Action</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                               /* this.state.adsData.map(row => (
+                                                    <TableRow style={{height: "2 rem"}}>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.annoncer}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.item}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.createdAt}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.updatedAt}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>
+                                                            <Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal()}><ContactMailIcon /></Fab>
+                                                            {/!*<Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>*!/}
+                                                            <Fab aria-label="delete" style={{margin: "5px"}}><DeleteIcon /></Fab>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))*/
+                                            }
+                                        </TableBody>
+                                    </Table>
                             }
-                        </TableBody>
-                    </Table>
-                </Grid>
+                        </Grid>
+                }
             </Grid>
         );
     }

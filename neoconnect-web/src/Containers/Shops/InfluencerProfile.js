@@ -2,9 +2,24 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import { Button, Fab } from '@material-ui/core/';
 import "../index.css"
-import {Card, Grid, CardMedia, CardContent, CardActionArea} from "@material-ui/core";
+import {
+    Card,
+    Grid,
+    CardMedia,
+    CardContent,
+    CardActionArea,
+    Modal,
+    Slide,
+    List,
+    ListItem,
+    ListItemAvatar, Avatar, ListItemText, Input, InputAdornment, ListItemSecondaryAction
+} from "@material-ui/core";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import {Rate} from "antd";
+import defaultShopProfilePic from "../../assets/defaultShopProfilePic.jpg";
+import avatar from "../../assets/avatar1.png";
+import SendIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 
 
@@ -13,6 +28,7 @@ class InfluencerProfile extends React.Component {
         super(props);
         this.state = {
             infData: null,
+            visible: false,
         };
     }
 
@@ -36,6 +52,10 @@ class InfluencerProfile extends React.Component {
             let [key, val] = hash.split('=')
             return Object.assign(params, {[key]: decodeURIComponent(val)})
         }, {})
+    };
+
+    handleModal = (fonction) => {
+        this.setState({visible: !this.state.visible})
     }
 
     render() {
@@ -43,7 +63,83 @@ class InfluencerProfile extends React.Component {
             <Grid container justify="center">
                 {
                     this.state.infData ?
-                        <Grid contaiener justify="center">
+                        <Grid container>
+                            <Modal open={this.state.visible} onClose={this.handleModal}>
+                                <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
+                                    <Grid container style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
+                                        <Grid item xs={12}>
+                                            <h3 style={{color: "black"}}>Notez cette influcenceur !</h3>
+                                        </Grid>
+                                        <Grid item style={{position: "relative", marginRight: "auto", marginLeft: "auto"}}>
+                                            <Rate onChange={(e) => this.handleMark(e)} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={this.handleSendMark}>Noter</Button>
+                                        </Grid>
+                                    </Grid>
+                                </Slide>
+                            </Modal>
+                            <Grid item xs={12} style={{backgroundColor: "#292929", width: "100%", height: "500px", position: "fixed"}}>
+                            </Grid>
+                            <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "350px", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}}>
+                                <Grid item style={{marginTop: "8rem", height: "auto", cursor: "pointer"}} xs={12}>
+                                    <h1 style={{textAlign: "center"}}>{this.state.infData.pseudo}</h1>
+                                </Grid>
+                                <Grid item xs={7} md={5} style={{padding: "1.25rem", marginTop: "20px", marginLeft: "4rem"}}>
+                                    <h1>Déscription</h1>
+                                    <h6>{this.state.infData.userDescription}</h6>
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={4} style={{marginTop: "5rem", textAlign: "center"}}>
+                                    <h3 style={{textAlign: "center"}}>Note</h3>
+                                    <h1 style={{marginTop: "2rem", fontSize: "6.25rem", color: "black"}}>{`${this.state.infData.mark}/5`}</h1>
+                                    <Button style={{height: "30px", backgroundColor: "black"}} onClick={this.handleModal}>Notez cette boutique</Button>
+                                </Grid>
+                                <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "3.125rem"}}>
+                                    <h2 style={{textAlign: "center"}}>Avis</h2>
+                                    <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "5rem"}}>
+                                        <ListItem style={{height: "4.375rem"}}>
+                                            <ListItemAvatar style={{marginRight: "1rem"}}>
+                                                <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
+                                            </ListItemAvatar>
+                                            <ListItemText style={{borderBottom: "1px solid #292929"}}>
+                                                <Input
+                                                    id="standard-adornment"
+                                                    placeholder="Commenter"
+                                                    name="commentInput"
+                                                    value={this.state.commentInput}
+                                                    onChange={this.handleChange}
+                                                    style={{width: "100%"}}
+                                                    onKeyPress={this.handleKeyPress}
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <Button
+                                                                simple
+                                                                onClick={this.handleSendMessage}
+                                                                style={{marginTop: "-1rem"}}
+                                                            >
+                                                                <SendIcon style={{color: "#292929", width: "2rem", height: "2rem"}}/>
+                                                            </Button>
+                                                        </InputAdornment>
+                                                    }
+                                                />
+                                            </ListItemText>
+                                        </ListItem>
+                                        <ListItemSecondaryAction>
+                                        </ListItemSecondaryAction>
+                                    </List>
+                                    <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem"}}>
+                                        {
+                                            /*this.state.shopData.comment === null || this.state.shopData.comment.length === 0 ?
+                                                this.state.shopData.comment.map(x => this.handleComment(x))
+                                                :
+                                                ""*/
+                                        }
+                                    </List>
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center" style={{marginTop: "-104.3rem"}}>
+                                <Avatar alt="Avatar not found" src={ !this.state.infData.profilePic || this.state.infData.profilePic.length === 0 ? "" : this.state.infData.profilePic.imageData} style={{width: "250px", height: "250px", position: "relative", backgroundColor: "white", boxShadow: "0 0 12px"}}/>
+                            </Grid>
                         </Grid>
                         :
                         <Loader

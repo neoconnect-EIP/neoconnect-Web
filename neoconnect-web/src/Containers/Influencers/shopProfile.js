@@ -79,7 +79,7 @@ class shopProfile extends React.Component{
         fetch(`http://168.63.65.106/user/comment/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
-        this.setState({ commentInput: ""})
+        this.setState({ commentInput: ""});
     }
 
     handleSendMark = () => {
@@ -125,19 +125,19 @@ class shopProfile extends React.Component{
         if(event.key === 'Enter'){
             this.handleSendMessage()
         }
+    };
+
+    consultShop = (web) => {
+        window.open(web, '_blank');
     }
 
     render() {
-
         return (
             <Grid container justify="center">
                 {
                     this.state.shopData ?
                         <Grid container>
-                            <Modal
-                                open={this.state.visible}
-                                onClose={this.handleModal}
-                            >
+                            <Modal open={this.state.visible} onClose={this.handleModal}>
                                 <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
                                     <Grid container style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
                                         <Grid item xs={12}>
@@ -147,24 +147,28 @@ class shopProfile extends React.Component{
                                             <Rate onChange={(e) => this.handleMark(e)} />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={this.handleSendMark}>Rate</Button>
+                                            <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={this.handleSendMark}>Noter</Button>
                                         </Grid>
                                     </Grid>
                                 </Slide>
                             </Modal>
+                            <Grid container justify="center" alignItems="center">
+                                {console.log("picture = ", this.state.shopData.userPicture)}
+                                <Avatar alt="Avatar not found" src={!this.state.shopData.userPicture ? "" : this.state.shopData.userPicture[0].imageData} style={{width: "250px", height: "250px", position: "absolute", backgroundColor: "white", marginTop: "24rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
+                            </Grid>
                             <Grid item style={{backgroundImage: `url(${this.state.shopData.shopBanner ? this.state.shopData.shopBanner : defaultShopProfilePic})`, backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "500px", position: "fixed"}}>
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "350px", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}}>
-                                <Grid item style={{marginTop: "13.75rem", height: "auto"}} xs={12}>
+                                <Grid item style={{marginTop: "13.75rem", height: "auto", cursor: "pointer"}} xs={12} onClick={() => this.consultShop(this.state.shopData.website)}>
                                     <h1 style={{textAlign: "center"}}>{this.state.shopData.pseudo}</h1>
                                 </Grid>
-                                <Grid item xs={7} md={5} style={{padding: "1.25rem", marginTop: "20px"}}>
+                                <Grid item xs={7} md={5} style={{padding: "1.25rem", marginTop: "20px", marginLeft: "4rem"}}>
                                     <h1>Déscription</h1>
                                     <h6>{this.state.shopData.userDescription}</h6>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4} style={{marginTop: "5rem", textAlign: "center"}}>
                                     <h3 style={{textAlign: "center"}}>Note</h3>
-                                    <h1 style={{marginTop: "2rem", fontSize: "6.25rem", color: "black"}}>{`0/5`}</h1>
+                                    {/*<h1 style={{marginTop: "2rem", fontSize: "6.25rem", color: "black"}}>{`${this.state.infData.mark ? this.state.infData.mark : 0}/5`}</h1>*/}
                                     <Button style={{height: "30px", backgroundColor: "black"}} onClick={this.handleModal}>Notez cette boutique</Button>
                                 </Grid>
                                 <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "3.125rem"}}>
@@ -202,16 +206,13 @@ class shopProfile extends React.Component{
                                     </List>
                                     <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem"}}>
                                         {
-                                            /*this.state.shopData.comment === null || this.state.shopData.comment.length === 0 ?
-                                                this.state.shopData.comment.map(x => this.handleComment(x))
+                                            !this.state.shopData.comment || this.state.shopData.comment.length === 0 ?
+                                                ""
                                                 :
-                                                ""*/
+                                                this.state.shopData.comment.map(x => this.handleComment(x))
                                         }
                                     </List>
                                 </Grid>
-                            </Grid>
-                            <Grid container justify="center" style={{marginTop: "-104.3rem"}}>
-                                <Avatar alt="Avatar not found" src={this.state.shopData.shopLogo} style={{width: "250px", height: "250px", position: "relative", backgroundColor: "white", boxShadow: "0 0 12px"}}/>
                             </Grid>
                         </Grid>
                         :

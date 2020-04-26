@@ -40,14 +40,14 @@ class Header extends React.Component{
                 >
                     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
                         <Grid container style={{width: "40rem", height: "auto", borderRadius: "8px", backgroundColor: "#0000006e", backdropFilter: "blur(8px)"}} justify="center">
-                            <Grid item xs={12} style={{marginTop: "-2rem", marginLeft: "3rem", marginRight: "3rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
-                                <h1 style={{color: "white"}}>Connexion en tant que</h1>
-                            </Grid>
-                            <Grid item xs={6} style={{marginTop: "3rem", marginBottom: "3rem", paddingLeft: "4.5rem"}}>
-                                <Button href="/landing-page/influencer-sign-up" style={{height: "3rem", width: "10rem", fontSize: "1.3rem", backgroundImage: "linear-gradient(65deg, #000, #292929)", borderRadius: "8px"}}>INFLUENCEUR</Button>
+                            <Grid item xs={12} style={{marginTop: "-1.5rem", marginLeft: "3rem", marginRight: "3rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                <h2 style={{color: "white"}}>Connexion en tant que</h2>
                             </Grid>
                             <Grid item xs={6} style={{marginTop: "3rem", marginBottom: "3rem", paddingLeft: "4.5rem"}}>
                                 <Button href="/landing-page/Shop-sign-up" style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>BOUTIQUE</Button>
+                            </Grid>
+                            <Grid item xs={6} style={{marginTop: "3rem", marginBottom: "3rem", paddingLeft: "4.5rem"}}>
+                                <Button href="/landing-page/influencer-sign-up" style={{height: "3rem", width: "10rem", fontSize: "1.3rem", backgroundImage: "linear-gradient(65deg, #000, #292929)", borderRadius: "8px"}}>INFLUENCEUR</Button>
                             </Grid>
                         </Grid>
                     </Slide>
