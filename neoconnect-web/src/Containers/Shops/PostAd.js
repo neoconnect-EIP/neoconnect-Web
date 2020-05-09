@@ -123,7 +123,7 @@ class PostAd extends React.Component {
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
                             <h1>A quel type d'item correspond votre annonce: </h1>
-                            <FormControl variant="outlined" style={{width: "150px"}}>
+                            <FormControl variant="outlined" style={{width: "10rem"}}>
                                 <InputLabel id="demo-simple-select-outlined-label">
                                     Theme
                                 </InputLabel>
@@ -149,13 +149,22 @@ class PostAd extends React.Component {
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
                             <h1>A qui s'adresse votre annonce ? </h1>
-                            <Input
-                                type="text"
-                                name="productSex"
-                                placeholder="Homme/Femme/Unisexe"
-                                value={this.state.productSex}
-                                onChange={this.handleChange}
-                            />
+                            <FormControl variant="outlined" style={{width: "10rem"}}>
+                                <InputLabel id="demo-simple-select-outlined-label">
+                                    Genre
+                                </InputLabel>
+                                <Select
+                                    name="productSex"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={this.state.productSex}
+                                    onChange={this.handleChange}
+                                >
+                                    <MenuItem value="homme">Homme</MenuItem>
+                                    <MenuItem value="femme">Femme</MenuItem>
+                                    <MenuItem value="unisexe">Unisexe</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                     </Grid>
                 );
@@ -173,6 +182,15 @@ class PostAd extends React.Component {
         }
     };
 
+    handleSplitString = (str) => {
+        var tmp = "";
+        var i = 0;
+
+        i = str.indexOf(",");
+        tmp = str.substr(i + 1)
+        return tmp
+    };
+
     handleImage1 = (e) => {
         e.preventDefault();
         let reader = new FileReader();
@@ -180,7 +198,7 @@ class PostAd extends React.Component {
         reader.onloadend = () => {
             this.setState({
                 productImgName1: file.name,
-                productImgData1: file,
+                productImgData1: this.handleSplitString(reader.result),
             });
         };
         reader.readAsDataURL(file);
@@ -193,7 +211,7 @@ class PostAd extends React.Component {
         reader.onloadend = () => {
             this.setState({
                 productImgName2: file.name,
-                productImgData2: file,
+                productImgData2: this.handleSplitString(reader.result),
             });
         };
         reader.readAsDataURL(file);
@@ -206,7 +224,7 @@ class PostAd extends React.Component {
         reader.onloadend = () => {
             this.setState({
                 productImgName3: file.name,
-                productImgData3: file,
+                productImgData3: this.handleSplitString(reader.result),
             });
         };
         reader.readAsDataURL(file);
@@ -219,7 +237,7 @@ class PostAd extends React.Component {
         reader.onloadend = () => {
             this.setState({
                 productImgName4: file.name,
-                productImgData4: file,
+                productImgData4: this.handleSplitString(reader.result),
             });
         };
         reader.readAsDataURL(file);
@@ -276,7 +294,6 @@ class PostAd extends React.Component {
             "productDesc": this.state.productDesc,
             "productSubject": this.state.productSubject,
         };
-        console.log("body = ", body)
         body = JSON.stringify(body);
         fetch(`http://168.63.65.106/offer/insert`, {
             method: 'POST',
@@ -285,7 +302,7 @@ class PostAd extends React.Component {
         })
             .then(res => {res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
-    }
+    };
 
     render() {
         return (

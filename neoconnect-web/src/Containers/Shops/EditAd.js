@@ -4,7 +4,6 @@ import { Button, Fab, Grid} from '@material-ui/core/';
 import {Steps} from 'antd';
 import "../index.css"
 import {FormControl, Input, InputLabel, MenuItem, Select, Slide, TextField} from "@material-ui/core";
-import ImagesUploader from 'react-images-uploader';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -37,7 +36,15 @@ class EditAd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            productImg: null,
+            productImgName1: "",
+            productImgData1: "",
+            productImgName2: "",
+            productImgData2: "",
+            productImgName3: "",
+            productImgData3: "",
+            productImgName4: "",
+            productImgData4: "",
+            productImg: [],
             productName: "",
             productSex: "",
             productDesc: "",
@@ -57,7 +64,7 @@ class EditAd extends React.Component {
             productSubject: res.productSubject,
             isLoading: false,
         })
-    }
+    };
 
     componentDidMount() {
         let id = this.getUrlParams((window.location.search));
@@ -97,7 +104,7 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Donnez un nom à votre annonce: </h1>
+                            <h1>Modifier le nom de votre annonce: </h1>
                             <Input
                                 type="text"
                                 name="productName"
@@ -112,7 +119,7 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Donnez une description à votre annonce: </h1>
+                            <h1>Modifier la description de votre annonce: </h1>
                             <TextField
                                 id="demo-simple-select-outlined"
                                 name="productDesc"
@@ -132,19 +139,21 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12}>
-                            <h1>A quoi resemble votre item ?</h1>
-                            <ImagesUploader
-                                onChange={(e) => this.setState({images: e})}
-                                images={this.state.images}
-                                optimisticPreviews
-                                multiple={true}
-                                max={5}
-                                onLoadEnd={(res, err) => {
-                                    if (err) {
-                                        console.error(err);
-                                    }
-                                }}
-                            />
+                            <h1 style={{textAlign: "center"}}>Modifier les images de votre item ?</h1>
+                            <Grid container>
+                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem", marginTop: "3rem"}}>
+                                    <input type="file" onChange={e => this.handleImage1(e)}/>
+                                </Grid>
+                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                                    <input type="file" onChange={e => this.handleImage2(e)}/>
+                                </Grid>
+                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                                    <input type="file" onChange={e => this.handleImage3(e)}/>
+                                </Grid>
+                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                                    <input type="file" onChange={e => this.handleImage4(e)}/>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 );
@@ -152,7 +161,7 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>A quel type d'item correspond votre annonce: </h1>
+                            <h1>Modifier le type d'item correspondant à votre annonce: </h1>
                             <FormControl variant="outlined" style={{width: "150px"}}>
                                 <InputLabel id="demo-simple-select-outlined-label">
                                     Theme
@@ -178,14 +187,22 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>A qui s'adresse votre annonce ? </h1>
-                            <Input
-                                type="text"
-                                name="productSex"
-                                placeholder="Homme/Femme/Unisexe"
-                                value={this.state.productSex}
-                                onChange={this.handleChange}
-                            />
+                            <h1>Modifier à qui s'adresse votre annonce ? </h1>
+                            <FormControl variant="outlined" style={{width: "10rem"}}>
+                                <InputLabel id="demo-simple-select-outlined-label">
+                                    Genre
+                                </InputLabel>
+                                <Select
+                                    name="productSex"
+                                    labelId="demo-simple-select-label"
+                                    value={this.state.productSex}
+                                    onChange={this.handleChange}
+                                >
+                                    <MenuItem value="homme">Homme</MenuItem>
+                                    <MenuItem value="femme">Femme</MenuItem>
+                                    <MenuItem value="unisexe">Unisexe</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                     </Grid>
                 );
@@ -202,6 +219,98 @@ class EditAd extends React.Component {
                 return 'Unknown step';
         }
     };
+
+    handleSplitString = (str) => {
+        var tmp = "";
+        var i = 0;
+
+        i = str.indexOf(",");
+        tmp = str.substr(i + 1)
+        return tmp
+    };
+
+    handleImage1 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName1: file.name,
+                productImgData1: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    handleImage2 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName2: file.name,
+                productImgData2: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    handleImage3 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName3: file.name,
+                productImgData3: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    handleImage4 = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                productImgName4: file.name,
+                productImgData4: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    handleGolobalImg = () => {
+        const tmp = [];
+        var image1 = {};
+        var image2 = {};
+        var image3 = {};
+        var image4 = {};
+
+        if (this.state.productImgName1) {
+            image1.imageName = this.state.productImgName1;
+            image1.imageData = this.state.productImgData1;
+            tmp.push(image1)
+        }
+        if (this.state.productImgName2) {
+            image2.imageName = this.state.productImgName2;
+            image2.imageData = this.state.productImgData2;
+            tmp.push(image2)
+        }
+        if (this.state.productImgName3) {
+            image3.imageName = this.state.productImgName3;
+            image3.imageData = this.state.productImgData3;
+            tmp.push(image3)
+        }
+        if (this.state.productImgName4) {
+            image4.imageName = this.state.productImgName4;
+            image4.imageData = this.state.productImgData4;
+            tmp.push(image4)
+        }
+
+        return tmp
+    }
 
     handleChange = (e) => {
         let change = {};
@@ -223,6 +332,8 @@ class EditAd extends React.Component {
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
             "productSubject": this.state.productSubject,
+            "color": "",
+            "brand": ""
         };
         body = JSON.stringify(body);
         fetch(`http://168.63.65.106/offer/${id.id}`, {
@@ -247,14 +358,14 @@ class EditAd extends React.Component {
                             style={{marginTop: "14rem"}}
                         />
                         :
-                        <div>
-                            <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
-                                <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>Création d'une annonce</h1>
-                            </Grid>
+                        <Grid>
                             {
                                 !this.state.isEnd ?
-                                    <Grid container style={{marginTop: "130px", padding: "25px"}}>
-                                        <Steps current={this.state.current}>
+                                    <Grid container>
+                                        <Grid item xs={12} style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
+                                            <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto", textAlign: "center"}}>Modifier une annonce</h1>
+                                        </Grid>
+                                        <Steps current={this.state.current} style={{marginTop: "130px", padding: "25px"}}>
                                             {steps.map(item => (
                                                 <Step key={item.id} title={item.title} />
                                             ))}
@@ -289,11 +400,11 @@ class EditAd extends React.Component {
                                             <h1 style={{textAlign: "center"}}>Annonce édité avec succès</h1>
                                         </Grid>
                                         <Grid item xs={12} style={{textAlign: "center"}}>
-                                            <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "ff4343"}}/>
+                                            <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
                                         </Grid>
                                     </Grid>
                             }
-                        </div>
+                        </Grid>
                 }
             </Grid>
         );

@@ -41,21 +41,25 @@ class Aside extends React.Component{
             <div>
                 <div style={{position: "absolute", margin: "auto"}}>
                     <Modal className="inscription-modal"
-                           style={{width: "600px", height: "100px", display: "block", marginLeft: "auto", marginRight: "auto", backgroundColor: "transparent"}}
+                           style={{width: "40rem", height: "auto", display: "block", marginLeft: "auto", marginRight: "auto", backgroundColor: "transparent"}}
                            open={this.state.visible}
                            onClose={this.handleModal}
                     >
                         <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
-                            <Grid container style={{height: "100%", width: "100%", textAlign: "center", marginLeft: 0}}>
-                                <Grid item style={{backgroundColor: "white", marginLeft: "200px", borderRadius: "8px", marginTop: "25px"}} xs={12}>
-                                    <div style={{marginTop: "-1.5rem", marginLeft: "1rem", marginRight: "1rem", textAlign: "center", borderRadius: "8px", backgroundColor: "#292929"}}>
-                                        <h4 style={{textAlign: "center", color: "white", paddingTop: "0.5rem", paddingBottom: "0.5rem"}}>Déconnexion</h4>
-                                    </div>
-                                    <h4 style={{textAlign: "center"}}>Êtes-vous sur de vouloir vous déconnecter ?</h4>
-                                    <div style={{marginTop: "2rem", marginBottom: "2rem"}}>
-                                        <Button style={{backgroundColor: "#292929", marginRight: "2rem", boxShadow: "0 0 10px"}} onClick={this.handleModal}>NON</Button>
-                                        <Button style={{ backgroundColor: "#292929", marginLeft: "2rem", boxShadow: "0 0 10px"}} onClick={this.handleDeconexion}>OUI</Button>
-                                    </div>
+                            <Grid container style={{width: "40rem", height: "auto", borderRadius: "8px", backgroundColor: "#0000006e", backdropFilter: "blur(8px)"}}>
+                                <Grid item  xs={12} style={{marginTop: "-1.5rem", marginLeft: "3rem", marginRight: "3rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                    <h2 style={{color: "white"}}>Déconnexion</h2>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <h3 style={{textAlign: "center", color: "white", marginTop: "2rem"}}>Êtes-vous sur de vouloir vous déconnecter ?</h3>
+                                </Grid>
+                                <Grid item xs={6} style={{marginTop: "3rem", marginBottom: "3rem", textAlign: "center"}}>
+                                    <Button style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}} onClick={this.handleModal}>
+                                        NON
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={6} style={{marginTop: "3rem", marginBottom: "3rem", textAlign: "center"}}>
+                                    <Button style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}} onClick={this.handleDeconexion}>OUI</Button>
                                 </Grid>
                             </Grid>
                         </Slide>
@@ -81,6 +85,10 @@ class Aside extends React.Component{
                                 <PeopleIcon style={{float: "left", marginLeft: "20px"}}/>
                                 Find influencers
                             </div>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat")} style={{color: "white"}}>
+                                <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Contact
+                            </div>
                             <div className="aside-button" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", borderBottom: "none", color: "white"}}>
                                 <PersonIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
                                 Déconnexion
@@ -105,10 +113,10 @@ class Aside extends React.Component{
                                 <StorefrontIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Boutiques
                             </div>
-                            {/*<div className="aside-button" onClick={() => this.handlePage("/dashboard/chat")} style={{color: "white"}}>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat")} style={{color: "white"}}>
                                 <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-                                Messagerie
-                            </div>*/}
+                                Contact
+                            </div>
                             <div className="aside-button" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", borderBottom: "none", color: "white"}}>
                                 <PersonIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
                                 Déconnexion

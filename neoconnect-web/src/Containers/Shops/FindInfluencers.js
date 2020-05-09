@@ -32,22 +32,22 @@ class FindInfluencers extends React.Component {
     }
 
     cardInf = (inf) => {
-        console.log(inf)
         return (
             <Grid item xs={12} md={6} style={{padding: "5rem", paddingRight: "12rem", height: "auto", marginBottom: "10rem"}}>
                 <Card style={{width: "30rem", height: "36rem"}}>
                     <CardActionArea onClick={() => this.handleGlobalInf(inf.id)}>
                         <CardMedia>
-                            <img src={inf.profilePic ? inf.profilePic.imageData : noImageFindInf} style={{width: "100%", height: "100%"}} alt="MISSING JPG"/>
+                            <img src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} style={{width: "30rem", height: "36rem", backgroundPosition: "center"}} alt="MISSING JPG"/>
                         </CardMedia>
                     </CardActionArea>
                 </Card>
-                <div style={{width: "15rem", height: "auto", backgroundColor: "transparent", marginTop: "-25rem", position: "relative", marginLeft: "24rem", borderRadius: "10px",
+                <div style={{width: "15rem", height: "auto", backgroundColor: "#292929", marginTop: "-25rem", position: "relative", marginLeft: "24rem", borderRadius: "10px",
                     borderRight: "2px solid #292929", borderTop: "2px solid #292929", borderBottom: "2px solid #292929", padding: "0.5rem"}}>
-                    <h1 style={{color: "black", paddingBottom: "1rem", marginBottom: "2rem", textDecoration: "underline"}}>{inf.pseudo}</h1>
-                    <h5 style={{color: "black"}}>{inf.email}</h5>
-                    <h5 style={{color: "black"}}>{inf.phone}</h5>
-                    <h5 style={{color: "black"}}>{inf.theme}</h5>
+                    <h1 style={{color: "white", paddingBottom: "1rem", marginBottom: "2rem", textDecoration: "underline"}}>{inf.pseudo}</h1>
+                    <h5 style={{color: "white"}}>{inf.email}</h5>
+                    <h5 style={{color: "white"}}>{inf.phone}</h5>
+                    <h5 style={{color: "white"}}>{inf.theme}</h5>
+                    <h5 style={{color: "white"}}>{`note: ${inf.average ? inf.average.toFixed(1) : "0" }/5`}</h5>
                 </div>
             </Grid>
         );

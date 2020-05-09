@@ -57,7 +57,8 @@ class EditProfile extends React.Component{
                 instagram: res.instagram,
                 twitter: res.twitter,
                 snapchat: res.snapchat,
-                profilePic: res.profilePic
+                profilePic: res.profilePic,
+                theme: res.theme,
             }))
             .catch(error => console.error('Error:', error));
     }
@@ -72,7 +73,16 @@ class EditProfile extends React.Component{
 
         change[e.target.name] = e.target.value
         this.setState(change)
-    }
+    };
+
+    handleSplitString = (str) => {
+        var tmp = "";
+        var i = 0;
+
+        i = str.indexOf(",");
+        tmp = str.substr(i + 1)
+        return tmp
+    };
 
     handleImageChange = (e) => {
         e.preventDefault();
@@ -81,12 +91,11 @@ class EditProfile extends React.Component{
         reader.onloadend = () => {
             this.setState({
                 file: file,
-                profilePic: reader.result,
-                imagePreviewUrl: reader.result
+                profilePic: this.handleSplitString(reader.result),
             });
         };
         reader.readAsDataURL(file);
-    }
+    };
 
     handleSubmit = () => {
         let body = {
@@ -97,14 +106,13 @@ class EditProfile extends React.Component{
             "phone": this.state.phone,
             "postal": this.state.postal,
             "city": this.state.city,
-            "userPicture": [{"imageName": `profilePic of UserId`, "imageData": this.state.profilePic}],
+            "userPicture": this.state.profilePic,
             "userDescription": this.state.userDescription,
             "facebook": this.state.facebook,
             "twitter": this.state.twitter,
             "snapchat": this.state.snapchat,
             "instagram": this.state.instagram,
         };
-        console.log("body: ", body)
         body = JSON.stringify(body);
         fetch("http://168.63.65.106/inf/me", { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
@@ -121,10 +129,10 @@ class EditProfile extends React.Component{
                         <Grid container justify="center">
                             <div style={{backgroundColor: "#292929", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
                             <Grid container justify="center" alignItems="center">
-                                <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : ""} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
+                                <Avatar alt="Avatar not found" src={!this.state.userPicture || this.state.userPicture.length === 0 ? "" : this.state.userPicture[0].imageData} style={{width: "250px", height: "250px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "12rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
-                                <Grid container style={{marginTop: "13rem"}} justify="center">
+                                <Grid container style={{marginTop: "15rem"}} justify="center">
                                     <Grid item xs={12} style={{textAlign: "center"}}>
                                         <input type="file" onChange={e => this.handleImageChange(e)}/>
                                     </Grid>
@@ -204,7 +212,7 @@ class EditProfile extends React.Component{
                                             <Select
                                                 labelId="demo-simple-select-outlined-label"
                                                 name="userType"
-                                                value={this.state.userType}
+                                                value={this.state.theme}
                                                 onChange={this.handleThemeChange}
                                             >
                                                 <MenuItem value={1}>Mode</MenuItem>
@@ -270,7 +278,7 @@ class EditProfile extends React.Component{
                                     </Grid>
                                 </Grid>
                                 <Grid container alignItems="center" justify="center" style={{marginBottom: "30px"}}>
-                                    <Fab variant="extended" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", color: "white"}} onClick={this.handleSubmit}>
+                                    <Fab variant="extended" aria-label="delete" style={{backgroundColor: "#292929", color: "white"}} onClick={this.handleSubmit}>
                                         Confirme
                                         <DoneIcon style={{marginLeft: "10px"}}/>
                                     </Fab>

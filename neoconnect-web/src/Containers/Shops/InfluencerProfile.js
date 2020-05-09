@@ -1,25 +1,13 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Button, Fab } from '@material-ui/core/';
 import "../index.css"
-import {
-    Card,
-    Grid,
-    CardMedia,
-    CardContent,
-    CardActionArea,
-    Modal,
-    Slide,
-    List,
-    ListItem,
-    ListItemAvatar, Avatar, ListItemText, Input, InputAdornment, ListItemSecondaryAction
-} from "@material-ui/core";
+import {Button, Grid, Modal, Slide, List, ListItem, ListItemAvatar, Avatar, ListItemText, Input, InputAdornment, ListItemSecondaryAction} from "@material-ui/core";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import {Rate} from "antd";
 import defaultShopProfilePic from "../../assets/defaultShopProfilePic.jpg";
-import avatar from "../../assets/avatar1.png";
-import SendIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import SendIcon from '@material-ui/icons/Send';
+
 
 
 
@@ -28,7 +16,9 @@ class InfluencerProfile extends React.Component {
         super(props);
         this.state = {
             infData: null,
+            userData: null,
             visible: false,
+            commentInput: "",
         };
     }
 
@@ -42,6 +32,16 @@ class InfluencerProfile extends React.Component {
             .then(res => res.json())
             .then(res => this.setState({infData: res}))
             .catch(error => console.error('Error:', error));
+
+        fetch("http://168.63.65.106/shop/me", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+            .then(res => res.json())
+            .then(res => this.setState({userData: res}))
+            .catch(error => console.error('Error:', error));
     };
 
     getUrlParams = (search) => {
@@ -54,15 +54,68 @@ class InfluencerProfile extends React.Component {
         }, {})
     };
 
+    handleChange = (e) => {
+        let change = {}
+
+        change[e.target.name] = e.target.value
+        this.setState(change)
+    };
+
     handleModal = (fonction) => {
         this.setState({visible: !this.state.visible})
-    }
+    };
+
+    handleMark = (e) => {
+        this.setState({mark: e})
+    };
+
+    handleSendMark = () => {
+        let id = this.getUrlParams((window.location.search));
+        let body = {
+            "mark": this.state.mark,
+        };
+        body = JSON.stringify(body);
+        fetch(`http://168.63.65.106/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => { res.json(); this.handleResponse(res)})
+            .catch(error => console.error('Error:', error));
+        this.setState({visible: false})
+    };
+
+
+    handleSendMessage = () => {
+        let id = this.getUrlParams((window.location.search));
+        let body = {
+            "comment": this.state.commentInput,
+        };
+        body = JSON.stringify(body);
+        fetch(`http://168.63.65.106/user/comment/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => { res.json(); this.handleResponse(res)})
+            .catch(error => console.error('Error:', error));
+        this.setState({ commentInput: ""});
+    };
+
+    handleComment = (x) => {
+        return (
+            <ListItem style={{height: "4.375rem", marginBottom: "2rem"}}>
+                <ListItemAvatar style={{marginRight: "1rem"}}>
+                    <Avatar src={x.avatar}/>
+                    <p>{x.pseudo}</p>
+                </ListItemAvatar>
+                <ListItemText>
+                    <p style={{color: "#5f5f5f", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
+                    <p style={{color: "black", marginTop: "15px"}}>{x.comment}</p>
+                </ListItemText>
+                <ListItemSecondaryAction>
+                </ListItemSecondaryAction>
+            </ListItem>
+        )
+    };
 
     render() {
         return (
             <Grid container justify="center">
                 {
-                    this.state.infData ?
+                    this.state.infData && this.state.userData ?
                         <Grid container>
                             <Modal open={this.state.visible} onClose={this.handleModal}>
                                 <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
@@ -79,27 +132,33 @@ class InfluencerProfile extends React.Component {
                                     </Grid>
                                 </Slide>
                             </Modal>
-                            <Grid item xs={12} style={{backgroundColor: "#292929", width: "100%", height: "500px", position: "fixed"}}>
+                            <Grid container justify="center" alignItems="center">
+                                <Avatar alt="Avatar not found" src={!this.state.infData.userPicture || this.state.infData.userPicture.length === 0 ? "" : this.state.infData.userPicture[0].imageData} style={{width: "250px", height: "250px", position: "absolute", backgroundColor: "white", marginTop: "24rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
+                            </Grid>
+                            <Grid item xs={12} style={{backgroundImage: `url(${!this.state.infData.userPicture || this.state.infData.userPicture.length === 0 ? "#292929" : this.state.infData.userPicture[0].imageData})`, backgroundSize: "cover", filter: "blur(8px)", backgroundPosition: "center", width: "100%", height: "500px", position: "fixed"}}>
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "350px", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}}>
-                                <Grid item style={{marginTop: "8rem", height: "auto", cursor: "pointer"}} xs={12}>
+                                <Grid item style={{marginTop: "12rem", height: "auto", cursor: "pointer"}} xs={12}>
                                     <h1 style={{textAlign: "center"}}>{this.state.infData.pseudo}</h1>
                                 </Grid>
-                                <Grid item xs={7} md={5} style={{padding: "1.25rem", marginTop: "20px", marginLeft: "4rem"}}>
+                                <Grid item xs={12} style={{marginTop: "4rem", textAlign: "center"}}>
+
+                                </Grid>
+                                <Grid item xs={12} md={5} style={{marginTop: "5rem", marginLeft: "4rem", textAlign: "center"}}>
                                     <h1>Déscription</h1>
-                                    <h6>{this.state.infData.userDescription}</h6>
+                                    <h4 style={{marginTop: "2rem"}}>{this.state.infData.userDescription}</h4>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4} style={{marginTop: "5rem", textAlign: "center"}}>
-                                    <h3 style={{textAlign: "center"}}>Note</h3>
-                                    <h1 style={{marginTop: "2rem", fontSize: "6.25rem", color: "black"}}>{`${this.state.infData.mark}/5`}</h1>
-                                    <Button style={{height: "30px", backgroundColor: "black"}} onClick={this.handleModal}>Notez cette boutique</Button>
+                                    <h1 style={{textAlign: "center"}}>Note</h1>
+                                    <h1 style={{marginTop: "2rem", fontSize: "6.25rem", color: "black"}}>{`${this.state.infData.average ? this.state.infData.average.toFixed(1) : "0" }/5`}</h1>
+                                    <Button style={{height: "30px", backgroundColor: "black"}} onClick={this.handleModal}>Notez cette influenceur</Button>
                                 </Grid>
-                                <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "3.125rem"}}>
+                                <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "5rem"}}>
                                     <h2 style={{textAlign: "center"}}>Avis</h2>
-                                    <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "5rem"}}>
+                                    <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "3.5rem"}}>
                                         <ListItem style={{height: "4.375rem"}}>
                                             <ListItemAvatar style={{marginRight: "1rem"}}>
-                                                <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
+                                                <Avatar alt="Avatar not found" src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? "" : this.state.userData.userPicture[0].imageData} style={{width: "40px", height: "40px"}}/>
                                             </ListItemAvatar>
                                             <ListItemText style={{borderBottom: "1px solid #292929"}}>
                                                 <Input
@@ -129,16 +188,13 @@ class InfluencerProfile extends React.Component {
                                     </List>
                                     <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem"}}>
                                         {
-                                            /*this.state.shopData.comment === null || this.state.shopData.comment.length === 0 ?
-                                                this.state.shopData.comment.map(x => this.handleComment(x))
+                                            this.state.infData.comment === null || this.state.infData.comment.length === 0 ?
+                                                ""
                                                 :
-                                                ""*/
+                                                this.state.infData.comment.map(x => this.handleComment(x))
                                         }
                                     </List>
                                 </Grid>
-                            </Grid>
-                            <Grid container justify="center" style={{marginTop: "-104.3rem"}}>
-                                <Avatar alt="Avatar not found" src={ !this.state.infData.profilePic || this.state.infData.profilePic.length === 0 ? "" : this.state.infData.profilePic.imageData} style={{width: "250px", height: "250px", position: "relative", backgroundColor: "white", boxShadow: "0 0 12px"}}/>
                             </Grid>
                         </Grid>
                         :

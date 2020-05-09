@@ -47,7 +47,7 @@ class FindShop extends React.Component{
                                 <h1>{` ${item.pseudo ? item.pseudo : "No brand"}`}</h1>
                             </Grid>
                             <Grid item xs={2}>
-                                <h2 style={{marginBottom: "10px", marginLeft: "20px"}}>{item.mark ? item.mark : "0"}/5</h2>
+                                <h2 style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</h2>
                                 <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
                             </Grid>
                         </Grid>

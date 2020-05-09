@@ -17,7 +17,6 @@ export default class ShopDashboard extends React.Component {
     }
 
     render() {
-        console.log("userData: ", this.state.userData)
         return (
             <div>
                 <div>

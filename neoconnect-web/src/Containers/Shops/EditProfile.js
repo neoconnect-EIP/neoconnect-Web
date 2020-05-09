@@ -32,9 +32,10 @@ class EditProfile extends React.Component {
             picture: null,
             file: null,
             userDescription: "",
-            profilePic: null,
+            userPicture: null,
             imagePreviewUrl: avatar,
             website: "",
+            isLoad: false
         };
     }
 
@@ -61,9 +62,9 @@ class EditProfile extends React.Component {
                 twitter: res.twitter,
                 snapchat: res.snapchat,
                 userDescription: res.userDescription,
-                profilePic: res.userPicture.imageData,
-                imagePreviewUrl: avatar,
+                userPicture: res.userPicture,
                 website: res.website,
+                isLoad: true,
             }))
             .catch(error => console.error('Error:', error));
     };
@@ -75,6 +76,15 @@ class EditProfile extends React.Component {
         this.setState(change)
     };
 
+    handleSplitString = (str) => {
+        var tmp = "";
+        var i = 0;
+
+        i = str.indexOf(",");
+        tmp = str.substr(i + 1)
+        return tmp
+    };
+
     handleImageChange = (e) => {
         e.preventDefault();
         let reader = new FileReader();
@@ -82,8 +92,8 @@ class EditProfile extends React.Component {
         reader.onloadend = () => {
             this.setState({
                 file: file,
-                profilePic: reader.result,
-                imagePreviewUrl: reader.result
+                userPicture: this.handleSplitString(reader.result),
+                changed: true,
             });
         };
         reader.readAsDataURL(file);
@@ -99,15 +109,14 @@ class EditProfile extends React.Component {
             "pseudo": this.state.pseudo,
             "society": this.state.society,
             "theme": this.state.theme,
+            "userPicture": this.state.userPicture,
             "facebook": this.state.facebook,
             "instagram": this.state.instagram,
             "twitter": this.state.twitter,
             "snapchat": this.state.snapchat,
-            "profilePic": this.state.userPicture,
             "userDescription": this.state.userDescription,
             "website": this.state.website,
         };
-        console.log("body: ", body)
         body = JSON.stringify(body);
         fetch("http://168.63.65.106/shop/me", { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
@@ -126,11 +135,11 @@ class EditProfile extends React.Component {
         return (
             <Grid container justify="center">
                 {
-                    this.state.pseudo ?
+                    this.state.isLoad ?
                         <Grid container justify="center">
                             <div style={{backgroundColor: "#292929", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
                             <Grid container justify="center" alignItems="center">
-                                <Avatar alt="Avatar not found" src={this.state.file ? this.state.imagePreviewUrl : ""} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
+                                <Avatar alt="Avatar not found" src={!this.state.userPicture || this.state.userPicture.length === 0 ? "" : this.state.userPicture[0].imageData} style={{width: "180px", height: "180px", position: "absolute", backgroundColor: "white", marginTop: "16rem", zIndex: "10"}}/>
                             </Grid>
                             <Grid container style={{width: "100%" ,height: "auto", position: "relative", backgroundColor: "white", marginTop: "12rem", clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)"}} justify="content">
                                 <Grid container style={{marginTop: "13rem"}} justify="center">
@@ -279,7 +288,7 @@ class EditProfile extends React.Component {
                                     </Grid>
                                 </Grid>
                                 <Grid container alignItems="center" justify="center" style={{marginBottom: "30px"}}>
-                                    <Fab variant="extended" aria-label="delete" style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", color: "white"}} onClick={this.handleSubmit}>
+                                    <Fab variant="extended" aria-label="delete" style={{backgroundColor: "#292929", color: "white"}} onClick={this.handleSubmit}>
                                         Confirme
                                         <DoneIcon style={{marginLeft: "10px"}}/>
                                     </Fab>

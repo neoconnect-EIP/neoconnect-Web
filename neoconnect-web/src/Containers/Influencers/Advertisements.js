@@ -52,7 +52,7 @@ class Advertisements extends React.Component{
                             <div style={{marginRight: "1.5rem", marginLeft: "1.5rem", backgroundColor: "#292929", borderRadius: "10px"}}>
                                 <h3 style={{color: "white"}}>Subscribe to this annonce ?</h3>
                             </div>
-                            <h4 style={{marginBottom: "30px", color: "black"}}>{item.productBrand ? item.productBrand : "No brand"}</h4>
+                            <h4 style={{marginBottom: "30px", color: "black"}}>{item.productBrand ? item.productBrand : "Sans marque"}</h4>
                             <Button style={{backgroundColor: "#292929", fontSize: "1.3rem", borderRadius: "10px", boxShadow: "0 0 10px", marginBottom: "1rem", marginLeft: "1.5rem"}} onClick={() => this.handleModal(0)}>CANCEL</Button>
                             <Button style={{backgroundColor: "#292929", fontSize: "1.3rem", borderRadius: "10px", boxShadow: "0 0 10px", marginBottom: "1rem", marginLeft: "1.5rem"}} onClick={() => this.handleAnnonceSubsribe(item)}>SUBSCRIBE</Button>
                         </div>
@@ -65,12 +65,12 @@ class Advertisements extends React.Component{
                         </CardMedia>
                     </CardActionArea>
                     <CardContent style={{width: "100%", height: "100px"}}>
-                        <h6 style={{color: "#fff"}}>{`${item.productType} ${item.productBrand ? item.productBrand : "No brand"}`}</h6>
-                        <h6 style={{color: "#fff"}}>{`${item.productColor ? item.productColor : "no color"}`}</h6>
+                        <h6 style={{color: "#fff"}}>{`${item.productType ? item.productType : ""} ${item.productBrand ? item.productBrand : "Sans marque"}`}</h6>
+                        <h6 style={{color: "#fff", marginTop: "2rem"}}>{`${item.productColor ? item.productColor : ""}`}</h6>
                     </CardContent>
                     <CardActions style={{justifyContent: "center"}}>
                         <Button onClick={() => this.handleModal(item.id)} style={{width: "9.375rem", height: "2.6rem", fontSize: "1.2rem", marginBottom: "0.5rem", marginLeft: "5rem", borderRadius: "10px", backgroundColor: "transparent", border: "1px solid white"}}>SUBSCRIBE</Button>
-                        <h6 style={{marginLeft: "3rem", marginBottom: "10px", color: "#fff"}}>{item.mark ? item.mark : "0"}/5</h6>
+                        <h6 style={{marginLeft: "3rem", marginBottom: "10px", color: "#fff"}}>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
                         <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
                     </CardActions>
                 </Card>

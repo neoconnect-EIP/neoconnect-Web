@@ -18,7 +18,7 @@ import {
     IconButton,
     ListItemText,
     TextareaAutosize,
-    Input
+    Input, InputAdornment
 } from '@material-ui/core';
 import {Rate} from "antd";
 import { Carousel } from 'react-responsive-carousel';
@@ -42,8 +42,7 @@ class adsItem extends React.Component{
             adData: null,
             actualId: 0,
             fonction: "",
-            mark: "",
-            comment: null,
+            mark: null,
             commentInput: "",
             commentData: null,
             urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
@@ -54,11 +53,6 @@ class adsItem extends React.Component{
         fetch(`http://168.63.65.106/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => this.setState({adData: res}))
-            .catch(error => console.error('Error:', error));
-
-        fetch(`http://168.63.65.106/user/comment/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => res.json())
-            .then(res => this.setState({commentData: res}))
             .catch(error => console.error('Error:', error));
 
         fetch("http://168.63.65.106/inf/me", {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
@@ -99,7 +93,12 @@ class adsItem extends React.Component{
     }
 
     handleAnnonceNotation = (item) => {
-        fetch(`http://168.63.65.106/offer/mark/1`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        let id = this.getUrlParams((window.location.search));
+        let body = {
+            "mark": this.state.mark,
+        };
+        body = JSON.stringify(body);
+        fetch(`http://168.63.65.106/offer/mark/${id.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {console.log("start res: ", res.json())})
             .catch(error => console.error('Error:', error));
         this.handleModal("")
@@ -114,11 +113,12 @@ class adsItem extends React.Component{
     }
 
     handleSendMessage = () => {
+        let id = this.getUrlParams((window.location.search));
         let body = {
             "comment": this.state.commentInput,
         };
         body = JSON.stringify(body);
-        fetch(`http://168.63.65.106/offer/comment/1`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        fetch(`http://168.63.65.106/offer/comment/${id.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
         this.setState({ commentInput: ""})
@@ -133,22 +133,22 @@ class adsItem extends React.Component{
 
     handleComment = (x) => {
         return (
-            <ListItem style={{height: "70px", borderTop: "1px solid black"}}>
-                <ListItemAvatar>
+            <ListItem style={{height: "4.375rem", marginBottom: "2rem"}}>
+                <ListItemAvatar style={{marginRight: "1rem"}}>
                     <Avatar src={x.avatar}/>
+                    <p>{x.pseudo}</p>
                 </ListItemAvatar>
-                <p style={{color: "black", marginTop: "15px"}}>{x.comment}</p>
+                <ListItemText>
+                    <p style={{color: "#5f5f5f", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
+                    <p style={{color: "black", marginTop: "12px"}}>{x.comment}</p>
+                </ListItemText>
                 <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" style={{backgroundColor: "#292929", width: "45px", height: "45px"}}>
-                        <DeleteIcon/>
-                    </IconButton>
                 </ListItemSecondaryAction>
             </ListItem>
         )
     }
 
     render() {
-        console.log("comment", this.state.commentData)
         return (
             <Grid container justify="center">
                 <Modal
@@ -180,9 +180,9 @@ class adsItem extends React.Component{
                     </Slide>
                 </Modal>
                 {
-                    this.state.adData && this.state.commentData ?
+                    this.state.adData ?
                         <Grid container style={{padding: "30px"}}>
-                            <Grid item xs={12} md={7} style={{padding: "30px", height: "auto", borderRight: "2px solid black"}}>
+                            <Grid item xs={12} md={7} style={{padding: "30px", height: "auto", borderRight: "2px solid #292929"}}>
                                 <Carousel style={{height: "auto"}} showThumbs={false} infiniteLoop={true} centerSlidePercentage={80}>
                                     {
                                         this.state.adData.productImg ?
@@ -194,40 +194,53 @@ class adsItem extends React.Component{
                                     }
                                 </Carousel>
                             </Grid>
-                            <Grid item xs={12} md={3} style={{padding: "50px", marginLeft: "20px"}}>
+                            <Grid item xs={12} md={5} style={{padding: "3.125rem", paddingLeft: "1.25rem"}}>
                                 <h6>{this.state.adData.productType}</h6>
-                                <h3>{this.state.adData.productBrand ? this.state.adData.productBrand : "No brand"}</h3>
-                                <h3>{this.state.adData.productName ? this.state.adData.productName : "No name"}</h3>
-                                <h4>{`Sex: ${this.state.adData.productSex}`}</h4>
-                                <Button onClick={() => this.handleModal( "subscribe")} style={{width: "100%",  backgroundColor: "#292929"}}>SUBSCRIBE</Button>
-                                <Button onClick={() => this.handleModal( "rate")} style={{width: "100%", backgroundColor: "#292929", marginTop: "10px"}}>RATE</Button>
-                                <h6 style={{marginTop: "10px"}}>{`Article: ${this.state.adData.productSubject}`}</h6>
-                                <h6 style={{marginTop: "30px"}}>{`${this.state.adData.productDesc}`}</h6>
+                                <h3 style={{marginTop: "2rem"}}>{this.state.adData.productBrand ? this.state.adData.productBrand : "Sans marque"}</h3>
+                                <h3 style={{marginTop: "2rem"}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
+                                <h4 style={{marginTop: "2rem", marginBottom: "2rem"}}>{`Sex: ${this.state.adData.productSex}`}</h4>
+                                <Button onClick={() => this.handleModal( "subscribe")} style={{width: "40%",  backgroundColor: "#292929"}}>SUBSCRIBE</Button>
+                                <br/>
+                                <Button onClick={() => this.handleModal( "rate")} style={{width: "40%", backgroundColor: "#292929", marginTop: "10px"}}>RATE</Button>
+                                <h4 style={{marginTop: "1rem"}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
+                                <h5 style={{marginTop: "3rem"}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
+                                <h5 style={{marginTop: "3rem"}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                             </Grid>
-                            <Grid item xs={12} style={{marginRight: "200px", marginLeft: "200px", marginTop: "50px"}}>
+                            <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "5rem"}}>
                                 <h2 style={{textAlign: "center"}}>Avis</h2>
-                                <List style={{paddingLeft: "10px", paddingRight: "10px"}}>
-                                    <Grid container style={{height: "70px", paddingTop: "8px"}}>
-                                        <Grid item xs={1} style={{paddingLeft: "15px"}}>
+                                <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "3.5rem"}}>
+                                    <ListItem style={{height: "4.375rem"}}>
+                                        <ListItemAvatar style={{marginRight: "1rem"}}>
                                             <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
-                                        </Grid>
-                                        <Grid item xs={10}>
-                                            <TextareaAutosize aria-label="empty textarea"
-                                                              name="commentInput"
-                                                              placeholder="Commentaire"
-                                                              value={this.state.commentInput}
-                                                              onChange={this.handleChange}
-                                                              style={{width: "90%", backgroundColor: "white", marginRight: "40px", marginLeft: "40px"}}
+                                        </ListItemAvatar>
+                                        <ListItemText style={{borderBottom: "1px solid #292929"}}>
+                                            <Input
+                                                id="standard-adornment"
+                                                placeholder="Commenter"
+                                                name="commentInput"
+                                                value={this.state.commentInput}
+                                                onChange={this.handleChange}
+                                                style={{width: "100%"}}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <Button
+                                                            simple
+                                                            onClick={this.handleSendMessage}
+                                                            style={{marginTop: "-1rem"}}
+                                                        >
+                                                            <SendIcon style={{color: "#292929", width: "2rem", height: "2rem"}}/>
+                                                        </Button>
+                                                    </InputAdornment>
+                                                }
                                             />
-                                        </Grid>
-                                        <Grid item xs={1} style={{paddingLeft: "25px"}}>
-                                            <IconButton edge="end" aria-label="delete" style={{backgroundColor: "#292929", width: "45px", height: "45px"}} onClick={this.handleSendMessage}>
-                                                <SendIcon/>
-                                            </IconButton>
-                                        </Grid>
-                                    </Grid>
+                                        </ListItemText>
+                                    </ListItem>
+                                    <ListItemSecondaryAction>
+                                    </ListItemSecondaryAction>
+                                </List>
+                                <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem"}}>
                                     {
-                                        this.state.commentData.map(x => this.handleComment(x))
+                                        this.state.adData.comment.map(x => this.handleComment(x))
                                     }
                                 </List>
                             </Grid>

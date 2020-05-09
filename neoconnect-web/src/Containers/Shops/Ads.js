@@ -19,7 +19,6 @@ class Ads extends React.Component {
             actualAd: null,
             message: "",
             modalMode: "",
-
             productImg: "",
             productName: "",
             productSex: "",
@@ -59,7 +58,7 @@ class Ads extends React.Component {
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {res.json(); console.log("ads: ", res); this.setState({adsData: res})})
+            .then(res => {res.json(); this.setState({adsData: res})})
             .catch(error => console.error('Error:', error));
     };
 
@@ -77,7 +76,6 @@ class Ads extends React.Component {
     };
 
     render() {
-        const mauve = "#ac1cff";
         return (
             <Grid container justify="center">
                 <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
@@ -179,7 +177,7 @@ class Ads extends React.Component {
                                                              onClick={() => this.handleVisibleModal(ad, "contact")}><ContactMailIcon/></Fab>*/}
                                                         <Fab color="secondary" aria-label="edit" style={{margin: "5px"}}
                                                              onClick={() => this.handleVisibleModal(ad, "edit")}><EditIcon/></Fab>
-                                                        <Fab aria-label="delete" style={{margin: "5px"}} color={mauve}
+                                                        <Fab aria-label="delete" style={{margin: "5px"}}
                                                              onClick={() => this.handleVisibleModal(ad, "delete")}><DeleteIcon/></Fab>
                                                     </TableCell>
                                                 </TableRow>

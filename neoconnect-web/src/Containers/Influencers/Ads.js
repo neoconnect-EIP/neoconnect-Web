@@ -14,9 +14,10 @@ class Ads extends React.Component {
         this.state = {
             adsData: [],
             visible: false,
-            acutalId: null,
+            actualAd: null,
             message: "",
-            isLoading: true
+            isLoading: true,
+            modalMode: "",
         };
     }
 
@@ -30,8 +31,8 @@ class Ads extends React.Component {
             .catch(error => console.error('Error:', error));
     }
 
-    handleVisibleModal = () => {
-        this.setState({visible: !this.state.visible})
+    handleVisibleModal = (row, mode) => {
+        this.setState({visible: !this.state.visible, actualAd: row, modalMode: mode})
     }
 
     handleSendMail = () => {
@@ -44,57 +45,93 @@ class Ads extends React.Component {
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {res.json(); console.log("ads: ", res); this.setState({adsData: res})})
+            .then(res => {res.json(); this.setState({adsData: res})})
             .catch(error => console.error('Error:', error));
     }
 
     handleMessageChange = (e) => {
         this.setState({message: e.target.value})
-    }
+    };
+
+    handleDelete = (id) => {
+        fetch(`http://168.63.65.106/offer/noapply/${id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+            .then(res => {res.json(); this.handleVisibleModal(null, "")})
+            .catch(error => console.error('Error:', error));
+    };
 
     render() {
-
-        function createData(annoncer: string, item: string, startDate: string, lastUpdate: string) {
+       /* function createData(annoncer: string, item: string, startDate: string, lastUpdate: string) {
             return { annoncer, item, startDate, lastUpdate };
-        }
-
-       console.log("PostAdsData: ", this.state.adsData)
+        }*/
         return (
             <Grid container justify="center">
                 <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 -3px 12px"}}>
                     <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>annonces postulées</h1>
                 </Grid>
-                <Modal
-                    open={this.state.visible}
-                    onClose={() => this.handleVisibleModal()}
+                <Modal open={this.state.visible}
+                       onClose={() => this.handleVisibleModal(null, "")}
+                       style={{width: "40rem", height: "auto", display: "block", marginLeft: "auto", marginRight: "auto", marginTop: "22rem", backgroundColor: "transparent"}}
                 >
                     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
-                        <Grid container style={{width: "800px", height: "auto", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", padding: "25px", borderRadius: "8px"}}>
-                            <Grid item xs={12} style={{backgroundImage: "linear-gradient(65deg, #E5DF24, #1C8FDC)", boxShadow: "0 2px 10px", marginTop: "-3.5rem", borderRadius: "10px"}}>
-                                <h2 style={{color: "white", marginTop: "0.9rem"}}>Contact Shop</h2>
-                            </Grid>
-                            <Grid item xs={12} style={{marginTop: "1rem", marginBottom: "1rem"}}>
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="Message"
-                                    multiline
-                                    rows="8"
-                                    margin="normal"
-                                    variant="outlined"
-                                    style={{width: "700px", height: "160px"}}
-                                    value={this.state.message}
-                                    onChange={(value) => this.handleMessageChange(value)}
-                                />
-                            </Grid>
-                            <Grid item xs={12} alignItems="center" justify="center">
-                                <Fab class="posted-ad-send-button"
-                                     onClick={() => this.handleSendMail()}
-                                >
-                                    <EmailIcon style={{marginRight: "0.3125rem", marginTop: "-0.3"}}/>
-                                    Send
-                                </Fab>
-                            </Grid>
-                        </Grid>
+                        {
+                            this.state.modalMode === "delete" ?
+                                <Grid container style={{width: "50rem", height: "auto", borderRadius: "8px", backgroundColor: "#0000006e", backdropFilter: "blur(8px)"}}>
+                                    <Grid item xs={12} style={{marginTop: "-1.5rem", marginLeft: "3rem", marginRight: "3rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>>
+                                        <h2 style={{color: "white", marginTop: "-1rem"}}>Désinscription</h2>
+                                    </Grid>
+                                    <Grid item xs={12} justify="center" style={{marginBottom: "1.2rem", paddingRight: "1rem", paddingLeft: "1rem"}}>
+                                        <h4 style={{textAlign: "center", color: "white", marginTop: "2rem"}}>Etes vous sur de vouloir vous desinscrire de cette annonce :</h4>
+                                        <h4 style={{textAlign: "center", color: "white", marginTop: "2rem"}}>"{this.state.actualAd.productName}"</h4>
+                                    </Grid>
+                                    <Grid item xs={6} style={{marginBottom: "3rem", textAlign: "center"}}>
+                                        <Fab class="posted-ad-send-button" onClick={() => this.handleVisibleModal(null, "")} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                            ANNULER
+                                        </Fab>
+                                    </Grid>
+                                    <Grid item xs={6} style={{ marginBottom: "3rem", textAlign: "center"}}>
+                                        <Fab class="posted-ad-send-button" onClick={() => this.handleDelete(this.state.actualAd.idOffer)} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                            CONFIRMER
+                                        </Fab>
+                                    </Grid>
+                                </Grid>
+                                :
+                                this.state.modalMode === "contact" ?
+                                    <Grid container style={{width: "50rem", height: "auto", borderRadius: "8px", backgroundColor: "rgba(161,161,161,0.43)", backdropFilter: "blur(8px)"}}>
+                                            <Grid item xs={12} style={{marginTop: "-1.5rem", marginLeft: "3rem", marginRight: "3rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                                <h2 style={{color: "white"}}>Contact Shop</h2>
+                                            </Grid>
+                                            <Grid item xs={12} style={{marginTop: "1rem", marginBottom: "1rem", textAlign: "center", color: "white"}}>
+                                                <TextField
+                                                    id="outlined-multiline-static"
+                                                    label="Message"
+                                                    multiline
+                                                    rows="8"
+                                                    color="secondary"
+                                                    margin="normal"
+                                                    variant="outlined"
+                                                    style={{width: "43.75rem", height: "10rem"}}
+                                                    value={this.state.message}
+                                                    onChange={(value) => this.handleMessageChange(value)}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}  style={{ marginBottom: "3rem", textAlign: "center"}}>
+                                                <Fab class="posted-ad-send-button"
+                                                     onClick={() => this.handleSendMail()}
+                                                     style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}
+                                                >
+                                                    <EmailIcon style={{marginRight: "0.3125rem", marginTop: "-0.3"}}/>
+                                                    Send
+                                                </Fab>
+                                            </Grid>
+                                        </Grid>
+                                    :
+                                    <Grid>
+
+                                    </Grid>
+                        }
                     </Slide>
                 </Modal>
                 {
@@ -124,19 +161,19 @@ class Ads extends React.Component {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                               /* this.state.adsData.map(row => (
+                                                this.state.adsData.map(row => (
                                                     <TableRow style={{height: "2 rem"}}>
-                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.annoncer}</TableCell>
-                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.item}</TableCell>
-                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.createdAt}</TableCell>
-                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.updatedAt}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.brand ? row.brand : "Sans marque"}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{row.productName}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{new Date(row.createdAt).toLocaleDateString()}</TableCell>
+                                                        <TableCell align="center" style={{width: "5 rem"}}>{new Date(row.updatedAt).toLocaleDateString()}</TableCell>
                                                         <TableCell align="center" style={{width: "5 rem"}}>
-                                                            <Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal()}><ContactMailIcon /></Fab>
-                                                            {/!*<Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>*!/}
-                                                            <Fab aria-label="delete" style={{margin: "5px"}}><DeleteIcon /></Fab>
+                                                            {/*<Fab color="primary" aria-label="add" style={{margin: "5px"}} onClick={() => this.handleVisibleModal(row, "edit")}><ContactMailIcon /></Fab>*/}
+                                                            {/*<Fab color="secondary" aria-label="edit" style={{margin: "5px"}}><EditIcon /></Fab>*/}
+                                                            <Fab aria-label="delete" style={{margin: "5px"}} onClick={() => this.handleVisibleModal(row, "delete")}><DeleteIcon /></Fab>
                                                         </TableCell>
                                                     </TableRow>
-                                                ))*/
+                                                ))
                                             }
                                         </TableBody>
                                     </Table>
