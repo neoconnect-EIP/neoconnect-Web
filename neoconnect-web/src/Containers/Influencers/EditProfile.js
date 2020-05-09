@@ -112,6 +112,7 @@ class EditProfile extends React.Component{
             "twitter": this.state.twitter,
             "snapchat": this.state.snapchat,
             "instagram": this.state.instagram,
+            "theme": this.state.theme,
         };
         body = JSON.stringify(body);
         fetch("http://168.63.65.106/inf/me", { method: 'PUT', body: body,headers: {
@@ -211,16 +212,16 @@ class EditProfile extends React.Component{
                                             </InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-outlined-label"
-                                                name="userType"
+                                                name="theme"
                                                 value={this.state.theme}
-                                                onChange={this.handleThemeChange}
+                                                onChange={this.handleChange}
                                             >
-                                                <MenuItem value={1}>Mode</MenuItem>
-                                                <MenuItem value={2}>Cosmetique</MenuItem>
-                                                <MenuItem value={3}>Hight tech</MenuItem>
-                                                <MenuItem value={4}>Food</MenuItem>
-                                                <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                                <MenuItem value={6}>Sport/fitness</MenuItem>
+                                                <MenuItem value={"Mode"}>Mode</MenuItem>
+                                                <MenuItem value={"Cosmetique"}>Cosmetique</MenuItem>
+                                                <MenuItem value={"Hight tech"}>Hight tech</MenuItem>
+                                                <MenuItem value={"Food"}></MenuItem>
+                                                <MenuItem value={"Jeux vidéo"}>Jeux vidéo</MenuItem>
+                                                <MenuItem value={"Sport/fitness"}>Sport/fitness</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>

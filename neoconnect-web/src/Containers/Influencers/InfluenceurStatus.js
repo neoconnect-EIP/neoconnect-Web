@@ -41,7 +41,7 @@ class InfluenceurStatus extends React.Component{
                 {
                     this.state.userData ?
                         <Grid container justify="center">
-                            <div style={{backgroundColor: "#292929", backgroundSize: "cover", backgroundPosition: "center center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
+                            <div style={{backgroundImage: `url(${!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? "#292929" : this.state.userData.userPicture[0].imageData})`, backgroundSize: "cover", filter: "blur(8px)", backgroundPosition: "center", transform: 'translateY(-25px)', width: "100%", height: "500px", position: "fixed", zIndex: "-1"}}/>
                             <Grid container justify="center" alignItems="center">
                                 <Avatar alt="Avatar not found" src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? "" : this.state.userData.userPicture[0].imageData} style={{width: "250px", height: "250px", position: "absolute", backgroundColor: "white", marginTop: "16.5rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
                             </Grid>

@@ -85,7 +85,7 @@ class Aside extends React.Component{
                                 <PeopleIcon style={{float: "left", marginLeft: "20px"}}/>
                                 Find influencers
                             </div>
-                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat")} style={{color: "white"}}>
+                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/chat")} style={{color: "white"}}>
                                 <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Contact
                             </div>
