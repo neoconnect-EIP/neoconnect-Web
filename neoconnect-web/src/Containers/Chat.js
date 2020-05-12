@@ -32,6 +32,11 @@ export default class About extends React.Component{
             .catch(error => console.error('Error:', error));
     };
 
+    handleResponse = (res) => {
+        if (res.status === 200)
+            this.setState({pseudo: "", email: "email", subject: "", message: "", to: ""})
+    };
+
     handleChange = (e) => {
         let change = {}
 

@@ -35,7 +35,7 @@ export default class LandingPage extends React.Component{
                     this.props.location["pathname"] === "/landing-page" ?
                         <div style={{display: "block", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: "2", height: "auto", width: "100%"}}>
                             <Grid container>
-                                <Grid className="landing-div first-div" item xs={12}>
+                                <Grid className="landing-div first-div" item xs={12} style={{marginTop: "4rem"}}>
                                     <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "100px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
                                         Boutique
                                     </h1>

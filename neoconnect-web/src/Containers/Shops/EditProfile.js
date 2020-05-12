@@ -221,16 +221,16 @@ class EditProfile extends React.Component {
                                             </InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-outlined-label"
-                                                name="userType"
-                                                value={this.state.userType}
-                                                onChange={this.handleThemeChange}
+                                                name="theme"
+                                                value={this.state.theme}
+                                                onChange={this.handleChange}
                                             >
-                                                <MenuItem value={1}>Mode</MenuItem>
-                                                <MenuItem value={2}>Cosmetique</MenuItem>
-                                                <MenuItem value={3}>Hight tech</MenuItem>
-                                                <MenuItem value={4}>Food</MenuItem>
-                                                <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                                <MenuItem value={6}>Sport/fitness</MenuItem>
+                                                <MenuItem value={"Mode"}>Mode</MenuItem>
+                                                <MenuItem value={"Cosmetique"}>Cosmetique</MenuItem>
+                                                <MenuItem value={"Hight tech"}>Hight tech</MenuItem>
+                                                <MenuItem value={"Food"}>Food</MenuItem>
+                                                <MenuItem value={"Jeux vidéo"}>Jeux vidéo</MenuItem>
+                                                <MenuItem value={"Sport/fitness"}>Sport/fitness</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
