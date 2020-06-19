@@ -5,6 +5,7 @@ import { Steps, message} from 'antd';
 import "../index.css"
 import {FormControl, Input, InputLabel, MenuItem, Select, Slide, TextField} from "@material-ui/core";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import Navbar from 'react-bootstrap/Navbar';
 
 const { Step } = Steps;
 const steps = [
@@ -307,12 +308,12 @@ class PostAd extends React.Component {
     render() {
         return (
             <Grid container justify="center">
-                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
-                    <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>Création d'une annonce</h1>
-                </Grid>
+              <Navbar bg="light" expand="lg" style={{width: '100%'}}>
+                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Création d'une annonce</Navbar.Brand>
+              </Navbar>
                 {
                     !this.state.isEnd ?
-                        <Grid container style={{marginTop: "130px", padding: "25px"}}>
+                        <Grid container style={{padding: "25px"}}>
                             <Steps current={this.state.current}>
                                 {steps.map(item => (
                                     <Step key={item.id} title={item.title} />

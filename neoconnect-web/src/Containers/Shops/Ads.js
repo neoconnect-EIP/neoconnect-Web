@@ -9,6 +9,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import "../../index.css"
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Navbar from 'react-bootstrap/Navbar';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -78,9 +79,9 @@ class Ads extends React.Component {
     render() {
         return (
             <Grid container justify="center">
-                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
-                    <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>Liste de vos annonces</h1>
-                </Grid>
+              <Navbar bg="light" expand="lg" style={{width: '100%'}}>
+                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Liste de vos annonce</Navbar.Brand>
+              </Navbar>
                 <Modal
                     open={this.state.visible}
                     onClose={() => this.handleVisibleModal(null, "")}
@@ -148,7 +149,7 @@ class Ads extends React.Component {
                         }
                     </Slide>
                 </Modal>
-                <Grid container style={{marginTop: "8.125rem", padding: "1.5625rem", backgroundColor: "white"}} justify="center">
+                <Grid container style={{padding: "1.5625rem", backgroundColor: "white"}} justify="center">
                     {
                         this.state.adsData ?
                             <Table>

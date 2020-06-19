@@ -13,12 +13,16 @@
     text-decoration: underline black;
 }
 
+button.btn.btn-link {
+  color: white;
+}
+
 .landing-div {
     position: relative;
     background-size: cover;
     background-position: center center;
     width: 100%;
-    height: 700px;
+    /* height: 700px; */
 }
 
 .first-div {

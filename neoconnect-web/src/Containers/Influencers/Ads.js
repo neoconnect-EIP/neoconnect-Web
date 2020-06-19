@@ -7,6 +7,7 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import EmailIcon from '@material-ui/icons/Email';
 import "../../index.css"
 import Loader from "react-loader-spinner";
+import Navbar from 'react-bootstrap/Navbar';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -68,9 +69,9 @@ class Ads extends React.Component {
         }*/
         return (
             <Grid container justify="center">
-                <Grid container style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 -3px 12px"}}>
-                    <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto"}}>annonces postulées</h1>
-                </Grid>
+                <Navbar bg="light" expand="lg" style={{width: '100%'}}>
+                  <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Annonce postulé</Navbar.Brand>
+                </Navbar>
                 <Modal open={this.state.visible}
                        onClose={() => this.handleVisibleModal(null, "")}
                        style={{width: "40rem", height: "auto", display: "block", marginLeft: "auto", marginRight: "auto", marginTop: "22rem", backgroundColor: "transparent"}}
@@ -144,7 +145,7 @@ class Ads extends React.Component {
                             style={{marginTop: "14rem"}}
                         />
                         :
-                        <Grid container style={{marginTop: "8.125rem", padding: "1.5625rem"}}>
+                        <Grid container style={{padding: "1.5625rem"}}>
                             {
                                 !this.state.adsData || this.state.adsData.length === 0 ?
                                     <h1>Aucune annonce</h1>

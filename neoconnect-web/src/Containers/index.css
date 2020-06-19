@@ -1,9 +1,13 @@
 .header {
     background-color: #292929;
     width: 100%;
-    height: 6rem;
+    /* height: 6rem; */
     position: fixed;
     z-index: 5;
+}
+
+.neoLogo:hover {
+  cursor: pointer;
 }
 
 .logo {
@@ -11,6 +15,9 @@
     width: 5rem;
     height: 5rem;
     cursor: pointer;
+}
+.card:hover{
+  cursor: pointer;
 }
 
 .header-btn {
@@ -181,6 +188,8 @@ span {
     text-align: left;
     padding-top: 30px;
     color: white;
+    verflow: auto;
+    height: 100%;
 }
 
 .input-form {
