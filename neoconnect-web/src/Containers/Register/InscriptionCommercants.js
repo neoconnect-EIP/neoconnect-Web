@@ -1,7 +1,8 @@
 import React from 'react';
 import {Form, Icon, Steps} from 'antd';
 import {Grid, Input, Button, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
-import "../index.css"
+import "../index.css";
+import { store } from 'react-notifications-component';
 
 const { Step } = Steps;
 
@@ -14,7 +15,7 @@ export default class ShopSignUp extends React.Component{
             password2: "",
             full_name: "",
             email: "",
-            adress: "",
+            postal: "",
             city: "",
             prone: "",
             theme: "",
@@ -33,19 +34,39 @@ export default class ShopSignUp extends React.Component{
         this.setState(change)
     };
 
-    handleResponse = (res) => {
+    handleResponse = async (res) => {
+      console.log(res);
         if (res.status === 200)
             this.props.history.push('/landing-page/login')
+        else {
+          var msg = await res.json();
+          store.addNotification({
+            title: "Error",
+            message: msg,
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            pauseOnHover: true,
+            isMobile: true,
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 7000,
+              onScreen: true
+            }
+          });
+        }
     };
 
     handleSubmit = () => {
+      console.log("HELLO",  this.state.username);
         let body = {
             "pseudo": this.state.username,
             "password": this.state.password,
             "password2": this.state.password2,
             "full_name": this.state.full_name,
             "email": this.state.email,
-            "adress": this.state.adress,
+            "postal": this.state.postal,
             "city": this.state.city,
             "phone": this.state.phone,
             "theme": this.state.theme,
@@ -53,9 +74,13 @@ export default class ShopSignUp extends React.Component{
             "society": this.state.society,
         };
         body = JSON.stringify(body);
+        console.log("BODY", body);
+
         fetch("http://168.63.65.106/shop/register", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
-            .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .then(res => this.handleResponse(res))
+            .catch(error => console.error('Error222:', error));
+
+            // res.json();
     };
 
     getStepContent = (step) => {
@@ -72,7 +97,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="text"
                                 name="username"
-                                placeholder="Username"
+                                placeholder="Pseudo"
                                 value={this.state.username}
                                 onChange={this.handleChange}
                             />
@@ -83,7 +108,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="password"
                                 name="password"
-                                placeholder="Password"
+                                placeholder="Mot de passe"
                                 value={this.state.password}
                                 onChange={this.handleChange}
                                 size="large"
@@ -95,11 +120,12 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="password"
                                 name="password2"
-                                placeholder="Password confirmation"
+                                placeholder="Confirmation"
                                 value={this.state.password2}
                                 onChange={this.handleChange}
                             />
                             {
+                                !this.state.password || !this.state.password2.length ||
                                 this.state.password === this.state.password2 ?
                                     ""
                                     :
@@ -120,7 +146,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="text"
                                 name="full_name"
-                                placeholder="Full name"
+                                placeholder="Nom et prénom"
                                 value={this.state.full_name}
                                 onChange={this.handleChange}
                             />
@@ -130,9 +156,9 @@ export default class ShopSignUp extends React.Component{
                             <Input
                                 style={{color: "#fff"}}
                                 type="text"
-                                name="adress"
-                                placeholder="Adress"
-                                value={this.state.adress}
+                                name="postal"
+                                placeholder="Code postal"
+                                value={this.state.postal}
                                 onChange={this.handleChange}
                             />
                         </Grid>
@@ -142,7 +168,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="text"
                                 name="city"
-                                placeholder="City"
+                                placeholder="Ville"
                                 value={this.state.city}
                                 onChange={this.handleChange}
                             />
@@ -164,7 +190,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="text"
                                 name="phone"
-                                placeholder="Phone number"
+                                placeholder="Numéro de téléphone"
                                 value={this.state.phone}
                                 onChange={this.handleChange}
                             />
@@ -181,7 +207,7 @@ export default class ShopSignUp extends React.Component{
                             <Icon type="skin" style={{ color: '#fff', marginRight: "8px"}} />
                             <FormControl variant="outlined" style={{width: "21.7rem", color: "#fff"}}>
                                 <InputLabel id="demo-simple-select-outlined-label" style={{color: "#fff"}}>
-                                    Theme
+                                    Thème
                                 </InputLabel>
                                 <Select
                                     style={{color: "#fff"}}
@@ -205,7 +231,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="text"
                                 name="society"
-                                placeholder="Society"
+                                placeholder="Société"
                                 value={this.state.society}
                                 onChange={this.handleChange}
                             />
@@ -216,7 +242,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: "#fff"}}
                                 type="text"
                                 name="function"
-                                placeholder="Function"
+                                placeholder="Fonction"
                                 value={this.state.function}
                                 onChange={this.handleChange}
                             />

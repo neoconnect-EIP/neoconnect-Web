@@ -188,7 +188,7 @@ span {
     text-align: left;
     padding-top: 30px;
     color: white;
-    verflow: auto;
+    overflow: auto;
     height: 100%;
 }
 
