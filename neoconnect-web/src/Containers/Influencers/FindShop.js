@@ -70,7 +70,7 @@ class FindShop extends React.Component{
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
                     <Form inline className="ml-auto">
-                      <FormControl type="text" placeholder="Exemple: David" className="mr-sm-2" />
+                      <FormControl type="text" placeholder="Exemple: Levis" className="mr-sm-2" />
                       <Button variant="outline-success">Rechercher</Button>
                     </Form>
                   </Navbar.Collapse>
