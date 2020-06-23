@@ -40,12 +40,12 @@ class shopProfile extends React.Component{
     componentDidMount = () => {
         let id = this.getUrlParams((window.location.search));
 
-        fetch(`http://168.63.65.106/shop/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => this.setState({shopData: res}))
             .catch(error => console.error('Error:', error));
 
-        fetch("http://168.63.65.106/inf/me", {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ class shopProfile extends React.Component{
             "comment": this.state.commentInput,
         };
         body = JSON.stringify(body);
-        fetch(`http://168.63.65.106/user/comment/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/comment/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
         this.setState({ commentInput: ""});
@@ -95,7 +95,7 @@ class shopProfile extends React.Component{
             "mark": this.state.mark,
         };
         body = JSON.stringify(body);
-        fetch(`http://168.63.65.106/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
         this.setState({visible: false})

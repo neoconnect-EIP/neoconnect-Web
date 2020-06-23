@@ -45,7 +45,8 @@ export default class Login extends React.Component{
         };
         body = JSON.stringify(body);
         this.setState({isLoading: true})
-        fetch("http://168.63.65.106/login", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        console.log(process.env);
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/login`, { method: 'POST', mode: 'cors', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {return res.json()})
             .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));

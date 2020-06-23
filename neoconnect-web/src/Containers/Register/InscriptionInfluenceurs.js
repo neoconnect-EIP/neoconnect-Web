@@ -76,7 +76,7 @@ export default class InfluencerSignUp extends React.Component{
         };
 
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106/inf/register", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };

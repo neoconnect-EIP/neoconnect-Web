@@ -27,9 +27,9 @@ class Advertisements extends React.Component{
     }
 
     componentDidMount = () => {
-        fetch("http://168.63.65.106/offer/list", { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
-            .then(res => this.setState({adsData: res}))
+            .then(res => {this.setState({adsData: res})})
             .catch(error => console.error('Error:', error));
     }
 
@@ -42,7 +42,7 @@ class Advertisements extends React.Component{
     }
 
     handleAnnonceSubsribe = () => {
-        fetch(`http://168.63.65.106/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {console.log("start res: ", res.json())})
             .catch(error => console.error('Error:', error));
         this.handleClose();

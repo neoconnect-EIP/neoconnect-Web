@@ -20,7 +20,7 @@ class InfluenceurStatus extends React.Component{
     }
 
     componentDidMount = () => {
-        fetch("http://168.63.65.106/inf/me", {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

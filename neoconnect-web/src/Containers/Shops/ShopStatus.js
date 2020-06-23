@@ -18,7 +18,7 @@ class ShopStatus extends React.Component{
     }
 
     componentDidMount = () => {
-        fetch("http://168.63.65.106/shop/me", {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

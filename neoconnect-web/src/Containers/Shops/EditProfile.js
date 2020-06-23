@@ -40,7 +40,7 @@ class EditProfile extends React.Component {
     }
 
     componentDidMount = () => {
-        fetch("http://168.63.65.106/shop/me", {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ class EditProfile extends React.Component {
             "website": this.state.website,
         };
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106/shop/me", { method: 'PUT', body: body,headers: {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})

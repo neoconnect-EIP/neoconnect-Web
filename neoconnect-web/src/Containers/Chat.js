@@ -25,7 +25,7 @@ export default class About extends React.Component{
             "to": this.state.to,
         };
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106/user/contact", { method: 'POST', body: body,headers: {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/contact`, { method: 'POST', body: body,headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
@@ -166,4 +166,3 @@ export default class About extends React.Component{
         );
     }
 }
-
