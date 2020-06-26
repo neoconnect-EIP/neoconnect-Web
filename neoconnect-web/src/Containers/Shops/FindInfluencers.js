@@ -26,7 +26,8 @@ class FindInfluencers extends React.Component {
             influencersData: null,
             search: "",
             show: false,
-            back: false
+            back: false,
+            tmpSearch: ""
         };
     }
 
@@ -56,7 +57,7 @@ class FindInfluencers extends React.Component {
         this.setState({influencersData: [influencer], back: true})
       }
       else {
-        this.setState({show: true, influencersData: []})
+        this.setState({show: true, influencersData: [], tmpSearch: this.state.search})
       }
     }
 
@@ -82,7 +83,7 @@ class FindInfluencers extends React.Component {
         return (
           <div>
             {
-              this.state.back && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
+              this.state.back && this.state.influencersData.length == 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
             }
           <Card className="card" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
             <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
@@ -141,9 +142,9 @@ class FindInfluencers extends React.Component {
                     </CardColumns> :
                     <Alert variant="warning" className="mt-4" show={ this.state.show}
                       onClose={() => {this.setState({show: false, search: ""}); this.getAllInfluencer();}} dismissible>
-                       <Alert.Heading>Erreur de recherche</Alert.Heading>
+                       <Alert.Heading>Essayez à nouveau</Alert.Heading>
                        <p>
-                         Aucun influencer correspond à <strong>{this.state.search}</strong>
+                         Aucun influencer correspond à <strong>{this.state.tmpSearch}</strong>
                        </p>
                     </Alert>
                     :

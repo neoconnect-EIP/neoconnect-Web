@@ -24,6 +24,7 @@ class FindShop extends React.Component{
             search: "",
             show: false,
             back: false,
+            tmpSearch: ""
         };
     }
 
@@ -49,7 +50,7 @@ class FindShop extends React.Component{
         this.setState({shopList: [shops], back: true})
       }
       else {
-        this.setState({show: true, shopList: []})
+        this.setState({show: true, shopList: [], tmpSearch: this.state.search})
       }
     }
 
@@ -79,7 +80,7 @@ class FindShop extends React.Component{
         return (
               <div key={item.id}>
                 {
-                  this.state.back && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", shopList: []}); this.getAllShop();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
+                  this.state.back && this.state.shopList.length == 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", shopList: []}); this.getAllShop();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
                 }
                 <Card className="mt-4 ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
                   <Card.Img className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
@@ -121,9 +122,9 @@ class FindShop extends React.Component{
                         </CardColumns> :
                         <Alert variant="warning" className="mt-4" show={ this.state.show}
                           onClose={() => {this.setState({show: false, search: ""}); this.getAllShop();}} dismissible>
-                           <Alert.Heading>Erreur de recherche</Alert.Heading>
+                           <Alert.Heading>Essayez à nouveau</Alert.Heading>
                            <p>
-                             Aucune boutique correspond à <strong>{this.state.search}</strong>
+                             Aucune boutique correspond à <strong>{this.state.tmpSearch}</strong>
                            </p>
                         </Alert>
                         :

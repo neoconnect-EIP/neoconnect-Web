@@ -15,7 +15,7 @@ export default class Login extends React.Component{
         }
     }
 
-    handleEmailChange = (e) => {
+    handleUsernameChange = (e) => {
         this.setState({username: e.target.value});
     }
 
@@ -83,9 +83,9 @@ export default class Login extends React.Component{
                                         style={{color: "#fff"}}
                                         type="text"
                                         name="email"
-                                        placeholder="Username"
+                                        placeholder="Pseudo"
                                         value={this.state.username}
-                                        onChange={this.handleEmailChange}
+                                        onChange={this.handleUsernameChange}
                                     />
                                 </div>
                                 <div className="input-form">
@@ -94,7 +94,7 @@ export default class Login extends React.Component{
                                         style={{color: "#fff"}}
                                         type="password"
                                         name="password"
-                                        placeholder="Password"
+                                        placeholder="Mot de passe"
                                         value={this.state.password}
                                         onChange={this.handlePasswordChange}
                                         onKeyPress={this.handleKeyPress}
