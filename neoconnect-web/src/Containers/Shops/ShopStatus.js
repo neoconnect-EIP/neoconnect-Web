@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Avatar, Grid, Card, CardHeader, CardContent, CardMedia, Button, Fab} from '@material-ui/core/';
+import {Avatar, Grid, Card, CardContent, CardMedia, Fab} from '@material-ui/core/';
 import "../index.css"
 import instagram from "../../assets/instagram.png";
 import snapchat from "../../assets/snapchat.png";

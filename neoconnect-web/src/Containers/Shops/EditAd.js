@@ -1,9 +1,9 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Button, Fab, Grid} from '@material-ui/core/';
+import { Button, Grid} from '@material-ui/core/';
 import {Steps} from 'antd';
 import "../index.css"
-import {FormControl, Input, InputLabel, MenuItem, Select, Slide, TextField} from "@material-ui/core";
+import {FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';

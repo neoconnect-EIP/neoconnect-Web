@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Grid} from "@material-ui/core";
 import "./index.css"
 import instagram from "../assets/instagram-logo.png"
 import twitter from "../assets/twitter.png"

@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Fab, Grid, Slide } from '@material-ui/core/';
 import NeoconnectLogo from "../assets/NeoconnectLogo.png"
 import "../index.css"
 import "./index.css"
@@ -10,9 +9,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import SearchIcon from '@material-ui/icons/Search';
-import PersonIcon from '@material-ui/icons/Person';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';

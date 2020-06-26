@@ -21,6 +21,7 @@ import defaultShopProfilePic from "../../assets/defaultShopProfilePic.jpg"
 import SendIcon from '@material-ui/icons/Send';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import noShop from "../../assets/noShop.jpg";
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -103,7 +104,7 @@ class shopProfile extends React.Component{
 
     handleComment = (x) => {
         return (
-            <ListItem style={{height: "4.375rem", marginBottom: "2rem"}}>
+            <ListItem style={{height: "4.375rem", marginBottom: "2rem"}} key={x.id}>
                 <ListItemAvatar style={{marginRight: "1rem"}}>
                     <Avatar src={x.avatar}/>
                     <p>{x.pseudo}</p>
@@ -154,7 +155,7 @@ class shopProfile extends React.Component{
                                 </Slide>
                             </Modal>
                             <Grid container justify="center" alignItems="center">
-                                <Avatar alt="Avatar not found" src={!this.state.shopData.userPicture ? "" : this.state.shopData.userPicture[0].imageData} style={{width: "250px", height: "250px", position: "absolute", backgroundColor: "white", marginTop: "24rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
+                                <Avatar alt="Avatar not found" src={(!this.state.shopData.userPicture || this.state.shopData.userPicture.length == 0) ? noShop : this.state.shopData.userPicture[0].imageData} style={{width: "250px", height: "250px", position: "absolute", backgroundColor: "white", marginTop: "24rem", zIndex: "10", boxShadow: "0 0 10px"}}/>
                             </Grid>
                             <Grid item style={{backgroundImage: `url(${this.state.shopData.shopBanner ? this.state.shopData.shopBanner : defaultShopProfilePic})`, backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "500px", position: "fixed"}}>
                             </Grid>
@@ -190,7 +191,6 @@ class shopProfile extends React.Component{
                                                     endAdornment={
                                                         <InputAdornment position="end">
                                                            <Button
-                                                               simple
                                                                onClick={this.handleSendMessage}
                                                                style={{marginTop: "-1rem"}}
                                                            >

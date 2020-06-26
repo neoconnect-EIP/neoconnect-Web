@@ -1,7 +1,5 @@
 import React from 'react';
 import {Switch, Route } from "react-router-dom"
-import {Grid, CardContent, CardMedia, CardActionArea} from "@material-ui/core";
-import backgroundImage from "../assets/Equinox-Shop.jpg";
 import "./index.css"
 import Header from "../Components/Header";
 import InfluencerSignUp from "./Register/InscriptionInfluenceurs";
@@ -22,7 +20,6 @@ import ResetPassword from "./Register/ResetPassword";
 import ForgotPassword from "./Register/ForgotPassword";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
 export default class LandingPage extends React.Component{
@@ -41,7 +38,7 @@ export default class LandingPage extends React.Component{
                             <div style={{width: '100%', paddingTop: "86px"}} className="mr-0 ml-0">
                                 <Col md={12} className="landing-div first-div" style={{height: "40rem"}}>
                                   <div className="my-auto">
-                                    <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "100px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
+                                    <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "100px", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontSize: "90px"}}>
                                         Boutique
                                     </h1>
                                     <h1 style={{textAlign: "center", color: "white", marginTop: "80px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h1>
@@ -85,7 +82,7 @@ export default class LandingPage extends React.Component{
                                   </Col>
                                 </Row>
                                 <Col className="landing-div second-div"  style={{height: "40rem"}}>
-                                  <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "80px", webkitBackgroundClip: "text", webkitTextFillColor: "transparent", fontSize: "90px"}}>
+                                  <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "80px", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontSize: "90px"}}>
                                       Influenceur
                                   </h1>
                                   <h1 style={{textAlign: "center", color: "white", marginTop: "60px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h1>
@@ -127,8 +124,8 @@ export default class LandingPage extends React.Component{
                                   </Col>
                                 </Row>
                                 <Col className="landing-div third-div" style={{height: "40rem"}}>
-                                    <h1 className="text-white mx-auto text-center" style={{fontSize: "92px"}}>
-                                        Téléchargez notre application
+                                    <h1 className="text-white mx-auto text-center display-3 pt-4">
+                                        <strong>Téléchargez notre application</strong>
                                     </h1>
                                     <h2 className="text-white text-center" >Disponible sur android et ios !</h2>
                                     <img src={storeLogo} alt={"Error: no Logo"} style={{maxWidth: "37.5rem", width: "70%"}}/>

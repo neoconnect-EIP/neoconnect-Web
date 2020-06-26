@@ -2,10 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
 import {
-    Card,
-    CardContent,
-    CardActions,
-    CardMedia,
     Button,
     Grid,
     Modal,
@@ -15,18 +11,13 @@ import {
     ListItemSecondaryAction,
     ListItemAvatar,
     ListItem,
-    IconButton,
     ListItemText,
-    TextareaAutosize,
     Input, InputAdornment
 } from '@material-ui/core';
 import {Rate} from "antd";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import StarIcon from '@material-ui/icons/Star';
-import PersonIcon from '@material-ui/icons/Person';
 import SendIcon from '@material-ui/icons/Send';
-import DeleteIcon from '@material-ui/icons/Delete';
 import noImages from "../../assets/noImages.jpg"
 import avatar from "../../assets/avatar1.png";
 import Loader from "react-loader-spinner";

@@ -1,8 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Avatar, Grid, Card, CardHeader, CardContent, CardMedia, Button, Fab, CircularProgress} from '@material-ui/core/';
+import {Avatar, Grid, Card, CardContent, CardMedia, Fab} from '@material-ui/core/';
 import EditIcon from '@material-ui/icons/Edit';
-import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,} from 'recharts';
 import instagram from  "../../assets/instagram.png"
 import snapchat from  "../../assets/snapchat.png"
 import facebook from  "../../assets/facebook.png"
@@ -36,6 +35,7 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
+      console.log("USER DATA ", this.state.userData);
         return (
             <Grid container justify="center">
                 {

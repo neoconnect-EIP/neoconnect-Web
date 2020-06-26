@@ -1,6 +1,6 @@
 import React from 'react';
-import {Form, Icon, Button, Spin} from 'antd';
-import {Grid, Input, Snackbar, SnackbarContent} from '@material-ui/core';
+import {Form, Icon, Button} from 'antd';
+import {Grid, Input} from '@material-ui/core';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 

@@ -1,14 +1,12 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Fab } from '@material-ui/core/';
 import "../index.css"
 import StarIcon from '@material-ui/icons/Star';
-import {Grid, CardMedia, CardContent, CardActionArea} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noImageFindInf from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
@@ -18,31 +16,74 @@ import Row from 'react-bootstrap/Row';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import Alert from 'react-bootstrap/Alert';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 class FindInfluencers extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             influencersData: null,
+            search: "",
+            show: false,
+            back: false
         };
     }
 
+    getAllInfluencer = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/listInf`, {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+          .then(res => res.json())
+          .then(res => this.setState({influencersData: res}))
+          .catch(error => console.error('Error:', error));
+    }
+
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/listInf`, {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        })
-            .then(res => res.json())
-            .then(res => this.setState({influencersData: res}))
-            .catch(error => console.error('Error:', error));
+      this.getAllInfluencer();
     };
 
     handleGlobalInf = (id) => {
         this.props.history.push(`/shop-dashboard/influencer?id=${id}`)
     }
 
+    searchRes = async (res) => {
+      console.log("res = ", res);
+      if (res.status === 200){
+        var influencer = await res.json();
+        console.log("infl = ", influencer);
+        this.setState({influencersData: [influencer], back: true})
+      }
+      else {
+        this.setState({show: true, influencersData: []})
+      }
+    }
+
+    handleSearch = () => {
+      console.log("res ", this.state.search);
+
+      var encodedKey = encodeURIComponent("pseudo");
+      var encodedValue = encodeURIComponent(this.state.search);
+      var formBody = encodedKey + "=" + encodedValue;
+
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/search`, {
+          method: 'POST',
+          body: formBody,
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      }).then(res => this.searchRes(res))
+        .catch(error => console.error('Error:', error));
+    }
+
     cardInf = (inf) => {
+      console.log("inf = ", inf);
         return (
+          <div>
+            {
+              this.state.back && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
+            }
           <Card className="card" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
             <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
             <Card.Body>
@@ -73,29 +114,38 @@ class FindInfluencers extends React.Component {
               </Card.Text>
             </Card.Body>
           </Card>
+        </div>
         );
     }
 
     render() {
         return (
           <Grid container justify="center">
-              <Navbar bg="light" expand="lg" style={{width: '100%'}}>
+              <Navbar bg="light" expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300'}}>Trouver un influenceur</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Form inline className="ml-auto">
-                    <FormControl type="text" placeholder="Exemple: David" className="mr-sm-2" />
-                    <Button variant="outline-success">Rechercher</Button>
+                    <FormControl type="text" placeholder="Exemple: David" className="mr-sm-2" value={this.state.search}
+                      onChange={e => this.setState({ search: e.target.value })} />
+                    <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length == 0}>Rechercher</Button>
                   </Form>
                 </Navbar.Collapse>
               </Navbar>
                 {
-                  this.state.influencersData ?
+                  this.state.influencersData ? this.state.influencersData.length > 0 ?
                     <CardColumns className="pt-4 pl-3">
                       {
                           this.state.influencersData.map(inf => this.cardInf(inf))
                       }
-                    </CardColumns>
+                    </CardColumns> :
+                    <Alert variant="warning" className="mt-4" show={ this.state.show}
+                      onClose={() => {this.setState({show: false, search: ""}); this.getAllInfluencer();}} dismissible>
+                       <Alert.Heading>Erreur de recherche</Alert.Heading>
+                       <p>
+                         Aucun influencer correspond à <strong>{this.state.search}</strong>
+                       </p>
+                    </Alert>
                     :
                     <Loader
                         type="Triangle"

@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import {Table, TableBody, TableCell, TableHead, TableRow, Modal, Fab, TextField, Grid, Slide} from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EmailIcon from '@material-ui/icons/Email';
@@ -79,7 +77,7 @@ class Ads extends React.Component {
     render() {
         return (
             <Grid container justify="center">
-              <Navbar bg="light" expand="lg" style={{width: '100%'}}>
+              <Navbar bg="light" expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Liste de vos annonce</Navbar.Brand>
               </Navbar>
                 <Modal

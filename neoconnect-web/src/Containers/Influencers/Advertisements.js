@@ -1,14 +1,13 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import {CardActionArea, CardContent, CardActions, CardMedia, Grid, Slide}from '@material-ui/core';
+import {Grid}from '@material-ui/core';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg"
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -81,7 +80,7 @@ class Advertisements extends React.Component{
         console.log("adsData: ", this.state.adsData);
         return (
             <Grid container justify="center">
-              <Navbar bg="light" expand="lg" style={{width: '100%'}}>
+              <Navbar bg="light" expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Liste des annonces</Navbar.Brand>
               </Navbar>
 

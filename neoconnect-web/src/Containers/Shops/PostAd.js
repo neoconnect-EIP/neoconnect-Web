@@ -1,9 +1,9 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Button, Fab, Grid} from '@material-ui/core/';
-import { Steps, message} from 'antd';
+import { Button, Grid} from '@material-ui/core/';
+import { Steps } from 'antd';
 import "../index.css"
-import {FormControl, Input, InputLabel, MenuItem, Select, Slide, TextField} from "@material-ui/core";
+import {FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Navbar from 'react-bootstrap/Navbar';
 
@@ -308,7 +308,7 @@ class PostAd extends React.Component {
     render() {
         return (
             <Grid container justify="center">
-              <Navbar bg="light" expand="lg" style={{width: '100%'}}>
+              <Navbar bg="light" expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Création d'une annonce</Navbar.Brand>
               </Navbar>
                 {

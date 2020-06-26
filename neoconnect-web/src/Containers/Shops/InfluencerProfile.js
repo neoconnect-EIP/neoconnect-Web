@@ -5,11 +5,7 @@ import {Button, Grid, Modal, Slide, List, ListItem, ListItemAvatar, Avatar, List
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import {Rate} from "antd";
-import defaultShopProfilePic from "../../assets/defaultShopProfilePic.jpg";
 import SendIcon from '@material-ui/icons/Send';
-
-
-
 
 class InfluencerProfile extends React.Component {
     constructor(props) {

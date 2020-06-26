@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom"
 import {Modal, Button, Slide, Grid} from '@material-ui/core';
 import "../Containers/index.css"
 import NeoconnectLogo from "../assets/NeoconnectLogo.png"
-import myTheme from "../constants/Theme"
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 

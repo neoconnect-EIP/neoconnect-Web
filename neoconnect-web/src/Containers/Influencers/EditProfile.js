@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import {Avatar, Grid, Card, CardHeader, CardContent, CardMedia, Button, Fab, Input, FormControl, InputLabel, MenuItem, Select} from '@material-ui/core/';
+import {Avatar, Grid, Card, CardContent, CardMedia, Fab, Input, FormControl, InputLabel, MenuItem, Select} from '@material-ui/core/';
 import {Icon} from 'antd';
 import DoneIcon from '@material-ui/icons/Done';
 import avatar from "../../assets/avatar1.png"
@@ -159,7 +159,7 @@ class EditProfile extends React.Component{
                                                onChange={this.handleChange}
                                         />
                                     </Grid>
-                                    <Grid xs={6} style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                    <Grid xs={6} style={{textAlign: "center", marginTop: "90px"}}>
                                         <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
                                         <Input type="text"
                                                name="fullName"
