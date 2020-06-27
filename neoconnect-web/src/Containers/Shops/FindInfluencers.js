@@ -28,7 +28,7 @@ class FindInfluencers extends React.Component {
     }
 
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/listInf`, {
+        fetch(`http://168.63.65.106:8080/shop/listInf`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })

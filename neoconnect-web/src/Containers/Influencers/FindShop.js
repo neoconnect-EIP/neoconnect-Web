@@ -26,7 +26,7 @@ class FindShop extends React.Component{
     }
 
     componentDidMount() {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/listShop`, {
+        fetch("http://168.63.65.106:8080/inf/listShop", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,23 +35,6 @@ class FindShop extends React.Component{
             .then(res => res.json())
             .then(res => this.setState({shopList: res}))
             .catch(error => console.error('Error:', error));
-    }
-
-    handleSearch = () => {
-      let body = {
-          "keyord": "Diesel",
-      };
-      body = JSON.stringify(body);
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/search?keyword=${"Diesel"}`, {
-          method: 'GET',
-//          body: body,
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-          .then(res => res.json())
-          .then(res => console.log("ZITA", res))
-          .catch(error => console.error('Error:', error));
     }
 
     handleGlobalAnnonce = (id) => {
@@ -88,7 +71,7 @@ class FindShop extends React.Component{
                   <Navbar.Collapse id="basic-navbar-nav">
                     <Form inline className="ml-auto">
                       <FormControl type="text" placeholder="Exemple: Levis" className="mr-sm-2" />
-                      <Button variant="outline-success" onClick={() => {this.handleSearch()}}>Rechercher</Button>
+                      <Button variant="outline-success">Rechercher</Button>
                     </Form>
                   </Navbar.Collapse>
                 </Navbar>

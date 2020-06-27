@@ -18,7 +18,7 @@ export default class ResetPassword extends React.Component{
     componentDidMount() {
         var urlParams = this.getUrlParams((window.location.search))
         this.setState({resetPasswordToken: urlParams.token})
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/resetPassword/${urlParams.token}`, {
+        fetch(`http://168.63.65.106:8080/resetPassword/${urlParams.token}`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'}
         })
@@ -62,7 +62,7 @@ export default class ResetPassword extends React.Component{
         else {
             this.setState({errorMessage: false})
             body = JSON.stringify(body);
-            fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/updatePassword`, {
+            fetch("http://168.63.65.106:8080/updatePassword", {
                 method: 'PUT',
                 body: body,
                 headers: {'Content-Type': 'application/json'}

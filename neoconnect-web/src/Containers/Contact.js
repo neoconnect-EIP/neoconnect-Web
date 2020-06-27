@@ -46,7 +46,7 @@ export default class Contact extends React.Component{
         };
 
         body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/contact`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        fetch("http://168.63.65.106/contact", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };
@@ -125,3 +125,4 @@ export default class Contact extends React.Component{
         );
     }
 }
+

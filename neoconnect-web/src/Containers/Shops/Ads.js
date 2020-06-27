@@ -31,7 +31,7 @@ class Ads extends React.Component {
     };
 
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/shop/${localStorage.getItem("userId")}`, {
+        fetch(`http://168.63.65.106:8080/offer/shop/${localStorage.getItem("userId")}`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
@@ -54,7 +54,7 @@ class Ads extends React.Component {
             "message": this.state.message,
         };
         body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/sendMail/${localStorage.getItem("userId")}/id`, {
+        fetch(`http://168.63.65.106:8080/sendMail/${localStorage.getItem("userId")}/id`, {
             method: 'POST',
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
@@ -64,7 +64,7 @@ class Ads extends React.Component {
     };
 
     handleDelete = (id) => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id}`, {
+        fetch(`http://168.63.65.106:8080/offer/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
