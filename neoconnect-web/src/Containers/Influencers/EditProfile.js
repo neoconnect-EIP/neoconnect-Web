@@ -1,9 +1,10 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import {Avatar, Grid, Card, CardContent, CardMedia, Fab, Input, FormControl, InputLabel, MenuItem, Select} from '@material-ui/core/';
+import {Avatar, Grid, Card, CardContent, CardMedia, Fab, Input, FormControl, InputLabel, MenuItem, Select, Modal, Slide} from '@material-ui/core/';
 import {Icon} from 'antd';
 import DoneIcon from '@material-ui/icons/Done';
+import DeleteIcon from '@material-ui/icons/Delete'
 import avatar from "../../assets/avatar1.png"
 import instagram from  "../../assets/instagram.png"
 import twitter from  "../../assets/twitter.png"
@@ -33,11 +34,12 @@ class EditProfile extends React.Component{
             file: null,
             profilePic: null,
             imagePreviewUrl: avatar,
+            visible: false,
         };
     }
 
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {
+        fetch("http://168.63.65.106:8080/inf/me", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -115,16 +117,69 @@ class EditProfile extends React.Component{
             "theme": this.state.theme,
         };
         body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, { method: 'PUT', body: body,headers: {
+        fetch("http://168.63.65.106:8080/inf/me", { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };
-
+    handleDelete = () => {
+        const userId = localStorage.getItem('userId')
+        fetch(`http://168.63.65.106:8080/delete`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
+            }
+        })
+        .then(res => {
+            localStorage.clear();
+            this.props.history.push('/landing-page')
+        })
+        .catch(console.error)
+        // fetch(`http://168.63.65.106:8080/user/${userId}`, {
+        //     method: 'DELETE',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
+        //     }
+        // })
+        // .then(res => {
+        //     localStorage.clear();
+        //     this.props.history.push('/landing-page')
+        // })
+        // .catch(console.error)
+    }
+    handleVisibleModal = (ad, mode) => {
+        this.setState({visible: !this.state.visible})
+    }
     render() {
         return (
+
             <Grid container justify="center">
+            <Modal
+                    open={this.state.visible}
+                    onClose={() => this.handleVisibleModal(null, "")}
+                >
+                    <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
+
+                                    <Grid container justify="center" style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
+                                        <Grid item xs={12} style={{backgroundColor: "#292929", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
+                                            <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Supprimer une annonce</h2>
+                                        </Grid>
+                                        <Grid item xs={12} justify="center" style={{marginBottom: "1.2rem"}}>
+                                            <h3 style={{marginTop: "2rem"}}>{`Are you sure you want to delete your account ?`}</h3>
+                                            <Fab class="posted-ad-send-button" onClick={() => this.handleVisibleModal(null, "")} style={{marginRight: "3rem", height: "3rem", fontSize: "1.2rem"}}>
+                                                ANNULER
+                                            </Fab>
+                                            <Fab class="posted-ad-send-button" onClick={() => this.handleDelete()} style={{backgroundImage: "none", marginRight: "3rem", height: "3rem", fontSize: "1.2rem", backgroundColor: "#4CB051"}}>
+                                                CONFIRMER
+                                            </Fab>
+                                        </Grid>
+                                    </Grid>
+
+                    </Slide>
+            </Modal>
                 {
                     this.state.pseudo ?
                         <Grid container justify="center">
@@ -282,6 +337,10 @@ class EditProfile extends React.Component{
                                     <Fab variant="extended" aria-label="delete" style={{backgroundColor: "#292929", color: "white"}} onClick={this.handleSubmit}>
                                         Confirme
                                         <DoneIcon style={{marginLeft: "10px"}}/>
+                                    </Fab>
+                                    <Fab variant="extended" aria-label="delete" style={{backgroundColor: "red", color: "black"}} onClick={this.handleVisibleModal}>
+                                        Supprimer le compte
+                                        <DeleteIcon style={{marginLeft: "10px"}}/>
                                     </Fab>
                                 </Grid>
                             </Grid>

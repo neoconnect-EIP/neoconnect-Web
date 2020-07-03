@@ -13,7 +13,10 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Navbar from 'react-bootstrap/Navbar';
-
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton'
 class Advertisements extends React.Component{
     constructor(props) {
         super(props);
@@ -21,14 +24,29 @@ class Advertisements extends React.Component{
             visible: false,
             actualId: null,
             adsData: null,
-            item: null
+            adsSaver: null,
+            item: null, 
+            searchForm: null,
+            sort: 'Order (ASC)'
         };
     }
 
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch("http://168.63.65.106:8080/offer/list", { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
-            .then(res => {this.setState({adsData: res})})
+            .then(res => {
+              this.setState({adsSaver: res, adsData: res.sort((a, b) => {
+                if (typeof a.productName == 'string' && typeof b.productName == 'string'){
+                  if (a.productName.length && b.productName.length){
+                    if (a.productName[0] > b.productName[0]) return 1
+                    else if (a.productName[0] < b.productName[0]) return -1
+                    else return 0
+                  }else return 0
+                }else return 0
+              })})
+              this.setState({adsData: res, adsSaver: res})
+            
+            })
             .catch(error => console.error('Error:', error));
     }
 
@@ -41,7 +59,7 @@ class Advertisements extends React.Component{
     }
 
     handleAnnonceSubsribe = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`http://168.63.65.106:8080/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {console.log("start res: ", res.json())})
             .catch(error => console.error('Error:', error));
         this.handleClose();
@@ -53,7 +71,97 @@ class Advertisements extends React.Component{
     handleOpen = (item) => {
       this.setState({visible: true, item: item})
     }
+    handleSearchBarChange = event => {
+      this.setState({searchForm: event.target.value})
+      if (!event.target.value.length){
+        this.setState({adsData: this.state.adsSaver})
+      }else{
+        this.handleSearch()
+      }
+    }
+    handleSearch = () => {
+      const kwd = this.state.searchForm
+      // fetch(`http://http://168.63.65.106:8080/offer/list`)
+      let adsData = this.state.adsSaver
+      this.setState({adsData: null})
 
+      adsData = adsData.filter(val => {
+        let searchFactor = 0
+        if(
+          val.productDesc.toLowerCase().includes(kwd) ||
+          val.productName.toLowerCase().includes(kwd) ||
+          val.productSex.toLowerCase().includes(kwd) || 
+          val.productSubject.toLowerCase().includes(kwd)
+          ) searchFactor++
+          if (val.brand){
+            if (val.brand.toLowerCase().includes(kwd)) searchFactor++
+          }
+          if (val.color){
+            if (val.color.toLowerCase().includes(kwd)) searchFactor++
+          }
+          val.comment.forEach(comment => {
+            if (
+              comment.comment.toLowerCase().includes(kwd) ||
+              comment.pseudo.toLowerCase().includes(kwd)
+            ) searchFactor++
+          })
+          if (searchFactor) return val
+          else return false
+      })
+
+      this.setState({adsData: adsData})
+
+    }
+    handleSort = (event) => {
+      const el = event.target
+      const filterText = el.innerText
+      document.getElementsByClassName('active')[0].classList.remove('active')
+      el.classList.add('active')
+      this.setState({sort: filterText})
+      if (filterText == 'Marque') {
+        this.setState({adsData: this.state.adsData.sort((a, b) => {
+          if (typeof a.brand == 'string' && typeof b.brand == 'string'){
+            if (a.brand.length && b.brand.length){
+              if (a.brand[0] > b.brand[0]) return 1
+              else if (a.brand[0] < b.brand[0]) return -1
+              else return 0
+            }else return 0
+          }else return 0
+        })})
+      }else if (filterText == 'Couleur') {
+        this.setState({adsData: this.state.adsData.sort((a, b) => {
+          if (typeof a.color == 'string' && typeof b.color == 'string'){
+            if (a.color.length && b.color.length){
+              if (a.color[0] > b.color[0]) return 1
+              else if (a.color[0] < b.color[0]) return -1
+              else return 0
+            }else return 0
+          }else return 0
+        })})
+      }else if (filterText == 'Order (ASC)') {
+        this.setState({adsData: this.state.adsData.sort((a, b) => {
+          if (typeof a.productName == 'string' && typeof b.productName == 'string'){
+            if (a.productName.length && b.productName.length){
+              if (a.productName[0] > b.productName[0]) return 1
+              else if (a.productName[0] < b.productName[0]) return -1
+              else return 0
+            }else return 0
+          }else return 0
+        })})
+      }else if (filterText == 'Order (DESC)') {
+        this.setState({adsData: this.state.adsData.sort((a, b) => {
+          if (typeof a.productName == 'string' && typeof b.productName == 'string'){
+            if (a.productName.length && b.productName.length){
+              if (a.productName[0] > b.productName[0]) return 1
+              else if (a.productName[0] < b.productName[0]) return -1
+              else return 0
+            }else return 0
+          }else return 0
+        }).reverse()})
+      }
+      // document.getElementsByClassName('active').classList.remove('active')
+
+    }
     handleCard = (item) => {
       console.log("item = ", item);
         return (
@@ -83,11 +191,37 @@ class Advertisements extends React.Component{
               <Navbar bg="light" expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Liste des annonces</Navbar.Brand>
               </Navbar>
-
+              <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
+              <DropdownButton
+                as={InputGroup.Prepend}
+                variant="outline-secondary"
+                title="Sort by"
+                id="input-group-dropdown-1"
+              >
+                <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
+              </DropdownButton>
+                <FormControl
+                  placeholder="Search"
+                  aria-label="Enter your keyword"
+                  aria-describedby="basic-addon2"
+                  value={this.state.searchForm}
+                  onChange={this.handleSearchBarChange}
+                />
+                {/* <InputGroup.Append>
+                  <Button 
+                  variant="outline-success"
+                  onClick={() => this.handleSearch()}>Search</Button>
+                </InputGroup.Append> */}
+              </InputGroup>
                 {
                     this.state.adsData ?
                       <CardColumns className="pl-2">
                             {
+
                                 this.state.adsData.map(item => this.handleCard(item))
                             }
                         </CardColumns>
