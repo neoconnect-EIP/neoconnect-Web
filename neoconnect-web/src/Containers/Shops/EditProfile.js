@@ -42,7 +42,7 @@ class EditProfile extends React.Component {
     }
 
     componentDidMount = () => {
-        fetch("http://168.63.65.106:8080/shop/me", {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ class EditProfile extends React.Component {
             "website": this.state.website,
         };
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106:8080/shop/me", { method: 'PUT', body: body,headers: {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
@@ -133,26 +133,26 @@ class EditProfile extends React.Component {
     }
     handleDelete = () => {
         // const userId = localStorage.getItem('userId')
-        fetch(`http://168.63.65.106:8080/delete`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
             }
         })
-        .then(res => { 
+        .then(res => {
             localStorage.clear();
             this.props.history.push('/landing-page')
         })
         .catch(console.error)
-        // fetch(`http://168.63.65.106:8080/user/${userId}`, {
+        // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/${userId}`, {
         //     method: 'DELETE',
         //     headers: {
         //         'Content-Type': 'application/json',
         //         "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
         //     }
         // })
-        // .then(res => { 
+        // .then(res => {
         //     localStorage.clear();
         //     this.props.history.push('/landing-page')
         // })
@@ -169,7 +169,7 @@ class EditProfile extends React.Component {
                     onClose={() => this.handleVisibleModal(null, "")}
                 >
                     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
- 
+
                                     <Grid container justify="center" style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
                                         <Grid item xs={12} style={{backgroundColor: "#292929", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
                                             <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Supprimer une annonce</h2>

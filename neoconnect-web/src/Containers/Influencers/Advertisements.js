@@ -16,7 +16,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton'
+import DropdownButton from 'react-bootstrap/DropdownButton';
+
 class Advertisements extends React.Component{
     constructor(props) {
         super(props);
@@ -25,14 +26,14 @@ class Advertisements extends React.Component{
             actualId: null,
             adsData: null,
             adsSaver: null,
-            item: null, 
+            item: null,
             searchForm: null,
             sort: 'Order (ASC)'
         };
     }
 
     componentDidMount = () => {
-        fetch("http://168.63.65.106:8080/offer/list", { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => {
               this.setState({adsSaver: res, adsData: res.sort((a, b) => {
@@ -45,7 +46,7 @@ class Advertisements extends React.Component{
                 }else return 0
               })})
               this.setState({adsData: res, adsSaver: res})
-            
+
             })
             .catch(error => console.error('Error:', error));
     }
@@ -59,7 +60,7 @@ class Advertisements extends React.Component{
     }
 
     handleAnnonceSubsribe = () => {
-        fetch(`http://168.63.65.106:8080/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {console.log("start res: ", res.json())})
             .catch(error => console.error('Error:', error));
         this.handleClose();
@@ -90,7 +91,7 @@ class Advertisements extends React.Component{
         if(
           val.productDesc.toLowerCase().includes(kwd) ||
           val.productName.toLowerCase().includes(kwd) ||
-          val.productSex.toLowerCase().includes(kwd) || 
+          val.productSex.toLowerCase().includes(kwd) ||
           val.productSubject.toLowerCase().includes(kwd)
           ) searchFactor++
           if (val.brand){
@@ -212,7 +213,7 @@ class Advertisements extends React.Component{
                   onChange={this.handleSearchBarChange}
                 />
                 {/* <InputGroup.Append>
-                  <Button 
+                  <Button
                   variant="outline-success"
                   onClick={() => this.handleSearch()}>Search</Button>
                 </InputGroup.Append> */}

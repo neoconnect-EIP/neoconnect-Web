@@ -42,7 +42,7 @@ export default class InfluencerSignUp extends React.Component{
         else {
           var msg = await res.json();
           store.addNotification({
-            title: "Error",
+            title: "Erreur",
             message: msg,
             type: "danger",
             insert: "top",
@@ -53,7 +53,8 @@ export default class InfluencerSignUp extends React.Component{
             animationOut: ["animated", "fadeOut"],
             dismiss: {
               duration: 7000,
-              onScreen: true
+              onScreen: true,
+              showIcon: true
             }
           });
         }
@@ -76,7 +77,7 @@ export default class InfluencerSignUp extends React.Component{
         };
 
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106:8080/inf/register", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };

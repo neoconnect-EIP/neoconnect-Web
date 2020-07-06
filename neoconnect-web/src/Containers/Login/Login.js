@@ -45,7 +45,7 @@ export default class Login extends React.Component{
         };
         body = JSON.stringify(body);
         this.setState({isLoading: true})
-        fetch("http://168.63.65.106:8080/login", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/login`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {return res.json()})
             .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
@@ -107,11 +107,11 @@ export default class Login extends React.Component{
                                 </div>
                                 <Grid container style={{marginTop: "50px", paddingBottom: "30px"}}>
                                     <Grid item xs={12}>
-                                        <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{width: "9.375rem", height: "2.1875rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>LOGIN</Button>
+                                        <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{color: 'white', width: "9.375rem", height: "2.1875rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>Connexion</Button>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <p style={{color: "#fff", marginTop: "0.2", marginBottom: "0rem"}}>-or-</p>
-                                        <a style={{color: "#fff"}} onClick={this.forgotPassword}>forgot password</a>
+                                        <a style={{color: "#fff"}} onClick={this.forgotPassword}>Mot de passe oublié</a>
                                     </Grid>
                                 </Grid>
                             </Form>

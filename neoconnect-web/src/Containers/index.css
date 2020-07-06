@@ -10,13 +10,33 @@
   cursor: pointer;
 }
 
+.inputComment {
+  border-width: 0 !important;
+  border-bottom: 0.3px solid grey !important;
+  border-radius: unset !important;
+}
+
 .logo {
     margin: 0.5rem;
     width: 5rem;
     height: 5rem;
     cursor: pointer;
 }
-.card:hover{
+
+.report {
+  cursor: pointer;
+}
+
+.editIcon:hover {
+  cursor: pointer;
+}
+
+.pill {
+  background-color: #7FB780 !important;
+  color: white;
+}
+
+.cardlist:hover{
   cursor: pointer;
 }
 
@@ -241,4 +261,10 @@
     margin: 50px;
     border-radius: 6px;
     background-color: #ebebeb;
+}
+
+.iconProfileSocial {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 10px !important;
 }

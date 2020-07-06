@@ -69,7 +69,7 @@ class EditAd extends React.Component {
     componentDidMount() {
         let id = this.getUrlParams((window.location.search));
 
-        fetch(`http://168.63.65.106:8080/offer/${id.id}`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id.id}`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
@@ -336,7 +336,7 @@ class EditAd extends React.Component {
             "brand": ""
         };
         body = JSON.stringify(body);
-        fetch(`http://168.63.65.106:8080/offer/${id.id}`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id.id}`, {
             method: 'PUT',
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}

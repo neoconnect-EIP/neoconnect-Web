@@ -296,7 +296,7 @@ class PostAd extends React.Component {
             "productSubject": this.state.productSubject,
         };
         body = JSON.stringify(body);
-        fetch(`http://168.63.65.106:8080/offer/insert`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/insert`, {
             method: 'POST',
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}

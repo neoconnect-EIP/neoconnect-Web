@@ -39,7 +39,7 @@ class EditProfile extends React.Component{
     }
 
     componentDidMount = () => {
-        fetch("http://168.63.65.106:8080/inf/me", {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ class EditProfile extends React.Component{
             "theme": this.state.theme,
         };
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106:8080/inf/me", { method: 'PUT', body: body,headers: {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
@@ -125,7 +125,7 @@ class EditProfile extends React.Component{
     };
     handleDelete = () => {
         const userId = localStorage.getItem('userId')
-        fetch(`http://168.63.65.106:8080/delete`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ class EditProfile extends React.Component{
             this.props.history.push('/landing-page')
         })
         .catch(console.error)
-        // fetch(`http://168.63.65.106:8080/user/${userId}`, {
+        // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/${userId}`, {
         //     method: 'DELETE',
         //     headers: {
         //         'Content-Type': 'application/json',
