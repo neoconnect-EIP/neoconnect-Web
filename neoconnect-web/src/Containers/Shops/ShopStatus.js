@@ -75,7 +75,7 @@ class ShopStatus extends React.Component{
     }
 
     handleChangeInfo = () => {
-      console.log("PIC = ", this.state.userData);
+      console.log("PIC = ", this.state.userData); //TODO ajouter liste theme lors du modification
 
         this.setState({
           visible: true,

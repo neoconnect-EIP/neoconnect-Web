@@ -416,8 +416,8 @@ class PostAd extends React.Component {
                             <Form.Label as="legend" column sm={2} style={{color: 'transparent'}}>
                               Images
                             </Form.Label>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage3(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage4(e)}/>
                           </Form.Group>
 
                         </Form.Row>

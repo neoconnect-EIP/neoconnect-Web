@@ -179,7 +179,7 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
-      console.log("USER DATA ", this.state.userData);
+      console.log("USER DATA ", this.state.userData);   //TODO ajouter la liste des theme lors du modification
         return (
             <div className="infBg"  >
               <Modal size="lg" centered show={this.state.visible} onHide={this.handleClose}>

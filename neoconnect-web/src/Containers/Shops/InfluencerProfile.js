@@ -212,7 +212,7 @@ class InfluencerProfile extends React.Component {
 
     render() {
         return (
-            <div className="shopBg"  >
+            <div className="shopBg">
                 {
                     this.state.infData && this.state.userData ?
                       <div>
@@ -258,7 +258,7 @@ class InfluencerProfile extends React.Component {
                            </Button>
                          </Modal.Footer>
                         </Modal>
-                        <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}} className="m-2 ml-0">
+                        <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}} className="mb-4">
                           <Col md={2} className="p-2 ml-4">
                             <Image style={{width: '200px', height: '200px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.infData.userPicture || this.state.infData.userPicture.length === 0 ? noAvatar : this.state.infData.userPicture[0].imageData} roundedCircle/>
                           </Col>
@@ -428,10 +428,11 @@ class InfluencerProfile extends React.Component {
                       :
                       <Loader
                           type="Triangle"
-                          color="#292929"
+                          color="white"
                           height={200}
                           width={200}
                           style={{marginTop: "14rem"}}
+
                       />
                 }
             </div>

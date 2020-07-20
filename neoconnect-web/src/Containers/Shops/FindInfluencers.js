@@ -150,7 +150,7 @@ class FindInfluencers extends React.Component {
                     :
                     <Loader
                         type="Triangle"
-                        color="#292929"
+                        color="#FFFFF"
                         height={200}
                         width={200}
                         style={{marginTop: "14rem"}}

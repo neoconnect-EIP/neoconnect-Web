@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { store } from 'react-notifications-component';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -87,16 +88,71 @@ class Ads extends React.Component {
         this.setState({visible: false})
     }
 
+    handleResponse = (res, choice, inf) => {
+        console.log("RES ", res);
+        if (res)
+          store.addNotification({
+            title: "Envoyé",
+            message: "Nous avons pris en compte de votre acceptation. Une notification sera envoyé à " + inf ,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            pauseOnHover: true,
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 7000,
+              onScreen: true,
+              showIcon: true
+            }
+          });
+        else
+          store.addNotification({
+            title: "Envoyé",
+            message: "Nous avons bien pris en compte votre refus. Une notification sera envoyé à " + inf,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            pauseOnHover: true,
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 7000,
+              onScreen: true,
+              showIcon: true
+            }
+          });
+    }
+
+    acceptDeclineInf = (choice, inf) => {
+      console.log("inf ", inf);
+      let body = {
+          "userId": inf.idUser,
+          "idOffer": inf.idOffer,
+          "choice": choice
+      };
+
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/mooc/choiceApply`, {
+          method: 'POST',
+          body: body,
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      }).then(res => this.handleResponse(res, choice, inf.idUser)) // TODO change to Name
+        .catch(error => console.error('Error:', error));
+
+    }
+
     listInf = (ad) => {
       console.log(ad.infs);
-        if (ad.infs && ad.infs.length > 0) {
+        if (ad.infs && ad.infs.length > 0) {  // TODO change idUser to Name
           return (
             ad.infs.map(inf => (
               <tr hidden={ad.show ? false : true}>
                 <td>{inf.idUser}</td>
                 <td><Button variant="outline-info" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
-                <td><Button variant="outline-success">Accepter</Button></td>
-                <td><Button variant="outline-danger">Refuser</Button></td>
+                <td><Button variant="outline-success" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
+                <td><Button variant="outline-danger" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button></td>
                 <td>Abonnée le {new Date(inf.createdAt).toLocaleDateString()}</td>
                 <td></td>
                 <td></td>
