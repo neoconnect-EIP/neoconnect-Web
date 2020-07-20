@@ -6,6 +6,48 @@
     z-index: 5;
 }
 
+.shopBg {
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(67,74,98,1) 0%, rgba(94,114,121,1) 35%, rgba(184,205,193,1) 100%);
+}
+
+.infBg {
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(57,58,94,1) 0%, rgba(88,114,144,1) 35%, rgba(137,188,208,1) 100%);
+}
+
+.btnShop {
+  background-color: #7EB681 !important;
+  border-color: #7EB681 !important;
+  border-radius: 20px !important;
+}
+
+.btnInf {
+  background-color: #7EB681 !important;
+  border-color: #7EB681 !important;
+  border-radius: 20px !important;
+}
+
+.btnInfDelete {
+  background-color: #DD3444 !important;
+  border-color: #DD3444 !important;
+  border-radius: 20px !important;
+}
+
+.btnCancel {
+  background-color: #B2B2B2 !important;
+  border-color: #B2B2B2 !important;
+  border-radius: 20px !important;
+}
+
+.underlineLabel {
+  border-bottom: 0.2px solid #414769;
+  color: white;
+  display: inline-block;
+  width: 200px;
+  padding-bottom: 8px;
+}
+
 .neoLogo:hover {
   cursor: pointer;
 }
@@ -13,7 +55,7 @@
 .inputComment {
   border-width: 0 !important;
   border-bottom: 0.3px solid grey !important;
-  border-radius: unset !important;
+  border-radius: 20px !important;
 }
 
 .logo {

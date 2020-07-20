@@ -17,6 +17,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { store } from 'react-notifications-component';
 
 class Advertisements extends React.Component{
     constructor(props) {
@@ -30,6 +31,8 @@ class Advertisements extends React.Component{
             searchForm: null,
             sort: 'Order (ASC)'
         };
+
+        console.log("TOEKN ", localStorage.getItem("Jwt"));
     }
 
     componentDidMount = () => {
@@ -61,7 +64,47 @@ class Advertisements extends React.Component{
 
     handleAnnonceSubsribe = () => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {console.log("start res: ", res.json())})
+            .then(res => {
+              if (res.status == 200) {
+                this.setState({visible: false});
+                store.addNotification({
+                  title: "Abonné",
+                  message: "Nous avons bien pris en compte votre abonnement",
+                  type: "success",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+              else {
+                store.addNotification({
+                  title: "Erreur",
+                  message: "Un erreur s'est produit lors de l'abonnement. Veuillez essayer ultérieurement.",
+                  type: "danger",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+              console.log("start res: ", res);
+
+            })
             .catch(error => console.error('Error:', error));
         this.handleClose();
     }
@@ -167,10 +210,10 @@ class Advertisements extends React.Component{
       console.log("item = ", item);
         return (
             <div key={item.id}>
-                <Card className="mt-4 ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
                   <Card.Img className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
                   <Card.Body>
-                    <Card.Title>{`${item.productType ? item.productType : ""} ${item.productBrand ? item.productBrand : "Sans marque"}`}</Card.Title>
+                    <Card.Title>{`${item.productType ? item.productType : ""} ${item.brand ? item.brand : "Sans marque"}`}</Card.Title>
                     <Card.Text>
                       {`${item.productColor ? item.productColor : ""}`}
                     </Card.Text>
@@ -188,9 +231,9 @@ class Advertisements extends React.Component{
     render() {
         console.log("adsData: ", this.state.adsData);
         return (
-            <Grid container justify="center">
-              <Navbar bg="light" expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Liste des annonces</Navbar.Brand>
+            <div justify="center" className="infBg"  >
+              <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des annonces</Navbar.Brand>
               </Navbar>
               <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
               <DropdownButton
@@ -253,7 +296,7 @@ class Advertisements extends React.Component{
                    </Button>
                  </Modal.Footer>
                </Modal>
-            </Grid>
+            </div>
         );
     }
 }

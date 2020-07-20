@@ -24,6 +24,12 @@ export default class ShopSignUp extends React.Component{
             current: 0,
             isEnd: false,
             goodPassword: false,
+            errMsg: {
+              "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
+              "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
+              "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
+              "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
+            }
         }
     }
 
@@ -42,7 +48,7 @@ export default class ShopSignUp extends React.Component{
           var msg = await res.json();
           store.addNotification({
             title: "Erreur",
-            message: msg,
+            message: this.state.errMsg[msg],
             type: "danger",
             insert: "top",
             container: "top-right",
@@ -53,7 +59,8 @@ export default class ShopSignUp extends React.Component{
             dismiss: {
               duration: 7000,
               onScreen: true,
-              showIcon: true
+              showIcon: true,
+              pauseOnHover: true
             }
           });
         }
@@ -286,16 +293,16 @@ export default class ShopSignUp extends React.Component{
                             </Grid>
                             <Grid item xs={12} style={{textAlign: "center"}}>
                                 <Button disabled={this.state.current < 1} variant="contained" color="secondary"  onClick={this.prev} style={{marginRight: "2rem"}}>
-                                    PREV
+                                    Précédent
                                 </Button>
                                 {
                                     this.state.current < 2 ?
                                         <Button  disabled={this.state.password !== this.state.password2} variant="contained" color="secondary" onClick={this.next}>
-                                            NEXT
+                                            Suivant
                                         </Button>
                                         :
-                                        <Button onClick={this.handleSubmit} style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
-                                            REGISTER
+                                        <Button onClick={this.handleSubmit} style={{color: 'white', height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                            S'inscrire
                                         </Button>
                                 }
                             </Grid>

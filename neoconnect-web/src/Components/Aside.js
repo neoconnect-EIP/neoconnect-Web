@@ -50,10 +50,10 @@ class Aside extends React.Component{
                     </Modal.Header>
                     <Modal.Body>Êtes-vous sur de vouloir vous déconnecter ?</Modal.Body>
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={this.handleClose}>
+                      <Button className="btnCancel" onClick={this.handleClose}>
                         Non
                       </Button>
-                      <Button variant="danger" onClick={this.handleDeconexion}>
+                      <Button className="btnInfDelete" onClick={this.handleDeconexion}>
                         Oui
                       </Button>
                     </Modal.Footer>

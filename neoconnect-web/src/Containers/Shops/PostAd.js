@@ -1,11 +1,16 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Button, Grid} from '@material-ui/core/';
+import { Grid} from '@material-ui/core/';
 import { Steps } from 'antd';
 import "../index.css"
 import {FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Navbar from 'react-bootstrap/Navbar';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import { store } from 'react-notifications-component';
 
 const { Step } = Steps;
 const steps = [
@@ -34,19 +39,21 @@ class PostAd extends React.Component {
         super(props);
         this.state = {
             productImgName1: "",
-            productImgData1: "",
             productImgName2: "",
-            productImgData2: "",
             productImgName3: "",
-            productImgData3: "",
             productImgName4: "",
-            productImgData4: "",
             productName: "",
             productSex: "",
             productDesc: "",
             productSubject: "",
+            productColor: "",
+            productBrand: "",
             current: 0,
             isEnd: false,
+            homme: false,
+            femme: false,
+            sub: 1,
+            uni: true
         };
     }
 
@@ -288,74 +295,184 @@ class PostAd extends React.Component {
     }
 
     handleSubmit = () => {
+      console.log("SUB = ", this.state.sub);
+      if (!this.state.productName || !this.state.productDesc) {
+        store.addNotification({
+          title: "Erreur",
+          message: "Veuillez fournir nom et description de l'annonce",
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true,
+            pauseOnHover: true
+          }
+        });
+      }
+      else {
         let body = {
             "productImg": this.handleGolobalImg(),
             "productName": this.state.productName,
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
-            "productSubject": this.state.productSubject,
+            "productSubject": this.state.sub,
+            "color": this.state.productColor,
+            "brand": this.state.productBrand,
         };
+
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/insert`, {
             method: 'POST',
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
-    };
+          .then(res => {res.json(); this.handleResponse(res)})
+          .catch(error => console.error('Error:', error));
+      }
+    }
 
     render() {
         return (
-            <Grid container justify="center">
-              <Navbar bg="light" expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300'}}>Création d'une annonce</Navbar.Brand>
+            <div justify="center" className="shopBg"  >
+              <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Création d'une annonce</Navbar.Brand>
               </Navbar>
                 {
                     !this.state.isEnd ?
-                        <Grid container style={{padding: "25px"}}>
-                            <Steps current={this.state.current}>
-                                {steps.map(item => (
-                                    <Step key={item.id} title={item.title} />
-                                ))}
-                            </Steps>
-                            <Grid item className="steps-content" xs={12}>{steps[this.state.current].content}</Grid>
-                            <Grid container className="steps-action" xs={12} justify="center">
-                                <Grid item={12}>
-                                    {
-                                        this.getStepContent(this.state.current)
-                                    }
-                                </Grid>
-                                <Grid item xs={12} style={{textAlign: "center"}}>
-                                    <Button disabled={this.state.current < 1} variant="contained" color="secondary"  onClick={this.prev} style={{marginRight: "2rem"}}>
-                                        Previous
-                                    </Button>
-                                    {
-                                        this.state.current < 5 ?
-                                            <Button variant="contained" color="secondary" onClick={this.next}>
-                                                Next
-                                            </Button>
-                                            :
-                                            <Button variant="contained" color="secondary" onClick={this.handleSubmit}>
-                                                Validez
-                                            </Button>
-                                    }
-                                </Grid>
-                            </Grid>
+                      <Form className="mx-4 mt-4">
+                        <Form.Row>
+                          <Form.Group as={Col}>
+                            <Form.Label style={{color:'white'}}>Nom</Form.Label>
+                            <Form.Control placeholder="Nom de votre annonce" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
+                          </Form.Group>
+
+                          <Form.Group as={Col}>
+                            <Form.Label style={{color:'white'}}>Marque</Form.Label>
+                            <Form.Control placeholder="Marque de votre offre" value={this.state.productBrand} onChange={e => {this.setState({productBrand: e.target.value})}}/>
+                          </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                          <Form.Group as={Col}>
+                            <Form.Label style={{color:'white'}}>Thème</Form.Label>
+                            <Form.Control as="select" value={this.state.sub} onChange={(e) =>{ this.setState({sub: e.target.value});}}>
+                              <option value={1}>Mode</option>
+                              <option value={2}>Cosmetique</option>
+                              <option value={3}>High tech</option>
+                              <option value={4}>Nourriture</option>
+                              <option value={5}>Jeux vidéo</option>
+                              <option value={6}>Sport/Fitness</option>
+                            </Form.Control>
+                          </Form.Group>
+
+                          <Form.Group as={Col}>
+                            <Form.Label style={{color:'white'}}>Description</Form.Label>
+                            <Form.Control placeholder="Description de votre annonce" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
+                          </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+
+                          <Form.Group as={Col}  sm={2} >
+                            <Form.Label style={{color:'white'}}>Couleur</Form.Label>
+                            <Form.Control placeholder="Couleur de votre produit" value={this.state.productColor} onChange={e => {this.setState({productColor: e.target.value})}}/>
+                          </Form.Group>
+
+                          <fieldset>
+                            <Form.Group as={Col}>
+                              <Form.Label sm={2} style={{color: 'white'}}>
+                                Cible
+                              </Form.Label>
+                              <Col sm={10}>
+                                <Form.Check style={{color: 'white'}} type="radio" label="Homme" checked={this.state.homme}
+                                  onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}
+                                />
+                                <Form.Check style={{color: 'white'}} type="radio" label="Femme" checked={this.state.femme}
+                                  onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}
+                                />
+                                <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
+                                  onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}
+                                />
+                              </Col>
+                            </Form.Group>
+                          </fieldset>
+
+
+                          <Form.Group as={Col}>
+                            <Form.Label as="legend" column sm={2} style={{color: 'white'}}>
+                              Images
+                            </Form.Label>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
+                          </Form.Group>
+
+                          <Form.Group as={Col}>
+                            <Form.Label as="legend" column sm={2} style={{color: 'transparent'}}>
+                              Images
+                            </Form.Label>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
+                          </Form.Group>
+
+                        </Form.Row>
+
+                        <Form.Row className="mt-4">
+                          <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>
+                            Publier l'annonce
+                          </Button>
+                        </Form.Row>
+
+                      </Form>
+                    :
+                    <Grid container style={{marginTop: "7.5rem", padding: "15rem"}}>
+                        <Grid item xs={12}>
+                            <h1 style={{textAlign: "center"}}>Annonce posté avec succès</h1>
                         </Grid>
-                        :
-                        <Grid container style={{marginTop: "7.5rem", padding: "15rem"}}>
-                            <Grid item xs={12}>
-                                <h1 style={{textAlign: "center"}}>Annonce posté avec succès</h1>
+                            <Grid item xs={12} style={{textAlign: "center"}}>
+                                <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
                             </Grid>
-                                <Grid item xs={12} style={{textAlign: "center"}}>
-                                    <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
-                                </Grid>
-                        </Grid>
+                    </Grid>
                 }
-            </Grid>
+            </div>
         );
     }
 }
 
 export default withRouter(PostAd)
+
+// <Grid container style={{padding: "25px"}}>
+//     <Steps current={this.state.current}>
+//         {steps.map(item => (
+//             <Step key={item.id} title={item.title} />
+//         ))}
+//     </Steps>
+//     <Grid item className="steps-content" xs={12}>{steps[this.state.current].content}</Grid>
+//     <Grid container className="steps-action" xs={12} justify="center">
+//         <Grid item={12}>
+//             {
+//                 this.getStepContent(this.state.current)
+//             }
+//         </Grid>
+//         <Grid item xs={12} style={{textAlign: "center"}}>
+//             <Button disabled={this.state.current < 1} variant="contained" color="secondary"  onClick={this.prev} style={{marginRight: "2rem"}}>
+//                 Previous
+//             </Button>
+//             {
+//                 this.state.current < 5 ?
+//                     <Button variant="contained" color="secondary" onClick={this.next}>
+//                         Next
+//                     </Button>
+//                     :
+//                     <Button variant="contained" color="secondary" onClick={this.handleSubmit}>
+//                         Validez
+//                     </Button>
+//             }
+//         </Grid>
+//     </Grid>
+// </Grid>

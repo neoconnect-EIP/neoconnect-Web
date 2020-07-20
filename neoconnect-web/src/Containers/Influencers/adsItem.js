@@ -141,8 +141,9 @@ class adsItem extends React.Component{
     }
 
     render() {
+      console.log("DATA ", this.state.adData);
         return (
-            <Grid container justify="center">
+            <Grid container justify="center" className="infBg">
                 <Modal
                     open={this.state.visible}
                     onClose={() => this.handleModal(0)}
@@ -152,7 +153,7 @@ class adsItem extends React.Component{
                             this.state.fonction === "subscribe" ?
                                 <div style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
                                     <h3 style={{color: "black"}}>S'abonner à cette annonce ?</h3>
-                                    <h4 style={{marginBottom: "30px", color: "black"}}>{this.state.userData.productBrand ? this.state.userData.productBrand : "No brand"}</h4>
+                                    <h4 style={{marginBottom: "30px", color: "black"}}>{this.state.adData.brand ? this.state.adData.brand : "No brand"}</h4>
                                     <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleModal("")}>ANNULER</Button>
                                     <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceSubsribe(this.state.adData)}>S'ABONNER</Button>
                                 </div>
@@ -187,19 +188,19 @@ class adsItem extends React.Component{
                                 </Carousel>
                             </Grid>
                             <Grid item xs={12} md={5} style={{padding: "3.125rem", paddingLeft: "1.25rem"}}>
-                                <h6>{this.state.adData.productType}</h6>
-                                <h3 style={{marginTop: "2rem"}}>{this.state.adData.productBrand ? this.state.adData.productBrand : "Sans marque"}</h3>
-                                <h3 style={{marginTop: "2rem"}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
-                                <h4 style={{marginTop: "2rem", marginBottom: "2rem"}}>{`Sex: ${this.state.adData.productSex}`}</h4>
-                                <Button onClick={() => this.handleModal( "subscribe")} style={{width: "40%",  backgroundColor: "#292929"}}>S'ABONNER</Button>
+                                <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
+                                <h3 style={{marginTop: "2rem", color: 'white'}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
+                                <h3 style={{marginTop: "2rem", color: 'white'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
+                                <h4 style={{marginTop: "2rem", marginBottom: "2rem", color: 'white'}}>{`Sex: ${this.state.adData.productSex}`}</h4>
+                                <Button onClick={() => this.handleModal( "subscribe")} style={{width: "40%",  backgroundColor: "#292929", color: 'white'}}>S'ABONNER</Button>
                                 <br/>
-                                <Button onClick={() => this.handleModal( "rate")} style={{width: "40%", backgroundColor: "#292929", marginTop: "10px"}}>Noter</Button>
-                                <h4 style={{marginTop: "1rem"}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
-                                <h5 style={{marginTop: "3rem"}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
-                                <h5 style={{marginTop: "3rem"}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
+                                <Button onClick={() => this.handleModal( "rate")} style={{width: "40%", backgroundColor: "#292929", marginTop: "10px", color: 'white'}}>Noter</Button>
+                                <h4 style={{marginTop: "1rem", color: 'white'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
+                                <h5 style={{marginTop: "3rem", color: 'white'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
+                                <h5 style={{marginTop: "3rem", color: 'white'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                             </Grid>
                             <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "5rem"}}>
-                                <h2 style={{textAlign: "center"}}>Avis</h2>
+                                <h2 style={{textAlign: "center", color: 'white'}}>Avis</h2>
                                 <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "3.5rem"}}>
                                     <ListItem style={{height: "4.375rem"}}>
                                         <ListItemAvatar style={{marginRight: "1rem"}}>
@@ -216,7 +217,6 @@ class adsItem extends React.Component{
                                                 endAdornment={
                                                     <InputAdornment position="end">
                                                         <Button
-                                                            simple
                                                             onClick={this.handleSendMessage}
                                                             style={{marginTop: "-1rem"}}
                                                         >

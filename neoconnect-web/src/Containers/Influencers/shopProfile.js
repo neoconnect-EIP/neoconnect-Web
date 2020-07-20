@@ -30,9 +30,7 @@ import Image from 'react-bootstrap/Image';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import PlaceIcon from '@material-ui/icons/Place';
 import StarRatings from 'react-star-ratings';
-import CreateIcon from '@material-ui/icons/Create';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import { store } from 'react-notifications-component';
 import facebook from "../../assets/facebook.svg";
@@ -45,6 +43,8 @@ import snapchat from "../../assets/snapchat.svg";
 import snapchatOff from "../../assets/snapchatOff.svg";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import place from "../../assets/place.svg";
+import edit from "../../assets/edit.svg";
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -163,8 +163,8 @@ class shopProfile extends React.Component{
                 </div>
               </Col>
               <Col>
-                <p style={{color: "#5f5f5f", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
-                <p style={{color: "black", marginTop: "15px"}}>{x.comment}</p>
+                <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
+                <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
               </Col>
             </Row>
         )
@@ -185,7 +185,7 @@ class shopProfile extends React.Component{
     }
 
     handleClose = () => {
-      this.setState({signal: false, raison: "", clickedSignal: false})
+      this.setState({signal: false, raison: "", clickedSignal: false, info: ""})
     }
 
     handleCloseRate = () => {
@@ -237,7 +237,7 @@ class shopProfile extends React.Component{
 
     render() {
         return (
-            <Grid container justify="center">
+            <div className="infBg">
                 {
                     this.state.shopData && this.state.userData ?
                         <div>
@@ -249,10 +249,10 @@ class shopProfile extends React.Component{
                              <Rate onChange={(e) => this.handleMark(e)} />
                            </Modal.Body>
                            <Modal.Footer>
-                             <Button variant="secondary" onClick={this.handleCloseRate}>
+                             <Button className="btnCancel" onClick={this.handleCloseRate}>
                                Annuler
                              </Button>
-                             <Button variant="success" onClick={this.handleSendMark}>
+                             <Button className="btnInf" onClick={this.handleSendMark}>
                                Noter
                              </Button>
                            </Modal.Footer>
@@ -289,10 +289,10 @@ class shopProfile extends React.Component{
                             </Col>
                             <Col md={3} className="pt-2">
                               <Row className="ml-0">
-                                <h1 style={{fontWeight: '300', marginRight: '25px'}}>{this.state.shopData.pseudo}</h1>
+                                <h1 style={{fontWeight: '300', marginRight: '25px', color: 'white'}}>{this.state.shopData.pseudo}</h1>
                                 <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
                               </Row>
-                              <PlaceIcon /> {this.state.shopData.city ? this.state.shopData.city : "Non renseigné"}
+                              <Image className="iconProfileSocial" src={place}/> <span style={{color: 'white'}}>{this.state.shopData.city ? this.state.shopData.city : "Non renseigné"}</span>
                                 <Badge className="ml-4 pill">
                                   {this.state.shopData.function}
                                 </Badge>
@@ -341,7 +341,7 @@ class shopProfile extends React.Component{
                             </Col>
                             <Col md={4} className="pt-2 ml-2">
                               <Row>
-                                <h2 style={{fontWeight: '300'}}>
+                                <h2 style={{fontWeight: '300', color: 'white'}}>
                                   Note
                                 </h2>
                               </Row>
@@ -349,7 +349,7 @@ class shopProfile extends React.Component{
                               {!this.state.shopData.average && <p style={{fontWeight: '200'}}>Aucune note</p>}
                               <Row>
                                 {this.state.shopData.average &&
-                                <p className="pt-1 mr-3">{this.state.shopData.average}</p>}
+                                <p className="pt-1 mr-3" style={{color: "white"}}>{this.state.shopData.average}</p>}
                                 <StarRatings
                                    rating={this.state.shopData.average ? this.state.shopData.average : 0}
                                    starRatedColor="#FFC106"
@@ -357,13 +357,13 @@ class shopProfile extends React.Component{
                                    name='rating'
                                    starDimension="20px"
                                  />
-                                <CreateIcon onClick={() => {this.setState({visible: true})}} className="ml-4 mt-2 editIcon" style={{width:'15px', height: '15px'}}/>
+                               <Image className="iconProfileSocial" className="ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
                               </Row>
                             </Col>
                           </Row>
                           <Row className="ml-4 mt-4">
                             <Col md={6}>
-                              <h1 style={{fontWeight: '300'}}>Avis</h1>
+                              <h1 style={{fontWeight: '300', color: 'white'}}>Avis</h1>
                               <Row className="mt-4 mb-4">
                                 <Col md={1}>
                                   <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
@@ -371,7 +371,7 @@ class shopProfile extends React.Component{
                                 <Col md={8}>
                                   <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                                 </Col>
-                                <Col md={1}>
+                                <Col md={1} className="my-auto">
                                   <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
                                 </Col>
                               </Row>
@@ -380,9 +380,9 @@ class shopProfile extends React.Component{
                               }
                             </Col>
                             <Col md={6} className="pr-4">
-                              <h1 style={{fontWeight: '300'}}>Description</h1>
-                              <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                              <h1 style={{fontWeight: '300', color: 'white'}}>Description</h1>
+                              <p style={{color: 'white'}}>
+                                {this.state.shopData.userDescription ? this.state.shopData.userDescriptio : "Description non fourni"}
                               </p>
                             </Col>
                           </Row>
@@ -396,7 +396,7 @@ class shopProfile extends React.Component{
                             style={{marginTop: "14rem"}}
                         />
                 }
-            </Grid>
+            </div>
         );
     }
 }

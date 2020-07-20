@@ -3,6 +3,7 @@ import {Form, Icon, Button} from 'antd';
 import {Grid, Input} from '@material-ui/core';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import { store } from 'react-notifications-component';
 
 export default class Login extends React.Component{
     constructor(props) {
@@ -10,7 +11,6 @@ export default class Login extends React.Component{
         this.state = {
             username: "",
             password: "",
-            errorMessage: "",
             isLoading: false,
         }
     }
@@ -29,8 +29,24 @@ export default class Login extends React.Component{
             res.userType === "influencer" ? this.props.history.push('/dashboard/advertisements') : this.props.history.push('/shop-dashboard/ads')
         }
         else {
+            store.addNotification({
+              title: "Erreur",
+              message: "L'utilisateur n'existe pas ou mot de passe incorrecte",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              pauseOnHover: true,
+              isMobile: true,
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 7000,
+                onScreen: true,
+                showIcon: true,
+                pauseOnHover: true
+              }
+            });
             this.setState({isLoading: false})
-            this.setState({errorMessage: res.message})
         }
     }
 
@@ -39,6 +55,7 @@ export default class Login extends React.Component{
     }
 
     handleSubmit = () => {
+      if (this.state.username && this.state.password) {
         let body = {
             "pseudo": this.state.username,
             "password": this.state.password,
@@ -49,6 +66,27 @@ export default class Login extends React.Component{
             .then(res => {return res.json()})
             .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
+      }
+      else {
+        store.addNotification({
+          title: "Erreur",
+          message: "Veuillez fournir le nom d'utilisateur et le mot de passe.",
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true,
+            pauseOnHover: true
+          }
+        });
+      }
+
     };
 
     handleKeyPress = (event) => {
@@ -98,19 +136,13 @@ export default class Login extends React.Component{
                                         onChange={this.handlePasswordChange}
                                         onKeyPress={this.handleKeyPress}
                                     />
-                                    {
-                                        this.state.errorMessage ?
-                                            <h5 style={{color: "red", marginBottom: "-30px"}}>{this.state.errorMessage}</h5>
-                                            :
-                                            ""
-                                    }
                                 </div>
                                 <Grid container style={{marginTop: "50px", paddingBottom: "30px"}}>
                                     <Grid item xs={12}>
                                         <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{color: 'white', width: "9.375rem", height: "2.1875rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>Connexion</Button>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <p style={{color: "#fff", marginTop: "0.2", marginBottom: "0rem"}}>-or-</p>
+                                        <p style={{color: "#fff", marginTop: "0.2", marginBottom: "0rem"}}>-ou-</p>
                                         <a style={{color: "#fff"}} onClick={this.forgotPassword}>Mot de passe oublié</a>
                                     </Grid>
                                 </Grid>
