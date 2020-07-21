@@ -38,19 +38,24 @@ class Ads extends React.Component {
         };
     };
 
+    getOffers = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/shop/${localStorage.getItem("userId")}`, {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+          .then(res => res.json())
+          .then(res => this.setState({adsData: res}))
+          .catch(error => console.error('Error:', error));
+    }
+
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/shop/${localStorage.getItem("userId")}`, {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        })
-            .then(res => res.json())
-            .then(res => this.setState({adsData: res}))
-            .catch(error => console.error('Error:', error));
+        this.getOffers();
     };
 
 
     handleVisibleModal = (ad) => {
-        this.setState({visible: !this.state.visible, actualAd: ad})
+        this.setState({visible: !this.state.visible, actualAd: ad});
+        this.getOffers();
     };
 
     handleEdit = (id) => {
@@ -89,8 +94,8 @@ class Ads extends React.Component {
     }
 
     handleResponse = (res, choice, inf) => {
-        console.log("RES ", res);
-        if (res)
+        console.log("RES ", choice);
+        if (choice)
           store.addNotification({
             title: "Envoyé",
             message: "Nous avons pris en compte de votre acceptation. Une notification sera envoyé à " + inf ,
@@ -150,9 +155,9 @@ class Ads extends React.Component {
             ad.infs.map(inf => (
               <tr hidden={ad.show ? false : true}>
                 <td>{inf.idUser}</td>
-                <td><Button variant="outline-info" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
-                <td><Button variant="outline-success" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
-                <td><Button variant="outline-danger" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button></td>
+                <td><Button className="btnShop" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
+                <td><Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
+                <td><Button className="btnInfDelete" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button></td>
                 <td>Abonnée le {new Date(inf.createdAt).toLocaleDateString()}</td>
                 <td></td>
                 <td></td>
@@ -240,14 +245,14 @@ class Ads extends React.Component {
             <div container justify="center" className="shopBg" style={{height: '100vh'}}>
               <Modal centered show={this.state.visible} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Supression</Modal.Title>
+                  <Modal.Title>Suppression</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>Êtes-vous sur de vouloir supprimer cette offre ?</Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={this.handleClose}>
+                  <Button className="btnCancel" onClick={this.handleClose}>
                     Non
                   </Button>
-                  <Button variant="danger" onClick={() => this.handleDelete(this.state.actualAd.id)}>
+                  <Button className="btnInfDelete" onClick={() => this.handleDelete(this.state.actualAd.id)}>
                     Oui
                   </Button>
                 </Modal.Footer>

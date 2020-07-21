@@ -8,7 +8,11 @@
 
 .shopBg {
   min-height: 100vh;
-  background: linear-gradient(180deg, rgba(67,74,98,1) 0%, rgba(94,114,121,1) 35%, rgba(184,205,193,1) 100%);
+  background: linear-gradient(180deg, rgba(58,59,91,1) 0%, rgba(139,168,143,1) 49%, rgba(255,255,255,1) 100%);
+}
+
+.shopBgCard {
+  background: linear-gradient(180deg, rgba(58,59,91,1) 0%, rgba(139,168,143,1) 70%, rgba(255,255,255,1) 100%);
 }
 
 .infBg {
@@ -16,13 +20,17 @@
   background: linear-gradient(180deg, rgba(57,58,94,1) 0%, rgba(88,114,144,1) 35%, rgba(137,188,208,1) 100%);
 }
 
-.btnShop {
-  background-color: #7EB681 !important;
-  border-color: #7EB681 !important;
-  border-radius: 20px !important;
+.infBgCard {
+  background: linear-gradient(180deg, rgba(57,58,94,1) 0%, rgba(88,114,144,1) 35%, rgba(137,188,208,1) 100%);
 }
 
 .btnInf {
+  background-color: #78A4B9 !important;
+  border-color: #78A4B9 !important;
+  border-radius: 20px !important;
+}
+
+.btnShop {
   background-color: #7EB681 !important;
   border-color: #7EB681 !important;
   border-radius: 20px !important;

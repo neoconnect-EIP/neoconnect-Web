@@ -221,7 +221,7 @@ class ShopStatus extends React.Component{
                     Annuler
                   </Button>
                   <Button className="btnInfDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
-                  <Button className="btnInf" onClick={this.handleSubmit}>
+                  <Button className="btnShop" onClick={this.handleSubmit}>
                     Sauvegarder
                   </Button>
                   </Modal.Footer>
@@ -311,7 +311,7 @@ class ShopStatus extends React.Component{
                       </Row>
                       <Row className="mx-0 mt-4 pt-4">
                         <Col align="center">
-                          <Button className="btnInf" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
+                          <Button className="btnShop" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
                         </Col>
                       </Row>
                     </div>

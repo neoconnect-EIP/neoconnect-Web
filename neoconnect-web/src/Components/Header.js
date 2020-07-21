@@ -1,10 +1,11 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Modal, Button, Slide, Grid} from '@material-ui/core';
+import {Button, Slide, Grid} from '@material-ui/core';
 import "../Containers/index.css"
 import NeoconnectLogo from "../assets/NeoconnectLogo.png"
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Modal from 'react-bootstrap/Modal';
 
 class Header extends React.Component{
     constructor(props) {
@@ -23,6 +24,10 @@ class Header extends React.Component{
 
     landing = () => {
         this.props.history.push('/landing-page')
+    }
+
+    handleClose = () => {
+        this.setState({visible: false})
     }
 
     render() {
@@ -45,25 +50,18 @@ class Header extends React.Component{
                 <Nav.Link className="text-light h5" onClick={() => this.props.history.push('/landing-page/login')}>Se connecter</Nav.Link>
               </Nav>
             </Navbar>
-            <Modal className="inscription-modal"
-                     style={{width: "40rem", height: "auto", display: "block", marginLeft: "auto", marginRight: "auto", backgroundColor: "transparent"}}
-                     aria-labelledby="Êtes vous Influenceur ou commercant ?"
-                     open={this.state.visible}
-                     onClose={this.showModal}
-            >
-                <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
-                    <Grid container style={{width: "40rem", height: "auto", borderRadius: "8px", backgroundColor: "#0000006e", backdropFilter: "blur(8px)"}} justify="center">
-                        <Grid item xs={12} style={{marginTop: "-1.5rem", marginLeft: "3rem", marginRight: "3rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
-                            <h2 style={{color: "white"}}>S'inscrire en tant que</h2>
-                        </Grid>
-                        <Grid item xs={6} style={{marginTop: "3rem", marginBottom: "3rem", paddingLeft: "4.5rem"}}>
-                            <Button href="/landing-page/Shop-sign-up" style={{color: 'white', height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>BOUTIQUE</Button>
-                        </Grid>
-                        <Grid item xs={6} style={{marginTop: "3rem", marginBottom: "3rem", paddingLeft: "4.5rem"}}>
-                            <Button href="/landing-page/influencer-sign-up" style={{color: 'white', height: "3rem", width: "10rem", fontSize: "1.3rem", backgroundImage: "linear-gradient(65deg, #000, #292929)", borderRadius: "8px"}}>INFLUENCEUR</Button>
-                        </Grid>
-                    </Grid>
-                </Slide>
+            <Modal centered show={this.state.visible} onHide={this.handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Inscription</Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="mx-auto">
+                <Button className="btnShop mr-4" style={{color: "white"}} href="/landing-page/Shop-sign-up" >
+                  Boutique
+                </Button>
+                <Button className="btnInf ml-4" style={{color: "white"}}  href="/landing-page/influencer-sign-up">
+                  Influenceur
+                </Button>
+              </Modal.Body>
             </Modal>
           </div>
         );

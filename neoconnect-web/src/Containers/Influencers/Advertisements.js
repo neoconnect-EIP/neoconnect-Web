@@ -288,10 +288,10 @@ class Advertisements extends React.Component{
                    }
                  </Modal.Body>
                  <Modal.Footer>
-                   <Button variant="secondary" onClick={this.handleClose}>
+                   <Button className="btnCancel" onClick={this.handleClose}>
                      Annuler
                    </Button>
-                   <Button variant="success" onClick={this.handleAnnonceSubsribe}>
+                   <Button className="btnInf" onClick={this.handleAnnonceSubsribe}>
                      S'abonner
                    </Button>
                  </Modal.Footer>

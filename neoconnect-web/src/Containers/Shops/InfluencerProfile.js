@@ -227,7 +227,7 @@ class InfluencerProfile extends React.Component {
                            <Button className="btnCancel" onClick={this.handleCloseRate}>
                              Annuler
                            </Button>
-                           <Button className="btnInf" onClick={this.handleSendMark}>
+                           <Button className="btnShop" onClick={this.handleSendMark}>
                              Noter
                            </Button>
                          </Modal.Footer>
