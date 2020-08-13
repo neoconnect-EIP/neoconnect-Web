@@ -6,6 +6,18 @@
     z-index: 5;
 }
 
+.messageUser:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  border-radius: 40px;
+}
+
+.messageUserOn {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  border-radius: 40px;
+}
+
 .shopBg {
   min-height: 100vh;
   background: linear-gradient(180deg, rgba(58,59,91,1) 0%, rgba(139,168,143,1) 70%, rgb(176, 196, 179) 100%);
@@ -27,6 +39,26 @@
 
 .infBgCard {
   background: linear-gradient(180deg, rgba(57,58,94,1) 0%, rgba(88,114,144,1) 35%, rgba(137,188,208,1) 100%);
+}
+
+.senderMsg {
+  background-color: #3E415E;
+  color: white;
+  border-radius: 15px;
+  max-width: 40%;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.receiverMsg {
+  background-color: #a1a4ba;
+  color: white;
+  border-radius: 15px;
+  max-width: 40%;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
 }
 
 .btnInf {

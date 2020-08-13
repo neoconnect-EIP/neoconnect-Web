@@ -6,7 +6,7 @@ import background from '../assets/Equinox-Shop.jpg'
 import Button from 'react-bootstrap/Button';
 
 
-export default class About extends React.Component{
+export default class Chat extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
