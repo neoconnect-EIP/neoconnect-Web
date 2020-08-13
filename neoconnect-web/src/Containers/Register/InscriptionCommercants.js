@@ -3,7 +3,11 @@ import {Form, Icon, Steps} from 'antd';
 import {Grid, Input, Button, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import "../index.css";
 import { store } from 'react-notifications-component';
-
+import Image from 'react-bootstrap/Image';
+import instagram from "../../assets/instagram.svg";
+import facebook from "../../assets/facebook.svg";
+import snapchat from "../../assets/snapchat.svg";
+import twitter from "../../assets/twitter.svg";
 const { Step } = Steps;
 
 //TODO refaire style
@@ -21,8 +25,12 @@ export default class ShopSignUp extends React.Component{
             city: "",
             prone: "",
             theme: "",
-            function: "",
             society: "",
+            site: "",
+            facebook: "",
+            instagram: "",
+            snapchat: "",
+            twitter: "",
             current: 0,
             isEnd: false,
             goodPassword: false,
@@ -31,7 +39,8 @@ export default class ShopSignUp extends React.Component{
               "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
               "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
               "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
-            }
+            },
+            function: "",
         }
     }
 
@@ -99,23 +108,34 @@ export default class ShopSignUp extends React.Component{
                 return (
                     <Grid container justify="center">
                         <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
-                            <h1 style={{color: "#fff"}}>Identifiant et mot de passe</h1>
+                            <h1 style={{fontWeight: '300'}}>Informations de compte</h1>
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="user" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="text"
                                 name="username"
                                 placeholder="Pseudo"
                                 value={this.state.username}
                                 onChange={this.handleChange}
                             />
-                            </Grid>
+                        </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="lock" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Icon type="mail" style={{ color: 'black', marginRight: "8px"}} />
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
+                                type="text"
+                                name="email"
+                                placeholder="Email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="lock" style={{ color: 'black', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: 'black'}}
                                 type="password"
                                 name="password"
                                 placeholder="Mot de passe"
@@ -125,9 +145,9 @@ export default class ShopSignUp extends React.Component{
                             />
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                            <Icon type="lock" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Icon type="lock" style={{ color: 'black', marginRight: "8px"}}/>
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="password"
                                 name="password2"
                                 placeholder="Confirmation"
@@ -148,34 +168,23 @@ export default class ShopSignUp extends React.Component{
                 return (
                     <Grid container justify="center">
                         <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
-                            <h1 style={{color: "#fff"}}>Informations personelles</h1>
+                            <h1 style={{fontWeight: '300'}}>Informations personnelles</h1>
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="user" style={{ color: '#fff', marginRight: "8px"}}/>
+                            <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="text"
                                 name="full_name"
-                                placeholder="Nom et prénom"
+                                placeholder="Nom complet"
                                 value={this.state.full_name}
                                 onChange={this.handleChange}
                             />
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="home" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Icon type="home" style={{ color: 'black', marginRight: "8px"}} />
                             <Input
-                                style={{color: "#fff"}}
-                                type="text"
-                                name="postal"
-                                placeholder="Code postal"
-                                value={this.state.postal}
-                                onChange={this.handleChange}
-                            />
-                        </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="home" style={{ color: '#fff', marginRight: "8px"}} />
-                            <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="text"
                                 name="city"
                                 placeholder="Ville"
@@ -184,20 +193,20 @@ export default class ShopSignUp extends React.Component{
                             />
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="mail" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Icon type="home" style={{ color: 'black', marginRight: "8px"}} />
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="text"
-                                name="email"
-                                placeholder="Email"
-                                value={this.state.email}
+                                name="postal"
+                                placeholder="Code postal"
+                                value={this.state.postal}
                                 onChange={this.handleChange}
                             />
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                            <Icon type="mobile" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Icon type="mobile" style={{ color: 'black', marginRight: "8px"}} />
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="text"
                                 name="phone"
                                 placeholder="Numéro de téléphone"
@@ -211,34 +220,12 @@ export default class ShopSignUp extends React.Component{
                 return (
                     <Grid container justify="center">
                         <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
-                            <h1 style={{color: "#fff"}}>Renseigner vos réseaux</h1>
+                            <h1 style={{fontWeight: '300'}}>Informations légales</h1>
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="skin" style={{ color: '#fff', marginRight: "8px"}} />
-                            <FormControl variant="outlined" style={{width: "21.7rem", color: "#fff"}}>
-                                <InputLabel id="demo-simple-select-outlined-label" style={{color: "#fff"}}>
-                                    Thème
-                                </InputLabel>
-                                <Select
-                                    style={{color: "#fff"}}
-                                    labelId="demo-simple-select-outlined-label"
-                                    name="theme"
-                                    value={this.state.theme}
-                                    onChange={this.handleChange}
-                                >
-                                    <MenuItem value={1}>Mode</MenuItem>
-                                    <MenuItem value={2}>Cosmetique</MenuItem>
-                                    <MenuItem value={3}>Hight tech</MenuItem>
-                                    <MenuItem value={4}>Food</MenuItem>
-                                    <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                    <MenuItem value={6}>Sport/fitness</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="shop" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Icon type="shop" style={{ color: 'black', marginRight: "8px"}} />
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="text"
                                 name="society"
                                 placeholder="Société"
@@ -247,9 +234,9 @@ export default class ShopSignUp extends React.Component{
                             />
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                            <Icon type="info" style={{ color: '#fff', marginRight: "8px"}} />
+                            <Icon type="info" style={{ color: 'black', marginRight: "8px"}} />
                             <Input
-                                style={{color: "#fff"}}
+                                style={{color: 'black'}}
                                 type="text"
                                 name="function"
                                 placeholder="Fonction"
@@ -257,8 +244,93 @@ export default class ShopSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                            <Icon type="global" style={{ color: 'black', marginRight: "8px"}} />
+                            <Input
+                                style={{color: 'black'}}
+                                type="text"
+                                name="siteweb"
+                                placeholder="Site web"
+                                value={this.state.site}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
                     </Grid>
                 );
+                case 3:
+                    return (
+                        <Grid container justify="center">
+                            <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                                <h1 style={{fontWeight: '300'}}>Renseigner vos réseaux</h1>
+                            </Grid>
+                            <Grid className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                                <Image className="iconProfileSocial" src={instagram}/>
+                                <Input
+                                    style={{color: 'black'}}
+                                    type="text"
+                                    name="instagram"
+                                    placeholder="Instagram"
+                                    value={this.state.instagram}
+                                    onChange={this.handleChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                              <Image className="iconProfileSocial" src={facebook}/>
+                                <Input
+                                    style={{color: 'black'}}
+                                    type="text"
+                                    name="facebook"
+                                    placeholder="Facebook"
+                                    value={this.state.facebook}
+                                    onChange={this.handleChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                              <Image className="iconProfileSocial" src={twitter}/>
+                                <Input
+                                    style={{color: 'black'}}
+                                    type="text"
+                                    name="twitter"
+                                    placeholder="Twitter"
+                                    value={this.state.twitter}
+                                    onChange={this.handleChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                              <Image className="iconProfileSocial" src={snapchat}/>
+                                <Input
+                                    style={{color: 'black'}}
+                                    type="text"
+                                    name="snapchat"
+                                    placeholder="Snapchat"
+                                    value={this.state.snapchat}
+                                    onChange={this.handleChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                                <Icon type="skin" style={{ color: 'black', marginRight: "8px"}} />
+                                <FormControl variant="outlined" style={{width: "21.7rem", color: 'black'}}>
+                                    <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
+                                        Thème
+                                    </InputLabel>
+                                    <Select
+                                        style={{color: 'black'}}
+                                        labelId="demo-simple-select-outlined-label"
+                                        name="theme"
+                                        value={this.state.theme}
+                                        onChange={this.handleChange}
+                                    >
+                                        <MenuItem value={1}>Mode</MenuItem>
+                                        <MenuItem value={2}>Cosmetique</MenuItem>
+                                        <MenuItem value={3}>Hight tech</MenuItem>
+                                        <MenuItem value={4}>Food</MenuItem>
+                                        <MenuItem value={5}>Jeux vidéo</MenuItem>
+                                        <MenuItem value={6}>Sport/fitness</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+                    );
             default:
                 return 'Unknown step';
         }
@@ -276,17 +348,10 @@ export default class ShopSignUp extends React.Component{
 
     render() {
         return (
-            <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
-                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "#000000a8", backdropFilter: "blur(8px)"}}>
-                    <div style={{backgroundImage: "linear-gradient(65deg, #000, #292929)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-2rem", borderRadius: "8px"}}>
-                        <h1 style={{textAlign: "center", color: "white", paddingBottom: "0.5rem"}}>Inscription boutique</h1>
-                    </div>
+            <Grid container direction="row" justify="center" alignItems="center" className="shopBg" style={{height: "100%"}}>
+                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "white", backdropFilter: "blur(8px)"}}>
+
                     <Form className="formular" onSubmit={this.handleSubmit} style={{margin: "2rem"}}>
-                        <Steps progressDot current={this.state.current}>
-                            <Step title={<p style={{color: "#fff"}}>Identifiant et mot de passe</p>}/>
-                            <Step title={<p style={{color: "#fff"}}>Informations personelles</p>}/>
-                            <Step title={<p style={{color: "#fff"}}>Renseignez vos réseaux</p>}/>
-                        </Steps>
                         <Grid container className="steps-action" justify="center">
                             <Grid item={12}>
                                 {
@@ -294,16 +359,16 @@ export default class ShopSignUp extends React.Component{
                                 }
                             </Grid>
                             <Grid item xs={12} style={{textAlign: "center"}}>
-                                <Button disabled={this.state.current < 1} variant="contained" color="secondary"  onClick={this.prev} style={{marginRight: "2rem"}}>
+                                <Button disabled={this.state.current < 1} className="btnShop" onClick={this.prev} style={{marginRight: "2rem"}}>
                                     Précédent
                                 </Button>
                                 {
-                                    this.state.current < 2 ?
-                                        <Button  disabled={this.state.password !== this.state.password2} variant="contained" color="secondary" onClick={this.next}>
+                                    this.state.current < 3 ?
+                                        <Button  disabled={this.state.password !== this.state.password2} className="btnShop" onClick={this.next}>
                                             Suivant
                                         </Button>
                                         :
-                                        <Button onClick={this.handleSubmit} style={{color: 'white', height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                                        <Button onClick={this.handleSubmit} className="btnShop">
                                             S'inscrire
                                         </Button>
                                 }

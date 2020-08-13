@@ -178,7 +178,7 @@ export default class Login extends React.Component{
                  <Modal.Title>Mot de passe oublié</Modal.Title>
                </Modal.Header>
                <Modal.Body>
-                 <p>Un email de rénitialisation vous sera enovoyé.<br/> Vérifiez vos spam !</p>
+                 <p>Veuillez entrer votre addrese email. Un code à fournir vous sera envoyé</p>
                    <Form.Label>Email</Form.Label>
                    <Form.Control type="email" placeholder="exemple@exemple.fr" onChange={this.handleEmailChange} value={this.state.email}/>
                </Modal.Body>

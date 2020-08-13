@@ -419,7 +419,7 @@ export default class LandingPage extends React.Component{
                             </div>
                         // </div>
                         :
-                        <div style={{backgroundImage: "url(" + "https://media.cdn-equinox.com/website/Images/Club-Assets/Clubs/Dallas/RiverOaks/April1/RiverOaks_Shop_2048x900.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", height: "100%", position: "fixed"}}>
+                        <div style={{backgroundImage: "url(" + "https://media.cdn-equinox.com/website/Images/Club-Assets/Clubs/Dallas/RiverOaks/April1/RiverOaks_Shop_2048x900.jpg" + ")", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", marginTop: '86px', position: "fixed", height: 'calc(100% - 86px)'}}>
                                 <Switch>
                                     <Route path="/landing-page/login" exact component={Login}/>
                                     <Route path="/landing-page/about" component={About}/>
