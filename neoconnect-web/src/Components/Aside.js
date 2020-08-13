@@ -57,7 +57,7 @@ class Aside extends React.Component{
                         Oui
                       </Button>
                     </Modal.Footer>
-                  </Modal>
+                  </Modal>   
                 </div>
                 {
                     this.props.isShop ?

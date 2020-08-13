@@ -154,7 +154,7 @@ class Ads extends React.Component {
           return (
             ad.infs.map(inf => (
               <tr hidden={ad.show ? false : true}>
-                <td>{inf.idUser}</td>
+                <td>{inf.pseudoUser}</td>
                 <td><Button className="btnShop" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
                 <td><Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
                 <td><Button className="btnInfDelete" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button></td>

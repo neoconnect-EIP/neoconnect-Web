@@ -7,6 +7,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Modal from 'react-bootstrap/Modal';
 
+//TODO modal pour connxion
+
 class Header extends React.Component{
     constructor(props) {
         super(props);

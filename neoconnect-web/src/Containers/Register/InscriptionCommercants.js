@@ -6,6 +6,8 @@ import { store } from 'react-notifications-component';
 
 const { Step } = Steps;
 
+//TODO refaire style
+
 export default class ShopSignUp extends React.Component{
     constructor(props) {
         super(props);
