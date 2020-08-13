@@ -2,9 +2,9 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
 import {
-    Button,
     Grid,
     Modal,
+    Button,
     Slide,
     Avatar,
     List,
@@ -21,7 +21,14 @@ import SendIcon from '@material-ui/icons/Send';
 import noImages from "../../assets/noImages.jpg"
 import avatar from "../../assets/avatar1.png";
 import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Buttonx from 'react-bootstrap/Button';
+import Modalx from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
+
+
+//TODO mettre au meme modal faire le signaler Button x et modal x
 
 class adsItem extends React.Component{
     constructor(props) {
@@ -34,6 +41,7 @@ class adsItem extends React.Component{
             fonction: "",
             mark: null,
             commentInput: "",
+            signal: false,
             commentData: null,
             urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
         };
@@ -140,6 +148,14 @@ class adsItem extends React.Component{
         )
     }
 
+    handleOpen = () => {
+      this.setState({signal: true})
+    }
+
+    handleClose = () => {
+      this.setState({signal: false, raison: "", clickedSignal: false, info: ""})
+    }
+
     render() {
       console.log("DATA ", this.state.adData);
         return (
@@ -152,7 +168,7 @@ class adsItem extends React.Component{
                         {
                             this.state.fonction === "subscribe" ?
                                 <div style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
-                                    <h3 style={{color: "black"}}>S'abonner à cette annonce ?</h3>
+                                    <h3 style={{color: "black"}}>S'abonner à cette offre ?</h3>
                                     <h4 style={{marginBottom: "30px", color: "black"}}>{this.state.adData.brand ? this.state.adData.brand : "No brand"}</h4>
                                     <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleModal("")}>ANNULER</Button>
                                     <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceSubsribe(this.state.adData)}>S'ABONNER</Button>
@@ -160,7 +176,7 @@ class adsItem extends React.Component{
                                 :
                                 <Grid container style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
                                     <Grid item xs={12}>
-                                        <h3 style={{color: "black"}}>Notez cette annonce !</h3>
+                                        <h3 style={{color: "black"}}>Notez cette offre !</h3>
                                     </Grid>
                                     <Grid item style={{position: "relative", marginRight: "auto", marginLeft: "auto"}}>
                                         <Rate onChange={(e) => this.handleMark(e)} />
@@ -171,7 +187,33 @@ class adsItem extends React.Component{
                                 </Grid>
                         }
                     </Slide>
-                </Modal>
+                  </Modal>
+                  <Modalx centered show={this.state.signal} onHide={this.handleClose}>
+                   <Modalx.Header closeButton>
+                     <Modalx.Title>Signaler cette offre</Modalx.Title>
+                   </Modalx.Header>
+                   <Modalx.Body>
+                     <Form>
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Raison</Form.Label>
+                        <Form.Control value={this.state.raison} onChange={(e) => {this.setState({raison: e.target.value})}}/>
+                      </Form.Group>
+                      <Form.Group controlId="formBasicPassword">
+                        <Form.Label>Information complémentaire</Form.Label>
+                        <Form.Control value={this.state.info} onChange={(e) => {this.setState({info: e.target.value})}} placeholder="" />
+                      </Form.Group>
+                    </Form>
+                   </Modalx.Body>
+                   <Modalx.Footer>
+                     {!this.state.raison && this.state.clickedSignal && <small className="text-danger">Veuillez informer une raison</small>}
+                     <Buttonx className="btnCancel" onClick={this.handleClose}>
+                       Annuler
+                     </Buttonx>
+                     <Buttonx className="btnInf" onClick={() => {this.handleAnnonceReport(this)}}>
+                       Signaler
+                     </Buttonx>
+                   </Modalx.Footer>
+                  </Modalx>
                 {
                     this.state.adData ?
                         <Grid container style={{padding: "30px"}}>
@@ -189,13 +231,17 @@ class adsItem extends React.Component{
                             </Grid>
                             <Grid item xs={12} md={5} style={{padding: "3.125rem", paddingLeft: "1.25rem"}}>
                                 <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
-                                <h3 style={{marginTop: "2rem", color: 'white'}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
+                                  <div style={{ textAlign:'left'}}>
+                                    <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
+                                    <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
+                                  </div>
+
                                 <h3 style={{marginTop: "2rem", color: 'white'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
                                 <h4 style={{marginTop: "2rem", marginBottom: "2rem", color: 'white'}}>{`Sex: ${this.state.adData.productSex}`}</h4>
-                                <Button onClick={() => this.handleModal( "subscribe")} style={{width: "40%",  backgroundColor: "#292929", color: 'white'}}>S'ABONNER</Button>
-                                <br/>
-                                <Button onClick={() => this.handleModal( "rate")} style={{width: "40%", backgroundColor: "#292929", marginTop: "10px", color: 'white'}}>Noter</Button>
+                                <Buttonx onClick={() => this.handleModal( "subscribe")} className="btnInf">S'ABONNER</Buttonx>
                                 <h4 style={{marginTop: "1rem", color: 'white'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
+                                <Buttonx onClick={() => this.handleModal( "rate")}  className="btnInf">Noter</Buttonx>
+
                                 <h5 style={{marginTop: "3rem", color: 'white'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
                                 <h5 style={{marginTop: "3rem", color: 'white'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                             </Grid>

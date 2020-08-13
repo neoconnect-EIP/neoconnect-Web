@@ -233,7 +233,7 @@ class Advertisements extends React.Component{
         return (
             <div justify="center" className="infBg"  >
               <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des annonces</Navbar.Brand>
+                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des offres</Navbar.Brand>
               </Navbar>
               <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
               <DropdownButton
@@ -263,7 +263,7 @@ class Advertisements extends React.Component{
               </InputGroup>
                 {
                     this.state.adsData ?
-                      <CardColumns className="pl-2">
+                      <CardColumns className="pl-2 pr-4">
                             {
 
                                 this.state.adsData.map(item => this.handleCard(item))
@@ -280,7 +280,7 @@ class Advertisements extends React.Component{
                 }
                 <Modal centered show={this.state.visible} onHide={this.handleClose}>
                  <Modal.Header closeButton>
-                   <Modal.Title>S'abonner à cette annonce ?</Modal.Title>
+                   <Modal.Title>S'abonner à cette offre ?</Modal.Title>
                  </Modal.Header>
                  <Modal.Body>
                    {

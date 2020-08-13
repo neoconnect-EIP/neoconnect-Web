@@ -275,10 +275,10 @@ class shopProfile extends React.Component{
                            </Modal.Body>
                            <Modal.Footer>
                              {!this.state.raison && this.state.clickedSignal && <small className="text-danger">Veuillez informer une raison</small>}
-                             <Button variant="secondary" onClick={this.handleClose}>
+                             <Button className="btnCancel" onClick={this.handleClose}>
                                Annuler
                              </Button>
-                             <Button variant="success" onClick={() => {this.handleAnnonceReport(this)}}>
+                             <Button className="btnInf" onClick={() => {this.handleAnnonceReport(this)}}>
                                Signaler
                              </Button>
                            </Modal.Footer>

@@ -258,7 +258,7 @@ class Ads extends React.Component {
                 </Modal.Footer>
               </Modal>
               <Navbar style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste de vos annonces</Navbar.Brand>
+                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste de vos offres</Navbar.Brand>
               </Navbar>
               {this.state.adsData ?
                 <Table className="mt-4 ml-4 table " style={{color: 'white'}}>

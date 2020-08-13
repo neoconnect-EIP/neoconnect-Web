@@ -1,8 +1,10 @@
 import React from 'react';
-import { Form, Icon, Button } from 'antd';
-import { Input, TextField, Grid } from '@material-ui/core';
+import { Form, Icon } from 'antd';
+import { Input, TextField, Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import "../index.css"
+import Button from 'react-bootstrap/Button';
+
 
 export default class Contact extends React.Component{
     constructor(props) {
@@ -51,9 +53,16 @@ export default class Contact extends React.Component{
             .catch(error => console.error('Error:', error));
     };
 
+    handleChange = (e) => {
+        let change = {}
+
+        change[e.target.name] = e.target.value
+        this.setState(change)
+    }
+
     render() {
         return (
-            <Grid container direction="row" justify="center" alignItems="center" style={{height: "100%"}}>
+            <Grid container direction="row" justify="center" className={"infBg"} alignItems="center" style={{height: "100%"}}>
                 <div className="landing-page-mid-div" style={{borderRadius: "12px", boxShadow: "1px, 1px, 1px black"}}>
                     {
                      this.state.mailSend ?
@@ -67,42 +76,38 @@ export default class Contact extends React.Component{
                          </Grid>
                      :
                          <Form className="formular" onSubmit={this.handleSubmit}>
-                             <h2 style={{paddingTop: "20px", marginBottom: "50px"}}>Contact form</h2>
+                             <h2 style={{paddingTop: "20px", marginBottom: "50px"}}>Nous contacter</h2>
                              <div className="input-form">
-                                 <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                 <Input
-                                     type="text"
-                                     name="pseudo"
-                                     placeholder="Pseudo"
-                                     value={this.state.pseudo}
-                                     onChange={this.handlePseudoChange}
-                                     size="large"
-                                 />
+                               <FormControl variant="outlined" style={{width: "700px", color: 'black'}}>
+                                   <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
+                                       Type
+                                   </InputLabel>
+                                   <Select
+                                       style={{color: 'black'}}
+                                       labelId="demo-simple-select-outlined-label"
+                                       name="type"
+                                       value={this.state.type}
+                                       onChange={this.handleChange}
+                                   >
+                                       <MenuItem value={1}>Bug</MenuItem>
+                                       <MenuItem value={2}>Amélioration</MenuItem>
+                                       <MenuItem value={3}>Commentaire</MenuItem>
+                                       <MenuItem value={4}>Contact</MenuItem>
+                                   </Select>
+                               </FormControl>
                              </div>
                              <div className="input-form">
-                                 <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
                                  <Input
-                                     type="text"
-                                     name="email"
-                                     placeholder="Email"
-                                     value={this.state.email}
-                                     onChange={this.handleEmailChange}
-                                     size="large"
-                                 />
-                             </div>
-                             <div className="input-form">
-                                 <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
-                                 <Input
+                                     style={{width: "700px"}}
                                      type="text"
                                      name="subject"
-                                     placeholder="Subject"
+                                     placeholder="Sujet"
                                      value={this.state.subject}
                                      onChange={this.handleSubjectChange}
                                      size="large"
                                  />
                              </div>
                              <div className="input-form">
-                                 <Icon type="lock" style={{ color: '#d23e3e', marginRight: "8px"}} />
                                  <TextField
                                      id="outlined-multiline-static"
                                      label="Message"
@@ -116,7 +121,7 @@ export default class Contact extends React.Component{
                                  />
                              </div>
                              <div style={{marginTop: "50px", paddingBottom: "30px"}}>
-                                 <Button onClick={this.handleSubmit} style={{width: "150px", height: "35px", borderRadius: "15px", backgroundImage: "linear-gradient(65deg, #ff4343, #982d2d, #712121)"}}>Envoyer</Button>
+                                 <Button onClick={this.handleSubmit} className="btnInf">Envoyer</Button>
                              </div>
                          </Form>
                     }

@@ -36,8 +36,11 @@ class Aside extends React.Component{
         this.setState({visible: true})
     }
 
-    handlePage = (page) => {
-        this.props.history.push(page)
+    handlePage = (page, profile) => {
+        this.props.history.push({
+          pathname: page,
+          state: { profile: profile}
+        });
     }
 
     render() {
@@ -57,7 +60,7 @@ class Aside extends React.Component{
                         Oui
                       </Button>
                     </Modal.Footer>
-                  </Modal>   
+                  </Modal>
                 </div>
                 {
                     this.props.isShop ?
@@ -69,7 +72,7 @@ class Aside extends React.Component{
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/ads")} style={{color: "white"}}>
                                 <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
-                                Annonces
+                                Offres
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/status")} style={{color: "white"}}>
                                 <AccountCircleIcon style={{float: "left", marginLeft: "20px"}}/>
@@ -79,7 +82,7 @@ class Aside extends React.Component{
                                 <SearchIcon style={{float: "left", marginLeft: "20px"}}/>
                                 Influenceurs
                             </div>
-                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/chat")} style={{color: "white"}}>
+                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/chat", true)} style={{color: "white"}}>
                                 <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Contact
                             </div>
@@ -93,11 +96,11 @@ class Aside extends React.Component{
                             <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/advertisements")} style={{color: "white"}}>
                                 <LocalActivityIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-                                Annonces
+                                Offres
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/ads")} style={{color: "white"}}>
                                 <AssignmentIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-                                Mes annonces
+                                Mes offres
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/status")} style={{color: "white"}}>
                                 <AccountCircleIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
@@ -107,7 +110,7 @@ class Aside extends React.Component{
                                 <StorefrontIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Boutiques
                             </div>
-                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat")} style={{color: "white"}}>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat", false)} style={{color: "white"}}>
                                 <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Contact
                             </div>

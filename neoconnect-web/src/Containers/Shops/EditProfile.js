@@ -172,7 +172,7 @@ class EditProfile extends React.Component {
 
                                     <Grid container justify="center" style={{width: "50rem", height: "auto", position: "relative", marginTop: "18.75rem", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "8px"}}>
                                         <Grid item xs={12} style={{backgroundColor: "#292929", height: "auto", marginLeft: "4rem", marginRight: "4rem", borderRadius: "8px", marginTop: "-1.8rem"}}>
-                                            <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Supprimer une annonce</h2>
+                                            <h2 style={{color: "white", marginTop: "0.5rem", marginBottom: "0.5rem"}}>Supprimer une offre</h2>
                                         </Grid>
                                         <Grid item xs={12} justify="center" style={{marginBottom: "1.2rem"}}>
                                             <h3 style={{marginTop: "2rem"}}>{`Are you sure you want to delete your account ?`}</h3>

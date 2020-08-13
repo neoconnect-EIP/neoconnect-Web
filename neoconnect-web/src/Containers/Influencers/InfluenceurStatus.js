@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import EditIcon from '@material-ui/icons/Edit';
+import {Grid, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import 'antd/dist/antd.css';
 import "../index.css"
 import Loader from "react-loader-spinner";
@@ -51,8 +52,11 @@ class InfluenceurStatus extends React.Component{
             theme: "",
             file: null,
             userPicture: null,
-            visibleDelete: false
+            visibleDelete: false,
+            tmpTheme: ['', 'Mode', 'Cosmetique', 'Haute technologie', 'Food', 'Jeux vidéo', 'Sport/fitness']
         };
+
+        console.log("HELLOWORLD", this.state.tmpTheme.indexOf(this.state.theme));
     }
 
     getInf = () => {
@@ -69,6 +73,7 @@ class InfluenceurStatus extends React.Component{
 
     componentDidMount = () => {
         this.getInf();
+        console.log("ger me = ", this.state.userData);
     }
 
     // handleEditProfile = () => {
@@ -76,6 +81,8 @@ class InfluenceurStatus extends React.Component{
     // }
 
     handleClose = () => {
+
+
         this.setState({visible: false})
     }
 
@@ -178,6 +185,9 @@ class InfluenceurStatus extends React.Component{
         .catch(console.error)
     }
 
+    // <Form.Label>Thème</Form.Label>
+    // <Form.Control value={this.state.theme} onChange={e => {this.setState({theme: e.target.value})}}/>
+
     render() {
       console.log("USER DATA ", this.state.userData);   //TODO ajouter la liste des theme lors du modification
         return (
@@ -224,10 +234,6 @@ class InfluenceurStatus extends React.Component{
                         <Form.Label>Bio</Form.Label>
                         <Form.Control value={this.state.desc} onChange={e => {this.setState({desc: e.target.value})}}/>
                       </Form.Group>
-                      <Form.Group as={Col}>
-                        <Form.Label>Thème</Form.Label>
-                        <Form.Control value={this.state.theme} onChange={e => {this.setState({theme: e.target.value})}}/>
-                      </Form.Group>
                     </Form.Row>
                     <Form.Row>
                       <Form.Group as={Col}>
@@ -267,6 +273,27 @@ class InfluenceurStatus extends React.Component{
                         <Form.Control value={this.state.twitch} onChange={e => {this.setState({twitch: e.target.value})}}/>
                       </Form.Group>
                     </Form.Row>
+                    <Form.Group as={Col} style={{ paddingLeft: 0}}>
+                      <FormControl variant="outlined" style={{ color: 'black'}}>
+                        <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
+                            Thème
+                        </InputLabel>
+                        <Select
+                            style={{color: 'black'}}
+                            labelId="demo-simple-select-outlined-label"
+                            name="theme"
+                            value={this.state.tmpTheme.indexOf(this.state.theme)}
+                            onChange={e => {this.setState({theme: this.state.tmpTheme[e.target.value]})}}
+                        >
+                            <MenuItem value={1}>Mode</MenuItem>
+                            <MenuItem value={2}>Cosmetique</MenuItem>
+                            <MenuItem value={3}>Haute Technologie</MenuItem>
+                            <MenuItem value={4}>Food</MenuItem>
+                            <MenuItem value={5}>Jeux vidéo</MenuItem>
+                            <MenuItem value={6}>Sport/fitness</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Form.Group>
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>

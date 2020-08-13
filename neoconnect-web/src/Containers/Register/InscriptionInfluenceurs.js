@@ -115,7 +115,7 @@ export default class InfluencerSignUp extends React.Component{
                 return (
                     <Grid container justify="center">
                         <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
-                            <h1 style={{fontWeight: '300'}}>Information de compte</h1>
+                            <h1 style={{fontWeight: '300'}}>Informations de compte</h1>
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
                             <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>

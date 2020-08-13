@@ -322,7 +322,7 @@ export default class ShopSignUp extends React.Component{
                                     >
                                         <MenuItem value={1}>Mode</MenuItem>
                                         <MenuItem value={2}>Cosmetique</MenuItem>
-                                        <MenuItem value={3}>Hight tech</MenuItem>
+                                        <MenuItem value={3}>Haute Technologie</MenuItem>
                                         <MenuItem value={4}>Food</MenuItem>
                                         <MenuItem value={5}>Jeux vidéo</MenuItem>
                                         <MenuItem value={6}>Sport/fitness</MenuItem>

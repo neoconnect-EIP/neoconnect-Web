@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Avatar, Grid, Card, CardContent, CardMedia, Fab} from '@material-ui/core/';
+import {Avatar, Grid, Card, CardContent, CardMedia, Fab, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
 import "../index.css"
 import EditIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Loader from 'react-loader-spinner'
@@ -41,8 +41,12 @@ class ShopStatus extends React.Component{
             theme: "",
             file: null,
             userPicture: null,
+            tmpTheme: ['', 'Mode', 'Cosmetique', 'Haute technologie', 'Food', 'Jeux vidéo', 'Sport/fitness']
+
         };
     }
+
+    //TODO food ou nourriture
 
     getShop = () => {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
@@ -189,10 +193,6 @@ class ShopStatus extends React.Component{
                         <Form.Label>Bio</Form.Label>
                         <Form.Control value={this.state.desc} onChange={e => {this.setState({desc: e.target.value})}}/>
                       </Form.Group>
-                      <Form.Group as={Col}>
-                        <Form.Label>Thème</Form.Label>
-                        <Form.Control value={this.state.theme} onChange={e => {this.setState({theme: e.target.value})}}/>
-                      </Form.Group>
                     </Form.Row>
                     <Form.Row>
                       <Form.Group as={Col}>
@@ -203,17 +203,38 @@ class ShopStatus extends React.Component{
                         <Form.Label>Instagram</Form.Label>
                         <Form.Control value={this.state.instagram} onChange={e => {this.setState({instagram: e.target.value})}}/>
                       </Form.Group>
-                      <Form.Group as={Col}>
-                        <Form.Label>Snapchat</Form.Label>
-                        <Form.Control value={this.state.snapchat} onChange={e => {this.setState({snapchat: e.target.value})}}/>
-                      </Form.Group>
                     </Form.Row>
                     <Form.Row>
                       <Form.Group as={Col}>
                         <Form.Label>Twitter</Form.Label>
                         <Form.Control value={this.state.twitter} onChange={e => {this.setState({twitter: e.target.value})}}/>
                       </Form.Group>
+                      <Form.Group as={Col}>
+                        <Form.Label>Snapchat</Form.Label>
+                        <Form.Control value={this.state.snapchat} onChange={e => {this.setState({snapchat: e.target.value})}}/>
+                      </Form.Group>
                     </Form.Row>
+                    <Form.Group as={Col} style={{ paddingLeft: 0}}>
+                      <FormControl variant="outlined" style={{ color: 'black'}}>
+                        <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
+                            Thème
+                        </InputLabel>
+                        <Select
+                            style={{color: 'black'}}
+                            labelId="demo-simple-select-outlined-label"
+                            name="theme"
+                            value={this.state.tmpTheme.indexOf(this.state.theme)}
+                            onChange={e => {this.setState({theme: this.state.tmpTheme[e.target.value]})}}
+                        >
+                            <MenuItem value={1}>Mode</MenuItem>
+                            <MenuItem value={2}>Cosmetique</MenuItem>
+                            <MenuItem value={3}>Haute Technologie</MenuItem>
+                            <MenuItem value={4}>Food</MenuItem>
+                            <MenuItem value={5}>Jeux vidéo</MenuItem>
+                            <MenuItem value={6}>Sport/fitness</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Form.Group>
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>

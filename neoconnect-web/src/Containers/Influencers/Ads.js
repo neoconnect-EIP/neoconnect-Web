@@ -85,7 +85,7 @@ class Ads extends React.Component {
         return (
             <div className="infBg"  >
                 <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                  <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Annonce postulé</Navbar.Brand>
+                  <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Offre postulé</Navbar.Brand>
                 </Navbar>
                 {
                   this.state.isLoading ?
@@ -100,7 +100,7 @@ class Ads extends React.Component {
                       <div>
                           {
                             !this.state.adsData || this.state.adsData.length === 0 ?
-                            <h1>Aucune annonce</h1> :
+                            <h1>Aucune offre</h1> :
                             <Table className="mt-4 ml-4 table " style={{color: 'white'}}>
                               <thead>
                                 <tr>

@@ -3,6 +3,8 @@ import {Grid, Input, TextField, Fab} from "@material-ui/core";
 import "./index.css"
 import {Icon} from "antd";
 import background from '../assets/Equinox-Shop.jpg'
+import Button from 'react-bootstrap/Button';
+
 
 export default class About extends React.Component{
     constructor(props) {
@@ -13,6 +15,7 @@ export default class About extends React.Component{
             subject: "",
             message: "",
             to: "",
+            shop: props.location.state.profile,
         };
     }
 
@@ -70,7 +73,7 @@ export default class About extends React.Component{
 
     render() {
         return (
-            <Grid container justify="center" alignItems="center" style={{backgroundImage: `url(${background})`, backgroundSize: "cover", backdropFilter: "blur(8px)", width: "100%", height: "100vh"}}>
+            <Grid container justify="center" alignItems="center" className={this.state.shop == true ? "shopBg" : "infBg"}>
                 {/* <Grid xs={3} style={{borderRight: "1px solid #292929", height: "100vh"}}>
                 <List>
                     {
@@ -90,23 +93,12 @@ export default class About extends React.Component{
                 </div>
                 <TextField style={{marginLeft: "2rem", backgroundColor: "#d9d9d9", borderRadius: "8px", width: "90%"}} multiline rowsMax="4" placeholder="écrivez un message..."/>
             </Grid>*/}
-                <Grid style={{transform: "translateY(-65px)", borderRadius: "12px", backgroundColor: "rgba(198,198,198,0.66)", backdropFilter: "blur(8px)", width: "50rem", marginTop: "12rem"}}>
-                    <Grid item xs={12} style={{marginTop: "-1.5rem", marginLeft: "3rem", marginRight: "3rem", textAlign: "center", borderRadius: "8px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>
+                <Grid >
+                    <Grid item xs={12} style={{ marginLeft: "3rem", marginRight: "3rem", textAlign: "center"}}>
                         <h2 style={{color: "white"}}>Contact</h2>
                     </Grid>
                     <Grid item style={{marginTop: "3rem", textAlign: "center"}} xs={12}>
-                        <Icon type="user" style={{ color: '#292929', marginRight: "8px"}} />
-                        <Input type="text"
-                               name="pseudo"
-                               color="secondary"
-                               placeholder="pseudo"
-                               value={this.state.pseudo}
-                               style={{width: "42rem"}}
-                               onChange={this.handleChange}
-                        />
-                    </Grid>
-                    <Grid item style={{marginTop: "3rem", textAlign: "center"}} xs={12}>
-                        <Icon type="user" style={{ color: '#292929', marginRight: "8px"}} />
+                        <Icon type="mail" style={{ color: 'white', marginRight: "8px"}} />
                         <Input type="text"
                                name="email"
                                color="secondary"
@@ -117,27 +109,17 @@ export default class About extends React.Component{
                         />
                     </Grid>
                     <Grid item style={{marginTop: "3rem", textAlign: "center"}} xs={12}>
-                        <Icon type="user" style={{ color: '#292929', marginRight: "8px"}} />
-                        <Input type="text"
-                               name="to"
-                               color="secondary"
-                               placeholder="to"
-                               value={this.state.to}
-                               style={{width: "42rem"}}
-                               onChange={this.handleChange}
-                        />
-                    </Grid>
-                    <Grid item style={{marginTop: "3rem", textAlign: "center"}} xs={12}>
-                        <Icon type="user" style={{ color: '#292929', marginRight: "8px"}} />
+                        <Icon type="user" style={{ color: 'white', marginRight: "8px"}} />
                         <Input type="text"
                                name="subject"
                                color="secondary"
-                               placeholder="subject"
-                               style={{width: "42rem"}}
+                               placeholder="Sujet"
                                value={this.state.subject}
+                               style={{width: "42rem"}}
                                onChange={this.handleChange}
                         />
                     </Grid>
+
                     <Grid item xs={12} style={{marginTop: "1rem", marginBottom: "1rem", textAlign: "center", color: "white"}}>
                         <TextField
                             id="outlined-multiline-static"
@@ -154,16 +136,10 @@ export default class About extends React.Component{
                         />
                     </Grid>
                     <Grid item xs={12}  style={{ marginBottom: "3rem", textAlign: "center"}}>
-                        <Fab class="posted-ad-send-button"
-                             onClick={() => this.handleSend()}
-                             style={{height: "3rem", width: "10rem", fontSize: "1.3rem", borderRadius: "8px", backgroundColor: "#292929", textAlign: "center"}}
-                        >
-                            Send
-                        </Fab>
+                      <Button className={`mt-4 ${this.state.shop ? 'btnShop' : 'btnInf'}`} onClick={() => this.handleSend()}>Envoyer</Button>
                     </Grid>
                 </Grid>
             </Grid>
         );
     }
 }
-

@@ -18,6 +18,10 @@ export default class Login extends React.Component{
             isLoading: false,
             visible: false,
             email: "",
+            code: "",
+            newPass: "",
+            newPassSec: "",
+            sent: true
         }
     }
 
@@ -27,6 +31,16 @@ export default class Login extends React.Component{
 
     handleEmailChange = (e) => {
         this.setState({email: e.target.value});
+    }
+
+    handleNewPass= (e) => {
+        this.setState({newPass: e.target.value});
+    }
+    handlenewPassSec = (e) => {
+        this.setState({newPassSec: e.target.value});
+    }
+    handleCode = (e) => {
+        this.setState({code: e.target.value});
     }
 
     handlePasswordChange = (e) => {
@@ -108,7 +122,7 @@ export default class Login extends React.Component{
 
     handleForgotResponse = (res) => {
       if (res.status === 200) {
-        this.setState({visible: false});
+        this.setState({sent: true});
         store.addNotification({
           title: "Envoyé",
           message: "Nous avons envoyé un email à l'adresse fournis",
@@ -165,6 +179,20 @@ export default class Login extends React.Component{
         }
     };
 
+    //TODO test make step 2
+    handleResetPass = () => {
+        let body = {
+            "email": this.state.email,
+            "password": this.state.newPass,
+            "resetPasswordtoken": ""
+
+        };
+
+        body = JSON.stringify(body);
+        //TODO les requetes
+
+    };
+
     handleClose = () => {
       this.setState({visible: false})
     }
@@ -175,15 +203,26 @@ export default class Login extends React.Component{
             <div className="infBg" style={{paddingTop:'200px'}}>
               <Modal centered show={this.state.visible} onHide={this.handleClose}>
                <Modal.Header closeButton>
-                 <Modal.Title>Mot de passe oublié</Modal.Title>
+                 <Modal.Title>{this.state.sent ? "Rénitialisation du mot de passe" : "Mot de passe oublié"}</Modal.Title>
                </Modal.Header>
                <Modal.Body>
-                 <p>Veuillez entrer votre addrese email. Un code à fournir vous sera envoyé</p>
-                   <Form.Label>Email</Form.Label>
-                   <Form.Control type="email" placeholder="exemple@exemple.fr" onChange={this.handleEmailChange} value={this.state.email}/>
+                 {this.state.sent ? <div>
+                    <Form.Label>Code</Form.Label>
+                    <Form.Control type="text" onChange={this.handleCode} value={this.state.code}/>
+                    <Form.Label>Nouveau mot de passe</Form.Label>
+                    <Form.Control type="password" onChange={this.handlenewPass} value={this.state.newPass}/>
+                    <Form.Label>Répétez le mot de passe</Form.Label>
+                    <Form.Control type="password" onChange={this.handlenewPassSec} value={this.state.newPassSec}/>
+                  </div> :
+                  <div>
+                    <p>Veuillez entrer votre addrese email. Un code à fournir vous sera envoyé</p>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" placeholder="exemple@exemple.fr" onChange={this.handleEmailChange} value={this.state.email}/>
+                  </div>
+                }
                </Modal.Body>
                <Modal.Footer>
-                 <Button className="btnInf" onClick={() => {this.handleForgotPass()}}>
+                 <Button className="btnInf" onClick={() => {if (this.state.sent) this.handleResetPass(); else {this.handleForgotPass()}}}>
                    Envoyer
                  </Button>
                </Modal.Footer>
@@ -201,12 +240,12 @@ export default class Login extends React.Component{
                       <Row className="justify-content-center">
                         <Form>
                           <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Pseudo</Form.Label>
+                            <Form.Label style={{color: 'white', fontWeight: '600'}}>Pseudo</Form.Label>
                             <Form.Control type="email" onChange={this.handleUsernameChange} value={this.state.username}/>
                           </Form.Group>
 
                           <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Mot de passe</Form.Label>
+                            <Form.Label style={{color: 'white', fontWeight: '600'}}>Mot de passe</Form.Label>
                             <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange}/>
                             <Form.Text style={{color:'white'}} type="submit" onClick={() => {this.setState({visible: true})}}>
                                Mot de passe oublié

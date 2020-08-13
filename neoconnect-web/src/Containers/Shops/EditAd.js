@@ -116,7 +116,7 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier le nom de votre annonce: </h1>
+                            <h1>Modifier le nom de votre offre: </h1>
                             <Input
                                 type="text"
                                 name="productName"
@@ -131,7 +131,7 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier la description de votre annonce: </h1>
+                            <h1>Modifier la description de votre offre: </h1>
                             <TextField
                                 id="demo-simple-select-outlined"
                                 name="productDesc"
@@ -173,7 +173,7 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier le type d'item correspondant à votre annonce: </h1>
+                            <h1>Modifier le type d'item correspondant à votre offre: </h1>
                             <FormControl variant="outlined" style={{width: "150px"}}>
                                 <InputLabel id="demo-simple-select-outlined-label">
                                     Theme
@@ -199,7 +199,7 @@ class EditAd extends React.Component {
                 return (
                     <Grid container justify="center" style={{margin: "4rem"}}>
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier à qui s'adresse votre annonce ? </h1>
+                            <h1>Modifier à qui s'adresse votre offre ? </h1>
                             <FormControl variant="outlined" style={{width: "10rem"}}>
                                 <InputLabel id="demo-simple-select-outlined-label">
                                     Genre
@@ -340,7 +340,7 @@ class EditAd extends React.Component {
       if (!this.state.productName || !this.state.productDesc) {
         store.addNotification({
           title: "Erreur",
-          message: "Veuillez fournir nom et description de l'annonce",
+          message: "Veuillez fournir nom et description de l'offre",
           type: "danger",
           insert: "top",
           container: "top-right",
@@ -378,11 +378,11 @@ class EditAd extends React.Component {
       }
     }
 
-    render() {   //TODO probleme image 
+    render() {   //TODO probleme image
           return (
               <div justify="center" className="shopBg"  >
                 <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                  <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Modification d'une annonce</Navbar.Brand>
+                  <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Modification d'une offre</Navbar.Brand>
                 </Navbar>
                   {
                       !this.state.isEnd ?
@@ -390,7 +390,7 @@ class EditAd extends React.Component {
                           <Form.Row>
                             <Form.Group as={Col}>
                               <Form.Label style={{color:'white'}}>Nom</Form.Label>
-                              <Form.Control placeholder="Nom de votre annonce" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
+                              <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
                             </Form.Group>
 
                             <Form.Group as={Col}>
@@ -405,7 +405,7 @@ class EditAd extends React.Component {
                               <Form.Control as="select" value={this.state.sub} onChange={(e) =>{ this.setState({sub: e.target.value});}}>
                                 <option value={1}>Mode</option>
                                 <option value={2}>Cosmetique</option>
-                                <option value={3}>High tech</option>
+                                <option value={3}>Haute Technologie</option>
                                 <option value={4}>Nourriture</option>
                                 <option value={5}>Jeux vidéo</option>
                                 <option value={6}>Sport/Fitness</option>
@@ -414,7 +414,7 @@ class EditAd extends React.Component {
 
                             <Form.Group as={Col}>
                               <Form.Label style={{color:'white'}}>Description</Form.Label>
-                              <Form.Control placeholder="Description de votre annonce" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
+                              <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
                             </Form.Group>
                           </Form.Row>
 
@@ -465,7 +465,7 @@ class EditAd extends React.Component {
 
                           <Form.Row className="mt-4">
                             <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>
-                              Sauvegarder l'annonce
+                              Sauvegarder l'offre
                             </Button>
                           </Form.Row>
 
@@ -473,7 +473,7 @@ class EditAd extends React.Component {
                       :
                       <Grid container style={{marginTop: "7.5rem", padding: "15rem"}}>
                           <Grid item xs={12}>
-                              <h1 style={{textAlign: "center"}}>Annonce modifié avec succès</h1>
+                              <h1 style={{textAlign: "center"}}>Offre modifié avec succès</h1>
                           </Grid>
                               <Grid item xs={12} style={{textAlign: "center"}}>
                                   <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
