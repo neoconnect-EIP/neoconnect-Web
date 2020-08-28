@@ -68,7 +68,7 @@ class FindInfluencers extends React.Component {
       var encodedValue = encodeURIComponent(this.state.search);
       var formBody = encodedKey + "=" + encodedValue;
 
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/search`, {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/search`, {
           method: 'POST',
           body: formBody,
           headers: {

@@ -45,6 +45,7 @@ class FindShop extends React.Component{
     }
 
     searchRes = async (res) => {
+      console.log("res ", res);
       if (res.status === 200){
         var shops = await res.json();
         this.setState({shopList: [shops], back: true})
@@ -62,7 +63,12 @@ class FindShop extends React.Component{
       var encodedValue = encodeURIComponent(this.state.search);
       var formBody = encodedKey + "=" + encodedValue;
 
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/search`, {
+      // let body = {
+      //     "pseudo": this.state.search
+      // };
+      // body = JSON.stringify(body);
+      //
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/search`, {
           method: 'POST',
           body: formBody,
           headers: {

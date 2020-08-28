@@ -29,7 +29,7 @@ class Ads extends React.Component {
     }
 
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/user/${localStorage.getItem("userId")}`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
