@@ -170,12 +170,9 @@ class InfluencerProfile extends React.Component {
         this.setState({mark: e})
     };
 
-    handleAnnonceReport(thisTmp) {
+    handleInfReport(thisTmp) {
       this.setState({clickedSignal: true})
-      console.log("Raison = ", thisTmp.state.raison);
-      console.log(this.state.infData);
-      console.log(this.state.raison);
-      console.log(this.state.info);
+
       if (this.state.raison) {
         let body = {
             "pseudo": this.state.infData.pseudo,
@@ -253,7 +250,7 @@ class InfluencerProfile extends React.Component {
                            <Button className="btnCancel" onClick={this.handleClose}>
                              Annuler
                            </Button>
-                           <Button className="btnShop" onClick={() => {this.handleAnnonceReport(this)}}>
+                           <Button className="btnShop" onClick={() => {this.handleInfReport(this)}}>
                              Signaler
                            </Button>
                          </Modal.Footer>

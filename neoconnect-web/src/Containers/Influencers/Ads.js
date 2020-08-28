@@ -7,17 +7,21 @@ import "../../index.css"
 import Loader from "react-loader-spinner";
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
+import { store } from 'react-notifications-component';
+import Button from 'react-bootstrap/Button';
+
 
 class Ads extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            adsData: [],
+            adsData: [{productName: "Nike Blazer", productSubject: 1, createdAt: "2020-07-16T08:25:25.985Z"}],  //TODO en attendant que la requete marche j'ai mis des data en dur
             visible: false,
             actualAd: null,
             message: "",
             isLoading: true,
             modalMode: "",
+            type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness']
         };
 
         console.log("USer id ", localStorage.getItem("userId"));
@@ -29,9 +33,32 @@ class Ads extends React.Component {
             method: 'GET',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => res.json())
+            .then(res => {
+              if (res.status >= 400)
+                throw res;
+              return res.json()
+            })
             .then(res => this.setState({adsData: res, isLoading: false}))
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+              this.setState({isLoading: false});
+              console.log(error.statusText);
+              store.addNotification({
+                title: "Erreur, Veuillez essayer ultérieurement",
+                message: error.statusText,
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                pauseOnHover: true,
+                isMobile: true,
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 7000,
+                  onScreen: true,
+                  showIcon: true
+                }
+              });
+            });
     }
 
     handleVisibleModal = (row, mode) => {
@@ -68,16 +95,21 @@ class Ads extends React.Component {
     listAbonnement = () => {
       console.log("DATA = ", this.state.adsData);
 
-      return (
-        this.state.adsData.map(ad => (
-          <tr>
-            <td>{ad.productName}</td>
-            <td>{this.state.type[ad.productSubject]}</td>
-            <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
-            <td>{ad.average ? ad.productSubject : "Aucune note"}</td>
-          </tr>
-        ))
-      )
+      if (this.state.adsData && this.state.adsData.length > 0)
+        return (
+          this.state.adsData.map(ad => (
+            <tr>
+              <td>{ad.productName}</td>
+              <td>{this.state.type[ad.productSubject]}</td>
+              <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
+              <td>{ad.average ? ad.productSubject : "Aucune note"}</td>
+              <td>
+                <Button className="btnInf">Désabonner</Button>{' '}
+                <Button className="btnInf">Détail</Button>
+              </td>
+            </tr>
+          ))
+        )
     }
 
     render() {
@@ -99,8 +131,7 @@ class Ads extends React.Component {
                       :
                       <div>
                           {
-                            !this.state.adsData || this.state.adsData.length === 0 ?
-                            <h1>Aucune offre</h1> :
+
                             <Table className="mt-4 ml-4 table " style={{color: 'white'}}>
                               <thead>
                                 <tr>
@@ -108,6 +139,7 @@ class Ads extends React.Component {
                                   <th>Type</th>
                                   <th>Date d'abonnement</th>
                                   <th>Status</th>
+                                  <th>Actions</th>
                                 </tr>
                               </thead>
                               <tbody>

@@ -26,6 +26,7 @@ import Buttonx from 'react-bootstrap/Button';
 import Modalx from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
+import { store } from 'react-notifications-component';
 
 
 //TODO mettre au meme modal faire le signaler Button x et modal x
@@ -42,6 +43,8 @@ class adsItem extends React.Component{
             mark: null,
             commentInput: "",
             signal: false,
+            info: "",
+            raison: "",
             commentData: null,
             urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
         };
@@ -128,6 +131,43 @@ class adsItem extends React.Component{
 
         change[e.target.name] = e.target.value
         this.setState(change)
+    }
+
+    handleAnnonceReport = () => {
+      this.setState({clickedSignal: true})
+      var name = this.state.adData.productName;
+      if (this.state.raison) {
+        let body = {
+            "offerName": this.state.adData.productName,
+            "subject": this.state.raison,
+            "message": this.state.info,
+        };
+        body = JSON.stringify(body);
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/report/${this.state.adData.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              res.json();
+              console.log("RES SIGNAL ", res);
+              if (res.status == 200) {
+                this.setState({signal: false, raison: "", info: ""});
+                store.addNotification({
+                  title: "Envoyé",
+                  message: "Nous avons bien pris en compte votre signalement pour l'offre " + name,
+                  type: "success",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+            }).catch(error => console.error('Error:', error));
+      }
     }
 
     handleComment = (x) => {
