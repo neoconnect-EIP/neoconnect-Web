@@ -56,7 +56,6 @@ class InfluenceurStatus extends React.Component{
             tmpTheme: ['', 'Mode', 'Cosmetique', 'Haute technologie', 'Food', 'Jeux vidéo', 'Sport/fitness']
         };
 
-        console.log("HELLOWORLD", this.state.tmpTheme.indexOf(this.state.theme));
     }
 
     getInf = () => {
@@ -73,7 +72,6 @@ class InfluenceurStatus extends React.Component{
 
     componentDidMount = () => {
         this.getInf();
-        console.log("ger me = ", this.state.userData);
     }
 
     // handleEditProfile = () => {
@@ -91,7 +89,6 @@ class InfluenceurStatus extends React.Component{
     }
 
     handleChangeInfo = () => {
-      console.log("HELLO");
         this.setState({
           visible: true,
           fullName: this.state.userData.full_name,
@@ -114,7 +111,6 @@ class InfluenceurStatus extends React.Component{
     }
 
     handleResponse = (res) => {
-      console.log("RES ", res);
       this.setState({visible: false});
       this.getInf();
     }
@@ -189,7 +185,6 @@ class InfluenceurStatus extends React.Component{
     // <Form.Control value={this.state.theme} onChange={e => {this.setState({theme: e.target.value})}}/>
 
     render() {
-      console.log("USER DATA ", this.state.userData);   //TODO ajouter la liste des theme lors du modification
         return (
             <div className="infBg"  >
               <Modal size="lg" centered show={this.state.visible} onHide={this.handleClose}>

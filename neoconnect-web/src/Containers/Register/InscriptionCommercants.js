@@ -52,7 +52,6 @@ export default class ShopSignUp extends React.Component{
     };
 
     handleResponse = async (res) => {
-      console.log(res);
         if (res.status === 200)
             this.props.history.push('/landing-page/login')
         else {
@@ -78,7 +77,6 @@ export default class ShopSignUp extends React.Component{
     };
 
     handleSubmit = () => {
-      console.log("HELLO",  this.state.username);
         let body = {
             "pseudo": this.state.username,
             "password": this.state.password,
@@ -93,7 +91,6 @@ export default class ShopSignUp extends React.Component{
             "society": this.state.society,
         };
         body = JSON.stringify(body);
-        console.log("BODY", body);
 
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => this.handleResponse(res))

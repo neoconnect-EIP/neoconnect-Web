@@ -10,12 +10,14 @@ import Table from 'react-bootstrap/Table';
 import { store } from 'react-notifications-component';
 import Button from 'react-bootstrap/Button';
 
+// adsData: [{productName: "Nike Blazer", productSubject: 1, createdAt: "2020-07-16T08:25:25.985Z"}],  //TODO en attendant que la requete marche j'ai mis des data en dur
+
 
 class Ads extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            adsData: [{productName: "Nike Blazer", productSubject: 1, createdAt: "2020-07-16T08:25:25.985Z"}],  //TODO en attendant que la requete marche j'ai mis des data en dur
+            adsData: [],
             visible: false,
             actualAd: null,
             message: "",
@@ -24,41 +26,42 @@ class Ads extends React.Component {
             type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness']
         };
 
-        console.log("USer id ", localStorage.getItem("userId"));
-        console.log("toekn id ", localStorage.getItem("Jwt"));
+    }
+
+    getAplliedOffer = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+          .then(res => {
+            if (res.status >= 400)
+              throw res;
+            return res.json()
+          })
+          .then(res => this.setState({adsData: res, isLoading: false}))
+          .catch(error => {
+            this.setState({isLoading: false});
+            store.addNotification({
+              title: "Erreur, Veuillez essayer ultérieurement",
+              message: error.statusText,
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              pauseOnHover: true,
+              isMobile: true,
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 7000,
+                onScreen: true,
+                showIcon: true
+              }
+            });
+          });
     }
 
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        })
-            .then(res => {
-              if (res.status >= 400)
-                throw res;
-              return res.json()
-            })
-            .then(res => this.setState({adsData: res, isLoading: false}))
-            .catch(error => {
-              this.setState({isLoading: false});
-              console.log(error.statusText);
-              store.addNotification({
-                title: "Erreur, Veuillez essayer ultérieurement",
-                message: error.statusText,
-                type: "danger",
-                insert: "top",
-                container: "top-right",
-                pauseOnHover: true,
-                isMobile: true,
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                  duration: 7000,
-                  onScreen: true,
-                  showIcon: true
-                }
-              });
-            });
+        this.getAplliedOffer();
     }
 
     handleVisibleModal = (row, mode) => {
@@ -84,16 +87,21 @@ class Ads extends React.Component {
     };
 
     handleDelete = (id) => {
+      var thisTmp = this;
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/noapply/${id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {res.json(); this.handleVisibleModal(null, "")})
+            .then(res => {
+              res.json();
+              if (res.status == 200) {
+                thisTmp.getAplliedOffer();
+              }
+            })
             .catch(error => console.error('Error:', error));
     };
 
     listAbonnement = () => {
-      console.log("DATA = ", this.state.adsData);
 
       if (this.state.adsData && this.state.adsData.length > 0)
         return (
@@ -104,8 +112,8 @@ class Ads extends React.Component {
               <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
               <td>{ad.average ? ad.productSubject : "Aucune note"}</td>
               <td>
-                <Button className="btnInf">Désabonner</Button>{' '}
-                <Button className="btnInf">Détail</Button>
+                <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Désabonner</Button>{' '}
+                <Button className="btnInf" onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}>Détail</Button>
               </td>
             </tr>
           ))

@@ -31,8 +31,6 @@ class Advertisements extends React.Component{
             searchForm: null,
             sort: 'Order (ASC)'
         };
-
-        console.log("TOEKN ", localStorage.getItem("Jwt"));
     }
 
     componentDidMount = () => {
@@ -65,6 +63,7 @@ class Advertisements extends React.Component{
     handleAnnonceSubsribe = () => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
+              console.log("RES = ", res);
               if (res.status == 200) {
                 this.setState({visible: false});
                 store.addNotification({
@@ -102,8 +101,6 @@ class Advertisements extends React.Component{
                   }
                 });
               }
-              console.log("start res: ", res);
-
             })
             .catch(error => console.error('Error:', error));
         this.handleClose();
@@ -207,7 +204,6 @@ class Advertisements extends React.Component{
 
     }
     handleCard = (item) => {
-      console.log("item = ", item);
         return (
             <div key={item.id}>
                 <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>

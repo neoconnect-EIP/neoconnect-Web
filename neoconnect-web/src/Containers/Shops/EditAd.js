@@ -64,7 +64,6 @@ class EditAd extends React.Component {
     }
 
     statesetter = (res) => {
-      console.log("RES ", res);
         this.setState({
             productImg: res.productImg,
             productName: res.productName,

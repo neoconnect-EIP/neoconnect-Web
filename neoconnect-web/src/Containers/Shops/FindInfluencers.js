@@ -50,10 +50,8 @@ class FindInfluencers extends React.Component {
     }
 
     searchRes = async (res) => {
-      console.log("res = ", res);
       if (res.status === 200){
         var influencer = await res.json();
-        console.log("infl = ", influencer);
         this.setState({influencersData: [influencer], back: true})
       }
       else {
@@ -62,7 +60,6 @@ class FindInfluencers extends React.Component {
     }
 
     handleSearch = () => {
-      console.log("res ", this.state.search);
 
       var encodedKey = encodeURIComponent("pseudo");
       var encodedValue = encodeURIComponent(this.state.search);

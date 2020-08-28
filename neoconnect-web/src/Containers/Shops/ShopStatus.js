@@ -69,7 +69,6 @@ class ShopStatus extends React.Component{
     // }
 
     handleResponse = (res) => {
-      console.log("RES ", res);
       this.setState({visible: false});
       this.getShop();
     }
@@ -79,7 +78,6 @@ class ShopStatus extends React.Component{
     }
 
     handleChangeInfo = () => {
-      console.log("PIC = ", this.state.userData); //TODO ajouter liste theme lors du modification
 
         this.setState({
           visible: true,

@@ -94,7 +94,6 @@ class Ads extends React.Component {
     }
 
     handleResponse = (res, choice, inf) => {
-        console.log("RES ", choice);
         if (choice)
           store.addNotification({
             title: "Envoyé",
@@ -130,7 +129,6 @@ class Ads extends React.Component {
     }
 
     acceptDeclineInf = (choice, inf) => {
-      console.log("inf ", inf);
       let body = {
           "userId": inf.idUser,
           "idOffer": inf.idOffer,
@@ -149,7 +147,6 @@ class Ads extends React.Component {
     }
 
     listInf = (ad) => {
-      console.log(ad.infs);
         if (ad.infs && ad.infs.length > 0) {  // TODO change idUser to Name
           return (
             ad.infs.map(inf => (
@@ -226,7 +223,6 @@ class Ads extends React.Component {
                        method: 'GET',
                        headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
                    })
-                   console.log("RES 2 ", res);
                    ad.infs = await res.json();
                    this.forceUpdate();
                  }} />
@@ -240,7 +236,6 @@ class Ads extends React.Component {
     }
 
     render() {
-      console.log("data ", this.state.adsData);
         return (
             <div container justify="center" className="shopBg" style={{height: '100vh'}}>
               <Modal centered show={this.state.visible} onHide={this.handleClose}>

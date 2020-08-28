@@ -70,7 +70,7 @@ class shopProfile extends React.Component{
 
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => res.json())
-          .then(res => {console.log("SHOP = ", res);this.setState({shopData: res})})
+          .then(res => {this.setState({shopData: res})})
           .catch(error => console.error('Error:', error));
     }
 
@@ -111,7 +111,6 @@ class shopProfile extends React.Component{
     };
 
     handleResponse = (res) => {
-        console.log("RES ", res.status);
         if (res && res.status == 200)
           this.getShopData();
     };
@@ -135,7 +134,7 @@ class shopProfile extends React.Component{
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { console.log("RES", res);res.json(); this.handleResponse(res)})
+            .then(res => {res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
         this.setState({visible: false});
     };
@@ -198,8 +197,6 @@ class shopProfile extends React.Component{
 
     handleAnnonceReport(thisTmp) {
       this.setState({clickedSignal: true})
-      console.log("RAIson = ", thisTmp.state.raison);
-      console.log(this.state.shopData);
       if (this.state.raison) {
         let body = {
             "pseudo": this.state.shopData.pseudo,
@@ -210,7 +207,6 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/report/${thisTmp.state.shopData.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               res.json();
-              console.log("RES SIGNAL ", res);
               if (res.status == 200) {
                 this.setState({signal: false});
                 store.addNotification({

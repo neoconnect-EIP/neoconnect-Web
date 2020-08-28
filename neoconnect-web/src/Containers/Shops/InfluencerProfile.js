@@ -106,7 +106,6 @@ class InfluencerProfile extends React.Component {
     };
 
     handleResponse = (res) => {
-        console.log("RES ", res.status);
         if (res && res.status == 200)
           this.getInfData();
     };
@@ -183,7 +182,6 @@ class InfluencerProfile extends React.Component {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/report/${this.state.infData.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               res.json();
-              console.log("RES SIGNAL ", res);
               if (res.status == 200) {
                 this.setState({signal: false, raison: "", info: ""});
                 store.addNotification({

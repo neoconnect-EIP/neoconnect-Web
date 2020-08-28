@@ -295,7 +295,6 @@ class PostAd extends React.Component {
     }
 
     handleSubmit = () => {
-      console.log("SUB = ", this.state.sub);
       if (!this.state.productName || !this.state.productDesc) {
         store.addNotification({
           title: "Erreur",

@@ -15,6 +15,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
 import Alert from 'react-bootstrap/Alert';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { store } from 'react-notifications-component';
 
 class FindShop extends React.Component{
     constructor(props) {
@@ -45,19 +46,34 @@ class FindShop extends React.Component{
     }
 
     searchRes = async (res) => {
-      console.log("res ", res);
       if (res.status === 200){
         var shops = await res.json();
-        this.setState({shopList: [shops], back: true})
+        // this.setState({shopList: [shops], back: true});
+        this.handleGlobalAnnonce(shops.id);
+        // this.handleGlobalAnnonce(item.id)
       }
       else {
-        this.setState({show: true, shopList: [], tmpSearch: this.state.search})
+        // this.setState({show: true, shopList: [], tmpSearch: this.state.search})
+        store.addNotification({
+          title: "Non trouvé",
+          message: "Aucune boutique correspond à " + this.state.search,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
       }
     }
 
     handleSearch = () => {
-      console.log("res ", this.state.search);
-      console.log("TOKEN", localStorage.getItem("Jwt"));
 
       var encodedKey = encodeURIComponent("pseudo");
       var encodedValue = encodeURIComponent(this.state.search);
@@ -120,19 +136,12 @@ class FindShop extends React.Component{
                   </Navbar.Collapse>
                 </Navbar>
                 {
-                    this.state.shopList ? this.state.shopList.length > 0 ?
+                    this.state.shopList ?
                       <CardColumns className="pl-2 mr-2 pr-2">
                             {
                                 this.state.shopList.map(item => this.handleCard(item))
                             }
-                        </CardColumns> :
-                        <Alert variant="warning" className="mt-4" show={ this.state.show}
-                          onClose={() => {this.setState({show: false, search: ""}); this.getAllShop();}} dismissible>
-                           <Alert.Heading>Essayez à nouveau</Alert.Heading>
-                           <p>
-                             Aucune boutique correspond à <strong>{this.state.tmpSearch}</strong>
-                           </p>
-                        </Alert>
+                        </CardColumns>
                         :
                           <Loader
                               type="Triangle"
@@ -148,6 +157,16 @@ class FindShop extends React.Component{
 }
 
 export default withRouter(FindShop)
+
+// :
+// <Alert variant="warning" className="mt-4" show={ this.state.show}
+//   onClose={() => {this.setState({show: false, search: ""}); this.getAllShop();}} dismissible>
+//    <Alert.Heading>Essayez à nouveau</Alert.Heading>
+//    <p>
+//      Aucune boutique correspond à <strong>{this.state.tmpSearch}</strong>
+//    </p>
+// </Alert>
+
 
 // <Card className="findShopCard">
 //     <CardActionArea onClick={() => this.handleGlobalAnnonce(item.id)}>
