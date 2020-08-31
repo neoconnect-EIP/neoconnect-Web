@@ -40,7 +40,14 @@ class Ads extends React.Component {
             productSubject: "",
             createdAt: "",
             updatedAt: "",
-            type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness']
+            type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
+            errMsg: {
+              "Bad Request, please Put idUser, idOffer and status in body": "Veuillez fournir l'idUser, l'idOffer et le status",
+              "Bad Request, Only for Shop": "Vous devrez être une boutique pour effectuer cette action",
+              "Bad Request, Bad field status": "mauvais type de status",
+              "Bad Request, No apply": "L'offre a déjà étais accepté ou refusé ou supprimé.",
+              "Bad Request, No authorized": "non authorisé",
+            },
         };
     };
 
@@ -123,8 +130,10 @@ class Ads extends React.Component {
         this.setState({visible: false})
     }
 
-    handleResponse = (res, choice, inf) => {
+    handleResponse = async (res, choice, inf) => {
       console.log("RES ", res);
+      var msg = await res.json();
+
       if (res.status == 200) {
         if (choice)
           store.addNotification({
@@ -162,7 +171,7 @@ class Ads extends React.Component {
       else {
         store.addNotification({
           title: "Erreur",
-          message: "Une erreur s'est produite, veuillez essayer ultérieurement",
+          message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + this.state.errMsg[msg],
           type: "danger",
           insert: "top",
           container: "top-right",
@@ -180,18 +189,23 @@ class Ads extends React.Component {
     }
 
     acceptDeclineInf = (choice, inf) => {
-      let body = {
-          "userId": inf.idUser,
-          "idOffer": inf.idOffer,
-          "choice": choice
-      };
 
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/mooc/choiceApply`, {
+      console.log("cHOICE ", typeof(choice));
+      var body = {
+            'idUser': inf.idUser,
+            'idOffer':  inf.idOffer,
+            'status': choice
+        };
+
+        body = JSON.stringify(body);
+
+
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/choiceApply`, {
           method: 'POST',
           body: body,
           headers: {
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       }).then(res => this.handleResponse(res, choice, inf))
         .catch(error => console.error('Error:', error));
 
@@ -229,7 +243,6 @@ class Ads extends React.Component {
     }
 
     listOffer = () => {
-      console.log("ttt",this.state.adsData );
       if (this.state.adsData) {
         return (
           this.state.adsData.map(ad => (
