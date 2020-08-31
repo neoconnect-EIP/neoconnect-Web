@@ -29,6 +29,10 @@ import { store } from 'react-notifications-component';
 class adsItem extends React.Component{
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") == "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             userData: null,
             visible: false,
@@ -335,9 +339,9 @@ class adsItem extends React.Component{
                                                     <InputAdornment position="end">
                                                         <Button
                                                             onClick={this.handleSendMessage}
-                                                            style={{marginTop: "-1rem"}}
+                                                            style={{marginTop: "-1rem", backgroundColor: 'transparent', borderColor: "transparent"}}
                                                         >
-                                                            <SendIcon style={{color: "#292929", width: "2rem", height: "2rem"}}/>
+                                                            <SendIcon style={{color: "white", width: "2rem", height: "2rem"}}/>
                                                         </Button>
                                                     </InputAdornment>
                                                 }

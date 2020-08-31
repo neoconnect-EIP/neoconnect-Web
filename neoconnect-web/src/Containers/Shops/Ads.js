@@ -21,6 +21,12 @@ import { store } from 'react-notifications-component';
 class Ads extends React.Component {
     constructor(props) {
         super(props);
+
+        // console.log("JWT ", localStorage.getItem("userId"));
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") != "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             adsData: null,
             visible: false,
@@ -43,9 +49,33 @@ class Ads extends React.Component {
           method: 'GET',
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-          .then(res => res.json())
+          .then(res => {
+            console.log("RES ", res);
+            if (res.status == 200) {
+              return (res.json());
+            }
+            else {
+              throw res;
+            }
+          })
           .then(res => this.setState({adsData: res}))
-          .catch(error => console.error('Error:', error));
+          .catch(error => {
+            store.addNotification({
+              title: "Erreur",
+              message: "Erreur provenant du serveur: " + error.statusText,
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              pauseOnHover: true,
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 7000,
+                onScreen: true,
+                showIcon: true
+              }
+            });
+          });
     }
 
     componentDidMount = () => {
@@ -72,7 +102,7 @@ class Ads extends React.Component {
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {res.json(); this.setState({adsData: res})})
+            .then(res => {res.json();this.setState({adsData: res})})
             .catch(error => console.error('Error:', error));
     };
 
@@ -94,10 +124,12 @@ class Ads extends React.Component {
     }
 
     handleResponse = (res, choice, inf) => {
+      console.log("RES ", res);
+      if (res.status == 200) {
         if (choice)
           store.addNotification({
             title: "Envoyé",
-            message: "Nous avons pris en compte de votre acceptation. Une notification sera envoyé à " + inf ,
+            message: "Nous avons pris en compte de votre acceptation. Une notification sera envoyé à " + inf.pseudoUser ,
             type: "success",
             insert: "top",
             container: "top-right",
@@ -113,7 +145,7 @@ class Ads extends React.Component {
         else
           store.addNotification({
             title: "Envoyé",
-            message: "Nous avons bien pris en compte votre refus. Une notification sera envoyé à " + inf,
+            message: "Nous avons bien pris en compte votre refus. Une notification sera envoyé à " + inf.pseudoUser,
             type: "success",
             insert: "top",
             container: "top-right",
@@ -126,6 +158,25 @@ class Ads extends React.Component {
               showIcon: true
             }
           });
+      }
+      else {
+        store.addNotification({
+          title: "Erreur",
+          message: "Une erreur s'est produite, veuillez essayer ultérieurement",
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+
     }
 
     acceptDeclineInf = (choice, inf) => {
@@ -141,13 +192,13 @@ class Ads extends React.Component {
           headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      }).then(res => this.handleResponse(res, choice, inf.idUser)) // TODO change to Name
+      }).then(res => this.handleResponse(res, choice, inf))
         .catch(error => console.error('Error:', error));
 
     }
 
     listInf = (ad) => {
-        if (ad.infs && ad.infs.length > 0) {  // TODO change idUser to Name
+        if (ad.infs && ad.infs.length > 0) {
           return (
             ad.infs.map(inf => (
               <tr hidden={ad.show ? false : true}>
@@ -178,61 +229,70 @@ class Ads extends React.Component {
     }
 
     listOffer = () => {
-      return (
-        this.state.adsData.map(ad => (
-          <>
-          <tr>
-            <td>{ad.productName}</td>
-            <td>{this.state.type[ad.productSubject]}</td>
-            <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
-            <td>{new Date(ad.updatedAt).toLocaleDateString()}</td>
-            <td>{ad.average ? ad.productSubject : "Aucune note"}</td>
-            <td>
-              <OverlayTrigger
-                placement={"top"}
-                overlay={
-                  <Tooltip>
-                    Modifier
-                  </Tooltip>
-                }
-              >
-               <EditTwoToneIcon className="report" onClick={() => this.handleEdit(ad.id)}/>
-              </OverlayTrigger>{' '}
-              <OverlayTrigger
-                placement={"top"}
-                overlay={
-                  <Tooltip>
-                    Supprimer
-                  </Tooltip>
-                }
-              >
-               <DeleteTwoToneIcon className="report" onClick={() => this.handleVisibleModal(ad)}/>
-              </OverlayTrigger>{' '}
-              <OverlayTrigger
-                placement={"top"}
-                overlay={
-                  <Tooltip>
-                    Voir abonnement
-                  </Tooltip>
-                }
-              >
-               <ExpandMoreTwoToneIcon className="report" onClick={async () => {
-                   ad.show = !ad.show;
+      console.log("ttt",this.state.adsData );
+      if (this.state.adsData) {
+        return (
+          this.state.adsData.map(ad => (
+            <>
+            <tr>
+              <td>{ad.productName}</td>
+              <td>{this.state.type[ad.productSubject]}</td>
+              <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
+              <td>{new Date(ad.updatedAt).toLocaleDateString()}</td>
+              <td>{ad.average ? ad.productSubject : "Aucune note"}</td>
+              <td>
+                <OverlayTrigger
+                  placement={"top"}
+                  overlay={
+                    <Tooltip>
+                      Modifier
+                    </Tooltip>
+                  }
+                >
+                 <EditTwoToneIcon className="report" onClick={() => this.handleEdit(ad.id)}/>
+                </OverlayTrigger>{' '}
+                <OverlayTrigger
+                  placement={"top"}
+                  overlay={
+                    <Tooltip>
+                      Supprimer
+                    </Tooltip>
+                  }
+                >
+                 <DeleteTwoToneIcon className="report" onClick={() => this.handleVisibleModal(ad)}/>
+                </OverlayTrigger>{' '}
+                <OverlayTrigger
+                  placement={"top"}
+                  overlay={
+                    <Tooltip>
+                      Voir abonnement
+                    </Tooltip>
+                  }
+                >
+                 <ExpandMoreTwoToneIcon className="report" onClick={async () => {
+                     ad.show = !ad.show;
 
-                   var res = await fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${ad.id}`, {
-                       method: 'GET',
-                       headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-                   })
-                   ad.infs = await res.json();
-                   this.forceUpdate();
-                 }} />
-              </OverlayTrigger>{' '}
-            </td>
-          </tr>
-          {this.listInf(ad)}
-          </>
-        ))
-      )
+                     var res = await fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${ad.id}`, {
+                         method: 'GET',
+                         headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+                     })
+                     ad.infs = await res.json();
+                     this.forceUpdate();
+                   }} />
+                </OverlayTrigger>{' '}
+              </td>
+            </tr>
+            {this.listInf(ad)}
+            </>
+          ))
+        )
+      }
+      else {
+        return (
+          <></>
+        );
+      }
+
     }
 
     render() {

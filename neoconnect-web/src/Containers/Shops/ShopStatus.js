@@ -25,6 +25,12 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 class ShopStatus extends React.Component{
     constructor(props) {
         super(props);
+
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") != "shop")
+          this.props.history.push('/page-not-found');
+
         this.state = {
             userData: null,
             visible: false,
@@ -39,6 +45,7 @@ class ShopStatus extends React.Component{
             email: "",
             city: "",
             theme: "",
+            society: "",
             file: null,
             userPicture: null,
             tmpTheme: ['', 'Mode', 'Cosmetique', 'Haute technologie', 'Food', 'Jeux vidéo', 'Sport/fitness']
@@ -92,6 +99,7 @@ class ShopStatus extends React.Component{
           twitter: this.state.userData.twitter,
           instagram: this.state.userData.instagram,
           theme: this.state.userData.theme,
+          society: this.state.userData.society,
           userPicture: this.state.userData.userPicture[0],
         });
     }
@@ -212,27 +220,33 @@ class ShopStatus extends React.Component{
                         <Form.Control value={this.state.snapchat} onChange={e => {this.setState({snapchat: e.target.value})}}/>
                       </Form.Group>
                     </Form.Row>
-                    <Form.Group as={Col} style={{ paddingLeft: 0}}>
-                      <FormControl variant="outlined" style={{ color: 'black'}}>
-                        <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
-                            Thème
-                        </InputLabel>
-                        <Select
-                            style={{color: 'black'}}
-                            labelId="demo-simple-select-outlined-label"
-                            name="theme"
-                            value={this.state.tmpTheme.indexOf(this.state.theme)}
-                            onChange={e => {this.setState({theme: this.state.tmpTheme[e.target.value]})}}
-                        >
-                            <MenuItem value={1}>Mode</MenuItem>
-                            <MenuItem value={2}>Cosmetique</MenuItem>
-                            <MenuItem value={3}>Haute Technologie</MenuItem>
-                            <MenuItem value={4}>Food</MenuItem>
-                            <MenuItem value={5}>Jeux vidéo</MenuItem>
-                            <MenuItem value={6}>Sport/fitness</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Form.Group>
+                    <Form.Row>
+                      <Form.Group as={Col}>
+                        <Form.Label>Société</Form.Label>
+                        <Form.Control value={this.state.society} onChange={e => {this.setState({society: e.target.value})}}/>
+                      </Form.Group>
+                      <Form.Group as={Col} className="mt-4">
+                        <FormControl variant="outlined" style={{ color: 'black'}}>
+                          <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
+                              Thème
+                          </InputLabel>
+                          <Select
+                              style={{color: 'black'}}
+                              labelId="demo-simple-select-outlined-label"
+                              name="theme"
+                              value={this.state.tmpTheme.indexOf(this.state.theme)}
+                              onChange={e => {this.setState({theme: this.state.tmpTheme[e.target.value]})}}
+                          >
+                              <MenuItem value={1}>Mode</MenuItem>
+                              <MenuItem value={2}>Cosmetique</MenuItem>
+                              <MenuItem value={3}>Haute Technologie</MenuItem>
+                              <MenuItem value={4}>Nourriture</MenuItem>
+                              <MenuItem value={5}>Jeux vidéo</MenuItem>
+                              <MenuItem value={6}>Sport/fitness</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Form.Group>
+                    </Form.Row>
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>

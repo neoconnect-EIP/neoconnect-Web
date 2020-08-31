@@ -22,6 +22,10 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 class FindInfluencers extends React.Component {
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") != "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             influencersData: null,
             search: "",
@@ -52,7 +56,8 @@ class FindInfluencers extends React.Component {
     searchRes = async (res) => {
       if (res.status === 200){
         var influencer = await res.json();
-        this.setState({influencersData: [influencer], back: true})
+        this.handleGlobalInf(influencer.id);
+        // this.setState({influencersData: [influencer], back: true})
       }
       else {
         this.setState({show: true, influencersData: [], tmpSearch: this.state.search})

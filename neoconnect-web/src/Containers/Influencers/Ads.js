@@ -16,6 +16,10 @@ import Button from 'react-bootstrap/Button';
 class Ads extends React.Component {
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") == "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             adsData: [],
             visible: false,
@@ -29,35 +33,39 @@ class Ads extends React.Component {
     }
 
     getAplliedOffer = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
-          method: 'GET',
-          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-          .then(res => {
-            if (res.status >= 400)
-              throw res;
-            return res.json()
-          })
-          .then(res => this.setState({adsData: res, isLoading: false}))
-          .catch(error => {
-            this.setState({isLoading: false});
-            store.addNotification({
-              title: "Erreur, Veuillez essayer ultérieurement",
-              message: error.statusText,
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              pauseOnHover: true,
-              isMobile: true,
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 7000,
-                onScreen: true,
-                showIcon: true
-              }
+      if (localStorage.getItem("Jwt")) {
+
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+            .then(res => {
+              if (res.status >= 400)
+                throw res;
+              return res.json()
+            })
+            .then(res => this.setState({adsData: res, isLoading: false}))
+            .catch(error => {
+              this.setState({isLoading: false});
+              store.addNotification({
+                title: "Erreur, Veuillez essayer ultérieurement",
+                message: error.statusText,
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                pauseOnHover: true,
+                isMobile: true,
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 7000,
+                  onScreen: true,
+                  showIcon: true
+                }
+              });
             });
-          });
+      }
+
     }
 
     componentDidMount = () => {
@@ -102,7 +110,7 @@ class Ads extends React.Component {
     };
 
     listAbonnement = () => {
-
+      console.log("List = ", this.state.adsData);
       if (this.state.adsData && this.state.adsData.length > 0)
         return (
           this.state.adsData.map(ad => (
@@ -110,7 +118,7 @@ class Ads extends React.Component {
               <td>{ad.productName}</td>
               <td>{this.state.type[ad.productSubject]}</td>
               <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
-              <td>{ad.average ? ad.productSubject : "Aucune note"}</td>
+              <td>{ad.status == "pending" ? "En attente" : (ad.status == "refused" ? "Refusé" : "Accepté")}</td>
               <td>
                 <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Désabonner</Button>{' '}
                 <Button className="btnInf" onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}>Détail</Button>

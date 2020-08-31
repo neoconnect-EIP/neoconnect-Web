@@ -37,6 +37,10 @@ const steps = [
 class PostAd extends React.Component {
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") != "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             productImgName1: "",
             productImgName2: "",
@@ -47,7 +51,7 @@ class PostAd extends React.Component {
             productDesc: "",
             productSubject: "",
             productColor: "",
-            productBrand: "",
+            productBrand: localStorage.getItem("pseudo"),
             current: 0,
             isEnd: false,
             homme: false,

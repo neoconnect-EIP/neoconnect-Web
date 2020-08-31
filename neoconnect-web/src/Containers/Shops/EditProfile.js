@@ -17,6 +17,10 @@ import avatar from "../../assets/avatar1.png";
 class EditProfile extends React.Component {
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") != "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             city: "",
             email: "",

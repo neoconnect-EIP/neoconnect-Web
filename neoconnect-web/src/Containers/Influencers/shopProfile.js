@@ -49,6 +49,10 @@ import edit from "../../assets/edit.svg";
 class shopProfile extends React.Component{
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") == "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             shopData: [],
             userData: null,
@@ -68,10 +72,12 @@ class shopProfile extends React.Component{
     getShopData = () => {
       let id = this.getUrlParams((window.location.search));
 
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-          .then(res => res.json())
-          .then(res => {this.setState({shopData: res})})
-          .catch(error => console.error('Error:', error));
+      if (id) {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => res.json())
+            .then(res => {this.setState({shopData: res})})
+            .catch(error => console.error('Error:', error));
+      }
     }
 
     getUserData = () => {

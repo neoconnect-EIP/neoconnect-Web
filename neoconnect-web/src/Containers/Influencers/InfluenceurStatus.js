@@ -32,6 +32,10 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 class InfluenceurStatus extends React.Component{
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") == "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             userData: null,
             visible: false,

@@ -20,6 +20,10 @@ import { store } from 'react-notifications-component';
 class FindShop extends React.Component{
     constructor(props) {
         super(props);
+        if (!localStorage.getItem("Jwt"))
+          this.props.history.push('/landing-page/login');
+        if (localStorage.getItem("userType") == "shop")
+          this.props.history.push('/page-not-found');
         this.state = {
             shopList: null,
             search: "",
