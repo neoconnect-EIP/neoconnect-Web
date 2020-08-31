@@ -219,7 +219,7 @@ class Ads extends React.Component {
                <ExpandMoreTwoToneIcon className="report" onClick={async () => {
                    ad.show = !ad.show;
 
-                   var res = await fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/offer/${ad.id}`, {
+                   var res = await fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${ad.id}`, {
                        method: 'GET',
                        headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
                    })

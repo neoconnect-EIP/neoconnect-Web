@@ -106,7 +106,7 @@ class Ads extends React.Component {
       if (this.state.adsData && this.state.adsData.length > 0)
         return (
           this.state.adsData.map(ad => (
-            <tr>
+            <tr key={ad.idOffer}>
               <td>{ad.productName}</td>
               <td>{this.state.type[ad.productSubject]}</td>
               <td>{new Date(ad.createdAt).toLocaleDateString()}</td>

@@ -47,7 +47,7 @@ export default class LandingPage extends React.Component{
                                         contact en quelques clics avec une communauté de jeunes influenceurs</h4>
                                   </div>
                                 </Col>
-                                <Row className="pt-4 pb-4 mb-4 shopBgCard">
+                                <Row className="pt-4 pb-4 shopBgCard">
                                   <Col md={4}>
                                     <Card className="mx-auto mb-4" style={{ width: '100%', minHeight: '26rem', maxWidth: '24rem', borderColor: 'transparent', backgroundColor: "transparent"}}>
                                       <Card.Body>

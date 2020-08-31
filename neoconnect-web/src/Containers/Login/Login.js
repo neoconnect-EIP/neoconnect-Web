@@ -21,7 +21,7 @@ export default class Login extends React.Component{
             code: "",
             newPass: "",
             newPassSec: "",
-            sent: true
+            sent: false
         }
     }
 
@@ -33,7 +33,7 @@ export default class Login extends React.Component{
         this.setState({email: e.target.value});
     }
 
-    handleNewPass= (e) => {
+    handlenewPass= (e) => {
         this.setState({newPass: e.target.value});
     }
     handlenewPassSec = (e) => {
@@ -181,20 +181,114 @@ export default class Login extends React.Component{
 
     //TODO test make step 2
     handleResetPass = () => {
+      console.log("email ", this.state.email);
+      if (this.state.newPass != this.state.newPassSec) {
+        store.addNotification({
+          title: "Erreur",
+          message: "Les mots de passe ne se correspondent pas",
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true,
+            pauseOnHover: true
+          }
+        });
+      }
+      else {
         let body = {
             "email": this.state.email,
             "password": this.state.newPass,
-            "resetPasswordtoken": ""
+            "resetPasswordtoken": this.state.code
 
         };
 
+        console.log(localStorage.getItem("Jwt"));
+
         body = JSON.stringify(body);
-        //TODO les requetes
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/resetPassword/${this.state.code}`, {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+          .then(res => {
+            console.log("RES ", res);
+            if (res.status == 200) {
+
+              var params = {
+                    'email': this.state.email,
+                    'resetPasswordToken':  this.state.code,
+                    'password': this.state.newPass
+                };
+
+                var formBody = [];
+                for (var property in params) {
+                  var encodedKey = encodeURIComponent(property);
+                  var encodedValue = encodeURIComponent(params[property]);
+                  formBody.push(encodedKey + "=" + encodedValue);
+                }
+                formBody = formBody.join("&");
+
+              fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/updatePassword`, {
+                  method: 'PUT', body: formBody, headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                  "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+                })
+                  .then(res => {
+                    if (res.status == 400) {
+                      store.addNotification({
+                        title: "Erreur",
+                        message: "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
+                        type: "danger",
+                        insert: "top",
+                        container: "top-right",
+                        pauseOnHover: true,
+                        isMobile: true,
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                          duration: 7000,
+                          onScreen: true,
+                          showIcon: true,
+                          pauseOnHover: true
+                        }
+                      });
+                    }
+                    else {
+                      store.addNotification({
+                        title: "Success",
+                        message: "Mot de passe a été modifié avec succès",
+                        type: "success",
+                        insert: "top",
+                        container: "top-right",
+                        pauseOnHover: true,
+                        isMobile: true,
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                          duration: 7000,
+                          onScreen: true,
+                          showIcon: true,
+                          pauseOnHover: true
+                        }
+                      });
+                      this.setState({visible: false})
+                    }
+                  })
+            }
+          })
+      }
+
 
     };
 
     handleClose = () => {
-      this.setState({visible: false})
+      this.setState({visible: false, sent: false})
     }
 
     render() {
@@ -222,6 +316,36 @@ export default class Login extends React.Component{
                 }
                </Modal.Body>
                <Modal.Footer>
+                 {!this.state.sent &&
+                   <Button className="btnInf" onClick={() => {
+
+                       if (!this.state.email)
+                       {
+                         store.addNotification({
+                           title: "Erreur",
+                           message: "Veuillez indiquez votre addresse email",
+                           type: "danger",
+                           insert: "top",
+                           container: "top-right",
+                           pauseOnHover: true,
+                           isMobile: true,
+                           animationIn: ["animated", "fadeIn"],
+                           animationOut: ["animated", "fadeOut"],
+                           dismiss: {
+                             duration: 7000,
+                             onScreen: true,
+                             showIcon: true,
+                             pauseOnHover: true
+                           }
+                         });
+                       }
+                       else
+                       {
+                         this.setState({sent: true})
+                       }
+                     }}>
+                     Rentrer le code
+                   </Button>}
                  <Button className="btnInf" onClick={() => {if (this.state.sent) this.handleResetPass(); else {this.handleForgotPass()}}}>
                    Envoyer
                  </Button>
