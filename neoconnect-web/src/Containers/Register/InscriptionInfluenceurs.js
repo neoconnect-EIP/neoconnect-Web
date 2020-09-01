@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, Steps} from 'antd';
+import {Icon} from 'antd';
 import {Grid, Input, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import "../index.css"
 import { store } from 'react-notifications-component';
@@ -14,10 +14,6 @@ import twitch from "../../assets/twitch.svg";
 import snapchat from "../../assets/snapchat.svg";
 import tiktok from "../../assets/tiktok.svg";
 
-
-const { Step } = Steps;
-
-//TODO refaire style
 
 export default class InfluencerSignUp extends React.Component{
     constructor(props) {

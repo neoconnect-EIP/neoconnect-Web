@@ -1,42 +1,17 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import { Grid} from '@material-ui/core/';
-import {Steps} from 'antd';
 import "../index.css"
 import {FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import { store } from 'react-notifications-component';
-
-const { Step } = Steps;
-const steps = [
-    {
-        title: 'Donnez un nom',
-    },
-    {
-        title: 'Décrivez votre item',
-    },
-    {
-        title: 'Importez vos images',
-    },
-    {
-        title: 'Selectionnez un type',
-    },
-    {
-        title: 'Selectionnez vos Cible',
-    },
-    {
-        title: 'Validation',
-    },
-];
 
 class EditAd extends React.Component {
     constructor(props) {
@@ -491,68 +466,3 @@ class EditAd extends React.Component {
 
 
 export default withRouter(EditAd)
-//
-// return (
-//     <Grid container justify="center">
-//         {
-//             this.state.isLoading ?
-//                 <Loader
-//                     type="Triangle"
-//                     color="#292929"
-//                     height={200}
-//                     width={200}
-//                     style={{marginTop: "14rem"}}
-//                 />
-//                 :
-//                 <Grid>
-//                     {
-//                         !this.state.isEnd ?
-//                             <Grid container>
-//                                 <Grid item xs={12} style={{backgroundColor: "white", width: "100%", height: "120px", position: "fixed", zIndex: "10", boxShadow: "0 0px 12px"}}>
-//                                     <h1 style={{marginTop: "30px", marginBottom: "30px", color: "black", position: "relative", marginLeft: "auto", marginRight: "auto", textAlign: "center"}}>Modifier une annonce</h1>
-//                                 </Grid>
-//                                 <Steps current={this.state.current} style={{marginTop: "130px", padding: "25px"}}>
-//                                     {steps.map(item => (
-//                                         <Step key={item.id} title={item.title} />
-//                                     ))}
-//                                 </Steps>
-//                                 <Grid item className="steps-content" xs={12}>{steps[this.state.current].content}</Grid>
-//                                 <Grid container className="steps-action" xs={12} justify="center">
-//                                     <Grid item={12}>
-//                                         {
-//                                             this.getStepContent(this.state.current)
-//                                         }
-//                                     </Grid>
-//                                     <Grid item xs={12} style={{textAlign: "center"}}>
-//                                         <Button disabled={this.state.current < 1} variant="contained" color="secondary"  onClick={this.prev} style={{marginRight: "2rem"}}>
-//                                             PREVIOUS
-//                                         </Button>
-//                                         {
-//                                             this.state.current < 5 ?
-//                                                 <Button variant="contained" color="secondary" onClick={this.next}>
-//                                                     NEXT
-//                                                 </Button>
-//                                                 :
-//                                                 <Button variant="contained" color="secondary" onClick={this.handleSubmit}>
-//                                                     VALIDER
-//                                                 </Button>
-//                                         }
-//                                     </Grid>
-//                                 </Grid>
-//                             </Grid>
-//                             :
-//                             <Grid container style={{marginTop: "7.5rem", padding: "15rem"}}>
-//                                 <Grid item xs={12}>
-//                                     <h1 style={{textAlign: "center"}}>Annonce édité avec succès</h1>
-//                                 </Grid>
-//                                 <Grid item xs={12} style={{textAlign: "center"}}>
-//                                     <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
-//                                 </Grid>
-//                             </Grid>
-//                     }
-//                 </Grid>
-//         }
-//     </Grid>
-// );
-// }
-// }

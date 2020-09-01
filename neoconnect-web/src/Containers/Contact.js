@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon } from 'antd';
+import { Form } from 'antd';
 import { Input, TextField, Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import "../index.css"

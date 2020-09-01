@@ -91,7 +91,6 @@ class FindInfluencers extends React.Component {
             <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
             <Card.Body>
               <Card.Title>{inf.pseudo}</Card.Title>
-              <Card.Text>
                 {inf.email &&
                   <Row>
                     <EmailIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
@@ -114,7 +113,6 @@ class FindInfluencers extends React.Component {
                   <StarIcon style={{width: "25px", height: "25px", color: "gold"}}/>
                   <p>{`note: ${inf.average ? inf.average.toFixed(1) : "0" }/5`}</p>
                 </Row>
-              </Card.Text>
             </Card.Body>
           </Card>
         </div>
@@ -123,7 +121,7 @@ class FindInfluencers extends React.Component {
 
     render() {
         return (
-          <div container justify="center" className="shopBg" style={{minHeight: "100vh"}}>
+          <div justify="center" className="shopBg" style={{minHeight: "100vh"}}>
               <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver un influenceur</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -164,43 +162,3 @@ class FindInfluencers extends React.Component {
 }
 
 export default withRouter(FindInfluencers)
-
-
-
-// <Grid container justify="center">
-//     {
-//         this.state.influencersData ?
-//             <Grid container justify="center">
-//                 {
-//                     this.state.influencersData.map(inf => this.cardInf(inf))
-//                 }
-//             </Grid>
-//             :
-//             <Loader
-//                 type="Triangle"
-//                 color="#292929"
-//                 height={200}
-//                 width={200}
-//                 style={{marginTop: "14rem"}}
-//             />
-//     }
-// </Grid>
-//
-//
-// <Grid item xs={12} md={6} style={{padding: "5rem", paddingRight: "12rem", height: "auto", marginBottom: "10rem"}}>
-//     <Card style={{width: "30rem", height: "36rem"}}>
-//         <CardActionArea onClick={() => this.handleGlobalInf(inf.id)}>
-//             <CardMedia>
-//                 <img src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} style={{width: "30rem", height: "36rem", backgroundPosition: "center"}} alt="MISSING JPG"/>
-//             </CardMedia>
-//         </CardActionArea>
-//     </Card>
-//     <div style={{width: "15rem", height: "auto", backgroundColor: "#292929", marginTop: "-25rem", position: "relative", marginLeft: "24rem", borderRadius: "10px",
-//         borderRight: "2px solid #292929", borderTop: "2px solid #292929", borderBottom: "2px solid #292929", padding: "0.5rem"}}>
-//         <h1 style={{color: "white", paddingBottom: "1rem", marginBottom: "2rem", textDecoration: "underline"}}>{inf.pseudo}</h1>
-//         <h5 style={{color: "white"}}>{inf.email}</h5>
-//         <h5 style={{color: "white"}}>{inf.phone}</h5>
-//         <h5 style={{color: "white"}}>{inf.theme}</h5>
-//         <h5 style={{color: "white"}}>{`note: ${inf.average ? inf.average.toFixed(1) : "0" }/5`}</h5>
-//     </div>
-// </Grid>

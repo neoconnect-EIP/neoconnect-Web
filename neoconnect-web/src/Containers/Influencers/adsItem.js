@@ -373,31 +373,3 @@ class adsItem extends React.Component{
 }
 
 export default withRouter(adsItem)
-
-// <Modal
-//     open={this.state.visible}
-//     onClose={() => this.handleModal(0)}
-// >
-//     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
-//         {
-//             this.state.fonction === "subscribe" ?
-//                 <div style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
-//                     <h3 style={{color: "black"}}>S'abonner à cette offre ?</h3>
-//                     <h4 style={{marginBottom: "30px", color: "black"}}>{this.state.adData.brand ? this.state.adData.brand : "No brand"}</h4>
-//                     <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleModal("")}>ANNULER</Button>
-//                     <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceSubscribe(this.state.adData)}>S'ABONNER23</Button>
-//                 </div>
-//                 :
-//                 <Grid container style={{width: "400px", height: "150px", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
-//                     <Grid item xs={12}>
-//                         <h3 style={{color: "black"}}>Notez cette offre !</h3>
-//                     </Grid>
-//                     <Grid item style={{position: "relative", marginRight: "auto", marginLeft: "auto"}}>
-//                         <Rate onChange={(e) => this.handleMark(e)} />
-//                     </Grid>
-//                     <Grid item xs={12}>
-//                         <Button style={{backgroundColor: "#292929", margin: "10px", boxShadow: "0 0 10px"}} onClick={() => this.handleAnnonceNotation(this.state.adData)}>NOTER</Button>
-//                     </Grid>
-//                 </Grid>
-//         }
-//     </Slide>

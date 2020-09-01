@@ -161,32 +161,3 @@ class FindShop extends React.Component{
 }
 
 export default withRouter(FindShop)
-
-// :
-// <Alert variant="warning" className="mt-4" show={ this.state.show}
-//   onClose={() => {this.setState({show: false, search: ""}); this.getAllShop();}} dismissible>
-//    <Alert.Heading>Essayez à nouveau</Alert.Heading>
-//    <p>
-//      Aucune boutique correspond à <strong>{this.state.tmpSearch}</strong>
-//    </p>
-// </Alert>
-
-
-// <Card className="findShopCard">
-//     <CardActionArea onClick={() => this.handleGlobalAnnonce(item.id)}>
-//         <CardMedia>
-//             <img src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} style={{width: "100%", height: "21.875rem"}} alt="MISSING JPG"/>
-//         </CardMedia>
-//     </CardActionArea>
-//     <CardContent style={{width: "100%", height: "auto"}}>
-//         <Grid container>
-//             <Grid item xs={10}>
-//                 <h1>{` ${item.pseudo ? item.pseudo : "No brand"}`}</h1>
-//             </Grid>
-//             <Grid item xs={2}>
-//                 <h2 style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</h2>
-//                 <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-//             </Grid>
-//         </Grid>
-//     </CardContent>
-// </Card>

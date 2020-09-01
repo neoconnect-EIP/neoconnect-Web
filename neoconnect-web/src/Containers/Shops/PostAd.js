@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import { Grid} from '@material-ui/core/';
-import { Steps } from 'antd';
 import "../index.css"
 import {FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -9,30 +8,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import { store } from 'react-notifications-component';
 
-const { Step } = Steps;
-const steps = [
-    {
-        title: 'Donnez un nom',
-    },
-    {
-        title: 'Décrivez votre item',
-    },
-    {
-        title: 'Importez vos images',
-    },
-    {
-        title: 'Selectionnez un type',
-    },
-    {
-        title: 'Selectionnez vos Cible',
-    },
-    {
-        title: 'Validation',
-    },
-];
 
 class PostAd extends React.Component {
     constructor(props) {
@@ -448,34 +425,3 @@ class PostAd extends React.Component {
 }
 
 export default withRouter(PostAd)
-
-// <Grid container style={{padding: "25px"}}>
-//     <Steps current={this.state.current}>
-//         {steps.map(item => (
-//             <Step key={item.id} title={item.title} />
-//         ))}
-//     </Steps>
-//     <Grid item className="steps-content" xs={12}>{steps[this.state.current].content}</Grid>
-//     <Grid container className="steps-action" xs={12} justify="center">
-//         <Grid item={12}>
-//             {
-//                 this.getStepContent(this.state.current)
-//             }
-//         </Grid>
-//         <Grid item xs={12} style={{textAlign: "center"}}>
-//             <Button disabled={this.state.current < 1} variant="contained" color="secondary"  onClick={this.prev} style={{marginRight: "2rem"}}>
-//                 Previous
-//             </Button>
-//             {
-//                 this.state.current < 5 ?
-//                     <Button variant="contained" color="secondary" onClick={this.next}>
-//                         Next
-//                     </Button>
-//                     :
-//                     <Button variant="contained" color="secondary" onClick={this.handleSubmit}>
-//                         Validez
-//                     </Button>
-//             }
-//         </Grid>
-//     </Grid>
-// </Grid>

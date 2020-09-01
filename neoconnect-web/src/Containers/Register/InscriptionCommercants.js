@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Icon, Steps} from 'antd';
+import {Form, Icon} from 'antd';
 import {Grid, Input, Button, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import "../index.css";
 import { store } from 'react-notifications-component';
@@ -8,7 +8,6 @@ import instagram from "../../assets/instagram.svg";
 import facebook from "../../assets/facebook.svg";
 import snapchat from "../../assets/snapchat.svg";
 import twitter from "../../assets/twitter.svg";
-const { Step } = Steps;
 
 //TODO refaire style
 

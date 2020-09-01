@@ -302,36 +302,3 @@ class Advertisements extends React.Component{
 }
 
 export default withRouter(Advertisements)
-
-// <Card style={{height: "auto", boxShadow: "#807e7e 8px 8px 20px -4px", margin: "50px", borderRadius: "6px", backgroundColor: "#292929"}}>
-//     <CardActionArea onClick={() => this.handleGlobalAnnonce(item.id)}>
-//         <CardMedia>
-//             <img src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData} style={{width: "100%", height: "500px"}} alt="MISSING JPG"/>
-//         </CardMedia>
-//     </CardActionArea>
-//     <CardContent style={{width: "100%", height: "100px"}}>
-//         <h6 style={{color: "#fff"}}>{`${item.productType ? item.productType : ""} ${item.productBrand ? item.productBrand : "Sans marque"}`}</h6>
-//         <h6 style={{color: "#fff", marginTop: "2rem"}}>{`${item.productColor ? item.productColor : ""}`}</h6>
-//     </CardContent>
-//     <CardActions style={{justifyContent: "center"}}>
-//         <Button onClick={() => this.handleModal(item.id)} style={{width: "9.375rem", height: "2.6rem", fontSize: "1.2rem", marginBottom: "0.5rem", marginLeft: "5rem", borderRadius: "10px", backgroundColor: "transparent", border: "1px solid white"}}>S'abonner</Button>
-//         <h6 style={{marginLeft: "3rem", marginBottom: "10px", color: "#fff"}}>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
-//         <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-//     </CardActions>
-// </Card>
-
-// <Modal
-//     open={this.state.visible && item.id === this.state.actualId}
-//     onClose={() => this.handleModal(0)}
-// >
-//     <Slide direction="down" in={this.state.visible} mountOnEnter unmountOnExit>
-//         <div style={{width: "400px", height: "auto", position: "relative", marginTop: "300px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", textAlign: "center", borderRadius: "12px"}}>
-//             <div style={{marginRight: "1.5rem", marginLeft: "1.5rem", backgroundColor: "#292929", borderRadius: "10px"}}>
-//                 <h3 style={{color: "white"}}>S'abonner à cette annonce ?</h3>
-//             </div>
-//             <h4 style={{marginBottom: "30px", color: "black"}}>{item.productBrand ? item.productBrand : "Sans marque"}</h4>
-//             <Button style={{backgroundColor: "#292929", fontSize: "1.3rem", borderRadius: "10px", boxShadow: "0 0 10px", marginBottom: "1rem", marginLeft: "1.5rem"}} onClick={() => this.handleModal(0)}>Annuler</Button>
-//             <Button style={{backgroundColor: "#292929", fontSize: "1.3rem", borderRadius: "10px", boxShadow: "0 0 10px", marginBottom: "1rem", marginLeft: "1.5rem"}} onClick={() => this.handleAnnonceSubsribe(item)}>S'abonner</Button>
-//         </div>
-//     </Slide>
-// </Modal>
