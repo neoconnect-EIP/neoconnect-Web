@@ -4,13 +4,13 @@ import "./index.css"
 import {Icon} from "antd";
 import background from '../assets/Equinox-Shop.jpg'
 import Button from 'react-bootstrap/Button';
-
+import { store } from 'react-notifications-component';
 
 export default class Chat extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            pseudo: "",
+            pseudo: localStorage.getItem("pseudo"),
             email: "",
             subject: "",
             message: "",
@@ -19,8 +19,51 @@ export default class Chat extends React.Component{
         };
     }
 
+    handleResponse = async (res) => {
+
+      var msg = await res.json();
+
+      if (res.status != 200) {
+        store.addNotification({
+          title: "Erreur",
+          message: "Erreur provenant du serveur: " + msg,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+      else {
+        store.addNotification({
+          title: "Envoyé",
+          message: "Votre email a bien été envoyé.",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+        this.setState({email: "", subject: "", message: "", to: ""});
+      }
+    }
+
+
     handleSend = () => {
-        let body = {
+
+        var body = {
             "pseudo": this.state.pseudo,
             "email": this.state.email,
             "subject": this.state.subject,
@@ -28,17 +71,22 @@ export default class Chat extends React.Component{
             "to": this.state.to,
         };
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106/user/contact", { method: 'POST', body: body,headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+        console.log("BODY", body);
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/contact`, {
+           method: 'POST',
+           body: body,
+           headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+          .then(res => {this.handleResponse(res)})
+          .catch(error => console.error('Error:', error));
     };
 
-    handleResponse = (res) => {
-        if (res.status === 200)
-            this.setState({pseudo: "", email: "email", subject: "", message: "", to: ""})
-    };
+    // handleResponse = (res) => {
+    //     if (res.status === 200)
+    //         this.setState({pseudo: "", email: "email", subject: "", message: "", to: ""})
+    // };
 
     handleChange = (e) => {
         let change = {}
@@ -74,25 +122,6 @@ export default class Chat extends React.Component{
     render() {
         return (
             <Grid container justify="center" alignItems="center" className={this.state.shop == true ? "shopBg" : "infBg"}>
-                {/* <Grid xs={3} style={{borderRight: "1px solid #292929", height: "100vh"}}>
-                <List>
-                    {
-                        this.state.contacts ?
-                            this.state.contacts.map(item => (
-                                this.listItem(item)
-                                )
-                            )
-                            :
-                            <h5 style={{color: "#797979", textAlign: "center", marginTop: "49vh"}}>Aucuns contact pour le moment</h5>
-                    }
-                </List>
-            </Grid>
-            <Grid item xs={9} style={{height: "100vh"}}>
-                <div style={{height: "90vh", width: "100%"}}>
-
-                </div>
-                <TextField style={{marginLeft: "2rem", backgroundColor: "#d9d9d9", borderRadius: "8px", width: "90%"}} multiline rowsMax="4" placeholder="écrivez un message..."/>
-            </Grid>*/}
                 <Grid >
                     <Grid item xs={12} style={{ marginLeft: "3rem", marginRight: "3rem", textAlign: "center"}}>
                         <h2 style={{color: "white"}}>Contact</h2>
@@ -102,8 +131,19 @@ export default class Chat extends React.Component{
                         <Input type="text"
                                name="email"
                                color="secondary"
-                               placeholder="email"
+                               placeholder="votre addresse email"
                                value={this.state.email}
+                               style={{width: "42rem"}}
+                               onChange={this.handleChange}
+                        />
+                    </Grid>
+                    <Grid item style={{marginTop: "3rem", textAlign: "center"}} xs={12}>
+                        <Icon type="mail" style={{ color: 'white', marginRight: "8px"}} />
+                        <Input type="text"
+                               name="to"
+                               color="secondary"
+                               placeholder="email destinataire"
+                               value={this.state.to}
                                style={{width: "42rem"}}
                                onChange={this.handleChange}
                         />

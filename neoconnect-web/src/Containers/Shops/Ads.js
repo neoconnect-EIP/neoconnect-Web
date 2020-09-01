@@ -190,7 +190,6 @@ class Ads extends React.Component {
 
     acceptDeclineInf = (choice, inf) => {
 
-      console.log("cHOICE ", typeof(choice));
       var body = {
             'idUser': inf.idUser,
             'idOffer':  inf.idOffer,

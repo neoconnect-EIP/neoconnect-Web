@@ -42,7 +42,7 @@ export default class Message extends React.Component{
     }
 
     handleSend = () => {
-        let body = {
+        var body = {
             "pseudo": this.state.pseudo,
             "email": this.state.email,
             "subject": this.state.subject,
