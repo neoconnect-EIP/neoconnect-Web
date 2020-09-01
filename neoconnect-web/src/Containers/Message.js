@@ -10,15 +10,6 @@ import noAvatar from "../assets/noImageFindInf.jpg";
 import SendIcon from '@material-ui/icons/Send';
 import { store } from 'react-notifications-component';
 
-
-// TODO shop: props.location.state.profile,
-
-// {idUser: 1, msg: "Bonjour", id: 1},
-// {idUser: 2, msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate lorem placerat nibh tincidunt, at vulputate sapien gravida. Maecenas sit amet nulla ut nibh consequat luctus", id: 2},
-// {idUser: 1, msg: "Sed ornare, mi at iaculis euismod, nibh eros consectetur nisl, quis volutpat felis mi ut diam.r", id: 3},
-// {idUser: 2, msg: "Curabitur non neque mauris. Ut et erat non leo faucibus sagittis at vitae libero. Fusce id cursus sapien. Aliquam tincidunt odio at erat aliquet ultricies. ", id: 4},
-// {idUser: 2, msg: "Au revoir", id: 5},
-
 export default class Message extends React.Component{
     constructor(props) {
         super(props);

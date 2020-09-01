@@ -32,7 +32,7 @@ class Advertisements extends React.Component{
             adsData: null,
             adsSaver: null,
             item: null,
-            searchForm: null,
+            searchForm: "",
             sort: 'Order (ASC)'
         };
     }
@@ -229,7 +229,6 @@ class Advertisements extends React.Component{
     }
 
     render() {
-        console.log("adsData: ", this.state.adsData);
         return (
             <div justify="center" className="infBg"  >
               <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>

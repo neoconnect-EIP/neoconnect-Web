@@ -57,7 +57,6 @@ class Ads extends React.Component {
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
           .then(res => {
-            console.log("RES ", res);
             if (res.status == 200) {
               return (res.json());
             }
@@ -213,8 +212,8 @@ class Ads extends React.Component {
     listInf = (ad) => {
         if (ad.infs && ad.infs.length > 0) {
           return (
-            ad.infs.map(inf => (
-              <tr hidden={ad.show ? false : true}>
+            ad.infs.map((inf, id) => (
+              <tr hidden={ad.show ? false : true} key={id}>
                 <td>{inf.pseudoUser}</td>
                 <td><Button className="btnShop" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
                 <td><Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
@@ -248,7 +247,7 @@ class Ads extends React.Component {
     listOffer = () => {
       if (this.state.adsData) {
         return (
-          this.state.adsData.map(ad => (
+          this.state.adsData.map((ad, id) => (
             <>
             <tr className="report">
               <td onClick={() => {this.detailOffer(ad)}}>{ad.productName}</td>
@@ -313,7 +312,7 @@ class Ads extends React.Component {
 
     render() {
         return (
-            <div container justify="center" className="shopBg" style={{height: '100vh'}}>
+            <div justify="center" className="shopBg" style={{height: '100vh'}}>
               <Modal centered show={this.state.visible} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Suppression</Modal.Title>

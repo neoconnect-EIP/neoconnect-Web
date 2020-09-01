@@ -20,7 +20,7 @@ export default class InfluencerSignUp extends React.Component{
         super(props);
         this.state = {
             pseudo: "",
-            password: null,
+            password: "",
             password2: "",
             full_name: "",
             email: "",
@@ -358,7 +358,7 @@ export default class InfluencerSignUp extends React.Component{
                     <div style={{margin: "4rem"}}>
 
                         <Grid container className="steps-action" justify="center" style={{color: "white"}}>
-                            <Grid item={12}>
+                            <Grid>
                                 {
                                     this.getStepContent(this.state.current)
                                 }
