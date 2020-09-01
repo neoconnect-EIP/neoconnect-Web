@@ -8,6 +8,7 @@ import noImageFindInf from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
 import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
@@ -17,6 +18,9 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import Alert from 'react-bootstrap/Alert';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import heart from "../../assets/heart.svg";
+import fire from "../../assets/fire.svg";
+import star from "../../assets/star.svg";
 
 class FindInfluencers extends React.Component {
     constructor(props) {
@@ -30,8 +34,25 @@ class FindInfluencers extends React.Component {
             search: "",
             show: false,
             back: false,
-            tmpSearch: ""
+            tmpSearch: "",
+            moment: null,
+            bestMark: null,
+            popular: null,
         };
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/actuality`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          console.log("RES = ", res);
+          return (res.json());
+        })
+        .then(res => {
+          console.log("SEconde time = ", res);
+          this.setState({moment: res.listInfTendance, popular: res.listInfPopulaire, bestMark: res.listInfNotes});
+        })
     }
 
     getAllInfluencer = () => {
@@ -121,7 +142,7 @@ class FindInfluencers extends React.Component {
     render() {
         return (
           <div justify="center" className="shopBg" style={{minHeight: "100vh"}}>
-              <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+              <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver un influenceur</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -132,32 +153,60 @@ class FindInfluencers extends React.Component {
                   </Form>
                 </Navbar.Collapse>
               </Navbar>
+              <Row className="pl-4">
+                <Image src={heart}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs du moment</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
                 {
-                  this.state.influencersData ? this.state.influencersData.length > 0 ?
-                    <CardColumns className="pt-4 pl-3">
-                      {
-                          this.state.influencersData.map(inf => this.cardInf(inf))
-                      }
-                    </CardColumns> :
-                    <Alert variant="warning" className="mt-4" show={ this.state.show}
-                      onClose={() => {this.setState({show: false, search: ""}); this.getAllInfluencer();}} dismissible>
-                       <Alert.Heading>Essayez à nouveau</Alert.Heading>
-                       <p>
-                         Aucun influencer correspond à <strong>{this.state.tmpSearch}</strong>
-                       </p>
-                    </Alert>
-                    :
-                    <Loader
-                        type="Triangle"
-                        color="#FFFFF"
-                        height={200}
-                        width={200}
-                        style={{marginTop: "14rem"}}
-                    />
+                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
                 }
+            </CardColumns>
+              <Row className="pl-4 mt-4">
+                <Image src={fire}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs populaires</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
+                {
+                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                }
+            </CardColumns>
+              <Row className="pl-4 mt-4">
+                <Image src={star}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs les mieux notés</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
+                {
+                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                }
+            </CardColumns>
             </div>
         );
     }
 }
 
 export default withRouter(FindInfluencers)
+
+// {
+//   this.state.influencersData ? this.state.influencersData.length > 0 ?
+//     <CardColumns className="pt-4 pl-3 pr-2">
+//       {
+//           this.state.influencersData.map(inf => this.cardInf(inf))
+//       }
+//     </CardColumns> :
+//     <Alert variant="warning" className="mt-4" show={ this.state.show}
+//       onClose={() => {this.setState({show: false, search: ""}); this.getAllInfluencer();}} dismissible>
+//        <Alert.Heading>Essayez à nouveau</Alert.Heading>
+//        <p>
+//          Aucun influencer correspond à <strong>{this.state.tmpSearch}</strong>
+//        </p>
+//     </Alert>
+//     :
+//     <Loader
+//         type="Triangle"
+//         color="#FFFFF"
+//         height={200}
+//         width={200}
+//         style={{marginTop: "14rem"}}
+//     />
+// }

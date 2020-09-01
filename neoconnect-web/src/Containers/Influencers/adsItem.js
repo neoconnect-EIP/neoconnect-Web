@@ -47,13 +47,11 @@ class adsItem extends React.Component{
             commentData: null,
             urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
         };
-
-        console.log("HELLO");
     }
 
     componentDidMount = () => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => res.json())
+            .then(res => {return (res.json())})
             .then(res => this.setState({adData: res}))
             .catch(error => console.error('Error:', error));
 
@@ -87,7 +85,6 @@ class adsItem extends React.Component{
     };
 
     handleAnnonceSubscribe = () => {
-      console.log("adData ", this.state.adData);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.adData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
@@ -137,9 +134,17 @@ class adsItem extends React.Component{
         let body = {
             "mark": this.state.mark,
         };
+
         body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/mark/${id.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {console.log("start res: ", res.json())})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/mark/${parseInt(id.id)}`,
+          {
+            method: 'POST',
+            body: body,
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => res.json())
+            .then(res => {
+              this.setState({note: false})
+            })
             .catch(error => console.error('Error:', error));
         this.handleModal("")
     }

@@ -9,6 +9,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,6 +18,9 @@ import FormControl from 'react-bootstrap/FormControl';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { store } from 'react-notifications-component';
+import fire from "../../assets/fire.svg";
+import star from "../../assets/star.svg";
+import heart from "../../assets/heart.svg";
 
 class Advertisements extends React.Component{
     constructor(props) {
@@ -32,27 +36,46 @@ class Advertisements extends React.Component{
             adsSaver: null,
             item: null,
             searchForm: "",
-            sort: 'Order (ASC)'
+            sort: 'Order (ASC)',
+            popular: null,
+            bestMark: null,
+            tendance: null
         };
     }
 
     componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => res.json())
-            .then(res => {
-              this.setState({adsSaver: res, adsData: res.sort((a, b) => {
-                if (typeof a.productName === 'string' && typeof b.productName === 'string'){
-                  if (a.productName.length && b.productName.length){
-                    if (a.productName[0] > b.productName[0]) return 1
-                    else if (a.productName[0] < b.productName[0]) return -1
-                    else return 0
-                  }else return 0
-                }else return 0
-              })})
-              this.setState({adsData: res, adsSaver: res})
 
-            })
-            .catch(error => console.error('Error:', error));
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/actuality`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => {
+        console.log("RES = ", res);
+        return (res.json());
+      })
+      .then(res => {
+        console.log("SEconde time = ", res);
+        this.setState({popular: res.listOfferPopulaire, bestMark: res.listOfferTendance, tendance: res.listOfferTendance})
+      })
+
+        // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        //     .then(res => res.json())
+        //     .then(res => {
+        //       this.setState({adsSaver: res, adsData: res.sort((a, b) => {
+        //         if (typeof a.productName === 'string' && typeof b.productName === 'string'){
+        //           if (a.productName.length && b.productName.length){
+        //             if (a.productName[0] > b.productName[0]) return 1
+        //             else if (a.productName[0] < b.productName[0]) return -1
+        //             else return 0
+        //           }else return 0
+        //         }else return 0
+        //       })})
+        //       this.setState({adsData: res, adsSaver: res})
+        //
+        //     })
+        //     .catch(error => console.error('Error:', error));
     }
 
     handleGlobalAnnonce = (id) => {
@@ -258,44 +281,72 @@ class Advertisements extends React.Component{
                   onClick={() => this.handleSearch()}>Search</Button>
                 </InputGroup.Append> */}
               </InputGroup>
+              <Row className="pl-4">
+                <Image src={heart}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres du moment</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
                 {
-                    this.state.adsData ?
-                      <CardColumns className="pl-2 pr-4">
-                            {
-
-                                this.state.adsData.map(item => this.handleCard(item))
-                            }
-                        </CardColumns>
-                        :
-                        <Loader
-                            type="Triangle"
-                            color="#292929"
-                            height={200}
-                            width={200}
-                            style={{marginTop: "14rem"}}
-                        />
+                    this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
                 }
-                <Modal centered show={this.state.visible} onHide={this.handleClose}>
-                 <Modal.Header closeButton>
-                   <Modal.Title>S'abonner à cette offre ?</Modal.Title>
-                 </Modal.Header>
-                 <Modal.Body>
-                   {
-                     (this.state.item && this.state.item.productBrand) ? this.state.item.productBrand : "Sans marque"
-                   }
-                 </Modal.Body>
-                 <Modal.Footer>
-                   <Button className="btnCancel" onClick={this.handleClose}>
-                     Annuler
-                   </Button>
-                   <Button className="btnInf" onClick={this.handleAnnonceSubsribe}>
-                     S'abonner
-                   </Button>
-                 </Modal.Footer>
-               </Modal>
-            </div>
+            </CardColumns>
+              <Row className="pl-4">
+                <Image src={fire}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
+                {
+                    this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
+                }
+            </CardColumns>
+              <Row className="pl-4 mt-4">
+                <Image src={star}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
+                {
+                    this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
+                }
+            </CardColumns>
+              <Modal centered show={this.state.visible} onHide={this.handleClose}>
+               <Modal.Header closeButton>
+                 <Modal.Title>S'abonner à cette offre ?</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>
+                 {
+                   (this.state.item && this.state.item.productBrand) ? this.state.item.productBrand : "Sans marque"
+                 }
+               </Modal.Body>
+               <Modal.Footer>
+                 <Button className="btnCancel" onClick={this.handleClose}>
+                   Annuler
+                 </Button>
+                 <Button className="btnInf" onClick={this.handleAnnonceSubsribe}>
+                   S'abonner
+                 </Button>
+               </Modal.Footer>
+             </Modal>
+          </div>
         );
     }
 }
 
 export default withRouter(Advertisements)
+
+// {
+//     this.state.adsData ?
+//       <CardColumns className="pl-2 pr-4">
+//             {
+//
+//                 this.state.adsData.map(item => this.handleCard(item))
+//             }
+//         </CardColumns>
+//         :
+//         <Loader
+//             type="Triangle"
+//             color="#292929"
+//             height={200}
+//             width={200}
+//             style={{marginTop: "14rem"}}
+//         />
+// }

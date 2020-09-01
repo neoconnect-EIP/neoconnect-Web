@@ -391,7 +391,6 @@ class InfluencerProfile extends React.Component {
                             <Card className="ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
                               <Card.Body>
                                 <Card.Title style={{color: 'white'}}>Avis</Card.Title>
-                                <Card.Text>
                                   <Row className="mt-4 mb-4">
                                     <Col md={1}>
                                       <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
@@ -406,7 +405,6 @@ class InfluencerProfile extends React.Component {
                                   {
                                     !this.state.infData.comment || this.state.infData.comment.length === 0 ? "" : this.state.infData.comment.map(x => this.handleComment(x))
                                   }
-                                </Card.Text>
                               </Card.Body>
                             </Card>
                           </Col>

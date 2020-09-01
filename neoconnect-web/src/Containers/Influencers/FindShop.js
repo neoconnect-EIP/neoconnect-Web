@@ -12,8 +12,12 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
+import Image from 'react-bootstrap/Image';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { store } from 'react-notifications-component';
+import fire from "../../assets/fire.svg";
+import star from "../../assets/star.svg";
+import heart from "../../assets/heart.svg";
 
 class FindShop extends React.Component{
     constructor(props) {
@@ -27,20 +31,41 @@ class FindShop extends React.Component{
             search: "",
             show: false,
             back: false,
-            tmpSearch: ""
+            tmpSearch: "",
+            popular: null,
+            bestMark: null,
+            tendance: null
         };
+
     }
 
     getAllShop = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/listShop`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/actuality`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-          .then(res => res.json())
-          .then(res => this.setState({shopList: res}))
-          .catch(error => console.error('Error:', error));
+      .then(res => {
+        console.log("RES = ", res);
+        return (res.json());
+      })
+      .then(res => {
+        console.log("SEconde time = ", res);
+        this.setState({popular: res.listShopPopulaire, bestMark: res.listShopTendance, tendance: res.listShopTendance})
+      })
+
+      //TODO ou est que je peux mettre liste de tout les offres
+
+      // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/listShop`, {
+      //     method: 'GET',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      // })
+      //     .then(res => res.json())
+      //     .then(res => this.setState({shopList: res}))
+      //     .catch(error => console.error('Error:', error));
     }
 
     componentDidMount() {
@@ -126,7 +151,7 @@ class FindShop extends React.Component{
 
         return (
           <div className="infBg"  >
-                <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+                <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                   <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver une boutique</Navbar.Brand>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
@@ -137,25 +162,53 @@ class FindShop extends React.Component{
                     </Form>
                   </Navbar.Collapse>
                 </Navbar>
-                {
-                    this.state.shopList ?
-                      <CardColumns className="pl-2 mr-2 pr-2">
-                            {
-                                this.state.shopList.map(item => this.handleCard(item))
-                            }
-                        </CardColumns>
-                        :
-                          <Loader
-                              type="Triangle"
-                              color="#292929"
-                              height={200}
-                              width={200}
-                              style={{marginTop: "14rem"}}
-                          />
-                }
+                <Row className="pl-4">
+                  <Image src={heart}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
+                </Row>
+                <CardColumns className="pt-4 pl-3 pr-2">
+                  {
+                      this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
+                  }
+              </CardColumns>
+                <Row className="pl-4">
+                  <Image src={fire}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques populaires</h4>
+                </Row>
+                <CardColumns className="pt-4 pl-3 pr-2">
+                  {
+                      this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
+                  }
+              </CardColumns>
+                <Row className="pl-4 mt-4">
+                  <Image src={star}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques les mieux notés</h4>
+                </Row>
+                <CardColumns className="pt-4 pl-3 pr-2">
+                  {
+                      this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
+                  }
+              </CardColumns>
             </div>
         );
     }
 }
 
 export default withRouter(FindShop)
+
+// {
+//     this.state.shopList ?
+//       <CardColumns className="pl-2 mr-2 pr-2">
+//             {
+//                 this.state.shopList.map(item => this.handleCard(item))
+//             }
+//         </CardColumns>
+//         :
+//           <Loader
+//               type="Triangle"
+//               color="#292929"
+//               height={200}
+//               width={200}
+//               style={{marginTop: "14rem"}}
+//           />
+// }

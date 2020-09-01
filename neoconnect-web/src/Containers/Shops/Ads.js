@@ -250,7 +250,7 @@ class Ads extends React.Component {
               <td onClick={() => {this.detailOffer(ad)}}>{this.state.type[ad.productSubject]}</td>
               <td onClick={() => {this.detailOffer(ad)}}>{new Date(ad.createdAt).toLocaleDateString()}</td>
               <td onClick={() => {this.detailOffer(ad)}}>{new Date(ad.updatedAt).toLocaleDateString()}</td>
-              <td onClick={() => {this.detailOffer(ad)}}>{ad.average ? ad.productSubject : "Aucune note"}</td>
+              <td onClick={() => {this.detailOffer(ad)}}>{ad.average ? ad.average : "Aucune note"}</td>
               <td>
                 <OverlayTrigger
                   placement={"top"}
