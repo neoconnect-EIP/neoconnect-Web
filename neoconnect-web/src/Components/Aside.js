@@ -82,6 +82,10 @@ class Aside extends React.Component{
                                 <SearchIcon style={{float: "left", marginLeft: "20px"}}/>
                                 Influenceurs
                             </div>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/message", false)} style={{color: "white"}}>
+                                <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Messagerie
+                            </div>
                             <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/chat", true)} style={{color: "white"}}>
                                 <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Contact
@@ -109,6 +113,10 @@ class Aside extends React.Component{
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/shops")} style={{color: "white"}}>
                                 <StorefrontIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Boutiques
+                            </div>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/message", false)} style={{color: "white"}}>
+                                <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Messagerie
                             </div>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat", false)} style={{color: "white"}}>
                                 <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>

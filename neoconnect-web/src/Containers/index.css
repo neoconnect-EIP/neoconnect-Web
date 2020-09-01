@@ -51,6 +51,14 @@
   align-items: center;
 }
 
+.msgDate {
+  font-weight: 200;
+  color: white;
+  font-size: 11px;
+  max-width: 40%;
+  width: fit-content;
+}
+
 .receiverMsg {
   background-color: #a1a4ba;
   color: white;

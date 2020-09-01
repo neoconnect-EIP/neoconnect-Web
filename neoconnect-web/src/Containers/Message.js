@@ -8,53 +8,75 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import noAvatar from "../assets/noImageFindInf.jpg";
 import SendIcon from '@material-ui/icons/Send';
+import { store } from 'react-notifications-component';
 
 
 // TODO shop: props.location.state.profile,
+
+// {idUser: 1, msg: "Bonjour", id: 1},
+// {idUser: 2, msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate lorem placerat nibh tincidunt, at vulputate sapien gravida. Maecenas sit amet nulla ut nibh consequat luctus", id: 2},
+// {idUser: 1, msg: "Sed ornare, mi at iaculis euismod, nibh eros consectetur nisl, quis volutpat felis mi ut diam.r", id: 3},
+// {idUser: 2, msg: "Curabitur non neque mauris. Ut et erat non leo faucibus sagittis at vitae libero. Fusce id cursus sapien. Aliquam tincidunt odio at erat aliquet ultricies. ", id: 4},
+// {idUser: 2, msg: "Au revoir", id: 5},
 
 export default class Message extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            pseudo: "",
-            email: "",
-            subject: "",
-            message: "",
-            userId: 2,
-            to: "",
+            userId: localStorage.getItem("userId"),
+            channels: null,
             shop: false,
             msg: "",
-            index: 0,
+            index: -1,
+            client: localStorage.getItem("userType"),
             contact: [
-              {pseudo: 'Martin', msg: "lorem Ipsum"},
-              {pseudo: 'tata', msg: "Hello World"},
-              {pseudo: 'maxime', msg: "bye bye"},
-              {pseudo: 'manon', msg: "thank you"}
+              {pseudo: 'Martin', msg: "lorem Ipsum", id: 1},
+              {pseudo: 'tata', msg: "Hello World", id: 2},
+              {pseudo: 'maxime', msg: "bye bye", id: 3},
+              {pseudo: 'manon', msg: "thank you", id: 4}
           ],
-          messages: [{idUser: 1, msg: "Bonjour"},
-          {idUser: 2, msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate lorem placerat nibh tincidunt, at vulputate sapien gravida. Maecenas sit amet nulla ut nibh consequat luctus"},
-          {idUser: 1, msg: "Sed ornare, mi at iaculis euismod, nibh eros consectetur nisl, quis volutpat felis mi ut diam.r"},
-          {idUser: 2, msg: "Curabitur non neque mauris. Ut et erat non leo faucibus sagittis at vitae libero. Fusce id cursus sapien. Aliquam tincidunt odio at erat aliquet ultricies. "},
-          {idUser: 2, msg: "Au revoir"},
-          ],
+          currentDest: "",
+          messages: null,
+          chanelDetail: null,
           userData: null
         };
     }
 
-    handleSend = () => {
-        var body = {
-            "pseudo": this.state.pseudo,
-            "email": this.state.email,
-            "subject": this.state.subject,
-            "message": this.state.message,
-            "to": this.state.to,
-        };
-        body = JSON.stringify(body);
-        fetch("http://168.63.65.106/user/contact", { method: 'POST', body: body,headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+    getChannels = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`, {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => {
+        if (res.status == 200) {
+          return (res.json());
+        }
+        else {
+          throw res;
+        }
+      })
+      .then(res => {this.setState({channels: res})})
+      .catch(error => {
+        store.addNotification({
+          title: "Erreur",
+          message: "Erreur provenant du serveur: " + error.statusText,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      });
+    }
+
+    componentDidMount = () => {
+        this.getChannels();
     };
 
     handleResponse = (res) => {
@@ -69,17 +91,106 @@ export default class Message extends React.Component{
         this.setState(change)
     };
 
+    handleDetailRes = async (res) => {
+
+      if (res.status == 200) {
+        var msg = await res.json();
+        return msg;
+      }
+      else {
+        console.log("error", msg);
+        throw res;
+      }
+    }
+
+    detailMsg = (chanId, id, pseudo) => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message/${chanId}`, {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => this.handleDetailRes(res))
+      .then(res => {this.setState({messages: res.data, chanelDetail: res})})
+      .catch(error => {
+        store.addNotification({
+          title: "Erreur",
+          message: "Erreur provenant du serveur: " + error.statusText,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      });
+      this.setState({currentDest: pseudo, index: id});
+    }
+
+    handleChange = (e) => {
+      this.setState({msg: e.target.value});
+    };
+
+    handleMsgRes = async (res, dest) => {
+
+      if (res.status == 200) {
+        var msg = await res.json();
+        this.setState({msg: ""});
+        this.detailMsg(this.state.chanelDetail.id, this.state.index, this.state.currentDest)
+      }
+      else {
+        store.addNotification({
+          title: "Erreur",
+          message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+    }
+
+    handleSendMessage = () => {
+      let dest = this.state.chanelDetail.user_1 == this.state.userId ? this.state.chanelDetail.user_2 : this.state.chanelDetail.user_1;
+      let body = {
+          "message": this.state.msg,
+          "userId": dest,
+      };
+      body = JSON.stringify(body);
+
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
+        {
+          method: 'POST',
+          body: body,
+          headers: {'Content-Type': 'application/json',
+          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => this.handleMsgRes(res, dest))
+        .catch(error => console.error('Error:', error));
+    };
+
     listContact = () => {
       return (
-        this.state.contact.map((user, id) => (
+        this.state.channels.map((user, id) => (
           id == this.state.index ?
-            <Row className="pl-2 messageUser messageUserOn" onClick={() => {this.setState({index: id})}}>
+            <Row key={user.id} className="pl-2 messageUser messageUserOn" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
-                src={!this.state.userData || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
+                src={!user.userPicture || user.userPicture.length === 0 ? noAvatar : user.userPicture[0].imageData} roundedCircle/>
                 <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo}</p>
             </Row> :
 
-            <Row className="pl-2 messageUser" onClick={() => {this.setState({index: id})}}>
+            <Row  key={user.id} className="pl-2 messageUser" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
                 src={!this.state.userData || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
                 <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo}</p>
@@ -91,40 +202,41 @@ export default class Message extends React.Component{
     messageDetail = () => {
       return (
         this.state.messages.map(message =>
-          message.idUser == this.state.userId ?
-            <Row className="p-2 mt-2 mr-3 senderMsg  ml-auto">
-              {message.msg}
-            </Row> :
-            <Row className="p-2 mt-2 ml-3 receiverMsg">
-              {message.msg}
+          message.userId == this.state.userId ?
+          <div key={message.date}>
+            <Row className="p-2 mt-2 mr-3 senderMsg ml-auto">
+              {message.message}
             </Row>
-
+            <Row className="mr-3 msgDate ml-auto">
+              {new Date(message.date).toLocaleDateString() + " " + new Date(message.date).getHours() + ":" + new Date(message.date).getMinutes()}
+            </Row>
+          </div> :
+          <div key={message.date}>
+            <Row key={message.date} className="p-2 mt-2 ml-3 receiverMsg">
+              {message.message}
+            </Row>
+            <Row className="msgDate ml-3">
+              {new Date(message.date).toLocaleDateString() + " " + new Date(message.date).getHours() + ":" + new Date(message.date).getMinutes()}
+            </Row>
+          </div>
         )
       );
     }
 
-    handleChange = (e) => {
-      this.setState({msg: e.target.value});
-    };
-
-    handleSendMessage = () => {
-      //TODO
-    };
-
     render() {
         return (
-          <div className={this.state.shop == true ? "shopBg" : "infBg"}>
+          <div className={this.state.client == 'shop' ? 'shopBg' : 'infBg'}>
             <Row>
-              <Col md={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+              <Col md={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
                 <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">Messagerie</h1>
-                {this.listContact()}
+                {this.state.channels && this.listContact()}
               </Col>
-              <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
-                <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">{this.state.contact[this.state.index].pseudo}</h1>
-               <div style={{height: '80%'}}>
-                {this.messageDetail()}
+              {this.state.index != -1 ? <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
+              <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">{this.state.currentDest}</h1>
+               <div style={{height: '80%',  overflow: 'scroll'}}>
+                {this.state.messages && this.messageDetail()}
                </div>
-               <Row className="mt-4 mb-4 align-items-end">
+                <Row className="mt-4 mb-4 align-items-end">
                  <Col md={10}>
                    <Form.Control onChange={this.handleChange} value={this.state.msg} className="inputComment" type="text" placeholder="Message" />
                  </Col>
@@ -132,8 +244,11 @@ export default class Message extends React.Component{
                    <SendIcon onClick={this.handleSendMessage} style={{color: "#3E415E", width: "1.5rem", height: "1.5rem"}}/>
                  </Col>
                </Row>
-              </Col>
-            </Row>
+             </Col> :
+             <Col md={8} className="ml-4 pl-4 mt-4">
+             <h3 style={{color: 'white', fontWeight: '300'}}>Auncun message sélectionné </h3>
+            </Col>}
+           </Row>
           </div>
         );
     }

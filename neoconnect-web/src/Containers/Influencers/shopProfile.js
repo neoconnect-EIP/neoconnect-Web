@@ -65,6 +65,8 @@ class shopProfile extends React.Component{
             mark: null,
             raison: "",
             info: "",
+            messageModal: false,
+            msg: "",
             clickedSignal: false
         };
     }
@@ -234,7 +236,72 @@ class shopProfile extends React.Component{
               }
             }).catch(error => console.error('Error:', error));
       }
+    }
 
+    handleMsgRes = async (res) => {
+
+      console.log("RES ", res);
+
+      if (res.status == 200) {
+        var msg = await res.json();
+
+        this.setState({messageModal: false});
+        store.addNotification({
+          title: "Envoyé",
+          message: "Message envoyé à " + this.state.shopData.pseudo,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+      else {
+        store.addNotification({
+          title: "Erreur",
+          message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+    }
+
+    handleSendMsg() {
+
+      if (this.state.msg) {
+        let body = {
+            "message": this.state.msg,
+            "userId": this.state.shopData.id, //destinataire
+        };
+        body = JSON.stringify(body);
+        console.log(localStorage.getItem("Jwt"));
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
+          {
+            method: 'POST',
+            body: body,
+            headers: {'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+            .then(res => this.handleMsgRes(res)
+          ).catch(error => console.error('Error:', error));
+      }
     }
 
     render() {
@@ -256,6 +323,30 @@ class shopProfile extends React.Component{
                              </Button>
                              <Button className="btnInf" onClick={this.handleSendMark}>
                                Noter
+                             </Button>
+                           </Modal.Footer>
+                          </Modal>
+                          <Modal centered show={this.state.messageModal} onHide={() => {this.setState({messageModal: false})}}>
+                           <Modal.Header closeButton>
+                             <Modal.Title>Contacter</Modal.Title>
+                           </Modal.Header>
+                           <Modal.Body>
+                             <Form>
+                              <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Message à envoyer</Form.Label>
+                                <Form.Control value={this.state.msg} onChange={(e) => {this.setState({msg: e.target.value})}}/>
+                                <Form.Text className="text-muted">
+                                  Un chat sera créer dans vos messagerie avec cette boutique.
+                                </Form.Text>
+                              </Form.Group>
+                            </Form>
+                           </Modal.Body>
+                           <Modal.Footer>
+                             <Button className="btnCancel" onClick={() => {this.setState({messageModal: false})}}>
+                               Annuler
+                             </Button>
+                             <Button className="btnInf" onClick={() => {this.handleSendMsg()}}>
+                               Envoyer
                              </Button>
                            </Modal.Footer>
                           </Modal>
@@ -339,6 +430,9 @@ class shopProfile extends React.Component{
                                   >
                                     <Image className="iconProfileSocial" src={snapchat}/>
                                   </OverlayTrigger> : <Image className="iconProfileSocial" src={snapchatOff}/>}
+                                </Row>
+                                <Row>
+                                  <Button className="btnInf mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
                                 </Row>
                             </Col>
                             <Col md={4} className="pt-2 ml-2">
