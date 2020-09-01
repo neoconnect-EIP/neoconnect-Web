@@ -15,7 +15,7 @@ export default class Chat extends React.Component{
             subject: "",
             message: "",
             to: "",
-            shop: props.location.state.profile,
+            client: localStorage.getItem("userType")
         };
     }
 
@@ -121,7 +121,7 @@ export default class Chat extends React.Component{
 
     render() {
         return (
-            <Grid container justify="center" alignItems="center" className={this.state.shop == true ? "shopBg" : "infBg"}>
+            <Grid container justify="center" alignItems="center" className={this.state.client == "shop" ? "shopBg" : "infBg"}>
                 <Grid >
                     <Grid item xs={12} style={{ marginLeft: "3rem", marginRight: "3rem", textAlign: "center"}}>
                         <h2 style={{color: "white"}}>Contact</h2>
@@ -176,7 +176,7 @@ export default class Chat extends React.Component{
                         />
                     </Grid>
                     <Grid item xs={12}  style={{ marginBottom: "3rem", textAlign: "center"}}>
-                      <Button className={`mt-4 ${this.state.shop ? 'btnShop' : 'btnInf'}`} onClick={() => this.handleSend()}>Envoyer</Button>
+                      <Button className={`mt-4 ${this.state.client ? 'btnShop' : 'btnInf'}`} onClick={() => this.handleSend()}>Envoyer</Button>
                     </Grid>
                 </Grid>
             </Grid>

@@ -29,17 +29,11 @@ export default class Message extends React.Component{
             msg: "",
             index: -1,
             client: localStorage.getItem("userType"),
-            contact: [
-              {pseudo: 'Martin', msg: "lorem Ipsum", id: 1},
-              {pseudo: 'tata', msg: "Hello World", id: 2},
-              {pseudo: 'maxime', msg: "bye bye", id: 3},
-              {pseudo: 'manon', msg: "thank you", id: 4}
-          ],
-          currentDest: "",
-          messages: null,
-          chanelDetail: null,
-          userData: null
-        };
+            currentDest: "",
+            messages: null,
+            chanelDetail: null,
+            userData: null
+          };
     }
 
     getChannels = () => {
@@ -184,13 +178,13 @@ export default class Message extends React.Component{
       return (
         this.state.channels.map((user, id) => (
           id == this.state.index ?
-            <Row key={user.id} className="pl-2 messageUser messageUserOn" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
+            <Row key={user.id} className="pl-2 mr-2 messageUser messageUserOn" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
                 src={!user.userPicture || user.userPicture.length === 0 ? noAvatar : user.userPicture[0].imageData} roundedCircle/>
                 <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo}</p>
             </Row> :
 
-            <Row  key={user.id} className="pl-2 messageUser" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
+            <Row  key={user.id} className="pl-2 mr-2 messageUser" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
                 src={!this.state.userData || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
                 <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo}</p>
@@ -204,7 +198,7 @@ export default class Message extends React.Component{
         this.state.messages.map(message =>
           message.userId == this.state.userId ?
           <div key={message.date}>
-            <Row className="p-2 mt-2 mr-3 senderMsg ml-auto">
+            <Row className="p-2 mt-2 mr-3 senderMsg ml-auto" style={{backgroundColor: this.state.client != "shop" ? '#3E415E' : '#7FB780'}}>
               {message.message}
             </Row>
             <Row className="mr-3 msgDate ml-auto">
