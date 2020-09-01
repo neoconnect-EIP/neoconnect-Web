@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import {Grid}from '@material-ui/core';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg"
@@ -24,7 +23,7 @@ class Advertisements extends React.Component{
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") == "shop")
+        if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             visible: false,
@@ -42,7 +41,7 @@ class Advertisements extends React.Component{
             .then(res => res.json())
             .then(res => {
               this.setState({adsSaver: res, adsData: res.sort((a, b) => {
-                if (typeof a.productName == 'string' && typeof b.productName == 'string'){
+                if (typeof a.productName === 'string' && typeof b.productName === 'string'){
                   if (a.productName.length && b.productName.length){
                     if (a.productName[0] > b.productName[0]) return 1
                     else if (a.productName[0] < b.productName[0]) return -1
@@ -67,8 +66,7 @@ class Advertisements extends React.Component{
     handleAnnonceSubsribe = () => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
-              console.log("RES = ", res);
-              if (res.status == 200) {
+              if (res.status === 200) {
                 this.setState({visible: false});
                 store.addNotification({
                   title: "Abonné",
@@ -163,9 +161,9 @@ class Advertisements extends React.Component{
       document.getElementsByClassName('active')[0].classList.remove('active')
       el.classList.add('active')
       this.setState({sort: filterText})
-      if (filterText == 'Marque') {
+      if (filterText === 'Marque') {
         this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.brand == 'string' && typeof b.brand == 'string'){
+          if (typeof a.brand === 'string' && typeof b.brand === 'string'){
             if (a.brand.length && b.brand.length){
               if (a.brand[0] > b.brand[0]) return 1
               else if (a.brand[0] < b.brand[0]) return -1
@@ -173,9 +171,9 @@ class Advertisements extends React.Component{
             }else return 0
           }else return 0
         })})
-      }else if (filterText == 'Couleur') {
+      }else if (filterText === 'Couleur') {
         this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.color == 'string' && typeof b.color == 'string'){
+          if (typeof a.color == 'string' && typeof b.color === 'string'){
             if (a.color.length && b.color.length){
               if (a.color[0] > b.color[0]) return 1
               else if (a.color[0] < b.color[0]) return -1
@@ -183,9 +181,9 @@ class Advertisements extends React.Component{
             }else return 0
           }else return 0
         })})
-      }else if (filterText == 'Order (ASC)') {
+      }else if (filterText === 'Order (ASC)') {
         this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.productName == 'string' && typeof b.productName == 'string'){
+          if (typeof a.productName === 'string' && typeof b.productName === 'string'){
             if (a.productName.length && b.productName.length){
               if (a.productName[0] > b.productName[0]) return 1
               else if (a.productName[0] < b.productName[0]) return -1
@@ -193,9 +191,9 @@ class Advertisements extends React.Component{
             }else return 0
           }else return 0
         })})
-      }else if (filterText == 'Order (DESC)') {
+      }else if (filterText === 'Order (DESC)') {
         this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.productName == 'string' && typeof b.productName == 'string'){
+          if (typeof a.productName === 'string' && typeof b.productName === 'string'){
             if (a.productName.length && b.productName.length){
               if (a.productName[0] > b.productName[0]) return 1
               else if (a.productName[0] < b.productName[0]) return -1

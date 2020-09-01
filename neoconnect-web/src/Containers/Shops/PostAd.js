@@ -16,7 +16,7 @@ class PostAd extends React.Component {
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") != "shop")
+        if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             productImgName1: "",

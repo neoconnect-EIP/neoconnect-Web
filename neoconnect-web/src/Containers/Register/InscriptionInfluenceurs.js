@@ -27,7 +27,7 @@ export default class InfluencerSignUp extends React.Component{
             postal: "",
             city: "",
             phone: "",
-            theme: null,
+            theme: "",
             instagram: "",
             facebook: "",
             twitter: "",
@@ -216,7 +216,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                        <Grid className="input-form" style={{textAlign: "center", marginBottom: "1rem"}}>
                             <Icon type="skin" style={{ color: 'black', marginRight: "8px", transform: "translateY(15px)"}}/>
                             <FormControl variant="outlined" style={{width: "21.7rem", color: 'black'}}>
                                 <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>

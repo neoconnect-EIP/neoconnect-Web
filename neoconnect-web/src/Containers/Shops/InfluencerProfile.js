@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css"
-import {Grid, List, ListItem, ListItemAvatar, Avatar, ListItemText, Input, InputAdornment, ListItemSecondaryAction} from "@material-ui/core";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import {Rate} from "antd";
@@ -46,7 +45,7 @@ class InfluencerProfile extends React.Component {
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") != "shop")
+        if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             infData: null,
@@ -110,7 +109,7 @@ class InfluencerProfile extends React.Component {
     };
 
     handleResponse = (res) => {
-        if (res && res.status == 200)
+        if (res && res.status === 200)
           this.getInfData();
     };
 
@@ -186,7 +185,7 @@ class InfluencerProfile extends React.Component {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/report/${this.state.infData.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               res.json();
-              if (res.status == 200) {
+              if (res.status === 200) {
                 this.setState({signal: false, raison: "", info: ""});
                 store.addNotification({
                   title: "Envoyé",
@@ -298,7 +297,7 @@ class InfluencerProfile extends React.Component {
                                  name='rating'
                                  starDimension="20px"
                                />
-                               <Image className="iconProfileSocial" className="ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
+                               <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
                             </Row>
                           </Col>
                           <Col md={3}  className="mt-4">

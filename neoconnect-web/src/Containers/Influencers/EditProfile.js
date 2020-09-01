@@ -20,7 +20,7 @@ class EditProfile extends React.Component{
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") == "shop")
+        if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             pseudo: "",
@@ -128,8 +128,7 @@ class EditProfile extends React.Component{
             .catch(error => console.error('Error:', error));
     };
     handleDelete = () => {
-        const userId = localStorage.getItem('userId')
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/delete`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -141,18 +140,6 @@ class EditProfile extends React.Component{
             this.props.history.push('/landing-page')
         })
         .catch(console.error)
-        // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/${userId}`, {
-        //     method: 'DELETE',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
-        //     }
-        // })
-        // .then(res => {
-        //     localStorage.clear();
-        //     this.props.history.push('/landing-page')
-        // })
-        // .catch(console.error)
     }
     handleVisibleModal = (ad, mode) => {
         this.setState({visible: !this.state.visible})

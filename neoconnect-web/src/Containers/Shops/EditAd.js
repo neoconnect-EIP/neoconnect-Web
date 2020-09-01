@@ -19,7 +19,7 @@ class EditAd extends React.Component {
 
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") != "shop")
+        if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             productImgName1: "",
@@ -51,9 +51,9 @@ class EditAd extends React.Component {
             productDesc: res.productDesc,
             productSubject: res.productSubject,
             isLoading: false,
-            homme: res.productSex == "homme" ? true : false,
-            femme: res.productSex == "femme" ? true : false,
-            uni: res.productSex == "unisexe" ? true : false,
+            homme: res.productSex === "homme" ? true : false,
+            femme: res.productSex === "femme" ? true : false,
+            uni: res.productSex === "unisexe" ? true : false,
         })
     };
 

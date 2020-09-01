@@ -1,9 +1,5 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Table, TableBody, TableCell, TableHead, TableRow, Fab, TextField, Grid, Slide} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EmailIcon from '@material-ui/icons/Email';
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone';
@@ -11,7 +7,7 @@ import "../../index.css"
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Navbar from 'react-bootstrap/Navbar';
-import Collapse from 'react-bootstrap/Collapse';
+import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -25,7 +21,7 @@ class Ads extends React.Component {
         // console.log("JWT ", localStorage.getItem("userId"));
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") != "shop")
+        if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             adsData: null,
@@ -57,7 +53,7 @@ class Ads extends React.Component {
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
           .then(res => {
-            if (res.status == 200) {
+            if (res.status === 200) {
               return (res.json());
             }
             else {
@@ -133,7 +129,7 @@ class Ads extends React.Component {
       console.log("RES ", res);
       var msg = await res.json();
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         if (choice)
           store.addNotification({
             title: "Envoyé",

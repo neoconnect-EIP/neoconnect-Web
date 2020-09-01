@@ -1,8 +1,7 @@
 import React from 'react';
-import {Grid, Input, TextField, Fab} from "@material-ui/core";
+import {Grid, Input, TextField} from "@material-ui/core";
 import "./index.css"
 import {Icon} from "antd";
-import background from '../assets/Equinox-Shop.jpg'
 import Button from 'react-bootstrap/Button';
 import { store } from 'react-notifications-component';
 
@@ -23,7 +22,7 @@ export default class Chat extends React.Component{
 
       var msg = await res.json();
 
-      if (res.status != 200) {
+      if (res.status !== 200) {
         store.addNotification({
           title: "Erreur",
           message: "Erreur provenant du serveur: " + msg,
@@ -83,11 +82,6 @@ export default class Chat extends React.Component{
           .catch(error => console.error('Error:', error));
     };
 
-    // handleResponse = (res) => {
-    //     if (res.status === 200)
-    //         this.setState({pseudo: "", email: "email", subject: "", message: "", to: ""})
-    // };
-
     handleChange = (e) => {
         let change = {}
 
@@ -95,33 +89,9 @@ export default class Chat extends React.Component{
         this.setState(change)
     };
 
-    /*changeConv = (id) => {
-        this.setState({convId: id})
-    }
-
-    listItem = (item) => {
-      return (
-          <ListItem onClick={() => this.changeConv(item.id)}>
-              <ListItemAvatar>
-                  <Avatar>
-                      <ImageIcon />
-                  </Avatar>
-              </ListItemAvatar>
-              <Grid container>
-                  <Grid item xs={12}>
-                      <p style={{fontSize: "1.2rem", fontWeight: "bold", marginBottom: "0", paddingTop: "0.5rem"}}>persone 1</p>
-                  </Grid>
-                  <Grid item xs={12}>
-                      <p style={{fontSize: "0.80rem", color: "#292929"}}>last message</p>
-                  </Grid>
-              </Grid>
-          </ListItem>
-      );
-    };*/
-
     render() {
         return (
-            <Grid container justify="center" alignItems="center" className={this.state.client == "shop" ? "shopBg" : "infBg"}>
+            <Grid container justify="center" alignItems="center" className={this.state.client === "shop" ? "shopBg" : "infBg"}>
                 <Grid >
                     <Grid item xs={12} style={{ marginLeft: "3rem", marginRight: "3rem", textAlign: "center"}}>
                         <h2 style={{color: "white"}}>Contact</h2>

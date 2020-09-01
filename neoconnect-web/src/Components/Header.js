@@ -1,13 +1,11 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Button, Slide, Grid} from '@material-ui/core';
 import "../Containers/index.css"
 import NeoconnectLogo from "../assets/NeoconnectLogo.png"
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Modal from 'react-bootstrap/Modal';
-
-//TODO modal pour connxion
+import Button from 'react-bootstrap/Button';
 
 class Header extends React.Component{
     constructor(props) {

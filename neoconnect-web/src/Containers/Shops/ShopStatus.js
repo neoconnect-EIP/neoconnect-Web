@@ -1,8 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import {Avatar, Grid, Card, CardContent, CardMedia, Fab, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
+import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
 import "../index.css"
-import EditIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Button from 'react-bootstrap/Button';
@@ -28,7 +27,7 @@ class ShopStatus extends React.Component{
 
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") != "shop")
+        if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
 
         this.state = {

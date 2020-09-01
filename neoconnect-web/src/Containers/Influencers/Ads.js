@@ -1,7 +1,5 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import DeleteIcon from '@material-ui/icons/Delete';
-import EmailIcon from '@material-ui/icons/Email';
 import "../../index.css"
 import Loader from "react-loader-spinner";
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,7 +15,7 @@ class Ads extends React.Component {
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") == "shop")
+        if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             adsData: [],
@@ -106,7 +104,7 @@ class Ads extends React.Component {
         })
             .then(res => {
               res.json();
-              if (res.status == 200) {
+              if (res.status === 200) {
                 thisTmp.getAplliedOffer();
               }
             })
@@ -121,7 +119,7 @@ class Ads extends React.Component {
               <td>{ad.productName}</td>
               <td>{this.state.type[ad.productSubject]}</td>
               <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
-              <td>{ad.status == "pending" ? "En attente" : (ad.status == "refused" ? "Refusé" : "Accepté")}</td>
+              <td>{ad.status === "pending" ? "En attente" : (ad.status === "refused" ? "Refusé" : "Accepté")}</td>
               <td>
                 <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Désabonner</Button>{' '}
                 <Button className="btnInf" onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}>Détail</Button>{' '}
@@ -134,7 +132,7 @@ class Ads extends React.Component {
 
     handleShareRes = async (res) => {
       console.log(res);
-      if (res.status != 200) {
+      if (res.status !== 200) {
         var msg = await res.json();
         store.addNotification({
           title: "Erreur",

@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom"
 import "../../index.css"
 import {
     Grid,
-    Slide,
     Avatar,
     List,
     ListItemSecondaryAction,
@@ -31,7 +30,7 @@ class adsItem extends React.Component{
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") == "shop")
+        if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             userData: null,
@@ -91,7 +90,7 @@ class adsItem extends React.Component{
       console.log("adData ", this.state.adData);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.adData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
-              if (res.status == 200) {
+              if (res.status === 200) {
                 this.setState({visible: false});
                 store.addNotification({
                   title: "Abonné",
@@ -185,8 +184,7 @@ class adsItem extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/report/${this.state.adData.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               res.json();
-              console.log("RES SIGNAL ", res);
-              if (res.status == 200) {
+              if (res.status === 200) {
                 this.setState({signal: false, raison: "", info: ""});
                 store.addNotification({
                   title: "Envoyé",

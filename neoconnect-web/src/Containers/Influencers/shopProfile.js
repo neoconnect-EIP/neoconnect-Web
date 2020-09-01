@@ -1,20 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import {
-    Grid,
-    Avatar,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemSecondaryAction,
-    ListItemText,
-    InputAdornment,
-    Input,
-} from '@material-ui/core';
 import { Rate } from 'antd';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import defaultShopProfilePic from "../../assets/defaultShopProfilePic.jpg"
 import SendIcon from '@material-ui/icons/Send';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -27,9 +15,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import TwitterIcon from '@material-ui/icons/Twitter';
 import StarRatings from 'react-star-ratings';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import { store } from 'react-notifications-component';
@@ -51,7 +36,7 @@ class shopProfile extends React.Component{
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") == "shop")
+        if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             shopData: [],
@@ -119,7 +104,7 @@ class shopProfile extends React.Component{
     };
 
     handleResponse = (res) => {
-        if (res && res.status == 200)
+        if (res && res.status === 200)
           this.getShopData();
     };
 
@@ -215,7 +200,7 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/report/${thisTmp.state.shopData.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               res.json();
-              if (res.status == 200) {
+              if (res.status === 200) {
                 this.setState({signal: false});
                 store.addNotification({
                   title: "Envoyé",
@@ -242,7 +227,7 @@ class shopProfile extends React.Component{
 
       console.log("RES ", res);
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         var msg = await res.json();
 
         this.setState({messageModal: false});
@@ -378,7 +363,7 @@ class shopProfile extends React.Component{
                           </Modal>
                           <Row className="pt-4 ml-4">
                             <Col md={3}>
-                              <Image style={{width: '250px', height: '230px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}  src={(!this.state.shopData.userPicture || this.state.shopData.userPicture.length == 0) ? noShop : this.state.shopData.userPicture[0].imageData} rounded />
+                              <Image style={{width: '250px', height: '230px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}  src={(!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0) ? noShop : this.state.shopData.userPicture[0].imageData} rounded />
                             </Col>
                             <Col md={3} className="pt-2">
                               <Row className="ml-0">
@@ -453,7 +438,7 @@ class shopProfile extends React.Component{
                                    name='rating'
                                    starDimension="20px"
                                  />
-                               <Image className="iconProfileSocial" className="ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
+                               <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
                               </Row>
                             </Col>
                           </Row>

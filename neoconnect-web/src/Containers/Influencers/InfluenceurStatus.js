@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import EditIcon from '@material-ui/icons/Edit';
-import {Grid, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import 'antd/dist/antd.css';
 import "../index.css"
 import Loader from "react-loader-spinner";
@@ -34,7 +33,7 @@ class InfluenceurStatus extends React.Component{
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") == "shop")
+        if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             userData: null,
@@ -170,8 +169,7 @@ class InfluenceurStatus extends React.Component{
     };
 
     handleDelete = () => {
-        const userId = localStorage.getItem('userId')
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/delete`, {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -184,9 +182,6 @@ class InfluenceurStatus extends React.Component{
         })
         .catch(console.error)
     }
-
-    // <Form.Label>Thème</Form.Label>
-    // <Form.Control value={this.state.theme} onChange={e => {this.setState({theme: e.target.value})}}/>
 
     render() {
         return (

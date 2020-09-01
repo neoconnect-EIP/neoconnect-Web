@@ -1,7 +1,5 @@
 import React from 'react';
 import "./index.css"
-import {Icon} from "antd";
-import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -33,7 +31,7 @@ export default class Message extends React.Component{
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           return (res.json());
         }
         else {
@@ -78,7 +76,7 @@ export default class Message extends React.Component{
 
     handleDetailRes = async (res) => {
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         var msg = await res.json();
         return msg;
       }
@@ -121,7 +119,7 @@ export default class Message extends React.Component{
 
     handleMsgRes = async (res, dest) => {
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         var msg = await res.json();
         this.setState({msg: ""});
         this.detailMsg(this.state.chanelDetail.id, this.state.index, this.state.currentDest)
@@ -147,7 +145,7 @@ export default class Message extends React.Component{
     }
 
     handleSendMessage = () => {
-      let dest = this.state.chanelDetail.user_1 == this.state.userId ? this.state.chanelDetail.user_2 : this.state.chanelDetail.user_1;
+      let dest = this.state.chanelDetail.user_1 === this.state.userId ? this.state.chanelDetail.user_2 : this.state.chanelDetail.user_1;
       let body = {
           "message": this.state.msg,
           "userId": dest,
@@ -168,7 +166,7 @@ export default class Message extends React.Component{
     listContact = () => {
       return (
         this.state.channels.map((user, id) => (
-          id == this.state.index ?
+          id === this.state.index ?
             <Row key={user.id} className="pl-2 mr-2 messageUser messageUserOn" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
                 src={!user.userPicture || user.userPicture.length === 0 ? noAvatar : user.userPicture[0].imageData} roundedCircle/>
@@ -187,9 +185,9 @@ export default class Message extends React.Component{
     messageDetail = () => {
       return (
         this.state.messages.map(message =>
-          message.userId == this.state.userId ?
+          message.userId === this.state.userId ?
           <div key={message.date}>
-            <Row className="p-2 mt-2 mr-3 senderMsg ml-auto" style={{backgroundColor: this.state.client != "shop" ? '#3E415E' : '#7FB780'}}>
+            <Row className="p-2 mt-2 mr-3 senderMsg ml-auto" style={{backgroundColor: this.state.client !== "shop" ? '#3E415E' : '#7FB780'}}>
               {message.message}
             </Row>
             <Row className="mr-3 msgDate ml-auto">
@@ -210,13 +208,13 @@ export default class Message extends React.Component{
 
     render() {
         return (
-          <div className={this.state.client == 'shop' ? 'shopBg' : 'infBg'}>
+          <div className={this.state.client === 'shop' ? 'shopBg' : 'infBg'}>
             <Row>
               <Col md={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
                 <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">Messagerie</h1>
                 {this.state.channels && this.listContact()}
               </Col>
-              {this.state.index != -1 ? <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
+              {this.state.index !== -1 ? <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
               <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">{this.state.currentDest}</h1>
                <div style={{height: '80%',  overflow: 'scroll'}}>
                 {this.state.messages && this.messageDetail()}

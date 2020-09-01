@@ -19,7 +19,7 @@ class EditProfile extends React.Component {
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") != "shop")
+        if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             city: "",
@@ -225,7 +225,7 @@ class EditProfile extends React.Component {
                                                onChange={this.handleChange}
                                         />
                                     </Grid>
-                                    <Grid xs={6} style={{textAlign: "center", marginTop: "90px"}} xs={6}>
+                                    <Grid xs={6} style={{textAlign: "center", marginTop: "90px"}}>
                                         <Icon type="user" style={{ color: '#d23e3e', marginRight: "8px"}} />
                                         <Input type="text"
                                                name="fullName"

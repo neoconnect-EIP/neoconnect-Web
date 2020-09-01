@@ -1,6 +1,4 @@
 import React from 'react';
-import {Icon} from 'antd';
-import {Grid, Input} from '@material-ui/core';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { store } from 'react-notifications-component';
@@ -89,7 +87,7 @@ export default class Login extends React.Component{
         this.setState({isLoading: true})
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/login`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {return res.json()})
-            .then(res => {console.log("RES CONEC ", res);localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); localStorage.setItem('userType', res.userType); localStorage.setItem('pseudo', this.state.username); this.handleResponse(res)})
+            .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); localStorage.setItem('userType', res.userType); localStorage.setItem('pseudo', this.state.username); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
       }
       else {
@@ -179,10 +177,8 @@ export default class Login extends React.Component{
         }
     };
 
-    //TODO test make step 2
     handleResetPass = () => {
-      console.log("email ", this.state.email);
-      if (this.state.newPass != this.state.newPassSec) {
+      if (this.state.newPass !== this.state.newPassSec) {
         store.addNotification({
           title: "Erreur",
           message: "Les mots de passe ne se correspondent pas",
@@ -202,23 +198,13 @@ export default class Login extends React.Component{
         });
       }
       else {
-        let body = {
-            "email": this.state.email,
-            "password": this.state.newPass,
-            "resetPasswordtoken": this.state.code
 
-        };
-
-        console.log(localStorage.getItem("Jwt"));
-
-        body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/resetPassword/${this.state.code}`, {
           method: 'GET',
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
           .then(res => {
-            console.log("RES ", res);
-            if (res.status == 200) {
+            if (res.status === 200) {
 
               var params = {
                     'email': this.state.email,
@@ -240,7 +226,7 @@ export default class Login extends React.Component{
                   "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
                 })
                   .then(res => {
-                    if (res.status == 400) {
+                    if (res.status === 400) {
                       store.addNotification({
                         title: "Erreur",
                         message: "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",

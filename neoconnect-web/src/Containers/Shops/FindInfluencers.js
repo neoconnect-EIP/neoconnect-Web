@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css"
 import StarIcon from '@material-ui/icons/Star';
-import {Grid} from "@material-ui/core";
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noImageFindInf from "../../assets/noImageFindInf.jpg"
@@ -24,7 +23,7 @@ class FindInfluencers extends React.Component {
         super(props);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") != "shop")
+        if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
         this.state = {
             influencersData: null,
@@ -85,7 +84,7 @@ class FindInfluencers extends React.Component {
         return (
           <div key={inf.id}>
             {
-              this.state.back && this.state.influencersData.length == 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
+              this.state.back && this.state.influencersData.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
             }
           <Card className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
             <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
@@ -129,7 +128,7 @@ class FindInfluencers extends React.Component {
                   <Form inline className="ml-auto">
                     <FormControl type="text" placeholder="Exemple: David" className="mr-sm-2" value={this.state.search}
                       onChange={e => this.setState({ search: e.target.value })} />
-                    <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length == 0}>Rechercher</Button>
+                    <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
                   </Form>
                 </Navbar.Collapse>
               </Navbar>
