@@ -252,35 +252,10 @@ class Advertisements extends React.Component{
     render() {
         return (
             <div justify="center" className="infBg"  >
-              <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+              <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des offres</Navbar.Brand>
               </Navbar>
-              <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
-              <DropdownButton
-                as={InputGroup.Prepend}
-                variant="outline-secondary"
-                title="Sort by"
-                id="input-group-dropdown-1"
-              >
-                <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
-              </DropdownButton>
-                <FormControl
-                  placeholder="Search"
-                  aria-label="Enter your keyword"
-                  aria-describedby="basic-addon2"
-                  value={this.state.searchForm}
-                  onChange={this.handleSearchBarChange}
-                />
-                {/* <InputGroup.Append>
-                  <Button
-                  variant="outline-success"
-                  onClick={() => this.handleSearch()}>Search</Button>
-                </InputGroup.Append> */}
-              </InputGroup>
+
               <Row className="pl-4">
                 <Image src={heart}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres du moment</h4>
@@ -350,3 +325,30 @@ export default withRouter(Advertisements)
 //             style={{marginTop: "14rem"}}
 //         />
 // }
+
+// <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
+// <DropdownButton
+//   as={InputGroup.Prepend}
+//   variant="outline-secondary"
+//   title="Sort by"
+//   id="input-group-dropdown-1"
+// >
+//   <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
+//   <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
+//   <Dropdown.Divider />
+//   <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
+//   <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
+// </DropdownButton>
+//   <FormControl
+//     placeholder="Search"
+//     aria-label="Enter your keyword"
+//     aria-describedby="basic-addon2"
+//     value={this.state.searchForm}
+//     onChange={this.handleSearchBarChange}
+//   />
+//   {/* <InputGroup.Append>
+//     <Button
+//     variant="outline-success"
+//     onClick={() => this.handleSearch()}>Search</Button>
+//   </InputGroup.Append> */}
+// </InputGroup>
