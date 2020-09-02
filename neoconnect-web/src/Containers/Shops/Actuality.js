@@ -22,7 +22,7 @@ import heart from "../../assets/heart.svg";
 import fire from "../../assets/fire.svg";
 import star from "../../assets/star.svg";
 
-class FindInfluencers extends React.Component {
+class Actuality extends React.Component {
     constructor(props) {
         super(props);
         if (!localStorage.getItem("Jwt"))
@@ -31,65 +31,39 @@ class FindInfluencers extends React.Component {
           this.props.history.push('/page-not-found');
         this.state = {
             influencersData: null,
-            search: "",
             show: false,
             back: false,
-            tmpSearch: ""
+            tmpSearch: "",
+            moment: null,
+            bestMark: null,
+            popular: null,
         };
     }
 
-    getAllInfluencer = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/listInf`, {
-          method: 'GET',
-          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-          .then(res => res.json())
-          .then(res => this.setState({influencersData: res}))
-          .catch(error => console.error('Error:', error));
-    }
-
     componentDidMount = () => {
-      this.getAllInfluencer();
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/actuality`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => {
+        console.log("RES = ", res);
+        return (res.json());
+      })
+      .then(res => {
+        console.log("SEconde time = ", res);
+        this.setState({moment: res.listInfTendance, popular: res.listInfPopulaire, bestMark: res.listInfNotes});
+      })
     };
 
     handleGlobalInf = (id) => {
         this.props.history.push(`/shop-dashboard/influencer?id=${id}`)
     }
 
-    searchRes = async (res) => {
-      if (res.status === 200){
-        var influencer = await res.json();
-        this.handleGlobalInf(influencer.id);
-        // this.setState({influencersData: [influencer], back: true})
-      }
-      else {
-        this.setState({show: true, influencersData: [], tmpSearch: this.state.search})
-      }
-    }
-
-    handleSearch = () => {
-
-      var encodedKey = encodeURIComponent("pseudo");
-      var encodedValue = encodeURIComponent(this.state.search);
-      var formBody = encodedKey + "=" + encodedValue;
-
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/search`, {
-          method: 'POST',
-          body: formBody,
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      }).then(res => this.searchRes(res))
-        .catch(error => console.error('Error:', error));
-    }
-
     cardInf = (inf) => {
 
         return (
-          <div key={inf.id}>
-            {
-              this.state.back && this.state.influencersData.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
-            }
           <Card className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
             <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
             <Card.Body>
@@ -118,7 +92,6 @@ class FindInfluencers extends React.Component {
                 </Row>
             </Card.Body>
           </Card>
-        </div>
         );
     }
 
@@ -129,39 +102,38 @@ class FindInfluencers extends React.Component {
                 <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver un influenceur</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                  <Form inline className="ml-auto">
-                    <FormControl type="text" placeholder="Exemple: David" className="mr-sm-2" value={this.state.search}
-                      onChange={e => this.setState({ search: e.target.value })} />
-                    <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
-                  </Form>
                 </Navbar.Collapse>
               </Navbar>
-              {
-                this.state.influencersData ? this.state.influencersData.length > 0 ?
-                  <CardColumns className="pt-4 pl-3 pr-2">
-                    {
-                        this.state.influencersData.map(inf => this.cardInf(inf))
-                    }
-                  </CardColumns> :
-                  <Alert variant="warning" className="mt-4" show={ this.state.show}
-                    onClose={() => {this.setState({show: false, search: ""}); this.getAllInfluencer();}} dismissible>
-                     <Alert.Heading>Essayez à nouveau</Alert.Heading>
-                     <p>
-                       Aucun influencer correspond à <strong>{this.state.tmpSearch}</strong>
-                     </p>
-                  </Alert>
-                  :
-                  <Loader
-                      type="Triangle"
-                      color="#FFFFF"
-                      height={200}
-                      width={200}
-                      style={{marginTop: "14rem"}}
-                  />
-              }
+              <Row className="pl-4">
+                <Image src={heart}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs du moment</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
+                {
+                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                }
+            </CardColumns>
+              <Row className="pl-4 mt-4">
+                <Image src={fire}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs populaires</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
+                {
+                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                }
+            </CardColumns>
+              <Row className="pl-4 mt-4">
+                <Image src={star}/>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs les mieux notés</h4>
+              </Row>
+              <CardColumns className="pt-4 pl-3 pr-2">
+                {
+                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                }
+            </CardColumns>
             </div>
         );
     }
 }
 
-export default withRouter(FindInfluencers)
+export default withRouter(Actuality)

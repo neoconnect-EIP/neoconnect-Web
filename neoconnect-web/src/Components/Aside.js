@@ -70,6 +70,10 @@ class Aside extends React.Component{
                                 <PostAddIcon style={{float: "left", marginLeft: "20px"}}/>
                                 Publier
                             </div>
+                            <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/actuality")} style={{color: "white"}}>
+                                <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
+                                Actualités
+                            </div>
                             <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/ads")} style={{color: "white"}}>
                                 <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
                                 Offres
@@ -98,6 +102,10 @@ class Aside extends React.Component{
                         :
                         <div className="aside">
                             <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
+                            <div className="aside-button" onClick={() => this.handlePage("/dashboard/actuality")} style={{color: "white"}}>
+                                <LocalActivityIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                Actualités
+                            </div>
                             <div className="aside-button" onClick={() => this.handlePage("/dashboard/advertisements")} style={{color: "white"}}>
                                 <LocalActivityIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 Offres

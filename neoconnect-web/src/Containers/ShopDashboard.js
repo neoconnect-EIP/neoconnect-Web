@@ -4,6 +4,7 @@ import Aside from "../Components/Aside";
 import ShopStatus from "./Shops/ShopStatus";
 import EditProfile from "./Shops/EditProfile";
 import FindInfluencers from "./Shops/FindInfluencers";
+import Actuality from "./Shops/Actuality";
 import Ads from "./Shops/Ads";
 import PostAd from "./Shops/PostAd";
 import EditAd from "./Shops/EditAd";
@@ -33,6 +34,7 @@ export default class ShopDashboard extends React.Component {
                         <Route path="/shop-dashboard/edit-profile" component={EditProfile}/>
                         <Route path="/shop-dashboard/influencers" component={FindInfluencers}/>
                         <Route path="/shop-dashboard/influencer" component={InfluencerProfile}/>
+                        <Route path="/shop-dashboard/actuality" component={Actuality}/>
                         <Route path="/shop-dashboard/chat" component={Chat}/>
                         <Route path="/shop-dashboard/message" component={Message}/>
                     </Switch>

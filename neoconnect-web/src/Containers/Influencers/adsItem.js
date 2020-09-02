@@ -12,16 +12,21 @@ import {
     Input, InputAdornment
 } from '@material-ui/core';
 import {Rate} from "antd";
-import { Carousel } from 'react-responsive-carousel';
+// import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
 import noImages from "../../assets/noImages.jpg"
 import avatar from "../../assets/avatar1.png";
+import edit from "../../assets/edit.svg";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
+import Carousel from 'react-bootstrap/Carousel';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import { store } from 'react-notifications-component';
 
@@ -43,6 +48,7 @@ class adsItem extends React.Component{
             signal: false,
             note: false,
             info: "",
+            type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             raison: "",
             commentData: null,
             urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
@@ -51,7 +57,7 @@ class adsItem extends React.Component{
 
     componentDidMount = () => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {return (res.json())})
+            .then(res => {console.log("HELLO , ", res);return (res.json())})
             .then(res => this.setState({adData: res}))
             .catch(error => console.error('Error:', error));
 
@@ -149,11 +155,15 @@ class adsItem extends React.Component{
         this.handleModal("")
     }
 
-    displayImage = (x) => {
+    displayImage = (item, id) => {
         return (
-            <Grid key={x.idLink} container style={{height: "100%", backgroundColor: "#ffffff"}} justify="center" alignItems="flex-start">
-                <img src={x.imageData} style={{width: "600px", height: "800px", marginTop: "10px"}} alt="MISSING JPG"/>
-            </Grid>
+            <Carousel.Item key={id} className="h-auto d-inline-block">
+              <img
+                className="d-block"
+                src={item.imageData}
+                alt="product img"
+              />
+            </Carousel.Item>
         )
     }
 
@@ -246,8 +256,9 @@ class adsItem extends React.Component{
     }
 
     render() {
+      console.log("WEI ", this.state.adData);
         return (
-            <Grid container justify="center" className="infBg">
+            <div justify="center" className="infBg">
 
                   <Modal centered show={this.state.signal} onHide={this.handleClose}>
                    <Modal.Header closeButton>
@@ -293,86 +304,149 @@ class adsItem extends React.Component{
                    </Modal.Footer>
                   </Modal>
                 {
-                    this.state.adData ?
-                        <Grid container style={{padding: "30px"}}>
-                            <Grid item xs={12} md={7} style={{padding: "30px", height: "auto", borderRight: "2px solid #292929"}}>
-                                <Carousel style={{height: "auto"}} showThumbs={false} infiniteLoop={true} centerSlidePercentage={80}>
-                                    {
-                                        this.state.adData.productImg ?
-                                            this.state.adData.productImg.map(x => this.displayImage(x))
-                                            :
-                                            <Grid container style={{height: "auto", backgroundColor: "#ffffff"}} justify="center" alignItems="flex-start">
-                                                <img src={noImages} style={{width: "200px", height: "800px", marginTop: "10px"}} alt="MISSING JPG"/>
-                                            </Grid>
-                                    }
-                                </Carousel>
-                            </Grid>
-                            <Grid item xs={12} md={5} style={{padding: "3.125rem", paddingLeft: "1.25rem"}}>
-                                <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
-                                  <div style={{ textAlign:'left'}}>
-                                    <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
-                                    <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
-                                  </div>
+                  this.state.adData ?
+                  <Row className="p-4">
+                    <Col md={6}>
+                      <Carousel controls={true} style={{height: '90%'}}>
+                        {
+                            this.state.adData.productImg ?
+                            this.state.adData.productImg.map((item, id) => this.displayImage(item, id)) :
+                            <p>No image</p>
+                        }
+                      </Carousel>
+                    </Col>
+                    <Col md={4}>
+                        <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
+                          <div style={{ textAlign:'left'}}>
+                            <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
+                            <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
+                          </div>
 
-                                <h3 style={{marginTop: "2rem", color: 'white'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
-                                <h4 style={{marginTop: "2rem", marginBottom: "2rem", color: 'white'}}>{`Sex: ${this.state.adData.productSex}`}</h4>
-                                <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">S'ABONNER</Button>
-                                <h4 style={{marginTop: "1rem", color: 'white'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
-                                <Button onClick={() => this.handleOpenNote()}  className="btnInf">Noter</Button>
-
-                                <h5 style={{marginTop: "3rem", color: 'white'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
-                                <h5 style={{marginTop: "3rem", color: 'white'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
-                            </Grid>
-                            <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "5rem"}}>
-                                <h2 style={{textAlign: "center", color: 'white'}}>Avis</h2>
-                                <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "3.5rem"}}>
-                                    <ListItem style={{height: "4.375rem"}}>
-                                        <ListItemAvatar style={{marginRight: "1rem"}}>
-                                            <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
-                                        </ListItemAvatar>
-                                        <ListItemText style={{borderBottom: "1px solid #292929"}}>
-                                            <Input
-                                                id="standard-adornment"
-                                                placeholder="Commenter"
-                                                name="commentInput"
-                                                value={this.state.commentInput}
-                                                onChange={this.handleChange}
-                                                style={{width: "100%"}}
-                                                endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <Button
-                                                            onClick={this.handleSendMessage}
-                                                            style={{marginTop: "-1rem", backgroundColor: 'transparent', borderColor: "transparent"}}
-                                                        >
-                                                            <SendIcon style={{color: "white", width: "2rem", height: "2rem"}}/>
-                                                        </Button>
-                                                    </InputAdornment>
-                                                }
-                                            />
-                                        </ListItemText>
-                                    </ListItem>
-                                    <ListItemSecondaryAction>
-                                    </ListItemSecondaryAction>
-                                </List>
-                                <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem"}}>
-                                    {
-                                        this.state.adData.comment.map(x => this.handleComment(x))
-                                    }
-                                </List>
-                            </Grid>
-                        </Grid>
-                    :
-                        <Loader
-                            type="Triangle"
-                            color="#292929"
-                            height={200}
-                            width={200}
-                            style={{marginTop: "14rem"}}
-                        />
-                    }
-            </Grid>
+                        <h3 style={{marginTop: "1rem", color: 'white'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
+                        <h4 style={{marginTop: "1rem", color: 'white'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
+                        <Row className="m-0 p-0">
+                          <h4 style={{marginTop: "1rem", color: 'white'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
+                          <Image className="ml-4 mt-4" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
+                        </Row>
+                        <h5 style={{marginTop: "1rem", color: 'white'}}>{this.state.adData.productSubject ?  `Article: ${this.state.type[this.state.adData.productSubject]}` : ""}</h5>
+                        <h5 style={{marginTop: "1rem", color: 'white'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
+                        <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">S'ABONNER</Button>
+                    </Col>
+                    <Col md={8} className="mt-4">
+                      <h2 style={{textAlign: "center", color: 'white'}}>Avis</h2>
+                             <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "3.5rem"}}>
+                                 <ListItem style={{height: "4.375rem"}}>
+                                     <ListItemAvatar style={{marginRight: "1rem"}}>
+                                         <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
+                                     </ListItemAvatar>
+                                     <ListItemText style={{borderBottom: "1px solid #292929"}}>
+                                         <Input
+                                             id="standard-adornment"
+                                             placeholder="Commenter"
+                                             name="commentInput"
+                                             value={this.state.commentInput}
+                                             onChange={this.handleChange}
+                                             style={{width: "100%"}}
+                                             endAdornment={
+                                                 <InputAdornment position="end">
+                                                     <Button
+                                                         onClick={this.handleSendMessage}
+                                                         style={{marginTop: "-1rem", backgroundColor: 'transparent', borderColor: "transparent"}}
+                                                     >
+                                                         <SendIcon style={{color: "white", width: "2rem", height: "2rem"}}/>
+                                                     </Button>
+                                                 </InputAdornment>
+                                             }
+                                         />
+                                     </ListItemText>
+                                 </ListItem>
+                             </List>
+                    </Col>
+                  </Row>
+                  :
+                  <p>Loading</p>
+                }
+            </div>
         );
     }
 }
 
 export default withRouter(adsItem)
+
+//
+// <Grid container style={{padding: "30px"}}>
+//     <Grid item xs={12} md={7} style={{padding: "30px", height: "auto", borderRight: "2px solid #292929"}}>
+//         <Carousel style={{height: "auto"}} showThumbs={false} infiniteLoop={true} centerSlidePercentage={80}>
+//             {
+//                 this.state.adData.productImg ?
+//                     this.state.adData.productImg.map(x => this.displayImage(x))
+//                     :
+//                     <Grid container style={{height: "auto", backgroundColor: "#ffffff"}} justify="center" alignItems="flex-start">
+//                         <img src={noImages} style={{width: "200px", height: "800px", marginTop: "10px"}} alt="MISSING JPG"/>
+//                     </Grid>
+//             }
+//         </Carousel>
+//     </Grid>
+//     <Grid item xs={12} md={5} style={{padding: "3.125rem", paddingLeft: "1.25rem"}}>
+//         <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
+//           <div style={{ textAlign:'left'}}>
+//             <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
+//             <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
+//           </div>
+//
+//         <h3 style={{marginTop: "2rem", color: 'white'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
+//         <h4 style={{marginTop: "2rem", marginBottom: "2rem", color: 'white'}}>{`Sex: ${this.state.adData.productSex}`}</h4>
+//         <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">S'ABONNER</Button>
+//         <h4 style={{marginTop: "1rem", color: 'white'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
+//         <Button onClick={() => this.handleOpenNote()}  className="btnInf">Noter</Button>
+//
+//         <h5 style={{marginTop: "3rem", color: 'white'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
+//         <h5 style={{marginTop: "3rem", color: 'white'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
+//     </Grid>
+//     <Grid item xs={12} style={{marginRight: "12.5rem", marginLeft: "12.5rem", marginTop: "5rem"}}>
+//         <h2 style={{textAlign: "center", color: 'white'}}>Avis</h2>
+//         <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "3.5rem"}}>
+//             <ListItem style={{height: "4.375rem"}}>
+//                 <ListItemAvatar style={{marginRight: "1rem"}}>
+//                     <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
+//                 </ListItemAvatar>
+//                 <ListItemText style={{borderBottom: "1px solid #292929"}}>
+//                     <Input
+//                         id="standard-adornment"
+//                         placeholder="Commenter"
+//                         name="commentInput"
+//                         value={this.state.commentInput}
+//                         onChange={this.handleChange}
+//                         style={{width: "100%"}}
+//                         endAdornment={
+//                             <InputAdornment position="end">
+//                                 <Button
+//                                     onClick={this.handleSendMessage}
+//                                     style={{marginTop: "-1rem", backgroundColor: 'transparent', borderColor: "transparent"}}
+//                                 >
+//                                     <SendIcon style={{color: "white", width: "2rem", height: "2rem"}}/>
+//                                 </Button>
+//                             </InputAdornment>
+//                         }
+//                     />
+//                 </ListItemText>
+//             </ListItem>
+//             <ListItemSecondaryAction>
+//             </ListItemSecondaryAction>
+//         </List>
+//         <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem"}}>
+//             {
+//                 this.state.adData.comment.map(x => this.handleComment(x))
+//             }
+//         </List>
+//     </Grid>
+// </Grid>
+
+// :
+//     <Loader
+//         type="Triangle"
+//         color="#292929"
+//         height={200}
+//         width={200}
+//         style={{marginTop: "14rem"}}
+//     />

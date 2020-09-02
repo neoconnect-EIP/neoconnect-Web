@@ -40,32 +40,16 @@ class FindShop extends React.Component{
     }
 
     getAllShop = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/actuality`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => {
-        console.log("RES = ", res);
-        return (res.json());
-      })
-      .then(res => {
-        console.log("SEconde time = ", res);
-        this.setState({popular: res.listShopPopulaire, bestMark: res.listShopTendance, tendance: res.listShopTendance})
-      })
 
-      //TODO ou est que je peux mettre liste de tout les offres
-
-      // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/listShop`, {
-      //     method: 'GET',
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //         "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      // })
-      //     .then(res => res.json())
-      //     .then(res => this.setState({shopList: res}))
-      //     .catch(error => console.error('Error:', error));
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/listShop`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+          .then(res => res.json())
+          .then(res => this.setState({shopList: res}))
+          .catch(error => console.error('Error:', error));
     }
 
     componentDidMount() {
@@ -162,53 +146,25 @@ class FindShop extends React.Component{
                     </Form>
                   </Navbar.Collapse>
                 </Navbar>
-                <Row className="pl-4">
-                  <Image src={heart}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
-                </Row>
-                <CardColumns className="pt-4 pl-3 pr-2">
-                  {
-                      this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
-                  }
-              </CardColumns>
-                <Row className="pl-4">
-                  <Image src={fire}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques populaires</h4>
-                </Row>
-                <CardColumns className="pt-4 pl-3 pr-2">
-                  {
-                      this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
-                  }
-              </CardColumns>
-                <Row className="pl-4 mt-4">
-                  <Image src={star}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques les mieux notés</h4>
-                </Row>
-                <CardColumns className="pt-4 pl-3 pr-2">
-                  {
-                      this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
-                  }
-              </CardColumns>
+                {
+                    this.state.shopList ?
+                      <CardColumns className="pl-2 mr-2 pr-2">
+                            {
+                                this.state.shopList.map(item => this.handleCard(item))
+                            }
+                        </CardColumns>
+                        :
+                          <Loader
+                              type="Triangle"
+                              color="#292929"
+                              height={200}
+                              width={200}
+                              style={{marginTop: "14rem"}}
+                          />
+                }
             </div>
         );
     }
 }
 
 export default withRouter(FindShop)
-
-// {
-//     this.state.shopList ?
-//       <CardColumns className="pl-2 mr-2 pr-2">
-//             {
-//                 this.state.shopList.map(item => this.handleCard(item))
-//             }
-//         </CardColumns>
-//         :
-//           <Loader
-//               type="Triangle"
-//               color="#292929"
-//               height={200}
-//               width={200}
-//               style={{marginTop: "14rem"}}
-//           />
-// }

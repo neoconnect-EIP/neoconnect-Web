@@ -45,37 +45,22 @@ class Advertisements extends React.Component{
 
     componentDidMount = () => {
 
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/actuality`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => {
-        console.log("RES = ", res);
-        return (res.json());
-      })
-      .then(res => {
-        console.log("SEconde time = ", res);
-        this.setState({popular: res.listOfferPopulaire, bestMark: res.listOfferTendance, tendance: res.listOfferTendance})
-      })
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => res.json())
+            .then(res => {
+              this.setState({adsSaver: res, adsData: res.sort((a, b) => {
+                if (typeof a.productName === 'string' && typeof b.productName === 'string'){
+                  if (a.productName.length && b.productName.length){
+                    if (a.productName[0] > b.productName[0]) return 1
+                    else if (a.productName[0] < b.productName[0]) return -1
+                    else return 0
+                  }else return 0
+                }else return 0
+              })})
+              this.setState({adsData: res, adsSaver: res})
 
-        // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-        //     .then(res => res.json())
-        //     .then(res => {
-        //       this.setState({adsSaver: res, adsData: res.sort((a, b) => {
-        //         if (typeof a.productName === 'string' && typeof b.productName === 'string'){
-        //           if (a.productName.length && b.productName.length){
-        //             if (a.productName[0] > b.productName[0]) return 1
-        //             else if (a.productName[0] < b.productName[0]) return -1
-        //             else return 0
-        //           }else return 0
-        //         }else return 0
-        //       })})
-        //       this.setState({adsData: res, adsSaver: res})
-        //
-        //     })
-        //     .catch(error => console.error('Error:', error));
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     handleGlobalAnnonce = (id) => {
@@ -255,34 +240,49 @@ class Advertisements extends React.Component{
               <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des offres</Navbar.Brand>
               </Navbar>
+              <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
+              <DropdownButton
+                as={InputGroup.Prepend}
+                variant="outline-secondary"
+                title="Sort by"
+                id="input-group-dropdown-1"
+              >
+                <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
+              </DropdownButton>
+                <FormControl
+                  placeholder="Search"
+                  aria-label="Enter your keyword"
+                  aria-describedby="basic-addon2"
+                  value={this.state.searchForm}
+                  onChange={this.handleSearchBarChange}
+                />
+                  {/* <InputGroup.Append>
+                    <Button
+                    variant="outline-success"
+                    onClick={() => this.handleSearch()}>Search</Button>
+                  </InputGroup.Append> */}
+                </InputGroup>
+              {
+                  this.state.adsData ?
+                    <CardColumns className="pl-2 pr-4">
+                          {
 
-              <Row className="pl-4">
-                <Image src={heart}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres du moment</h4>
-              </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
-                {
-                    this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
-                }
-            </CardColumns>
-              <Row className="pl-4">
-                <Image src={fire}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
-              </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
-                {
-                    this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
-                }
-            </CardColumns>
-              <Row className="pl-4 mt-4">
-                <Image src={star}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
-              </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
-                {
-                    this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
-                }
-            </CardColumns>
+                              this.state.adsData.map(item => this.handleCard(item))
+                          }
+                      </CardColumns>
+                      :
+                      <Loader
+                          type="Triangle"
+                          color="#292929"
+                          height={200}
+                          width={200}
+                          style={{marginTop: "14rem"}}
+                      />
+              }
               <Modal centered show={this.state.visible} onHide={this.handleClose}>
                <Modal.Header closeButton>
                  <Modal.Title>S'abonner à cette offre ?</Modal.Title>
@@ -307,48 +307,3 @@ class Advertisements extends React.Component{
 }
 
 export default withRouter(Advertisements)
-
-// {
-//     this.state.adsData ?
-//       <CardColumns className="pl-2 pr-4">
-//             {
-//
-//                 this.state.adsData.map(item => this.handleCard(item))
-//             }
-//         </CardColumns>
-//         :
-//         <Loader
-//             type="Triangle"
-//             color="#292929"
-//             height={200}
-//             width={200}
-//             style={{marginTop: "14rem"}}
-//         />
-// }
-
-// <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
-// <DropdownButton
-//   as={InputGroup.Prepend}
-//   variant="outline-secondary"
-//   title="Sort by"
-//   id="input-group-dropdown-1"
-// >
-//   <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
-//   <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
-//   <Dropdown.Divider />
-//   <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
-//   <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
-// </DropdownButton>
-//   <FormControl
-//     placeholder="Search"
-//     aria-label="Enter your keyword"
-//     aria-describedby="basic-addon2"
-//     value={this.state.searchForm}
-//     onChange={this.handleSearchBarChange}
-//   />
-//   {/* <InputGroup.Append>
-//     <Button
-//     variant="outline-success"
-//     onClick={() => this.handleSearch()}>Search</Button>
-//   </InputGroup.Append> */}
-// </InputGroup>
