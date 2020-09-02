@@ -1,20 +1,11 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import {
-    Avatar,
-    List,
-    ListItemSecondaryAction,
-    ListItemAvatar,
-    ListItem,
-    ListItemText,
-    Input, InputAdornment
-} from '@material-ui/core';
 import {Rate} from "antd";
 // import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
-import avatar from "../../assets/avatar1.png";
+import avatar from "../../assets/noImageFindInf.jpg";
 import edit from "../../assets/edit.svg";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
@@ -52,15 +43,23 @@ class adsItem extends React.Component{
         };
     }
 
-    componentDidMount = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {console.log("HELLO , ", res);return (res.json())})
-            .then(res => this.setState({adData: res}))
-            .catch(error => console.error('Error:', error));
+    getDetailOffer = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => {return (res.json())})
+          .then(res => this.setState({adData: res}))
+          .catch(error => console.error('Error:', error));
 
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/comment/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => {return (res.json())})
+          .then(res => this.setState({commentData: res}))
+          .catch(error => console.error('Error:', error));
+    }
+
+    componentDidMount = () => {
+        this.getDetailOffer();
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
-            .then(res => this.setState({userData: res}))
+            .then(res => {this.setState({userData: res})})
             .catch(error => console.error('Error:', error));
     }
 
@@ -146,7 +145,8 @@ class adsItem extends React.Component{
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => {
-              this.setState({note: false})
+              this.setState({note: false});
+              this.getDetailOffer();
             })
             .catch(error => console.error('Error:', error));
         this.handleModal("")
@@ -156,7 +156,7 @@ class adsItem extends React.Component{
         return (
             <Carousel.Item key={id} style={{maxHeight: '400px'}}>
               <img
-                style={{objectFit: "contain", maxHeight: '400px'}}
+                style={{objectFit: "contain", maxHeight: '350px'}}
                 className="d-block"
                 src={item.imageData}
                 alt="product img"
@@ -172,17 +172,11 @@ class adsItem extends React.Component{
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/comment/${id.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { res.json(); this.handleResponse(res)})
+            .then(res => { res.json(); this.getDetailOffer();})
             .catch(error => console.error('Error:', error));
         this.setState({ commentInput: ""})
     }
 
-    handleChange = (e) => {
-        let change = {}
-
-        change[e.target.name] = e.target.value
-        this.setState(change)
-    }
 
     handleAnnonceReport = () => {
       this.setState({clickedSignal: true})
@@ -222,18 +216,18 @@ class adsItem extends React.Component{
 
     handleComment = (x) => {
         return (
-            <ListItem key={x.id} style={{height: "4.375rem", marginBottom: "2rem"}}>
-                <ListItemAvatar style={{marginRight: "1rem"}}>
-                    <Avatar src={x.avatar}/>
-                    <p>{x.pseudo}</p>
-                </ListItemAvatar>
-                <ListItemText>
-                    <p style={{color: "#5f5f5f", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
-                    <p style={{color: "black", marginTop: "12px"}}>{x.comment}</p>
-                </ListItemText>
-                <ListItemSecondaryAction>
-                </ListItemSecondaryAction>
-            </ListItem>
+          <Row key={x.id}>
+            <Col md={2} className="centerBlock">
+              <div className="centerBlock" align="center">
+                <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : avatar} roundedCircle />
+                <p style={{fontWeight: '200'}}>{x.pseudo}</p>
+              </div>
+            </Col>
+            <Col>
+              <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
+              <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
+            </Col>
+          </Row>
         )
     }
 
@@ -254,7 +248,6 @@ class adsItem extends React.Component{
     }
 
     render() {
-      console.log("WEI ", this.state.adData);
         return (
             <div justify="center" className="infBg">
 
@@ -324,41 +317,29 @@ class adsItem extends React.Component{
                         <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
                         <Row className="m-0 p-0">
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
-                          <Image className="ml-4 mt-4" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
+                          <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
                         </Row>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.type[this.state.adData.productSubject]}` : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
                     </Col>
                     <Col md={8} className="mt-4">
-                      <h2 style={{textAlign: "center", color: 'white'}}>Avis</h2>
-                             <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "3.5rem"}}>
-                                 <ListItem style={{height: "4.375rem"}}>
-                                     <ListItemAvatar style={{marginRight: "1rem"}}>
-                                         <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
-                                     </ListItemAvatar>
-                                     <ListItemText style={{borderBottom: "1px solid #292929"}}>
-                                         <Input
-                                             id="standard-adornment"
-                                             placeholder="Commenter"
-                                             name="commentInput"
-                                             value={this.state.commentInput}
-                                             onChange={this.handleChange}
-                                             style={{width: "100%"}}
-                                             endAdornment={
-                                                 <InputAdornment position="end">
-                                                     <Button
-                                                         onClick={this.handleSendMessage}
-                                                         style={{marginTop: "-1rem", backgroundColor: 'transparent', borderColor: "transparent"}}
-                                                     >
-                                                         <SendIcon style={{color: "white", width: "2rem", height: "2rem"}}/>
-                                                     </Button>
-                                                 </InputAdornment>
-                                             }
-                                         />
-                                     </ListItemText>
-                                 </ListItem>
-                             </List>
+                      <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Avis</h2>
+                      <Row className="mt-4 mb-4 ml-2">
+                        <Col md={1}>
+                          {this.state.userData &&
+                          <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? avatar : this.state.userData.userPicture[0].imageData} roundedCircle />}
+                        </Col>
+                        <Col md={8}>
+                          <Form.Control onChange={(e) => {this.setState({commentInput: e.target.value})}} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
+                        </Col>
+                        <Col md={1} className="my-auto">
+                          <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
+                        </Col>
+                      </Row>
+                      {
+                        !this.state.commentData || this.state.commentData.length === 0 ? "" : this.state.commentData.map(x => this.handleComment(x))
+                      }
                     </Col>
                   </Row>
                 }
@@ -446,3 +427,32 @@ export default withRouter(adsItem)
 //         width={200}
 //         style={{marginTop: "14rem"}}
 //     />
+
+// <h2 style={{textAlign: "center", color: 'white', marginTop: "2rem", fontWeight: '400'}}>Avis</h2>
+//        <List style={{paddingLeft: "0.625rem", paddingRight: "0.625rem", marginTop: "1rem"}}>
+//            <ListItem style={{height: "4.375rem"}}>
+//                <ListItemAvatar style={{marginRight: "1rem"}}>
+//                    <Avatar alt="Avatar not found" src={avatar} style={{width: "40px", height: "40px"}}/>
+//                </ListItemAvatar>
+//                <ListItemText style={{borderBottom: "1px solid #292929"}}>
+//                    <Input
+//                        id="standard-adornment"
+//                        placeholder="Commenter"
+//                        name="commentInput"
+//                        value={this.state.commentInput}
+//                        onChange={this.handleChange}
+//                        style={{width: "100%"}}
+//                        endAdornment={
+//                            <InputAdornment position="end">
+//                                <Button
+//                                    onClick={this.handleSendMessage}
+//                                    style={{marginTop: "-1rem", backgroundColor: 'transparent', borderColor: "transparent"}}
+//                                >
+//                                    <SendIcon style={{color: "white", width: "2rem", height: "2rem"}}/>
+//                                </Button>
+//                            </InputAdornment>
+//                        }
+//                    />
+//                </ListItemText>
+//            </ListItem>
+//        </List>

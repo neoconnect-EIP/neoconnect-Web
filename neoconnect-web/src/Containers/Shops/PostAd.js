@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import { store } from 'react-notifications-component';
+import LoadingOverlay from 'react-loading-overlay';
 
 
 class PostAd extends React.Component {
@@ -23,6 +24,7 @@ class PostAd extends React.Component {
             productImgName2: "",
             productImgName3: "",
             productImgName4: "",
+            isActive: false,
             productName: "",
             productSex: "",
             productDesc: "",
@@ -240,8 +242,10 @@ class PostAd extends React.Component {
     };
 
     handleResponse = (res) => {
-        if (res.status === 200)
-            this.setState({isEnd: true})
+      this.setState({isActive: false});
+      if (res.status === 200)
+          this.setState({isEnd: true})
+
     };
 
     handleGolobalImg = () => {
@@ -296,6 +300,7 @@ class PostAd extends React.Component {
         });
       }
       else {
+        this.setState({isActive: true});
         let body = {
             "productImg": this.handleGolobalImg(),
             "productName": this.state.productName,
@@ -319,6 +324,11 @@ class PostAd extends React.Component {
 
     render() {
         return (
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
             <div justify="center" className="shopBg"  >
               <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                 <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Création d'une offre</Navbar.Brand>
@@ -420,6 +430,7 @@ class PostAd extends React.Component {
                     </Grid>
                 }
             </div>
+          </LoadingOverlay>
         );
     }
 }
