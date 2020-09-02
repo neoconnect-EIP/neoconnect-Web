@@ -214,7 +214,7 @@ class Ads extends React.Component {
                 <td><Button className="btnShop" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
                 <td><Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
                 <td><Button className="btnInfDelete" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button></td>
-                <td>Abonnée le {new Date(inf.createdAt).toLocaleDateString()}</td>
+                <td>Postulé le {new Date(inf.createdAt).toLocaleDateString()}</td>
                 <td></td>
                 <td></td>
               </tr>
@@ -227,7 +227,7 @@ class Ads extends React.Component {
               <td></td>
               <td></td>
               <td></td>
-              <td>Aucun abonnement pour le moment</td>
+              <td>Aucun candidat pour le moment</td>
               <td></td>
               <td></td>
               <td></td>
@@ -276,7 +276,7 @@ class Ads extends React.Component {
                   placement={"top"}
                   overlay={
                     <Tooltip>
-                      Voir abonnement
+                      Voir les candidatures
                     </Tooltip>
                   }
                 >

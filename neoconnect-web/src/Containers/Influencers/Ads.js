@@ -121,7 +121,7 @@ class Ads extends React.Component {
               <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
               <td>{ad.status === "pending" ? "En attente" : (ad.status === "refused" ? "Refusé" : "Accepté")}</td>
               <td>
-                <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Désabonner</Button>{' '}
+                <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>{' '}
                 <Button className="btnInf" onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}>Détail</Button>{' '}
                 <Button className="btnInf" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>
               </td>
@@ -279,7 +279,7 @@ class Ads extends React.Component {
                                 <tr>
                                   <th>Nom</th>
                                   <th>Type</th>
-                                  <th>Date d'abonnement</th>
+                                  <th>Date de candidature</th>
                                   <th>Status</th>
                                   <th>Actions</th>
                                 </tr>

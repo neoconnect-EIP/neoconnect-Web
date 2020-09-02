@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
 import {
-    Grid,
     Avatar,
     List,
     ListItemSecondaryAction,
@@ -15,10 +14,8 @@ import {Rate} from "antd";
 // import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
-import noImages from "../../assets/noImages.jpg"
 import avatar from "../../assets/avatar1.png";
 import edit from "../../assets/edit.svg";
-import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -96,8 +93,8 @@ class adsItem extends React.Component{
               if (res.status === 200) {
                 this.setState({visible: false});
                 store.addNotification({
-                  title: "Abonné",
-                  message: "Nous avons bien pris en compte votre abonnement",
+                  title: "Postulé",
+                  message: "Nous avons bien pris en compte votre demande",
                   type: "success",
                   insert: "top",
                   container: "top-right",
@@ -115,7 +112,7 @@ class adsItem extends React.Component{
               else {
                 store.addNotification({
                   title: "Erreur",
-                  message: "Un erreur s'est produit lors de l'abonnement. Veuillez essayer ultérieurement.",
+                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
                   type: "danger",
                   insert: "top",
                   container: "top-right",
@@ -157,8 +154,9 @@ class adsItem extends React.Component{
 
     displayImage = (item, id) => {
         return (
-            <Carousel.Item key={id} className="h-auto d-inline-block">
+            <Carousel.Item key={id} style={{maxHeight: '400px'}}>
               <img
+                style={{objectFit: "contain", maxHeight: '400px'}}
                 className="d-block"
                 src={item.imageData}
                 alt="product img"
@@ -304,10 +302,10 @@ class adsItem extends React.Component{
                    </Modal.Footer>
                   </Modal>
                 {
-                  this.state.adData ?
+                  this.state.adData &&
                   <Row className="p-4">
                     <Col md={6}>
-                      <Carousel controls={true} style={{height: '90%'}}>
+                      <Carousel controls={true} style={{height: '400px'}}>
                         {
                             this.state.adData.productImg ?
                             this.state.adData.productImg.map((item, id) => this.displayImage(item, id)) :
@@ -322,15 +320,15 @@ class adsItem extends React.Component{
                             <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
                           </div>
 
-                        <h3 style={{marginTop: "1rem", color: 'white'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
-                        <h4 style={{marginTop: "1rem", color: 'white'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
+                        <h3 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
+                        <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
                         <Row className="m-0 p-0">
-                          <h4 style={{marginTop: "1rem", color: 'white'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
+                          <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
                           <Image className="ml-4 mt-4" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
                         </Row>
-                        <h5 style={{marginTop: "1rem", color: 'white'}}>{this.state.adData.productSubject ?  `Article: ${this.state.type[this.state.adData.productSubject]}` : ""}</h5>
-                        <h5 style={{marginTop: "1rem", color: 'white'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
-                        <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">S'ABONNER</Button>
+                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.type[this.state.adData.productSubject]}` : ""}</h5>
+                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
+                        <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
                     </Col>
                     <Col md={8} className="mt-4">
                       <h2 style={{textAlign: "center", color: 'white'}}>Avis</h2>
@@ -363,8 +361,6 @@ class adsItem extends React.Component{
                              </List>
                     </Col>
                   </Row>
-                  :
-                  <p>Loading</p>
                 }
             </div>
         );

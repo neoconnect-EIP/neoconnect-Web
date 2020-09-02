@@ -9,7 +9,6 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Button from 'react-bootstrap/Button';
-import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Navbar from 'react-bootstrap/Navbar';
@@ -18,9 +17,6 @@ import FormControl from 'react-bootstrap/FormControl';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { store } from 'react-notifications-component';
-import fire from "../../assets/fire.svg";
-import star from "../../assets/star.svg";
-import heart from "../../assets/heart.svg";
 
 class Advertisements extends React.Component{
     constructor(props) {
@@ -77,8 +73,8 @@ class Advertisements extends React.Component{
               if (res.status === 200) {
                 this.setState({visible: false});
                 store.addNotification({
-                  title: "Abonné",
-                  message: "Nous avons bien pris en compte votre abonnement",
+                  title: "Postulé",
+                  message: "Nous avons bien pris en compte votre demande",
                   type: "success",
                   insert: "top",
                   container: "top-right",
@@ -96,7 +92,7 @@ class Advertisements extends React.Component{
               else {
                 store.addNotification({
                   title: "Erreur",
-                  message: "Un erreur s'est produit lors de l'abonnement. Veuillez essayer ultérieurement.",
+                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
                   type: "danger",
                   insert: "top",
                   container: "top-right",
@@ -224,7 +220,7 @@ class Advertisements extends React.Component{
                       {`${item.productColor ? item.productColor : ""}`}
                     </Card.Text>
                     <Row className="ml-1">
-                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
+                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
                       <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
                       <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
                     </Row>
@@ -285,7 +281,7 @@ class Advertisements extends React.Component{
               }
               <Modal centered show={this.state.visible} onHide={this.handleClose}>
                <Modal.Header closeButton>
-                 <Modal.Title>S'abonner à cette offre ?</Modal.Title>
+                 <Modal.Title>Postuler à cette offre ?</Modal.Title>
                </Modal.Header>
                <Modal.Body>
                  {
@@ -297,7 +293,7 @@ class Advertisements extends React.Component{
                    Annuler
                  </Button>
                  <Button className="btnInf" onClick={this.handleAnnonceSubsribe}>
-                   S'abonner
+                   Postuler
                  </Button>
                </Modal.Footer>
              </Modal>

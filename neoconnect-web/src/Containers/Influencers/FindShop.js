@@ -12,12 +12,9 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
-import Image from 'react-bootstrap/Image';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { store } from 'react-notifications-component';
-import fire from "../../assets/fire.svg";
-import star from "../../assets/star.svg";
-import heart from "../../assets/heart.svg";
+
 
 class FindShop extends React.Component{
     constructor(props) {

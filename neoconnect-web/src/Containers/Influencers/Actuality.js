@@ -2,19 +2,14 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css"
 import StarIcon from '@material-ui/icons/Star';
-import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noShop from "../../assets/noShop.jpg"
 import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { store } from 'react-notifications-component';
 import fire from "../../assets/fire.svg";
 import star from "../../assets/star.svg";
 import heart from "../../assets/heart.svg";
@@ -98,7 +93,7 @@ class Actuality extends React.Component{
                       {`${item.productColor ? item.productColor : ""}`}
                     </Card.Text>
                     <Row className="ml-1">
-                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
+                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
                       <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
                       <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
                     </Row>

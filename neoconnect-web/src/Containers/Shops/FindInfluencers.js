@@ -8,7 +8,6 @@ import noImageFindInf from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Form from 'react-bootstrap/Form';
-import Image from 'react-bootstrap/Image';
 import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
@@ -18,9 +17,6 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import Alert from 'react-bootstrap/Alert';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import heart from "../../assets/heart.svg";
-import fire from "../../assets/fire.svg";
-import star from "../../assets/star.svg";
 
 class FindInfluencers extends React.Component {
     constructor(props) {
