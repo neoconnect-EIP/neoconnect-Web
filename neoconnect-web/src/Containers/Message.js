@@ -12,7 +12,7 @@ export default class Message extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            userId: localStorage.getItem("userId"),
+            userId: parseInt(localStorage.getItem("userId")),
             channels: null,
             shop: false,
             msg: "",
