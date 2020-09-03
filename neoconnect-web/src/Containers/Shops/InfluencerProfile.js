@@ -55,6 +55,8 @@ class InfluencerProfile extends React.Component {
             signal: false,
             raison: "",
             info: "",
+            msg: "",
+            messageModal: false,
             clickedSignal: false
         };
     }
@@ -67,7 +69,7 @@ class InfluencerProfile extends React.Component {
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
           .then(res => res.json())
-          .then(res => this.setState({infData: res}))
+          .then(res => {console.log("ING =", res);this.setState({infData: res})})
           .catch(error => console.error('Error:', error));
     }
 
@@ -208,12 +210,57 @@ class InfluencerProfile extends React.Component {
       }
     }
 
+    handleSendMsg() {
+
+      if (this.state.msg) {
+        let body = {
+            "message": this.state.msg,
+            "userId": this.state.shopData.id, //destinataire
+        };
+        body = JSON.stringify(body);
+        console.log(localStorage.getItem("Jwt"));
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
+          {
+            method: 'POST',
+            body: body,
+            headers: {'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+            .then(res => this.handleMsgRes(res)
+          ).catch(error => console.error('Error:', error));
+      }
+    }
+
     render() {
         return (
             <div className="shopBg">
                 {
                     this.state.infData && this.state.userData ?
                       <div>
+                        <Modal centered show={this.state.messageModal} onHide={() => {this.setState({messageModal: false})}}>
+                         <Modal.Header closeButton>
+                           <Modal.Title>Contacter</Modal.Title>
+                         </Modal.Header>
+                         <Modal.Body>
+                           <Form>
+                            <Form.Group controlId="formBasicEmail">
+                              <Form.Label>Message à envoyer</Form.Label>
+                              <Form.Control value={this.state.msg} onChange={(e) => {this.setState({msg: e.target.value})}}/>
+                              <Form.Text className="text-muted">
+                                Un chat sera créer dans vos messagerie avec cette boutique.
+                              </Form.Text>
+                            </Form.Group>
+                          </Form>
+                         </Modal.Body>
+                         <Modal.Footer>
+                           <Button className="btnCancel" onClick={() => {this.setState({messageModal: false})}}>
+                             Annuler
+                           </Button>
+                           <Button className="btnInf" onClick={() => {this.handleSendMsg()}}>
+                             Envoyer
+                           </Button>
+                         </Modal.Footer>
+                        </Modal>
                         <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
                          <Modal.Header closeButton>
                            <Modal.Title>Notez cette boutique</Modal.Title>
@@ -278,6 +325,9 @@ class InfluencerProfile extends React.Component {
                                 <Badge pill className="pill mt-2 mb-4">
                                   {this.state.infData.theme}
                                 </Badge>
+                            </Row>
+                            <Row className="mb-2">
+                              <Button className="btnShop ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
                             </Row>
                           </Col>
                           <Col md={3} className="mt-4">

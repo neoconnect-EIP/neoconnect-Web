@@ -276,7 +276,6 @@ class shopProfile extends React.Component{
             "userId": this.state.shopData.id, //destinataire
         };
         body = JSON.stringify(body);
-        console.log(localStorage.getItem("Jwt"));
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
           {
             method: 'POST',
