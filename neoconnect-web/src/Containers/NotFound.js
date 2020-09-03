@@ -28,7 +28,7 @@ export default class NotFound extends React.Component{
             </Row>
             <Row className="justify-content-md-center mt-4">
               <Button className="btnShop" onClick={() => {
-               this.state.client === "shop" ? this.props.history.push('/shop-dashboard/ads') : (!this.state.client ? this.props.history.push('/landing-page') : this.props.history.push('/dashboard/advertisements'));
+               this.state.client === "shop" ? this.props.history.push('/shop-dashboard/actuality') : (!this.state.client ? this.props.history.push('/landing-page') : this.props.history.push('/dashboard/actuality'));
               }}>Retour</Button>
             </Row>
           </div>

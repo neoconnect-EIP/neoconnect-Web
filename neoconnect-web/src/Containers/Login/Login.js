@@ -49,7 +49,7 @@ export default class Login extends React.Component{
     handleResponse = (res) => {
         if (res.userType) {
             this.setState({isLoading: false})
-            res.userType === "influencer" ? this.props.history.push('/dashboard/advertisements') : this.props.history.push('/shop-dashboard/ads')
+            res.userType === "influencer" ? this.props.history.push('/dashboard/actuality') : this.props.history.push('/shop-dashboard/actuality')
         }
         else {
             store.addNotification({

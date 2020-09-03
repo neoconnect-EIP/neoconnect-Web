@@ -365,3 +365,39 @@
   height: 20px !important;
   margin-right: 10px !important;
 }
+
+.sideBarTxt {
+  color: white;
+  font-weight: 400;
+}
+
+.sideBarTxt:hover {
+  font-weight: 700;
+  color: white;
+}
+
+.sideBarTxt-active {
+  font-weight: 700;
+  color: white;
+}
+
+.sideBarTxt-active:hover {
+  color: white;
+}
+
+.nav-item-sidebar:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  border-radius: 40px;
+}
+
+.nav-item-sidebar-active {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  border-radius: 40px;
+}
+
+
+.sidenav {
+  height: 100%;
+}
