@@ -39,6 +39,7 @@ class EditProfile extends React.Component{
             profilePic: null,
             imagePreviewUrl: avatar,
             visible: false,
+            theme: ""
         };
     }
 

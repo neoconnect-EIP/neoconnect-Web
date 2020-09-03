@@ -69,7 +69,7 @@ class InfluencerProfile extends React.Component {
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
           .then(res => res.json())
-          .then(res => {console.log("ING =", res);this.setState({infData: res})})
+          .then(res => {this.setState({infData: res})})
           .catch(error => console.error('Error:', error));
     }
 
