@@ -7,7 +7,6 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AddIcon from '@material-ui/icons/Add';
-import SearchIcon from '@material-ui/icons/Search';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
