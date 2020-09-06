@@ -15,6 +15,7 @@ import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import PeopleIcon from '@material-ui/icons/People';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 
 class Aside extends React.Component{
     constructor(props) {
@@ -101,6 +102,10 @@ class Aside extends React.Component{
                                 <QuestionAnswerIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 13 ? "sideBarTxt-active" : "sideBarTxt"}>Contact</Nav.Link>
                             </Nav.Item>
+                            <Nav.Item className={this.state.menuId === 15 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 15});this.handlePage("/shop-dashboard/contact")}}>
+                                <PersonPinIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                <Nav.Link className={this.state.menuId === 15 ? "sideBarTxt-active" : "sideBarTxt"}>Support</Nav.Link>
+                            </Nav.Item>
                             <Nav.Item className="nav-item-sidebar" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", width: '100%'}}>
                                   <ExitToAppIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                  <Nav.Link className="sideBarTxt">Déconnexion</Nav.Link>
@@ -142,6 +147,10 @@ class Aside extends React.Component{
                             <Nav.Item className={this.state.menuId === 6 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 6});this.handlePage("/dashboard/chat")}}>
                                 <QuestionAnswerIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 6 ? "sideBarTxt-active" : "sideBarTxt"}>Contact</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item className={this.state.menuId === 14 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 14});this.handlePage("/dashboard/contact")}}>
+                                <PersonPinIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
+                                <Nav.Link className={this.state.menuId === 14 ? "sideBarTxt-active" : "sideBarTxt"}>Support</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item-sidebar" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", width: '100%'}}>
                                   <ExitToAppIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>

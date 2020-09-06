@@ -70,7 +70,6 @@ export default class Chat extends React.Component{
             "to": this.state.to,
         };
         body = JSON.stringify(body);
-        console.log("BODY", body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/contact`, {
            method: 'POST',
            body: body,

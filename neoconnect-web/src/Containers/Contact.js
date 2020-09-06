@@ -4,22 +4,22 @@ import { Input, TextField, Grid, FormControl, InputLabel, Select, MenuItem } fro
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import "../index.css"
 import Button from 'react-bootstrap/Button';
+import { store } from 'react-notifications-component';
+import LoadingOverlay from 'react-loading-overlay';
 
 
 export default class Contact extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            pseudo: "",
             email: "",
             subject: "",
             message: "",
             mailSend: false,
+            isActive: false,
+            client: localStorage.getItem("userType"),
+            pseudo: localStorage.getItem("pseudo"),
         };
-    }
-
-    handlePseudoChange = (e) => {
-        this.setState({pseudo: e.target.value})
     }
 
     handleEmailChange = (e) => {
@@ -34,22 +34,63 @@ export default class Contact extends React.Component{
         this.setState({message: e.target.value})
     }
 
-    handleResponse = (res) => {
-        if (res.status === 200)
-            this.setState({mailSend: true})
+    handleResponse = async (res) => {
+        if (res.status === 200) {
+          var msg = await res.json();
+          this.setState({mailSend: true});
+          store.addNotification({
+              title: "Envoyé",
+              message: "Nous avons bien reçu votre avis.",
+              type: "success",
+              insert: "top",
+              container: "top-right",
+              pauseOnHover: true,
+              isMobile: true,
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 7000,
+                onScreen: true,
+                showIcon: true
+              }
+            });
+        }
+      else {
+          var msg = await res.json();
+          store.addNotification({
+              title: "Erreur",
+              message: msg,
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              pauseOnHover: true,
+              isMobile: true,
+              animationIn: ["animated", "fadeIn"],
+              animationOut: ["animated", "fadeOut"],
+              dismiss: {
+                duration: 7000,
+                onScreen: true,
+                showIcon: true
+              }
+            });
+
+      }
+      this.setState({isActive: false, subject: "", pseudo: "", email: "", message: ""});
     }
 
     handleSubmit = () => {
         let body = {
-            pseudo: this.state.pseudo,
-            email: this.state.email,
-            subject: this.state.subject,
-            message: this.state.message,
+            'pseudo': this.state.pseudo,
+            'email': this.state.email,
+            'subject': this.state.subject,
+            'message': this.state.message,
         };
 
         body = JSON.stringify(body);
-        fetch("http://168.63.65.106/contact", { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
-            .then(res => { res.json(); this.handleResponse(res)})
+        this.setState({isActive: true});
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/contact`,
+          { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+            .then(res => {this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };
 
@@ -62,19 +103,14 @@ export default class Contact extends React.Component{
 
     render() {
         return (
-            <Grid container direction="row" justify="center" className={"infBg"} alignItems="center" style={{height: "100%"}}>
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
+            <Grid container direction="row" justify="center" className={this.state.client === "shop" ? "shopBg" : "infBg"} alignItems="center" style={{height: "100%"}}>
                 <div className="landing-page-mid-div" style={{borderRadius: "12px", boxShadow: "1px, 1px, 1px black"}}>
                     {
-                     this.state.mailSend ?
-                         <Grid container>
-                             <Grid item xs={12}>
-                                 <h2>Message envoyé</h2>
-                             </Grid>
-                             <Grid item xs={12}>
-                                 <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "ff4343"}}/>
-                             </Grid>
-                         </Grid>
-                     :
                          <Form className="formular" onSubmit={this.handleSubmit}>
                              <h2 style={{paddingTop: "20px", marginBottom: "50px"}}>Nous contacter</h2>
                              <div className="input-form">
@@ -108,6 +144,17 @@ export default class Contact extends React.Component{
                                  />
                              </div>
                              <div className="input-form">
+                                 <Input
+                                     style={{width: "700px"}}
+                                     type="text"
+                                     name="email"
+                                     placeholder="Email"
+                                     value={this.state.email}
+                                     onChange={(val) => this.handleEmailChange(val)}
+                                     size="large"
+                                 />
+                             </div>
+                             <div className="input-form">
                                  <TextField
                                      id="outlined-multiline-static"
                                      label="Message"
@@ -127,6 +174,7 @@ export default class Contact extends React.Component{
                     }
                 </div>
             </Grid>
+          </LoadingOverlay>
         );
     }
 }
