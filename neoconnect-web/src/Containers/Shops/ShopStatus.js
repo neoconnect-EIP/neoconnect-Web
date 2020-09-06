@@ -45,14 +45,24 @@ class ShopStatus extends React.Component{
             city: "",
             theme: "",
             society: "",
+            visibleDelete: false,
             file: null,
             userPicture: null,
-            tmpTheme: ['', 'Mode', 'Cosmetique', 'Haute technologie', 'Food', 'Jeux vidéo', 'Sport/fitness']
-
+            tmpTheme: ['', 'Mode', 'Cosmetique', 'Haute technologie', 'Nourriture', 'Jeux vidéo', 'Sport/fitness']
         };
+
     }
 
-    //TODO food ou nourriture
+    handleRes = async (res) => {
+      if (res.status === 200) {
+        var msg = await res.json();
+        this.setState({userData: msg})
+      }
+      else {
+        var msg = await res.json();
+        console.log("Error msg", msg);
+      }
+    }
 
     getShop = () => {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
@@ -61,8 +71,7 @@ class ShopStatus extends React.Component{
               'Content-Type': 'application/json',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-          .then(res => res.json())
-          .then(res => this.setState({userData: res}))
+          .then(res => {this.handleRes(res);})
           .catch(error => console.error('Error:', error));
     }
 
@@ -85,6 +94,7 @@ class ShopStatus extends React.Component{
 
     handleChangeInfo = () => {
 
+      console.log("HELLO ", this.state.userData);
         this.setState({
           visible: true,
           fullName: this.state.userData.full_name,
@@ -99,7 +109,7 @@ class ShopStatus extends React.Component{
           instagram: this.state.userData.instagram,
           theme: this.state.userData.theme,
           society: this.state.userData.society,
-          userPicture: this.state.userData.userPicture[0],
+          userPicture: this.state.userData.userPicture ? this.state.userData.userPicture[0] : null,
         });
     }
 
@@ -153,9 +163,40 @@ class ShopStatus extends React.Component{
         reader.readAsDataURL(file);
     };
 
+    handleDelete = () => {
+      console.log(localStorage.getItem("Jwt"));
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/delete`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
+            }
+        })
+        .then(res => {
+            localStorage.clear();
+            this.props.history.push('/landing-page')
+        })
+        .catch(console.error)
+    }
+
+
     render() {
         return (
             <div className="shopBg"  >
+            <Modal centered show={this.state.visibleDelete} onHide={() => { this.setState({visibleDelete: false})}}>
+              <Modal.Header closeButton>
+                <Modal.Title>Suppression de compte</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Êtes-vous sur de vouloir supprimer votre compte ?</Modal.Body>
+              <Modal.Footer>
+                <Button className="btnCancel" onClick={() => { this.setState({visibleDelete: false})}}>
+                  Non
+                </Button>
+                <Button className="btnInfDelete" onClick={this.handleDelete}>
+                  Oui
+                </Button>
+              </Modal.Footer>
+            </Modal>
               <Modal size="lg" centered show={this.state.visible} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Modifier vos informations</Modal.Title>
@@ -259,7 +300,7 @@ class ShopStatus extends React.Component{
                   </Modal.Footer>
                 </Modal>
                 {
-                    this.state.userData ?
+                    this.state.userData &&
                     <div>
                       <Row className="mx-0">
                         <Col className="mx-auto mt-4" align="center">
@@ -347,15 +388,6 @@ class ShopStatus extends React.Component{
                         </Col>
                       </Row>
                     </div>
-
-                        :
-                        <Loader
-                            type="Triangle"
-                            color="#292929"
-                            height={200}
-                            width={200}
-                            style={{marginTop: "14rem"}}
-                        />
                 }
             </div>
         );

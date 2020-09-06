@@ -109,7 +109,7 @@ class InfluenceurStatus extends React.Component{
           tiktok: this.state.userData.tiktok,
           youtube: this.state.userData.youtube,
           theme: this.state.userData.theme,
-          userPicture: this.state.userData.userPicture[0],
+          userPicture: this.state.userData.userPicture ? this.state.userData.userPicture[0] : null,
         });
     }
 

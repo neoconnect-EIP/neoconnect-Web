@@ -128,6 +128,7 @@ class EditProfile extends React.Component{
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
     };
+    
     handleDelete = () => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/delete`, {
             method: 'DELETE',
@@ -142,6 +143,7 @@ class EditProfile extends React.Component{
         })
         .catch(console.error)
     }
+
     handleVisibleModal = (ad, mode) => {
         this.setState({visible: !this.state.visible})
     }
