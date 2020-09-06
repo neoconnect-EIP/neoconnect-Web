@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
 import "../index.css"
-import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -54,12 +53,13 @@ class ShopStatus extends React.Component{
     }
 
     handleRes = async (res) => {
+      var msg;
       if (res.status === 200) {
-        var msg = await res.json();
+        msg = await res.json();
         this.setState({userData: msg})
       }
       else {
-        var msg = await res.json();
+        msg = await res.json();
         console.log("Error msg", msg);
       }
     }

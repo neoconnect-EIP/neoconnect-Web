@@ -1,14 +1,10 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "./index.css"
-import instagram from "../assets/instagram-logo.png"
-import twitter from "../assets/twitter.png"
-import snapchat from "../assets/snapchat-logo.png"
 import facebook from "../assets/facebook-logo.png"
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import snapchatOff from "../assets/snapchatOff.svg";

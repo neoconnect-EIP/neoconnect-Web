@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
 import { Input, TextField, Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import "../index.css"
 import Button from 'react-bootstrap/Button';
 import { store } from 'react-notifications-component';
@@ -37,8 +36,9 @@ export default class Contact extends React.Component{
     }
 
     handleResponse = async (res) => {
+        var msg;
         if (res.status === 200) {
-          var msg = await res.json();
+          msg = await res.json();
           this.setState({mailSend: true});
           store.addNotification({
               title: "Envoyé",
@@ -58,7 +58,7 @@ export default class Contact extends React.Component{
             });
         }
       else {
-          var msg = await res.json();
+          msg = await res.json();
           store.addNotification({
               title: "Erreur",
               message: msg,
