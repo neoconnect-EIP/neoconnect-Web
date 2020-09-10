@@ -14,6 +14,7 @@ import fire from "../../assets/fire.svg";
 import star from "../../assets/star.svg";
 import heart from "../../assets/heart.svg";
 import noImages from "../../assets/noImages.jpg"
+import { store } from 'react-notifications-component';
 
 class Actuality extends React.Component{
     constructor(props) {
@@ -82,6 +83,50 @@ class Actuality extends React.Component{
         );
     }
 
+    handleAnnonceSubscribe = (item) => {
+      
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              if (res.status === 200) {
+                store.addNotification({
+                  title: "Postulé",
+                  message: "Nous avons bien pris en compte votre demande",
+                  type: "success",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+              else {
+                store.addNotification({
+                  title: "Erreur",
+                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
+                  type: "danger",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
     handleCardOffer = (item) => {
         return (
             <div key={item.id}>
@@ -93,7 +138,7 @@ class Actuality extends React.Component{
                       {`${item.productColor ? item.productColor : ""}`}
                     </Card.Text>
                     <Row className="ml-1">
-                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
+                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
                       <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
                       <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
                     </Row>

@@ -56,6 +56,7 @@ export default class Contact extends React.Component{
                 showIcon: true
               }
             });
+            this.setState({subject: "", pseudo: "", email: "", message: ""});
         }
       else {
           msg = await res.json();
@@ -77,7 +78,7 @@ export default class Contact extends React.Component{
             });
 
       }
-      this.setState({isActive: false, subject: "", pseudo: "", email: "", message: ""});
+      this.setState({isActive: false});
     }
 
     handleSubmit = () => {

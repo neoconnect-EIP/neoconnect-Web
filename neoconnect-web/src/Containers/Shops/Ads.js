@@ -11,8 +11,10 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Image from 'react-bootstrap/Image';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { store } from 'react-notifications-component';
+import noAvatar from "../../assets/noImageFindInf.jpg";
 
 class Ads extends React.Component {
     constructor(props) {
@@ -126,7 +128,6 @@ class Ads extends React.Component {
     }
 
     handleResponse = async (res, choice, inf) => {
-      console.log("RES ", res);
       var msg = await res.json();
 
       if (res.status === 200) {
@@ -210,7 +211,10 @@ class Ads extends React.Component {
           return (
             ad.infs.map((inf, id) => (
               <tr hidden={ad.show ? false : true} key={id}>
-                <td>{inf.pseudoUser}</td>
+                <td>
+                  <Image style={{width: '40px', height: '40px', marginRight: '10px'}} src={!inf.userPicture || inf.userPicture.length === 0 ? noAvatar : inf.userPicture[0].imageData} roundedCircle />
+                  {inf.pseudo}
+                </td>
                 <td><Button className="btnShop" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
                 <td><Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
                 <td><Button className="btnInfDelete" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button></td>
