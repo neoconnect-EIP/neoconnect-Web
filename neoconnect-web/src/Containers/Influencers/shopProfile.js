@@ -225,8 +225,6 @@ class shopProfile extends React.Component{
 
     handleMsgRes = async (res) => {
 
-      console.log("RES ", res);
-
       if (res.status === 200) {
         var msg = await res.json();
 
@@ -249,6 +247,7 @@ class shopProfile extends React.Component{
         });
       }
       else {
+        var msg = await res.json();
         store.addNotification({
           title: "Erreur",
           message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
@@ -273,7 +272,7 @@ class shopProfile extends React.Component{
       if (this.state.msg) {
         let body = {
             "message": this.state.msg,
-            "userId": this.state.shopData.id, //destinataire
+            "userId": this.state.shopData.id.toString(), //destinataire
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,

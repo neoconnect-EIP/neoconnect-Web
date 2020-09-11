@@ -210,12 +210,59 @@ class InfluencerProfile extends React.Component {
       }
     }
 
+
+    handleMsgRes = async (res) => {
+
+      if (res.status === 200) {
+        var msg = await res.json();
+
+        this.setState({messageModal: false});
+        store.addNotification({
+          title: "Envoyé",
+          message: "Message envoyé à " + this.state.infData.pseudo,
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+      else {
+        var msg = await res.json();
+        store.addNotification({
+          title: "Erreur",
+          message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+    }
+
     handleSendMsg() {
+
+      console.log(this.state.infData);
 
       if (this.state.msg) {
         let body = {
             "message": this.state.msg,
-            "userId": this.state.shopData.id, //destinataire
+            "userId": this.state.infData.id.toString(), //destinataire
         };
         body = JSON.stringify(body);
         console.log(localStorage.getItem("Jwt"));
