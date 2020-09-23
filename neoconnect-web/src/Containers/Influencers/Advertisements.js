@@ -215,7 +215,7 @@ class Advertisements extends React.Component{
                 <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
                   <Card.Img className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
                   <Card.Body>
-                    <Card.Title>{`${item.productType ? item.productType : ""} ${item.brand ? item.brand : "Sans marque"}`}</Card.Title>
+                    <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
                     <Card.Text>
                       {`${item.productColor ? item.productColor : ""}`}
                     </Card.Text>
