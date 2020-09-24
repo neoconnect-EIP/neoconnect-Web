@@ -80,7 +80,6 @@ class FindInfluencers extends React.Component {
     }
 
     cardInf = (inf) => {
-      console.log("ING = ", inf);
         return (
           <div key={inf.id}>
             {

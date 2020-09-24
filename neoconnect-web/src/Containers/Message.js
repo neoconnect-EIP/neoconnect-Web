@@ -125,6 +125,8 @@ export default class Message extends React.Component{
         this.detailMsg(this.state.chanelDetail.id, this.state.index, this.state.currentDest)
       }
       else {
+        var msg = await res.json();
+
         store.addNotification({
           title: "Erreur",
           message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
@@ -145,10 +147,10 @@ export default class Message extends React.Component{
     }
 
     handleSendMessage = () => {
-      let dest = this.state.chanelDetail.user_1 === this.state.userId ? this.state.chanelDetail.user_2 : this.state.chanelDetail.user_1;
+      let dest = (this.state.chanelDetail.user_1 === this.state.userId.toString() ? this.state.chanelDetail.user_2 : this.state.chanelDetail.user_1);
       let body = {
-          "message": this.state.msg,
-          "userId": dest,
+          'message': this.state.msg,
+          'userId': dest,
       };
       body = JSON.stringify(body);
 

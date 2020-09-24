@@ -52,27 +52,30 @@ class EditProfile extends React.Component {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => res.json())
-            .then(res => this.setState({
-                city: res.city,
-                email: res.email,
-                fonction: res.fonction,
-                mark: res.mark,
-                phone: res.phone,
-                postal: res.postal,
-                pseudo: res.pseudo,
-                society: res.society,
-                theme: res.theme,
-                facebook: res.facebook,
-                instagram: res.instagram,
-                twitter: res.twitter,
-                snapchat: res.snapchat,
-                userDescription: res.userDescription,
-                userPicture: res.userPicture,
-                website: res.website,
-                isLoad: true,
-            }))
-            .catch(error => console.error('Error:', error));
+        .then(res => res.json())
+        .then(res => {
+          console.log("ME = ", res);
+          this.setState({
+            city: res.city,
+            email: res.email,
+            fonction: res.fonction,
+            mark: res.mark,
+            phone: res.phone,
+            postal: res.postal,
+            pseudo: res.pseudo,
+            society: res.society,
+            theme: res.theme,
+            facebook: res.facebook,
+            instagram: res.instagram,
+            twitter: res.twitter,
+            snapchat: res.snapchat,
+            userDescription: res.userDescription,
+            userPicture: res.userPicture,
+            website: res.website,
+            isLoad: true,
+        });
+      })
+        .catch(error => console.error('Error:', error));
     };
 
     handleChange = (e) => {

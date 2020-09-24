@@ -46,7 +46,6 @@ class Actuality extends React.Component {
         return (res.json());
       })
       .then(res => {
-        console.log("SEconde time = ", res);
         this.setState({moment: res.listInfTendance, popular: res.listInfPopulaire, bestMark: res.listInfNotes});
       })
     };
@@ -58,7 +57,7 @@ class Actuality extends React.Component {
     cardInf = (inf) => {
 
         return (
-          <Card className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+          <Card key={inf.id} className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
             <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
             <Card.Body>
               <Card.Title>{inf.pseudo}</Card.Title>
