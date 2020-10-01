@@ -320,9 +320,9 @@ class Ads extends React.Component {
                 </td>
                 <td>
                   {
-                    inf.status == 'accepted' ?
+                    inf.status === 'accepted' ?
                     <p>Demande acceptée</p> :
-                    (inf.status == 'pending' ?
+                    (inf.status === 'pending' ?
                     <div>
                       <Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button>
                       <Button className="btnInfDelete ml-4" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button>

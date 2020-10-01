@@ -143,22 +143,22 @@ class FindInfluencers extends React.Component {
                 </Navbar.Collapse>
               </Navbar>
               <div className="ml-3">
-                <Badge pill className="report" style={{backgroundColor: this.state.theme == 'mode' ? '#C5D341' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme != 'mode' ? 'mode' : ''})}}>
+                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'mode' ? '#C5D341' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme !== 'mode' ? 'mode' : ''})}}>
                   Mode
                 </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme == 'game' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme != 'game' ? 'game' : ''})}}>
+                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'game' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'game' ? 'game' : ''})}}>
                   Jeux vidéo
                 </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme == 'tech' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme != 'tech' ? 'tech' : ''})}}>
+                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'tech' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'tech' ? 'tech' : ''})}}>
                   High Tech
                 </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme == 'food' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme != 'food' ? 'food' : ''})}}>
+                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'food' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'food' ? 'food' : ''})}}>
                   Nourriture
                 </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme == 'cosmetic' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme != 'cosmetic' ? 'cosmetic' : ''})}}>
+                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'cosmetic' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'cosmetic' ? 'cosmetic' : ''})}}>
                   Cosmétique
                 </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme == 'sport' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme != 'sport' ? 'sport' : ''})}}>
+                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'sport' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'sport' ? 'sport' : ''})}}>
                   Sport
                 </Badge>{' '}
               </div>
@@ -167,12 +167,12 @@ class FindInfluencers extends React.Component {
                 this.state.influencersData ? this.state.influencersData.length > 0 ?
                   <CardColumns className="pt-4 pl-3 pr-2">
                     {
-                        this.state.influencersData.filter((item) => (item.theme && item.theme.toLowerCase() == 'mode' && this.state.theme == 'mode') ||
-                                                                    (item.theme && item.theme.toLowerCase() == 'high tech' && this.state.theme == 'tech') ||
-                                                                    (item.theme && item.theme.toLowerCase() == 'jeux vidéo' && this.state.theme == 'game') ||
-                                                                    (item.theme && item.theme.toLowerCase() == 'sport/fitness' && this.state.theme == 'sport') ||
-                                                                    (item.theme && item.theme.toLowerCase() == 'food' && this.state.theme == 'food') ||
-                                                                    (item.theme && item.theme.toLowerCase() == 'cosmétique' && this.state.theme == 'cosmetic') ||
+                        this.state.influencersData.filter((item) => (item.theme && item.theme.toLowerCase() === 'mode' && this.state.theme === 'mode') ||
+                                                                    (item.theme && item.theme.toLowerCase() === 'high tech' && this.state.theme === 'tech') ||
+                                                                    (item.theme && item.theme.toLowerCase() === 'jeux vidéo' && this.state.theme === 'game') ||
+                                                                    (item.theme && item.theme.toLowerCase() === 'sport/fitness' && this.state.theme === 'sport') ||
+                                                                    (item.theme && item.theme.toLowerCase() === 'food' && this.state.theme === 'food') ||
+                                                                    (item.theme && item.theme.toLowerCase() === 'cosmétique' && this.state.theme === 'cosmetic') ||
                                                                   (!this.state.theme)).map(inf => this.cardInf(inf))
                     }
                   </CardColumns> :
