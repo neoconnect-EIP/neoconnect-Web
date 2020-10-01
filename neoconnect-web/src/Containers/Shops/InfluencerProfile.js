@@ -212,9 +212,9 @@ class InfluencerProfile extends React.Component {
 
 
     handleMsgRes = async (res) => {
-
+      var msg;
       if (res.status === 200) {
-        var msg = await res.json();
+        msg = await res.json();
 
         this.setState({messageModal: false});
         store.addNotification({
@@ -235,7 +235,7 @@ class InfluencerProfile extends React.Component {
         });
       }
       else {
-        var msg = await res.json();
+        msg = await res.json();
         store.addNotification({
           title: "Erreur",
           message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),

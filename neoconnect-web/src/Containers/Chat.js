@@ -8,6 +8,7 @@ import { store } from 'react-notifications-component';
 export default class Chat extends React.Component{
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 6);
         this.state = {
             pseudo: localStorage.getItem("pseudo"),
             email: "",

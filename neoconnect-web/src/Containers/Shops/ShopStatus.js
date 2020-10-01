@@ -56,7 +56,6 @@ class ShopStatus extends React.Component{
       var msg;
       if (res.status === 200) {
         msg = await res.json();
-        console.log("MSG ", msg);
         this.setState({userData: msg})
       }
       else {

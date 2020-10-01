@@ -19,6 +19,7 @@ import { store } from 'react-notifications-component';
 class Actuality extends React.Component{
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 0);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") === "shop")

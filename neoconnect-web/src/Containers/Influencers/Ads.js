@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 class Ads extends React.Component {
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 2);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") === "shop")
@@ -39,6 +40,8 @@ class Ads extends React.Component {
     }
 
     getAplliedOffer = () => {
+      console.log("JWT ", localStorage.getItem("Jwt"));
+      console.log("ID ", localStorage.getItem("userId"));
       if (localStorage.getItem("Jwt")) {
 
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {

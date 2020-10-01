@@ -36,7 +36,7 @@ class adsItem extends React.Component{
             signal: false,
             note: false,
             info: "",
-            type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
+            type:['', 'Mode', 'Cosmetique', 'High Tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             raison: "",
             commentData: null,
             urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
@@ -248,6 +248,7 @@ class adsItem extends React.Component{
     }
 
     render() {
+      console.log("ARD ", this.state.adData);
         return (
             <div justify="center" className="infBg">
 
@@ -319,8 +320,9 @@ class adsItem extends React.Component{
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
                           <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
                         </Row>
-                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.type[this.state.adData.productSubject]}` : ""}</h5>
+                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
+                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.color ? `Couleur: ${this.state.adData.color}` : ""}</h5>
                         <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
                     </Col>
                     <Col md={8} className="mt-4">

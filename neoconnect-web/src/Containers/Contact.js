@@ -10,6 +10,7 @@ import LoadingOverlay from 'react-loading-overlay';
 export default class Contact extends React.Component{
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 14);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         this.state = {

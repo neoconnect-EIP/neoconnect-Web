@@ -42,10 +42,10 @@ class Actuality extends React.Component {
           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {
-        console.log("RES = ", res);
         return (res.json());
       })
       .then(res => {
+        console.log("res ", res);
         this.setState({moment: res.listInfTendance, popular: res.listInfPopulaire, bestMark: res.listInfNotes});
       })
     };
@@ -112,7 +112,7 @@ class Actuality extends React.Component {
               </Row>
               <CardColumns className="pt-4 pl-3 pr-2">
                 {
-                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                    this.state.moment && this.state.popular.map(inf => this.cardInf(inf))
                 }
             </CardColumns>
               <Row className="pl-4 mt-4">
@@ -121,7 +121,7 @@ class Actuality extends React.Component {
               </Row>
               <CardColumns className="pt-4 pl-3 pr-2">
                 {
-                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                    this.state.moment && this.state.bestMark.map(inf => this.cardInf(inf))
                 }
             </CardColumns>
             </div>

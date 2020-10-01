@@ -23,7 +23,7 @@ class Aside extends React.Component{
         this.state = {
             setting: this.props.data,
             visible: false,
-            menuId: localStorage.getItem("userType") !== "shop" ? 0 : 7,
+            menuId: (localStorage.getItem("menuId") ? parseInt(localStorage.getItem("menuId")) : (localStorage.getItem("userType") !== "shop" ? 0 : 7)),
         };
     }
 

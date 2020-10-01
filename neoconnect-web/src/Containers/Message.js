@@ -11,6 +11,7 @@ import { store } from 'react-notifications-component';
 export default class Message extends React.Component{
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 5);
         this.state = {
             userId: parseInt(localStorage.getItem("userId")),
             channels: null,
@@ -25,20 +26,29 @@ export default class Message extends React.Component{
           };
     }
 
+    handleGetMsg = async (res) => {
+      var msg;
+      if (res.status === 200) {
+        msg = await res.json();
+        console.log("msg ", msg);
+        this.setState({channels: msg})
+        return msg;
+      }
+      else {
+        msg = await res.json();
+        console.log("error", msg);
+        throw msg;
+      }
+    }
+
     getChannels = () => {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`, {
           method: 'GET',
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {
-        if (res.status === 200) {
-          return (res.json());
-        }
-        else {
-          throw res;
-        }
+        this.handleGetMsg(res);
       })
-      .then(res => {this.setState({channels: res})})
       .catch(error => {
         store.addNotification({
           title: "Erreur",
@@ -75,14 +85,16 @@ export default class Message extends React.Component{
     };
 
     handleDetailRes = async (res) => {
-
+      var msg;
       if (res.status === 200) {
-        var msg = await res.json();
+        msg = await res.json();
+        this.setState({messages: msg.data, chanelDetail: msg})
         return msg;
       }
       else {
+        msg = await res.json();
         console.log("error", msg);
-        throw res;
+        throw msg;
       }
     }
 
@@ -92,7 +104,6 @@ export default class Message extends React.Component{
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => this.handleDetailRes(res))
-      .then(res => {this.setState({messages: res.data, chanelDetail: res})})
       .catch(error => {
         store.addNotification({
           title: "Erreur",
@@ -118,14 +129,14 @@ export default class Message extends React.Component{
     };
 
     handleMsgRes = async (res, dest) => {
-
+      var msg;
       if (res.status === 200) {
-        var msg = await res.json();
+        msg = await res.json();
         this.setState({msg: ""});
         this.detailMsg(this.state.chanelDetail.id, this.state.index, this.state.currentDest)
       }
       else {
-        var msg = await res.json();
+        msg = await res.json();
 
         store.addNotification({
           title: "Erreur",
@@ -172,13 +183,13 @@ export default class Message extends React.Component{
             <Row key={user.id} className="pl-2 mr-2 messageUser messageUserOn" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
                 src={!user.userPicture || user.userPicture.length === 0 ? noAvatar : user.userPicture[0].imageData} roundedCircle/>
-                <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo}</p>
+                <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo ? user.pseudo : user.id}</p>
             </Row> :
 
             <Row  key={user.id} className="pl-2 mr-2 messageUser" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
                 src={!this.state.userData || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
-                <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo}</p>
+              <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo ? user.pseudo : user.id}</p>
             </Row>
         ))
       );
@@ -209,6 +220,7 @@ export default class Message extends React.Component{
     }
 
     render() {
+
         return (
           <div className={this.state.client === 'shop' ? 'shopBg' : 'infBg'}>
             <Row>
