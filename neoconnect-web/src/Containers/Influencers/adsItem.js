@@ -17,6 +17,7 @@ import Image from 'react-bootstrap/Image';
 import Carousel from 'react-bootstrap/Carousel';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import { store } from 'react-notifications-component';
+import LoadingOverlay from 'react-loading-overlay';
 
 class adsItem extends React.Component{
     constructor(props) {
@@ -32,16 +33,20 @@ class adsItem extends React.Component{
             actualId: 0,
             fonction: "",
             mark: null,
+            pseudo: '',
+            email: '',
             commentInput: "",
+            emailMe: '',
             signal: false,
             note: false,
             info: "",
             share: false,
             type:['', 'Mode', 'Cosmetique', 'High Tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             raison: "",
+            isActive: false,
             commentData: null,
             urlId: localStorage.getItem("Jwt") ? parseInt(this.getUrlParams((window.location.search)).id, 10) : 0,
-            link: window.location.href + '/share'
+            link: window.location.href
         };
     }
 
@@ -133,8 +138,130 @@ class adsItem extends React.Component{
         this.props.history.push("/dashboard/advertisements")
     }
 
-    handleAnnonceShare = () => {
-      console.log("share");
+    handleResponse = async (res) => {
+      var msg = await res.json();
+
+      if (res.status === 200) {
+        console.log("MSG ", msg);
+        store.addNotification({
+          title: "Envoyé",
+          message: "Nous avons bien envoyé votre message",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+        this.setState({share: false, email: '', pseudo: '', emailMe: ''})
+      }
+      else {
+        console.log("error ", msg); //TODO pk ca a fail
+        store.addNotification({
+          title: "Erreur",
+          message: msg,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+      this.setState({isActive: false});
+    }
+
+    searchRes = async (res) => {
+      var msg = await res.json();
+
+      if (res.status === 200) {
+        let body = {
+            'message': this.state.link,
+            'userId': msg.id.toString(),
+        };
+        body = JSON.stringify(body);
+
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
+          {
+            method: 'POST',
+            body: body,
+            headers: {'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+          .then(res => this.handleResponse(res))
+          .catch(error => console.error('Error:', error));
+      }
+      else {
+        store.addNotification({
+          title: "Erreur",
+          message: msg,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+
+
+    }
+
+    sendMsg = () => {
+      this.setState({isActive: true, share: false});
+
+      var encodedKey = encodeURIComponent("pseudo");
+      var encodedValue = encodeURIComponent(this.state.pseudo);
+      var formBody = encodedKey + "=" + encodedValue;
+
+
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/search`, {
+          method: 'POST',
+          body: formBody,
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      }).then(res => this.searchRes(res))
+        .catch(error => console.error('Error:', error));
+    }
+
+    sendEmail = () => {
+        this.setState({isActive: true, share: false});
+        var body = {
+            "pseudo": localStorage.getItem("pseudo"),
+            "email": this.state.emailMe,
+            "subject": "Partage lien d'offre",
+            "message": "Je te partage l'offre : " + this.state.link,
+            "to": this.state.email,
+        };
+        body = JSON.stringify(body);
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/contact`, {
+           method: 'POST',
+           body: body,
+           headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+          .then(res => {this.handleResponse(res)})
+          .catch(error => this.setState({isActive: false}));
     }
 
     handleAnnonceNotation = (item) => {
@@ -259,8 +386,12 @@ class adsItem extends React.Component{
 
     render() {
         return (
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
             <div justify="center" className="infBg">
-
                   <Modal centered show={this.state.signal} onHide={this.handleClose}>
                    <Modal.Header closeButton>
                      <Modal.Title>Signaler cette offre</Modal.Title>
@@ -315,6 +446,27 @@ class adsItem extends React.Component{
                         <Form.Label>Lien à  partager</Form.Label>
                         <Form.Control value={this.state.link} onChange={(e) => {this.setState({link: e.target.value})}}/>
                       </Form.Group>
+                      <Form.Row className='mt-2'>
+                       <Form.Group controlId="formBasicEmail" as={Col}>
+                         <Form.Label>Email du destinataire</Form.Label>
+                         <Form.Control value={this.state.email} onChange={(e) => {this.setState({email: e.target.value})}}/>
+                       </Form.Group>
+                       <Form.Group controlId="formBasicEmail" as={Col}>
+                         <Form.Label>Votre email</Form.Label>
+                         <Form.Control value={this.state.emailMe} onChange={(e) => {this.setState({emailMe: e.target.value})}}/>
+                       </Form.Group>
+                     </Form.Row>
+                     <Button onClick={() => this.sendEmail()} className="btnInf ml-2">Via email</Button>
+
+                      <Form.Row className='mt-4'>
+                       <Form.Group controlId="formBasicEmail" as={Col} sm={6}>
+                         <Form.Label>Pseudo du destinataire</Form.Label>
+                         <Form.Control value={this.state.pseudo} onChange={(e) => {this.setState({pseudo: e.target.value})}}/>
+                       </Form.Group>
+                      </Form.Row>
+                      <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
+
+
                     </Form>
                    </Modal.Body>
                   </Modal>
@@ -370,6 +522,7 @@ class adsItem extends React.Component{
                   </Row>
                 }
             </div>
+          </LoadingOverlay>
         );
     }
 }

@@ -29,7 +29,6 @@ import snapchatOff from "../../assets/snapchatOff.svg";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import place from "../../assets/place.svg";
-import edit from "../../assets/edit.svg";
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -293,22 +292,7 @@ class shopProfile extends React.Component{
                 {
                     this.state.shopData && this.state.userData ?
                         <div>
-                          <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
-                           <Modal.Header closeButton>
-                             <Modal.Title>Notez cette boutique</Modal.Title>
-                           </Modal.Header>
-                           <Modal.Body>
-                             <Rate onChange={(e) => this.handleMark(e)} />
-                           </Modal.Body>
-                           <Modal.Footer>
-                             <Button className="btnCancel" onClick={this.handleCloseRate}>
-                               Annuler
-                             </Button>
-                             <Button className="btnInf" onClick={this.handleSendMark}>
-                               Noter
-                             </Button>
-                           </Modal.Footer>
-                          </Modal>
+
                           <Modal centered show={this.state.messageModal} onHide={() => {this.setState({messageModal: false})}}>
                            <Modal.Header closeButton>
                              <Modal.Title>Contacter</Modal.Title>
@@ -436,7 +420,6 @@ class shopProfile extends React.Component{
                                    name='rating'
                                    starDimension="20px"
                                  />
-                               <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
                               </Row>
                             </Col>
                           </Row>
@@ -481,3 +464,21 @@ class shopProfile extends React.Component{
 }
 
 export default withRouter(shopProfile)
+
+// <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
+// <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
+//  <Modal.Header closeButton>
+//    <Modal.Title>Notez cette boutique</Modal.Title>
+//  </Modal.Header>
+//  <Modal.Body>
+//    <Rate onChange={(e) => this.handleMark(e)} />
+//  </Modal.Body>
+//  <Modal.Footer>
+//    <Button className="btnCancel" onClick={this.handleCloseRate}>
+//      Annuler
+//    </Button>
+//    <Button className="btnInf" onClick={this.handleSendMark}>
+//      Noter
+//    </Button>
+//  </Modal.Footer>
+// </Modal>
