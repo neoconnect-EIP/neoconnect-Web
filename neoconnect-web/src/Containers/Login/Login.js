@@ -87,7 +87,7 @@ export default class Login extends React.Component{
         this.setState({isLoading: true})
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/login`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {return res.json()})
-            .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); localStorage.setItem('userType', res.userType); localStorage.setItem('pseudo', this.state.username); this.handleResponse(res)})
+            .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); localStorage.setItem('userType', res.userType); localStorage.setItem('pseudo', this.state.username);localStorage.setItem('theme', res.theme); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
       }
       else {

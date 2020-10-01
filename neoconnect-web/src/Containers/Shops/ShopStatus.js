@@ -95,7 +95,6 @@ class ShopStatus extends React.Component{
 
     handleChangeInfo = () => {
 
-      console.log("HELLO ", this.state.userData);
         this.setState({
           visible: true,
           fullName: this.state.userData.full_name,
@@ -182,6 +181,7 @@ class ShopStatus extends React.Component{
 
 
     render() {
+      console.log("G=HEEELOO ", this.state.userData);
         return (
             <div className="shopBg"  >
             <Modal centered show={this.state.visibleDelete} onHide={() => { this.setState({visibleDelete: false})}}>

@@ -10,11 +10,21 @@ import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Image from 'react-bootstrap/Image';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { store } from 'react-notifications-component';
 import noAvatar from "../../assets/noImageFindInf.jpg";
+import StarRatings from 'react-star-ratings';
+import snapchat from "../../assets/snapchat.svg";
+import tiktok from "../../assets/tiktok.svg";
+import twitch from "../../assets/twitch.svg";
+import pinterest from "../../assets/pinterest.svg";
+import instagram from "../../assets/instagram.svg";
+import youtube from "../../assets/youtube.svg";
+import facebook from "../../assets/facebook.svg";
+import twitter from "../../assets/twitter.svg";
 
 class Ads extends React.Component {
     constructor(props) {
@@ -96,20 +106,6 @@ class Ads extends React.Component {
         this.props.history.push(`/shop-dashboard/edit-ad?id=${id}`)
     }
 
-    handleSendMail = () => {
-        let body = {
-            "message": this.state.message,
-        };
-        body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/sendMail/${localStorage.getItem("userId")}/id`, {
-            method: 'POST',
-            body: body,
-            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        })
-            .then(res => {res.json();this.setState({adsData: res})})
-            .catch(error => console.error('Error:', error));
-    };
-
     handleDelete = (id) => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id}`, {
             method: 'DELETE',
@@ -131,7 +127,7 @@ class Ads extends React.Component {
       var msg = await res.json();
 
       if (res.status === 200) {
-        if (choice)
+        if (choice) {
           store.addNotification({
             title: "Envoyé",
             message: "Nous avons pris en compte de votre acceptation. Une notification sera envoyé à " + inf.pseudoUser ,
@@ -147,6 +143,8 @@ class Ads extends React.Component {
               showIcon: true
             }
           });
+          this.forceUpdate();
+        }
         else
           store.addNotification({
             title: "Envoyé",
@@ -207,21 +205,135 @@ class Ads extends React.Component {
     }
 
     listInf = (ad) => {
-      console.log(ad.infs);
 
-        if (ad.infs && ad.infs.length > 0) {
+      console.log("ad + ", ad);
+        if (ad.apply && ad.apply.length > 0) {
           return (
-            ad.infs.map((inf, id) => (
-              <tr hidden={ad.show ? false : true} key={id}>
+            ad.apply.map((inf, id) => (
+              <tr key={id}>
                 <td>
-                  <Image style={{width: '40px', height: '40px', marginRight: '10px'}} src={!inf.userPicture || inf.userPicture.length === 0 ? noAvatar : inf.userPicture[0].imageData} roundedCircle />
+                  <OverlayTrigger
+                    placement={"top"}
+                    overlay={
+                      <Tooltip>
+                        Voir profil
+                      </Tooltip>
+                    }
+                  >
+                  <Image className="report"style={{width: '40px', height: '40px', marginRight: '10px'}} onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}
+                    src={!inf.userPicture || inf.userPicture.length === 0 ? noAvatar : inf.userPicture[0].imageData} roundedCircle />
+                  </OverlayTrigger>
                   {inf.pseudo}
                 </td>
-                <td><Button className="btnShop" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button></td>
-                <td><Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button></td>
-                <td><Button className="btnInfDelete" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button></td>
-                <td>Postulé le {new Date(inf.createdAt).toLocaleDateString()}</td>
+                <td>
+                  <StarRatings
+                     rating={inf.average ? inf.average : 0}
+                     starRatedColor="#FFC106"
+                     numberOfStars={5}
+                     name='rating'
+                     starDimension="20px"
+                   />
+                </td>
+                <td>
+                  <Row className="ml-0 mt-2">
+                    {inf.facebook && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.facebook}
+                        </Tooltip>
+                      }
+                    >
+                      <Image className="iconProfileSocial" src={facebook}/>
+                    </OverlayTrigger>}
+                    {inf.instagram && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.instagram}
+                        </Tooltip>
+                      }
+                    >
+                    <Image className="iconProfileSocial" src={instagram}/>
+                    </OverlayTrigger>}
+                    {inf.twitter && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.twitter}
+                        </Tooltip>
+                      }
+                    >
+                      <Image className="iconProfileSocial" src={twitter}/>
+                    </OverlayTrigger>}
+                    {inf.youtube && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.youtube}
+                        </Tooltip>
+                      }
+                    >
+                      <Image className="iconProfileSocial" src={youtube}/>
+                    </OverlayTrigger>}
+                    {inf.snapchat && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.snapchat}
+                        </Tooltip>
+                      }
+                    >
+                      <Image className="iconProfileSocial" src={snapchat}/>
+                    </OverlayTrigger>}
+                    {inf.tiktok && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.tiktok}
+                        </Tooltip>
+                      }
+                    >
+                      <Image className="iconProfileSocial" src={tiktok}/>
+                    </OverlayTrigger>}
+                    {inf.pinterest && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.pinterest}
+                        </Tooltip>
+                      }
+                    >
+                      <Image className="iconProfileSocial" src={pinterest}/>
+                    </OverlayTrigger>}
+                    {inf.twitch && <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          {inf.twitch}
+                        </Tooltip>
+                      }
+                    >
+                      <Image style={{width: '20px', height: '20px'}} src={twitch}/>
+                    </OverlayTrigger>}
+                  </Row>
+                </td>
+                <td>
+                  {
+                    inf.status == 'accepted' ?
+                    <p>Demande acceptée</p> :
+                    (inf.status == 'pending' ?
+                    <div>
+                      <Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button>
+                      <Button className="btnInfDelete ml-4" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button>
+                    </div> :
+                    <p>Demande refusée</p>
+                  )
+                  }
+
+                </td>
                 <td></td>
+                <td>Postulé le {new Date(inf.createdAt).toLocaleDateString()}</td>
                 <td></td>
               </tr>
             ))
@@ -229,7 +341,7 @@ class Ads extends React.Component {
         }
         else {
           return (
-            <tr hidden={ad.show ? false : true}>
+            <tr hidden={true}>
               <td></td>
               <td></td>
               <td></td>
@@ -247,11 +359,12 @@ class Ads extends React.Component {
     }
 
     listOffer = () => {
+      console.log("adsData ", this.state.adsData);
       if (this.state.adsData) {
         return (
           this.state.adsData.map((ad, id) => (
             <>
-            <tr className="report">
+            <tr className="report" style={{backgroundColor: 'rgba(185,185,185,0.15)'}}>
               <td onClick={() => {this.detailOffer(ad)}}>{ad.productName}</td>
               <td onClick={() => {this.detailOffer(ad)}}>{this.state.type[ad.productSubject]}</td>
               <td onClick={() => {this.detailOffer(ad)}}>{new Date(ad.createdAt).toLocaleDateString()}</td>
@@ -277,25 +390,6 @@ class Ads extends React.Component {
                   }
                 >
                  <DeleteTwoToneIcon className="report" onClick={() => this.handleVisibleModal(ad)}/>
-                </OverlayTrigger>{' '}
-                <OverlayTrigger
-                  placement={"top"}
-                  overlay={
-                    <Tooltip>
-                      Voir les candidatures
-                    </Tooltip>
-                  }
-                >
-                 <ExpandMoreTwoToneIcon className="report" onClick={async () => {
-                     ad.show = !ad.show;
-
-                     var res = await fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${ad.id}`, {
-                         method: 'GET',
-                         headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-                     })
-                     ad.infs = await res.json();
-                     this.forceUpdate();
-                   }} />
                 </OverlayTrigger>{' '}
               </td>
             </tr>
@@ -362,3 +456,26 @@ class Ads extends React.Component {
 }
 
 export default withRouter(Ads)
+
+//
+// <OverlayTrigger
+//   placement={"top"}
+//   overlay={
+//     <Tooltip>
+//       Voir les candidatures
+//     </Tooltip>
+//   }
+// >
+//  <ExpandMoreTwoToneIcon className="report" onClick={async () => {
+//      ad.show = !ad.show;
+//
+//      var res = await fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${ad.id}`, {
+//          method: 'GET',
+//          headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+//      })
+//      ad.infs = await res.json();
+//      this.forceUpdate();
+//    }} />
+// </OverlayTrigger>{' '}
+
+// <Button className="btnShop" onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}>Voir profil</Button>

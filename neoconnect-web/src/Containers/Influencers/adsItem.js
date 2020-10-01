@@ -40,7 +40,7 @@ class adsItem extends React.Component{
             type:['', 'Mode', 'Cosmetique', 'High Tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             raison: "",
             commentData: null,
-            urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
+            urlId: localStorage.getItem("Jwt") ? parseInt(this.getUrlParams((window.location.search)).id, 10) : 0,
             link: window.location.href + '/share'
         };
     }

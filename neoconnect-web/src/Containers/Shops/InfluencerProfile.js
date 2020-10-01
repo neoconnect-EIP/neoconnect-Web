@@ -23,21 +23,13 @@ import mail from "../../assets/mail.svg";
 import phone from "../../assets/phone.svg";
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import snapchat from "../../assets/snapchat.svg";
-import snapchatOff from "../../assets/snapchatOff.svg";
-import tiktokOff from "../../assets/tiktokOff.svg";
 import tiktok from "../../assets/tiktok.svg";
 import twitch from "../../assets/twitch.svg";
-import twitchOff from "../../assets/twitchOff.svg";
 import pinterest from "../../assets/pinterest.svg";
-import pinterestOff from "../../assets/pinterestOff.svg";
 import instagram from "../../assets/instagram.svg";
-import instagramOff from "../../assets/instagramOff.svg";
 import youtube from "../../assets/youtube.svg";
-import youtubeOff from "../../assets/youtubeOff.svg";
 import facebook from "../../assets/facebook.svg";
-import facebookOff from "../../assets/facebookOff.svg";
 import twitter from "../../assets/twitter.svg";
-import twitterOff from "../../assets/twitterOff.svg";
 import { store } from 'react-notifications-component';
 
 class InfluencerProfile extends React.Component {
@@ -400,7 +392,7 @@ class InfluencerProfile extends React.Component {
                           <Col md={3}  className="mt-4">
                             <h2 style={{fontWeight: '300', color: 'white'}}>Réseaux sociaux</h2>
                             <Row className="ml-0 mt-2">
-                              {this.state.infData.facebook ? <OverlayTrigger
+                              {this.state.infData.facebook && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -409,8 +401,8 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                                 <Image className="iconProfileSocial" src={facebook}/>
-                              </OverlayTrigger> : <Image className="iconProfileSocial" src={facebookOff}/>}
-                              {this.state.infData.instagram ? <OverlayTrigger
+                              </OverlayTrigger>}
+                              {this.state.infData.instagram && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -419,8 +411,8 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                               <Image className="iconProfileSocial" src={instagram}/>
-                              </OverlayTrigger> : <Image src={instagramOff} className="iconProfileSocial"/>}
-                              {this.state.infData.twitter ? <OverlayTrigger
+                              </OverlayTrigger>}
+                              {this.state.infData.twitter && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -429,8 +421,8 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                                 <Image className="iconProfileSocial" src={twitter}/>
-                              </OverlayTrigger> : <Image className="iconProfileSocial" src={twitterOff}/>}
-                              {this.state.infData.youtube ? <OverlayTrigger
+                              </OverlayTrigger>}
+                              {this.state.infData.youtube && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -439,8 +431,8 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                                 <Image className="iconProfileSocial" src={youtube}/>
-                              </OverlayTrigger> : <Image className="iconProfileSocial" src={youtubeOff}/>}
-                              {this.state.infData.snapchat ? <OverlayTrigger
+                              </OverlayTrigger>}
+                              {this.state.infData.snapchat && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -449,8 +441,8 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                                 <Image className="iconProfileSocial" src={snapchat}/>
-                              </OverlayTrigger> : <Image className="iconProfileSocial" src={snapchatOff}/>}
-                              {this.state.infData.tiktok ? <OverlayTrigger
+                              </OverlayTrigger>}
+                              {this.state.infData.tiktok && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -459,8 +451,8 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                                 <Image className="iconProfileSocial" src={tiktok}/>
-                              </OverlayTrigger> : <Image className="iconProfileSocial" src={tiktokOff}/>}
-                              {this.state.infData.pinterest ? <OverlayTrigger
+                              </OverlayTrigger>}
+                              {this.state.infData.pinterest && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -469,8 +461,8 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                                 <Image className="iconProfileSocial" src={pinterest}/>
-                              </OverlayTrigger> : <Image className="iconProfileSocial" src={pinterestOff}/>}
-                              {this.state.infData.twitch ? <OverlayTrigger
+                              </OverlayTrigger>}
+                              {this.state.infData.twitch && <OverlayTrigger
                                 placement="bottom"
                                 overlay={
                                   <Tooltip>
@@ -479,7 +471,7 @@ class InfluencerProfile extends React.Component {
                                 }
                               >
                                 <Image style={{width: '20px', height: '20px'}} src={twitch}/>
-                              </OverlayTrigger> : <Image style={{width: '20px', height: '20px'}} src={twitchOff}/>}
+                              </OverlayTrigger>}
                             </Row>
                           </Col>
                         </Row>

@@ -35,12 +35,11 @@ class PostAd extends React.Component {
             isEnd: false,
             homme: false,
             femme: false,
-            sub: 1,
+            theme: localStorage.getItem("theme"),
             uni: true
         };
     }
 
-    //TODO get inf me search/shop
 
     next = () => {
         const current = this.state.current + 1;
@@ -346,7 +345,7 @@ class PostAd extends React.Component {
                           </Form.Group>
                           <Form.Group as={Col}>
                             <Form.Label style={{color:'white'}}>Thème</Form.Label>
-                            <p style={{color:'white'}}>Mode</p>
+                            <p style={{color:'white'}}>{this.state.theme}</p>
                           </Form.Group>
                         </Form.Row>
 
@@ -373,9 +372,9 @@ class PostAd extends React.Component {
 
                         <Form.Row>
                           <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
-                          <Form.Check style={{color: 'white'}} type="radio" label="Homme" checked={this.state.homme}
+                          <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
                             onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}/>
-                          <Form.Check style={{color: 'white'}} type="radio" label="Femme" checked={this.state.femme}
+                          <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
                             onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}/>
                           <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
                             onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}/>
