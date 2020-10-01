@@ -207,6 +207,8 @@ class Ads extends React.Component {
     }
 
     listInf = (ad) => {
+      console.log(ad.infs);
+
         if (ad.infs && ad.infs.length > 0) {
           return (
             ad.infs.map((inf, id) => (

@@ -36,10 +36,12 @@ class adsItem extends React.Component{
             signal: false,
             note: false,
             info: "",
+            share: false,
             type:['', 'Mode', 'Cosmetique', 'High Tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             raison: "",
             commentData: null,
             urlId: parseInt(this.getUrlParams((window.location.search)).id, 10),
+            link: window.location.href + '/share'
         };
     }
 
@@ -129,6 +131,10 @@ class adsItem extends React.Component{
             })
             .catch(error => console.error('Error:', error));
         this.props.history.push("/dashboard/advertisements")
+    }
+
+    handleAnnonceShare = () => {
+      console.log("share");
     }
 
     handleAnnonceNotation = (item) => {
@@ -247,8 +253,11 @@ class adsItem extends React.Component{
       this.setState({note: false, raison: ""})
     }
 
+    handleCloseShare = () => {
+      this.setState({share: false})
+    }
+
     render() {
-      console.log("ARD ", this.state.adData);
         return (
             <div justify="center" className="infBg">
 
@@ -295,6 +304,20 @@ class adsItem extends React.Component{
                      </Button>
                    </Modal.Footer>
                   </Modal>
+
+                  <Modal centered show={this.state.share} onHide={this.handleCloseShare}>
+                   <Modal.Header closeButton>
+                     <Modal.Title>Partager</Modal.Title>
+                   </Modal.Header>
+                   <Modal.Body>
+                     <Form>
+                      <Form.Group controlId="formBasiclink">
+                        <Form.Label>Lien à  partager</Form.Label>
+                        <Form.Control value={this.state.link} onChange={(e) => {this.setState({link: e.target.value})}}/>
+                      </Form.Group>
+                    </Form>
+                   </Modal.Body>
+                  </Modal>
                 {
                   this.state.adData &&
                   <Row className="p-4">
@@ -324,6 +347,7 @@ class adsItem extends React.Component{
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.color ? `Couleur: ${this.state.adData.color}` : ""}</h5>
                         <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
+                        <Button onClick={() => this.setState({share: true})} className="btnInf ml-2">Partager</Button>
                     </Col>
                     <Col md={8} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Avis</h2>

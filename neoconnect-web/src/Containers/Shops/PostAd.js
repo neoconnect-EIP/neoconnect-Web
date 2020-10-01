@@ -40,6 +40,8 @@ class PostAd extends React.Component {
         };
     }
 
+    //TODO get inf me search/shop
+
     next = () => {
         const current = this.state.current + 1;
         this.setState({ current });
@@ -323,6 +325,7 @@ class PostAd extends React.Component {
     }
 
     render() {
+
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -335,81 +338,59 @@ class PostAd extends React.Component {
               </Navbar>
                 {
                     !this.state.isEnd ?
-                      <Form className="mx-4 mt-4">
+                      <Form className="mx-auto mt-4" style={{width: '40%'}}>
                         <Form.Row>
                           <Form.Group as={Col}>
-                            <Form.Label style={{color:'white'}}>Nom</Form.Label>
-                            <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
-                          </Form.Group>
-
-                          <Form.Group as={Col}>
                             <Form.Label style={{color:'white'}}>Marque</Form.Label>
-                            <Form.Control placeholder="Marque de votre offre" value={this.state.productBrand} onChange={e => {this.setState({productBrand: e.target.value})}}/>
+                            <p style={{color:'white'}}>{this.state.productBrand}</p>
+                          </Form.Group>
+                          <Form.Group as={Col}>
+                            <Form.Label style={{color:'white'}}>Thème</Form.Label>
+                            <p style={{color:'white'}}>Mode</p>
                           </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
-                          <Form.Group as={Col}>
-                            <Form.Label style={{color:'white'}}>Thème</Form.Label>
-                            <Form.Control as="select" value={this.state.sub} onChange={(e) =>{ this.setState({sub: e.target.value});}}>
-                              <option value={1}>Mode</option>
-                              <option value={2}>Cosmetique</option>
-                              <option value={3}>Haute Technologie</option>
-                              <option value={4}>Nourriture</option>
-                              <option value={5}>Jeux vidéo</option>
-                              <option value={6}>Sport/Fitness</option>
-                            </Form.Control>
+                          <Form.Group as={Col} sm={12}>
+                            <Form.Label style={{color:'white'}}>Nom</Form.Label>
+                            <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
                           </Form.Group>
+                        </Form.Row>
 
-                          <Form.Group as={Col}>
+                        <Form.Row>
+                          <Form.Group as={Col} sm={12}>
                             <Form.Label style={{color:'white'}}>Description</Form.Label>
                             <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
                           </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
-
-                          <Form.Group as={Col}  sm={2} >
+                          <Form.Group as={Col}  sm={12} >
                             <Form.Label style={{color:'white'}}>Couleur</Form.Label>
                             <Form.Control placeholder="Couleur de votre produit" value={this.state.productColor} onChange={e => {this.setState({productColor: e.target.value})}}/>
                           </Form.Group>
+                        </Form.Row>
 
-                          <fieldset>
-                            <Form.Group as={Col}>
-                              <Form.Label sm={2} style={{color: 'white'}}>
-                                Cible
-                              </Form.Label>
-                              <Col sm={10}>
-                                <Form.Check style={{color: 'white'}} type="radio" label="Homme" checked={this.state.homme}
-                                  onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}
-                                />
-                                <Form.Check style={{color: 'white'}} type="radio" label="Femme" checked={this.state.femme}
-                                  onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}
-                                />
-                                <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
-                                  onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}
-                                />
-                              </Col>
-                            </Form.Group>
-                          </fieldset>
+                        <Form.Row>
+                          <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
+                          <Form.Check style={{color: 'white'}} type="radio" label="Homme" checked={this.state.homme}
+                            onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}/>
+                          <Form.Check style={{color: 'white'}} type="radio" label="Femme" checked={this.state.femme}
+                            onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}/>
+                          <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
+                            onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}/>
+                        </Form.Row>
 
-
+                        <Form.Row>
                           <Form.Group as={Col}>
-                            <Form.Label as="legend" column sm={2} style={{color: 'white'}}>
+                            <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
                               Images
                             </Form.Label>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
+                            <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
+                            <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
+                            <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage3(e)}/>
+                            <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage4(e)}/>
                           </Form.Group>
-
-                          <Form.Group as={Col}>
-                            <Form.Label as="legend" column sm={2} style={{color: 'transparent'}}>
-                              Images
-                            </Form.Label>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage3(e)}/>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage4(e)}/>
-                          </Form.Group>
-
                         </Form.Row>
 
                         <Form.Row className="mt-4">
@@ -436,3 +417,15 @@ class PostAd extends React.Component {
 }
 
 export default withRouter(PostAd)
+
+// <Form.Group as={Col}>
+//   <Form.Label style={{color:'white'}}>Thème</Form.Label>
+//   <Form.Control as="select" value={this.state.sub} onChange={(e) =>{ this.setState({sub: e.target.value});}}>
+//     <option value={1}>Mode</option>
+//     <option value={2}>Cosmetique</option>
+//     <option value={3}>Haute Technologie</option>
+//     <option value={4}>Nourriture</option>
+//     <option value={5}>Jeux vidéo</option>
+//     <option value={6}>Sport/Fitness</option>
+//   </Form.Control>
+// </Form.Group>
