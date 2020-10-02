@@ -401,3 +401,12 @@
 .sidenav {
   height: 100%;
 }
+
+.offerTitle {
+  color: white;
+}
+
+.offerBg {
+  background-color: rgba(185,185,185,0.15);
+  border-radius: 15px;
+}

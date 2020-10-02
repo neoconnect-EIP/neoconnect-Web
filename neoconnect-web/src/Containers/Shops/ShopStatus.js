@@ -84,7 +84,6 @@ class ShopStatus extends React.Component{
     // }
 
     handleResponse = (res) => {
-      console.log("RES ", res);
       this.setState({visible: false});
       this.getShop();
     }
@@ -164,7 +163,6 @@ class ShopStatus extends React.Component{
     };
 
     handleDelete = () => {
-      console.log(localStorage.getItem("Jwt"));
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/delete`, {
             method: 'DELETE',
             headers: {
@@ -181,7 +179,6 @@ class ShopStatus extends React.Component{
 
 
     render() {
-      console.log("G=HEEELOO ", this.state.userData);
         return (
             <div className="shopBg"  >
             <Modal centered show={this.state.visibleDelete} onHide={() => { this.setState({visibleDelete: false})}}>

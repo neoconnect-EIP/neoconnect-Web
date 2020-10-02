@@ -4,11 +4,14 @@ import "../../index.css"
 import Loader from "react-loader-spinner";
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import { store } from 'react-notifications-component';
 import Button from 'react-bootstrap/Button';
+import noImages from "../../assets/noImages.jpg";
 
 class Ads extends React.Component {
     constructor(props) {
@@ -115,20 +118,29 @@ class Ads extends React.Component {
     };
 
     listAbonnement = () => {
+
       if (this.state.adsData && this.state.adsData.length > 0)
+
         return (
           this.state.adsData.map(ad => (
-            <tr key={ad.idOffer}>
-              <td>{ad.productName}</td>
-              <td>{this.state.type[ad.productSubject]}</td>
-              <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
-              <td>{ad.status === "pending" ? "En attente" : (ad.status === "refused" ? "Refusé" : "Accepté")}</td>
-              <td>
-                <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>{' '}
-                <Button className="btnInf" onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}>Détail</Button>{' '}
-                <Button className="btnInf" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>
-              </td>
-            </tr>
+            <Col className="mb-3">
+              <Card className="cardlist mb-4" key={ad.id}>
+                <Card.Img  style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}
+                  variant="top" className="report" src={!ad.productImg || ad.productImg.length === 0 ? noImages : ad.productImg[0].imageData} />
+                <Card.Body>
+                  <Row>
+                    <h5 className="ml-2">{ad.productName}</h5>
+                    <p className="ml-auto" style={{fontWeight: '300', fontSize: 12}}>{new Date(ad.createdAt).toLocaleDateString()}</p>
+                  </Row>
+                  <p style={{fontWeight: '300', fontSize: 12}}>{ad.brand}</p>
+                  <p style={{fontWeight: '300', fontSize: 18}}>{ad.status  === "accepted" ? "Accepté" : (ad.status  === "pending" ? "En attente" : "Refusé")}</p>
+                  <Row className="mt-4">
+                    {ad.status  !== "accepted" && <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>}{' '}
+                    {ad.status  === "accepted" && <Button className="btnInf ml-2" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>}
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
           ))
         )
     }
@@ -274,25 +286,11 @@ class Ads extends React.Component {
                           style={{marginTop: "14rem"}}
                       />
                       :
-                      <div>
+                      <Row className="ml-3 mr-3 mt-3"  xs={1} md={2} lg={3} sm={2} xl={4}>
                           {
-
-                            <Table className="mt-4 ml-4 table " style={{color: 'white'}}>
-                              <thead>
-                                <tr>
-                                  <th>Nom</th>
-                                  <th>Type</th>
-                                  <th>Date de candidature</th>
-                                  <th>Status</th>
-                                  <th>Actions</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {this.listAbonnement()}
-                              </tbody>
-                            </Table>
+                            this.listAbonnement()
                           }
-                      </div>
+                      </Row>
                 }
             </div>
         );
@@ -300,3 +298,39 @@ class Ads extends React.Component {
 }
 
 export default withRouter(Ads)
+
+//
+// <Table className="mt-4 ml-4 table " style={{color: 'white'}}>
+//   <thead>
+//     <tr>
+//       <th>Nom</th>
+//       <th>Type</th>
+//       <th>Date de candidature</th>
+//       <th>Status</th>
+//       <th>Actions</th>
+//     </tr>
+//   </thead>
+//   <tbody>
+//     {this.listAbonnement()}
+//   </tbody>
+// </Table>
+
+    //
+    // listAbonnement = () => {
+    //   if (this.state.adsData && this.state.adsData.length > 0)
+    //     return (
+    //       this.state.adsData.map(ad => (
+    //         <tr key={ad.idOffer}>
+    //           <td>{ad.productName}</td>
+    //           <td>{this.state.type[ad.productSubject]}</td>
+    //           <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
+    //           <td>{ad.status === "pending" ? "En attente" : (ad.status === "refused" ? "Refusé" : "Accepté")}</td>
+    //           <td>
+    //             <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>{' '}
+    //             <Button className="btnInf" onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}>Détail</Button>{' '}
+    //             <Button className="btnInf" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>
+    //           </td>
+    //         </tr>
+    //       ))
+    //     )
+    // }

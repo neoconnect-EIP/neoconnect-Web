@@ -6,7 +6,7 @@ import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noImageFindInf from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
-import CardColumns from 'react-bootstrap/CardColumns';
+import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Badge from 'react-bootstrap/Badge';
@@ -90,13 +90,14 @@ class FindInfluencers extends React.Component {
     }
 
     cardInf = (inf) => {
+      console.log("INF ", inf);
         return (
-          <div key={inf.id}>
+          <Col key={inf.id} className="mb-3">
             {
               this.state.back && this.state.influencersData.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
             }
           <Card className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-            <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
+            <Card.Img variant="top" style={{height: '190px', objectFit: 'cover'}} src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
             <Card.Body>
               <Card.Title>{inf.pseudo}</Card.Title>
                 {inf.email &&
@@ -123,7 +124,7 @@ class FindInfluencers extends React.Component {
                 </Row>
             </Card.Body>
           </Card>
-        </div>
+        </Col>
         );
     }
 
@@ -164,7 +165,7 @@ class FindInfluencers extends React.Component {
 
               {
                 this.state.influencersData ? this.state.influencersData.length > 0 ?
-                  <CardColumns className="pt-4 pl-3 pr-2">
+                  <Row className="pt-4 pl-3 pr-2" xs={1} md={2} lg={3} sm={2} xl={4}>
                     {
                         this.state.influencersData.filter((item) => (item.theme && item.theme.toLowerCase() === 'mode' && this.state.theme === 'mode') ||
                                                                     (item.theme && item.theme.toLowerCase() === 'high tech' && this.state.theme === 'tech') ||
@@ -174,7 +175,7 @@ class FindInfluencers extends React.Component {
                                                                     (item.theme && item.theme.toLowerCase() === 'cosmétique' && this.state.theme === 'cosmetic') ||
                                                                   (!this.state.theme)).map(inf => this.cardInf(inf))
                     }
-                  </CardColumns> :
+                  </Row> :
                   <Alert variant="warning" className="mt-4" show={ this.state.show}
                     onClose={() => {this.setState({show: false, search: ""}); this.getAllInfluencer();}} dismissible>
                      <Alert.Heading>Essayez à nouveau</Alert.Heading>

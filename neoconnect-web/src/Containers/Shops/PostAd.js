@@ -312,6 +312,7 @@ class PostAd extends React.Component {
             "brand": this.state.productBrand,
         };
 
+        console.log("FEE ", this.state.productBrand);
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/insert`, {
             method: 'POST',

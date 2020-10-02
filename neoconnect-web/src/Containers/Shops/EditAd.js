@@ -32,19 +32,20 @@ class EditAd extends React.Component {
             productDesc: "",
             productSubject: "",
             productColor: "",
-            productBrand: "",
             current: 0,
             isEnd: false,
             isLoading: true,
             homme: false,
             femme: false,
-            sub: 1,
+            theme: localStorage.getItem("theme"),
             uni: true
         };
     }
 
     statesetter = (res) => {
+      console.log("Res ", res);
         this.setState({
+            productBrand: res.brand,
             productImg: res.productImg,
             productName: res.productName,
             productSex: res.productSex,
@@ -344,7 +345,6 @@ class EditAd extends React.Component {
             "productDesc": this.state.productDesc,
             "productSubject": this.state.productSubject,
             "color": this.state.productColor,
-            "brand": this.state.productBrand
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id.id}`, {
@@ -357,7 +357,7 @@ class EditAd extends React.Component {
       }
     }
 
-    render() {   //TODO probleme image
+    render() {
           return (
               <div justify="center" className="shopBg"  >
                 <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
@@ -365,86 +365,64 @@ class EditAd extends React.Component {
                 </Navbar>
                   {
                       !this.state.isEnd ?
-                        <Form className="mx-4 mt-4">
+                        <Form className="mx-auto mt-4" style={{width: '40%'}}>
                           <Form.Row>
                             <Form.Group as={Col}>
-                              <Form.Label style={{color:'white'}}>Nom</Form.Label>
-                              <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
-                            </Form.Group>
-
-                            <Form.Group as={Col}>
                               <Form.Label style={{color:'white'}}>Marque</Form.Label>
-                              <Form.Control placeholder="Marque de votre offre" value={this.state.productBrand} onChange={e => {this.setState({productBrand: e.target.value})}}/>
+                              <p style={{color:'white'}}>{this.state.productBrand}</p>
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                              <Form.Label style={{color:'white'}}>Thème</Form.Label>
+                              <p style={{color:'white'}}>{this.state.theme}</p>
                             </Form.Group>
                           </Form.Row>
 
                           <Form.Row>
-                            <Form.Group as={Col}>
-                              <Form.Label style={{color:'white'}}>Thème</Form.Label>
-                              <Form.Control as="select" value={this.state.sub} onChange={(e) =>{ this.setState({sub: e.target.value});}}>
-                                <option value={1}>Mode</option>
-                                <option value={2}>Cosmetique</option>
-                                <option value={3}>Haute Technologie</option>
-                                <option value={4}>Nourriture</option>
-                                <option value={5}>Jeux vidéo</option>
-                                <option value={6}>Sport/Fitness</option>
-                              </Form.Control>
+                            <Form.Group as={Col} sm={12}>
+                              <Form.Label style={{color:'white'}}>Nom</Form.Label>
+                              <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
                             </Form.Group>
+                          </Form.Row>
 
-                            <Form.Group as={Col}>
+                          <Form.Row>
+                            <Form.Group as={Col} sm={12}>
                               <Form.Label style={{color:'white'}}>Description</Form.Label>
                               <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
                             </Form.Group>
                           </Form.Row>
 
                           <Form.Row>
-
-                            <Form.Group as={Col}  sm={2} >
+                            <Form.Group as={Col}  sm={12} >
                               <Form.Label style={{color:'white'}}>Couleur</Form.Label>
                               <Form.Control placeholder="Couleur de votre produit" value={this.state.productColor} onChange={e => {this.setState({productColor: e.target.value})}}/>
                             </Form.Group>
+                          </Form.Row>
 
-                            <fieldset>
-                              <Form.Group as={Col}>
-                                <Form.Label sm={2} style={{color: 'white'}}>
-                                  Cible
-                                </Form.Label>
-                                <Col sm={10}>
-                                  <Form.Check style={{color: 'white'}} type="radio" label="Homme" checked={this.state.homme}
-                                    onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}
-                                  />
-                                  <Form.Check style={{color: 'white'}} type="radio" label="Femme" checked={this.state.femme}
-                                    onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}
-                                  />
-                                  <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
-                                    onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}
-                                  />
-                                </Col>
-                              </Form.Group>
-                            </fieldset>
+                          <Form.Row>
+                            <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
+                            <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
+                              onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}/>
+                            <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
+                              onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}/>
+                            <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
+                              onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}/>
+                          </Form.Row>
 
-
+                          <Form.Row>
                             <Form.Group as={Col}>
-                              <Form.Label as="legend" column sm={2} style={{color: 'white'}}>
+                              <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
                                 Images
                               </Form.Label>
-                                <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
-                                <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage3(e)}/>
+                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage4(e)}/>
                             </Form.Group>
-
-                            <Form.Group as={Col}>
-                              <Form.Label as="legend" column sm={2} style={{color: 'transparent'}}>
-                                Images
-                              </Form.Label>
-                                <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage3(e)}/>
-                                <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage3(e)}/>
-                            </Form.Group>
-
                           </Form.Row>
 
                           <Form.Row className="mt-4">
                             <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>
-                              Sauvegarder l'offre
+                              Sauvegarder
                             </Button>
                           </Form.Row>
 

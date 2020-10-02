@@ -7,7 +7,7 @@ import noImages from "../../assets/noImages.jpg"
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Card from 'react-bootstrap/Card';
-import CardColumns from 'react-bootstrap/CardColumns';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
@@ -212,9 +212,10 @@ class Advertisements extends React.Component{
     }
     handleCard = (item) => {
         return (
+          <Col className="mb-3">
             <div key={item.id}>
                 <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-                  <Card.Img className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
+                  <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
                   <Card.Body>
                     <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
                     <Card.Text>
@@ -228,6 +229,7 @@ class Advertisements extends React.Component{
                   </Card.Body>
                 </Card>
             </div>
+          </Col>
         );
     }
 
@@ -265,12 +267,12 @@ class Advertisements extends React.Component{
                 </InputGroup>
               {
                   this.state.adsData ?
-                    <CardColumns className="pl-2 pr-4">
+                    <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                           {
 
                               this.state.adsData.map(item => this.handleCard(item))
                           }
-                      </CardColumns>
+                      </Row>
                       :
                       <Loader
                           type="Triangle"

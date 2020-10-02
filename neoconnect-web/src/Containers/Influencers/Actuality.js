@@ -5,7 +5,7 @@ import StarIcon from '@material-ui/icons/Star';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noShop from "../../assets/noShop.jpg"
 import Card from 'react-bootstrap/Card';
-import CardColumns from 'react-bootstrap/CardColumns';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Navbar from 'react-bootstrap/Navbar';
@@ -67,20 +67,20 @@ class Actuality extends React.Component{
 
     handleCard = (item) => {
         return (
-              <div key={item.id}>
-                <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-                  <Card.Img className="card" onClick={() => this.handleGlobalShop(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
-                  <Card.Body>
-                    <Card.Title>
-                      <Row>
-                        <p className="mr-auto">{` ${item.pseudo ? item.pseudo : "Sans marque"}`}</p>
-                        <p style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</p>
-                        <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-                      </Row>
-                    </Card.Title>
-                  </Card.Body>
-                </Card>
-              </div>
+            <Col key={item.id} className="mb-3">
+              <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}} onClick={() => this.handleGlobalShop(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
+                <Card.Body>
+                  <Card.Title>
+                    <Row>
+                      <p className="mr-auto">{` ${item.pseudo ? item.pseudo : "Sans marque"}`}</p>
+                      <p style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</p>
+                      <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
+                    </Row>
+                  </Card.Title>
+                </Card.Body>
+              </Card>
+            </Col>
         );
     }
 
@@ -130,9 +130,9 @@ class Actuality extends React.Component{
 
     handleCardOffer = (item) => {
         return (
-            <div key={item.id}>
+            <Col key={item.id} className="mb-3">
                 <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-                  <Card.Img className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
+                  <Card.Img className="card"  style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
                   <Card.Body>
                     <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
                     <Card.Text>
@@ -145,7 +145,7 @@ class Actuality extends React.Component{
                     </Row>
                   </Card.Body>
                 </Card>
-            </div>
+            </Col>
         );
     }
 
@@ -163,52 +163,52 @@ class Actuality extends React.Component{
                   <Image src={heart}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
                 </Row>
-                <CardColumns className="pt-4 pl-3 pr-2">
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                   {
                       this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
                   }
-              </CardColumns>
+                </Row>
                 <Row className="pl-4">
                   <Image src={fire}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques populaires</h4>
                 </Row>
-                <CardColumns className="pt-4 pl-3 pr-2">
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                   {
                       this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
                   }
-              </CardColumns>
+                </Row>
                 <Row className="pl-4 mt-4">
                   <Image src={star}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques les mieux notés</h4>
                 </Row>
-                <CardColumns className="pt-4 pl-3 pr-2">
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                   {
                       this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
                   }
-              </CardColumns>
-              <CardColumns className="pt-4 pl-3 pr-2">
+                </Row>
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.tendanceOffer && this.state.tendanceOffer.map(inf => this.handleCardOffer(inf))
                 }
-            </CardColumns>
+              </Row>
               <Row className="pl-4">
                 <Image src={fire}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
               </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.popularOffer && this.state.popularOffer.map(inf => this.handleCardOffer(inf))
                 }
-            </CardColumns>
+              </Row>
               <Row className="pl-4 mt-4">
                 <Image src={star}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
               </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.bestMarkOffer && this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf))
                 }
-            </CardColumns>
+            </Row>
             </div>
         );
     }

@@ -5,7 +5,7 @@ import StarIcon from '@material-ui/icons/Star';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noImageFindInf from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
-import CardColumns from 'react-bootstrap/CardColumns';
+import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
@@ -57,34 +57,36 @@ class Actuality extends React.Component {
     cardInf = (inf) => {
 
         return (
-          <Card key={inf.id} className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-            <Card.Img variant="top" src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
-            <Card.Body>
-              <Card.Title>{inf.pseudo}</Card.Title>
-                {inf.email &&
-                  <Row>
-                    <EmailIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
-                    <p>{inf.email}</p>
+          <Col key={inf.id} className="mb-3">
+            <Card className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+              <Card.Img variant="top"  style={{height: '190px', objectFit: 'cover'}} src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
+              <Card.Body>
+                <Card.Title>{inf.pseudo}</Card.Title>
+                  {inf.email &&
+                    <Row>
+                      <EmailIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
+                      <p>{inf.email}</p>
+                    </Row>
+                  }
+                  {inf.phone &&
+                    <Row>
+                      <PhoneAndroidIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
+                      <p>{inf.phone}</p>
+                    </Row>
+                  }
+                  {inf.theme &&
+                    <Row>
+                      <BubbleChartIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
+                      <p>{inf.theme}</p>
+                    </Row>
+                  }
+                  <Row className="pl-2">
+                    <StarIcon style={{width: "25px", height: "25px", color: "gold"}}/>
+                    <p>{`note: ${inf.average ? inf.average.toFixed(1) : "0" }/5`}</p>
                   </Row>
-                }
-                {inf.phone &&
-                  <Row>
-                    <PhoneAndroidIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
-                    <p>{inf.phone}</p>
-                  </Row>
-                }
-                {inf.theme &&
-                  <Row>
-                    <BubbleChartIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
-                    <p>{inf.theme}</p>
-                  </Row>
-                }
-                <Row className="pl-2">
-                  <StarIcon style={{width: "25px", height: "25px", color: "gold"}}/>
-                  <p>{`note: ${inf.average ? inf.average.toFixed(1) : "0" }/5`}</p>
-                </Row>
-            </Card.Body>
-          </Card>
+              </Card.Body>
+            </Card>
+          </Col>
         );
     }
 
@@ -101,29 +103,29 @@ class Actuality extends React.Component {
                 <Image src={heart}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs du moment</h4>
               </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
                 }
-            </CardColumns>
+              </Row>
               <Row className="pl-4 mt-4">
                 <Image src={fire}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs populaires</h4>
               </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.moment && this.state.popular.map(inf => this.cardInf(inf))
                 }
-            </CardColumns>
+              </Row>
               <Row className="pl-4 mt-4">
                 <Image src={star}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs les mieux notés</h4>
               </Row>
-              <CardColumns className="pt-4 pl-3 pr-2">
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.moment && this.state.bestMark.map(inf => this.cardInf(inf))
                 }
-            </CardColumns>
+              </Row>
             </div>
         );
     }

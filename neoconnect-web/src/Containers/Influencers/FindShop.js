@@ -6,7 +6,7 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noShop from "../../assets/noShop.jpg"
 import Card from 'react-bootstrap/Card';
-import CardColumns from 'react-bootstrap/CardColumns';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
@@ -109,12 +109,13 @@ class FindShop extends React.Component{
 
     handleCard = (item) => {
         return (
+          <Col className="mb-3">
               <div key={item.id}>
                 {
                   this.state.back && this.state.shopList.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", shopList: []}); this.getAllShop();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
                 }
                 <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-                  <Card.Img className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
+                  <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
                   <Card.Body>
                     <Card.Title>
                       <Row>
@@ -126,6 +127,7 @@ class FindShop extends React.Component{
                   </Card.Body>
                 </Card>
               </div>
+            </Col>
         );
     }
 
@@ -146,19 +148,19 @@ class FindShop extends React.Component{
                 </Navbar>
                 {
                     this.state.shopList ?
-                      <CardColumns className="pl-2 mr-2 pr-2">
+                      <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                             {
                                 this.state.shopList.map(item => this.handleCard(item))
                             }
-                        </CardColumns>
-                        :
-                          <Loader
-                              type="Triangle"
-                              color="#292929"
-                              height={200}
-                              width={200}
-                              style={{marginTop: "14rem"}}
-                          />
+                      </Row>
+                      :
+                        <Loader
+                            type="Triangle"
+                            color="#292929"
+                            height={200}
+                            width={200}
+                            style={{marginTop: "14rem"}}
+                        />
                 }
             </div>
         );
