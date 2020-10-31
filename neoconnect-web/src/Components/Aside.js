@@ -69,10 +69,11 @@ class Aside extends React.Component{
                 {
                     this.props.isShop ?
                         <div className="aside">
-                          <Nav className="col-md-12 d-md-block sidebar h-100" justify={true}>
+                          <Nav className="col-md-12 d-block sidebar h-100" justify={true}>
                             <div className="sidebar-sticky"></div>
                             <Nav.Item>
                                 <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
+                                <p style={{color:'white', marginBottom:'70px', fontWeight: '300'}}>{localStorage.getItem("pseudo")}</p>
                             </Nav.Item>
                             <Nav.Item className={this.state.menuId === 7 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 7});this.handlePage("/shop-dashboard/actuality")}}>
                                 <HomeIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
@@ -115,10 +116,11 @@ class Aside extends React.Component{
                         </div>
                         :
                         <div className="aside">
-                          <Nav className="col-md-12 d-md-block sidebar h-100" justify={true}>
+                          <Nav className="col-md-12 d-block sidebar h-100" justify={true}>
                             <div className="sidebar-sticky"></div>
                             <Nav.Item>
                                 <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
+                                <p style={{color:'white', marginBottom:'70px', fontWeight: '300'}}>{localStorage.getItem("pseudo")}</p>
                             </Nav.Item>
                             <Nav.Item className={this.state.menuId === 0 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 0});this.handlePage("/dashboard/actuality")}}>
                                 <HomeIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>

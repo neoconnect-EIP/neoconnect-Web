@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom"
 import "../../index.css"
 import Loader from "react-loader-spinner";
 import Navbar from 'react-bootstrap/Navbar';
-import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
@@ -30,13 +29,21 @@ class Ads extends React.Component {
             modalMode: "",
             type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             fb: "",
+            validFb: true,
             ig: "",
+            validIg: true,
             twitter: "",
+            validTwitter: true,
             snap: "",
+            validSnap: true,
             youtube: "",
+            validYoutube: true,
             twitch: "",
+            validTwitch: true,
             pinterest: "",
+            validPinterest: true,
             tiktok: "",
+            validTiktok: true,
             shareId: null
         };
 
@@ -135,7 +142,7 @@ class Ads extends React.Component {
                   <p style={{fontWeight: '300', fontSize: 12}}>{ad.brand}</p>
                   <p style={{fontWeight: '300', fontSize: 18}}>{ad.status  === "accepted" ? "Accepté" : (ad.status  === "pending" ? "En attente" : "Refusé")}</p>
                   <Row className="mt-4">
-                    {ad.status  !== "accepted" && <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>}{' '}
+                    <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>{' '}
                     {ad.status  === "accepted" && <Button className="btnInf ml-2" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>}
                   </Row>
                 </Card.Body>
@@ -146,7 +153,6 @@ class Ads extends React.Component {
     }
 
     handleShareRes = async (res) => {
-      console.log(res);
       if (res.status !== 200) {
         var msg = await res.json();
         store.addNotification({
@@ -212,6 +218,66 @@ class Ads extends React.Component {
 
     }
 
+    onFbChange(e){
+      this.setState({fb: e.target.value})
+      let regx = /(?:(?:http|https):\/\/)?(?:www.|m.)?facebook.com\/(?!home.php)(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\.-]+)/
+      if (regx.test(e.target.value)  || e.target.value === ''){
+        this.setState({validFb: true})
+      }else this.setState({validFb: false})
+    }
+    onIgChange(e){
+      this.setState({ig: e.target.value})
+      // let regx = /^\s*(http\:\/\/)?instagram\.com\/[a-z\d-_]{1,255}\s*$/i
+      if (e.target.value.includes('instagram.com')  || e.target.value === ''){
+        this.setState({validIg: true})
+      }else this.setState({validIg: false})
+    }
+    onSnapchatChange(e){
+      this.setState({snap: e.target.value})
+      let regx = /^\s*(http\:\/\/)?snapchat\.com\/[a-z\d-_]{1,255}\s*$/i
+      if (regx.test(e.target.value)  || e.target.value === ''){
+        this.setState({validSnap: true})
+      }else this.setState({validSnap: false})
+    }
+    onYoutubeChange(e){
+      this.setState({youtube: e.target.value})
+      let regx = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
+      if (regx.test(e.target.value)  || e.target.value === ''){
+        this.setState({validYoutube: true})
+      }else this.setState({validYoutube: false})
+    }
+    onTwitterChange(e){
+      this.setState({twitter: e.target.value})
+      let regx = /http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/
+      if (regx.test(e.target.value)  || e.target.value === ''){
+        this.setState({validTwitter: true})
+      }else this.setState({validTwitter: false})
+    }
+    onTwitchChange(e){
+      this.setState({twitch: e.target.value})
+      if (e.target.value.includes('twitch.tv')  || e.target.value === ''){
+        this.setState({validTwitch: true})
+      }else{
+        this.setState({validTwitch: false})
+      }
+    }
+    onPinterestChange(e){
+      this.setState({pinterest: e.target.value})
+      let regx = /^\s*(http\:\/\/)?pinterest\.com\/[a-z\d-_]{1,255}\s*$/i
+      if (regx.test(e.target.value)  || e.target.value === ''){
+        this.setState({validPinterest: true})
+      }else this.setState({validPinterest: false})
+    }
+    onTikTokChange(e){
+      this.setState({tiktok: e.target.value})
+      if (e.target.value.includes('tiktok.com') || e.target.value === ''){
+        this.setState({validTiktok: true})
+
+      }else{
+        this.setState({validTiktok: false})
+      }
+    }
+
     render() {
 
         return (
@@ -221,48 +287,48 @@ class Ads extends React.Component {
                  <Modal.Title>Liens de publication du produit concerné</Modal.Title>
                </Modal.Header>
                <Modal.Body>
-                 <Form>
-                   <Form.Row>
-                    <Form.Group as={Col} controlId="formFb">
-                      <Form.Label>Facebook</Form.Label>
-                      <Form.Control value={this.state.fb} onChange={(e) => {this.setState({fb: e.target.value})}}/>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formIg">
-                      <Form.Label>Instagram</Form.Label>
-                      <Form.Control value={this.state.ig} onChange={(e) => {this.setState({ig: e.target.value})}}/>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group  as={Col} controlId="formBasicSnap">
-                      <Form.Label>Snapchat</Form.Label>
-                      <Form.Control value={this.state.snap} onChange={(e) => {this.setState({snap: e.target.value})}}/>
-                    </Form.Group>
-                    <Form.Group  as={Col} controlId="formBasicYoutube">
-                      <Form.Label>Youtube</Form.Label>
-                      <Form.Control value={this.state.youtube} onChange={(e) => {this.setState({youtube: e.target.value})}}/>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col}  controlId="formBasicTwitter">
-                      <Form.Label>Twitter</Form.Label>
-                      <Form.Control value={this.state.twitter} onChange={(e) => {this.setState({twitter: e.target.value})}}/>
-                    </Form.Group>
-                    <Form.Group as={Col}  controlId="formBasicTwitch">
-                      <Form.Label>Twitch</Form.Label>
-                      <Form.Control value={this.state.twitch} onChange={(e) => {this.setState({twitch: e.target.value})}}/>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="formBasicPinterest">
-                      <Form.Label>Pinterest</Form.Label>
-                      <Form.Control value={this.state.pinterest} onChange={(e) => {this.setState({pinterest: e.target.value})}}/>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formBasicTikTok">
-                      <Form.Label>Tiktok</Form.Label>
-                      <Form.Control value={this.state.tiktok} onChange={(e) => {this.setState({tiktok: e.target.value})}}/>
-                    </Form.Group>
-                  </Form.Row>
-                </Form>
+                 <Form noValidate validated={this.state.validFb && this.state.validIg && this.state.validPinterest && this.state.validSnap && this.state.validTiktok && this.state.validTwitch && this.state.validTwitter && this.state.validYoutube}>
+                 <Form.Row>
+                  <Form.Group as={Col} controlId="formFb">
+                    <Form.Label>Facebook</Form.Label>
+                    <Form.Control isInvalid={!this.state.validFb} value={this.state.fb} onChange={(e) => this.onFbChange(e)}/>
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formIg">
+                    <Form.Label>Instagram</Form.Label>
+                    <Form.Control isInvalid={!this.state.validIg} value={this.state.ig} onChange={(e) => this.onIgChange(e)}/>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group  as={Col} controlId="formBasicSnap">
+                    <Form.Label>Snapchat</Form.Label>
+                    <Form.Control isInvalid={!this.state.validSnap} value={this.state.snap} onChange={(e) => this.onSnapchatChange(e)}/>
+                  </Form.Group>
+                  <Form.Group  as={Col} controlId="formBasicYoutube">
+                    <Form.Label>Youtube</Form.Label>
+                    <Form.Control isInvalid={!this.state.validYoutube} value={this.state.youtube} onChange={(e) => this.onYoutubeChange(e)}/>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col}  controlId="formBasicTwitter">
+                    <Form.Label>Twitter</Form.Label>
+                    <Form.Control isInvalid={!this.state.validTwitter} value={this.state.twitter} onChange={(e) => this.onTwitterChange(e)}/>
+                  </Form.Group>
+                  <Form.Group as={Col}  controlId="formBasicTwitch">
+                    <Form.Label>Twitch</Form.Label>
+                    <Form.Control isInvalid={!this.state.validTwitch} value={this.state.twitch} onChange={(e) => this.onTwitchChange(e)}/>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formBasicPinterest">
+                    <Form.Label>Pinterest</Form.Label>
+                    <Form.Control isInvalid={!this.state.validPinterest} value={this.state.pinterest} onChange={(e) => this.onPinterestChange(e)}/>
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formBasicTikTok">
+                    <Form.Label>Tiktok</Form.Label>
+                    <Form.Control isInvalid={!this.state.validTiktok} value={this.state.tiktok} onChange={(e) => this.onTikTokChange(e)}/>
+                  </Form.Group>
+                </Form.Row>
+              </Form>
                </Modal.Body>
                <Modal.Footer>
                  <Button className="btnCancel" onClick={() => {this.setState({visible: false})}}>

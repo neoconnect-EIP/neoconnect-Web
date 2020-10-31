@@ -27,7 +27,7 @@ export default class InfluencerSignUp extends React.Component{
             postal: "",
             city: "",
             phone: "",
-            theme: "",
+            theme: null,
             instagram: "",
             facebook: "",
             twitter: "",
@@ -39,12 +39,7 @@ export default class InfluencerSignUp extends React.Component{
             current: 0,
             isEnd: false,
             goodPassword: false,
-            errMsg: {
-              "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
-              "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
-              "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
-              "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
-            }
+            errorMsg: 'Veuillez remplir les champs obligatoire: Pseudo, email et mot de passe',
         }
     }
 
@@ -120,7 +115,7 @@ export default class InfluencerSignUp extends React.Component{
                                 type="text"
                                 name="pseudo"
                                 placeholder="Pseudo"
-                                value={this.state.username}
+                                value={this.state.pseudo}
                                 onChange={this.handleChange}
                             />
                         </Grid>
@@ -156,13 +151,6 @@ export default class InfluencerSignUp extends React.Component{
                                 value={this.state.password2}
                                 onChange={this.handleChange}
                             />
-                            {
-                              !this.state.password || !this.state.password2.length ||
-                              this.state.password === this.state.password2 ?
-                                    ""
-                                    :
-                                    <p style={{color: "red"}}>Les mots de passes diffèrent</p>
-                            }
                         </Grid>
                     </Grid>
                 );
@@ -230,9 +218,9 @@ export default class InfluencerSignUp extends React.Component{
                                     onChange={this.handleChange}
                                 >
                                     <MenuItem value={1}>Mode</MenuItem>
-                                    <MenuItem value={2}>Cosmetique</MenuItem>
+                                    <MenuItem value={2}>Cosmétique</MenuItem>
                                     <MenuItem value={3}>Hight tech</MenuItem>
-                                    <MenuItem value={4}>Food</MenuItem>
+                                    <MenuItem value={4}>Nourriture</MenuItem>
                                     <MenuItem value={5}>Jeux vidéo</MenuItem>
                                     <MenuItem value={6}>Sport/fitness</MenuItem>
                                 </Select>
@@ -342,13 +330,76 @@ export default class InfluencerSignUp extends React.Component{
     };
 
     next = () => {
+      if (this.checkForm()) {
         const current = this.state.current + 1;
         this.setState({ current });
+      }
+      else {
+        store.addNotification({
+          title: "Erreur",
+          message: this.state.errorMsg,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
     }
 
     prev = () => {
         const current = this.state.current - 1;
         this.setState({ current });
+    }
+
+    emailValid = () => {
+      if (!RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$").test(this.state.email)) {
+        this.state.errorMsg = 'Email invalide.';
+        return (false);
+      }
+      return (true);
+    }
+
+    passPseudoValid = () => {
+      if (this.state.pseudo.length > 12 || this.state.pseudo.length < 3) {
+        this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères.';
+        return (false);
+      }
+      if (this.state.password != this.state.password2) {
+        this.state.errorMsg = 'Les mots de passes diffèrent.';
+        return (false);
+      }
+      if (!RegExp('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$').test(this.state.password)) {
+        this.state.errorMsg = "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.";
+        return (false);
+      }
+      return (true);
+    }
+
+    checkTheme = () => {
+      if (!this.state.theme) {
+        this.state.errorMsg = 'Veuillez sélectionner le thème.';
+        return (false);
+      }
+      return true;
+    }
+
+    checkForm = () => {
+      switch (this.state.current) {
+          case 0:
+            if (!this.emailValid() || !this.passPseudoValid()) return false;
+            else return (true);
+          case 1:
+            if (!this.checkTheme()) return false;
+            else return (true);
+      }
     }
 
     render() {
@@ -368,14 +419,14 @@ export default class InfluencerSignUp extends React.Component{
                                     Précédent
                                 </Button>
                                 {
-                                    this.state.current < 2 ?
-                                        <Button  disabled={this.state.password !== this.state.password2} className="btnInf" onClick={this.next}>
-                                            Suivant
-                                        </Button>
-                                        :
-                                        <Button onClick={this.handleSubmit} className="btnInf">
-                                            S'inscrire
-                                        </Button>
+                                  this.state.current < 2 ?
+                                      <Button className="btnInf" onClick={() => {this.next()}}>
+                                          Suivant
+                                      </Button>
+                                      :
+                                      <Button onClick={this.handleSubmit} className="btnInf">
+                                          S'inscrire
+                                      </Button>
                                 }
                             </Grid>
                         </Grid>
@@ -385,3 +436,10 @@ export default class InfluencerSignUp extends React.Component{
         );
     }
 }
+
+// errMsg: {
+//   "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
+//   "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
+//   "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
+//   "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
+// }

@@ -15,7 +15,7 @@ export default class ShopSignUp extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            pseudo: "",
             password: null,
             password2: "",
             full_name: "",
@@ -76,8 +76,26 @@ export default class ShopSignUp extends React.Component{
     };
 
     handleSubmit = () => {
+      if (!this.state.theme) {
+        store.addNotification({
+          title: "Erreur",
+          message: "Veuillez choisir un thème",
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      } else {
         let body = {
-            "pseudo": this.state.username,
+            "pseudo": this.state.pseudo,
             "password": this.state.password,
             "password2": this.state.password2,
             "full_name": this.state.full_name,
@@ -95,6 +113,8 @@ export default class ShopSignUp extends React.Component{
             .then(res => this.handleResponse(res))
             .catch(error => console.error('Error222:', error));
 
+      }
+
             // res.json();
     };
 
@@ -111,9 +131,9 @@ export default class ShopSignUp extends React.Component{
                             <Input
                                 style={{color: 'black'}}
                                 type="text"
-                                name="username"
+                                name="pseudo"
                                 placeholder="Pseudo"
-                                value={this.state.username}
+                                value={this.state.pseudo}
                                 onChange={this.handleChange}
                             />
                         </Grid>
@@ -333,13 +353,63 @@ export default class ShopSignUp extends React.Component{
     };
 
     next = () => {
+      if (this.checkForm()) {
         const current = this.state.current + 1;
         this.setState({ current });
+      }
+      else {
+        store.addNotification({
+          title: "Erreur",
+          message: this.state.errorMsg,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
     }
 
     prev = () => {
         const current = this.state.current - 1;
         this.setState({ current });
+    }
+
+    emailValid = () => {
+      if (!RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$").test(this.state.email)) {
+        this.state.errorMsg = 'Email invalide.';
+        return (false);
+      }
+      return (true);
+    }
+
+    passPseudoValid = () => {
+      if (this.state.pseudo.length > 12 || this.state.pseudo.length < 3) {
+        this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères.';
+        return (false);
+      }
+      if (this.state.password != this.state.password2) {
+        this.state.errorMsg = 'Les mots de passes diffèrent.';
+        return (false);
+      }
+      if (!RegExp('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$').test(this.state.password)) {
+        this.state.errorMsg = "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.";
+        return (false);
+      }
+      return (true);
+    }
+
+    checkForm = () => {
+      if (this.state.current == 0  && (!this.emailValid() || !this.passPseudoValid()))
+        return false;
+      return true;
     }
 
     render() {
@@ -360,7 +430,7 @@ export default class ShopSignUp extends React.Component{
                                 </Button>
                                 {
                                     this.state.current < 3 ?
-                                        <Button  disabled={this.state.password !== this.state.password2} className="btnShop" onClick={this.next}>
+                                        <Button className="btnShop" onClick={this.next}>
                                             Suivant
                                         </Button>
                                         :

@@ -2,12 +2,11 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
-import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone';
+import CheckTwoToneIcon from '@material-ui/icons/CheckTwoTone';
 import "../../index.css"
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Navbar from 'react-bootstrap/Navbar';
-import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
@@ -27,7 +26,6 @@ import instagram from "../../assets/instagram.svg";
 import youtube from "../../assets/youtube.svg";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
-import CardColumns from 'react-bootstrap/CardColumns';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -364,6 +362,16 @@ class Ads extends React.Component {
                 }
               >
                <DeleteTwoToneIcon style={{fill: "white"}} className="report my-auto mr-3" onClick={() => this.handleVisibleModal(ad)}/>
+              </OverlayTrigger>{' '}
+              <OverlayTrigger
+                placement={"top"}
+                overlay={
+                  <Tooltip>
+                    Validé
+                  </Tooltip>
+                }
+              >
+               <CheckTwoToneIcon style={{fill: "white"}} className="report my-auto mr-3" onClick={() => {}}/>
               </OverlayTrigger>{' '}
             </Row>
             <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>

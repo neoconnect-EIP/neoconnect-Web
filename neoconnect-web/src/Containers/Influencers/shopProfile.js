@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import { Rate } from 'antd';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
 import Loader from "react-loader-spinner";
