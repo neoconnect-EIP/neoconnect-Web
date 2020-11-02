@@ -108,6 +108,11 @@ class shopProfile extends React.Component{
     };
 
     handleSendMessage = () => {
+      console.log("input ", this.state.commentInput);
+      console.log("input ", this.state.commentInput);
+      if (this.state.commentInput && this.state.commentInput.length > 0 && this.state.commentInput.replace(/  +/g, ' ').length > 1) {
+        console.log("rentree ");
+
         let id = this.getUrlParams((window.location.search));
         let body = {
             "comment": this.state.commentInput,
@@ -117,6 +122,7 @@ class shopProfile extends React.Component{
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
         this.setState({ commentInput: ""});
+      }
     };
 
     handleSendMark = () => {

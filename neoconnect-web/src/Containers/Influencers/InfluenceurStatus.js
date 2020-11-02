@@ -25,8 +25,9 @@ import phone from "../../assets/phone.svg";
 import account from "../../assets/account.svg";
 import StarRatings from 'react-star-ratings';
 import noAvatar from "../../assets/noImageFindInf.jpg";
-
-
+import { store } from 'react-notifications-component';
+import LoadingOverlay from 'react-loading-overlay';
+import Badge from 'react-bootstrap/Badge';
 
 class InfluenceurStatus extends React.Component{
     constructor(props) {
@@ -57,9 +58,11 @@ class InfluenceurStatus extends React.Component{
             file: null,
             userPicture: null,
             visibleDelete: false,
-            tmpTheme: ['', 'Mode', 'Cosmetique', 'Haute technologie', 'Food', 'Jeux vidéo', 'Sport/fitness']
+            imgChanged: false,
+            themeValue: ['', 'mode', 'cosmetique', 'hight tech', 'food', 'jeux video', 'sport/fitness'],
+            isActive: false,
+            followed: [],
         };
-
     }
 
     getInf = () => {
@@ -69,13 +72,26 @@ class InfluenceurStatus extends React.Component{
               'Content-Type': 'application/json',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-          .then(res => res.json())
-          .then(res => this.setState({userData: res}))
-          .catch(error => console.error('Error:', error));
+      .then(res => res.json())
+      .then(res => this.setState({userData: res}))
+      .catch(error => console.error('Error:', error));
+    }
+
+    getFollowed = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/follow`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => res.json())
+      .then(res => this.setState({followed: res}))
+      .catch(error => console.error('Error:', error));
     }
 
     componentDidMount = () => {
         this.getInf();
+        this.getFollowed();
     }
 
     // handleEditProfile = () => {
@@ -114,38 +130,103 @@ class InfluenceurStatus extends React.Component{
         });
     }
 
-    handleResponse = (res) => {
-      this.setState({visible: false});
-      this.getInf();
+    // handleResponse = (res) => {
+    //   this.setState({visible: false});
+    //   this.getInf();
+    // }
+
+    handleResponse = async (res) => {
+        if (res.status === 200) {
+          this.setState({isActive: false});
+          this.getInf();
+        }
+        else {
+          var msg = await res.json();
+          store.addNotification({
+            title: "Erreur",
+            message: msg,
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            pauseOnHover: true,
+            isMobile: true,
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 7000,
+              onScreen: true,
+              showIcon: true
+            }
+          });
+          this.setState({isActive: false});
+        }
     }
 
+    handleComment = (x) => {
+        return (
+          <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
+            <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
+              <div className="centerBlock" align="center">
+                <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
+                <p style={{fontWeight: '200'}}>{x.pseudo}</p>
+              </div>
+            </Col>
+            <Col>
+              <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
+              <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
+            </Col>
+          </Row>
+        )
+    };
+
     handleSubmit = () => {
+      this.setState({isActive: true, visible: false});
+      if (!this.state.theme || !this.state.email || !this.state.pseudo) {
+        store.addNotification({
+          title: "Erreur",
+          message: "Les champs pseudo, email et thème sont obligatoire",
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          isMobile: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      }
+      else {
+        this.setState({isActive: true, visible: false});
         let body = {
-            "pseudo": this.state.name,
-            "userType": this.state.userData.userType,
+            "pseudo": this.state.pseudo,
             "full_name": this.state.fullName,
-            "email": this.state.email,
+            "email": this.state.userData.email != this.state.email ? this.state.email : undefined,
             "phone": this.state.phone,
             "city": this.state.city,
-            "userPicture": this.state.userPicture,
+            "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
             "userDescription": this.state.desc,
-            "facebook": this.state.facebook,
-            "twitter": this.state.twitter,
-            "snapchat": this.state.snapchat,
-            "instagram": this.state.instagram,
-            "twitch": this.state.twitch,
-            "pinterest": this.state.pinterest,
-            "youtube": this.state.youtube,
-            "tiktok": this.state.tiktok,
-            "theme": this.state.theme,
+            "facebook": this.state.userData.facebook != this.state.facebook ? this.state.facebook : undefined,
+            "twitter": this.state.userData.twitter != this.state.twitter ? this.state.twitter : undefined,
+            "snapchat": this.state.userData.snapchat != this.state.snapchat ? this.state.snapchat : undefined,
+            "instagram": this.state.userData.instagram != this.state.instagram ? this.state.instagram : undefined,
+            "twitch": this.state.userData.twitch != this.state.twitch ? this.state.twitch : undefined,
+            "pinterest": this.state.userData.pinterest != this.state.pinterest ? this.state.pinterest : undefined,
+            "youtube": this.state.userData.youtube != this.state.youtube ? this.state.youtube : undefined,
+            "tiktok": this.state.userData.tiktok != this.state.tiktok ? this.state.tiktok : undefined,
+            "theme": this.state.themeValue.indexOf(this.state.theme).toString(),
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
-    };
+        .then(res => {this.handleResponse(res)})
+        .catch(error => console.error('Error:', error));
+    }
+  }
 
     handleSplitString = (str) => {
         var tmp = "";
@@ -157,6 +238,7 @@ class InfluenceurStatus extends React.Component{
     };
 
     handleImageChange = (e) => {
+        this.state.imgChanged = true;
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
@@ -185,8 +267,14 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
+
         return (
-            <div className="infBg"  >
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
+            <div className="infBg">
               <Modal size="lg" centered show={this.state.visible} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Modifier vos informations</Modal.Title>
@@ -277,15 +365,17 @@ class InfluenceurStatus extends React.Component{
                             style={{color: 'black'}}
                             labelId="demo-simple-select-outlined-label"
                             name="theme"
-                            value={this.state.tmpTheme.indexOf(this.state.theme)}
-                            onChange={e => {this.setState({theme: this.state.tmpTheme[e.target.value]})}}
+                            value={this.state.themeValue.indexOf(this.state.theme)}
+                            onChange={(e) => {
+                              this.setState({theme: this.state.themeValue[e.target.value]});
+                            }}
                         >
-                            <MenuItem value={1}>Mode</MenuItem>
-                            <MenuItem value={2}>Cosmetique</MenuItem>
-                            <MenuItem value={3}>Haute Technologie</MenuItem>
-                            <MenuItem value={4}>Food</MenuItem>
-                            <MenuItem value={5}>Jeux vidéo</MenuItem>
-                            <MenuItem value={6}>Sport/fitness</MenuItem>
+                          <MenuItem value={1}>Mode</MenuItem>
+                          <MenuItem value={2}>Cosmétique</MenuItem>
+                          <MenuItem value={3}>Hight tech</MenuItem>
+                          <MenuItem value={4}>Nourriture</MenuItem>
+                          <MenuItem value={5}>Jeux vidéo</MenuItem>
+                          <MenuItem value={6}>Sport/fitness</MenuItem>
                         </Select>
                       </FormControl>
                     </Form.Group>
@@ -323,10 +413,27 @@ class InfluenceurStatus extends React.Component{
                             <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
                               src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
                             <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
-                            <p style={{color: 'white', fontWeight: '300'}}>{this.state.userData.theme}</p>
+                            <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
+                            <Row xs={1} sm={1} md={2} lg={2} xl={2}>
+                              <Col className="mx-auto mt-4" align="center">
+                                <div className="mb-3">
+                                  <StarRatings
+                                     rating={this.state.userData.average ? this.state.userData.average : 0}
+                                     starRatedColor="#FFC106"
+                                     numberOfStars={5}
+                                     name='rating'
+                                     starDimension="20px" />
+                                 </div>
+                                <p style={{color: 'white', fontWeight: '300'}}>Note</p>
+                              </Col>
+                              <Col className="mx-auto mt-4" align="center">
+                                <h3 style={{color: 'white'}}>{this.state.followed.length}</h3>
+                                <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnement</p>
+                              </Col>
+                            </Row>
                           </Col>
                         </Row>
-                        <Row className="ml-4 mt-4">
+                        <Row className="ml-4 mt-4" xs={1} sm={1} md={2} lg={2} xl={2}>
                           <Col>
                             <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Informations du compte</h2>
                             <Col>
@@ -390,33 +497,19 @@ class InfluenceurStatus extends React.Component{
                             </Row>
                           </Col>
                         </Row>
-                        <Row className="ml-4 mt-4">
+                        <Row className="ml-4 mt-4" xs={1} sm={1} md={2} lg={2} xl={2}>
                           <Col>
                             <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Bio</h2>
                             <p style={{color: 'white'}}>{this.state.userData.userDescription ? this.state.userData.userDescription : "Non fourni"}</p>
                           </Col>
                           <Col>
-                            <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Note</h2>
-                            {this.state.userData.average ?
-                              <Row>
-                                <Col md={1}>
-                                  <h3 style={{color: 'white', fontWeight: '300'}}>{this.state.userData.average}</h3>
-                                </Col>
-                                <Col>
-                                  <StarRatings
-                                     rating={this.state.userData.average ? this.state.userData.average : 0}
-                                     starRatedColor="#FFC106"
-                                     numberOfStars={5}
-                                     name='rating'
-                                     starDimension="20px"
-                                   />
-                                </Col>
-                              </Row> :
-                              <p style={{color: 'white'}}> Auncune note</p>
-                          }
+                            <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
+                            {
+                              !this.state.userData.comment || this.state.userData.comment.length === 0 ? "" : this.state.userData.comment.map(x => this.handleComment(x))
+                            }
                           </Col>
                         </Row>
-                        <Row className="mx-0 mt-4 pt-4">
+                        <Row className="mx-0 mt-4 pt-4 pb-3">
                           <Col align="center">
                             <Button className="btnInf" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
                           </Col>
@@ -432,6 +525,7 @@ class InfluenceurStatus extends React.Component{
                       />
                 }
             </div>
+          </LoadingOverlay>
         );
     }
 }

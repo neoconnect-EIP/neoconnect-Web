@@ -40,6 +40,13 @@ export default class InfluencerSignUp extends React.Component{
             isEnd: false,
             goodPassword: false,
             errorMsg: 'Veuillez remplir les champs obligatoire: Pseudo, email et mot de passe',
+            errMsg: {
+              "Error, account already exists": "Erreur, compte existant",
+              "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
+              "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
+              "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
+              "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
+            }
         }
     }
 
@@ -83,7 +90,7 @@ export default class InfluencerSignUp extends React.Component{
             "phone": this.state.phone,
             "postal": this.state.postal,
             "city": this.state.city,
-            "theme": this.state.theme,
+            "theme": this.state.theme.toString(),
             "facebook": this.state.facebook,
             "twitter": this.state.twitter,
             "snapchat": this.state.snapchat,

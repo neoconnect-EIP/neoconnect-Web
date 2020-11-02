@@ -121,6 +121,7 @@ class InfluencerProfile extends React.Component {
 
 
     handleSendMessage = () => {
+      if (this.state.commentInput && this.state.commentInput.length > 0 && this.state.commentInput.replace(/  +/g, ' ').length > 1) {
         let id = this.getUrlParams((window.location.search));
         let body = {
             "comment": this.state.commentInput,
@@ -130,7 +131,8 @@ class InfluencerProfile extends React.Component {
             .then(res => { res.json(); this.handleResponse(res)})
             .catch(error => console.error('Error:', error));
         this.setState({ commentInput: ""});
-    };
+      }
+    }
 
     handleComment = (x) => {
         return (
@@ -475,10 +477,10 @@ class InfluencerProfile extends React.Component {
                           </Col>
                         </Row>
                         <Row className="ml-0">
-                          <Col md={6} className="pl-0">
+                          <Col md={7} className="pl-0">
                             <Card className="ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
                               <Card.Body>
-                                <Card.Title style={{color: 'white'}}>Avis</Card.Title>
+                                <Card.Title style={{color: 'white', marginLeft: '20px'}}>Avis</Card.Title>
                                   <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
                                     <Col xs={2} md={2} lg={2} sm={2} xl={2}>
                                       <div className="centerBlock" align="center">
@@ -498,7 +500,7 @@ class InfluencerProfile extends React.Component {
                               </Card.Body>
                             </Card>
                           </Col>
-                          <Col md={6} className="pl-0">
+                          <Col md={5} className="pl-0">
                             <Card className="mr-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
                               <Card.Body>
                                 <Card.Title style={{color: 'white'}}>À propos</Card.Title>
@@ -526,4 +528,6 @@ class InfluencerProfile extends React.Component {
     }
 }
 
-export default withRouter(InfluencerProfile)
+export default withRouter(InfluencerProfile);
+
+// , textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'

@@ -22,7 +22,7 @@ export default class ShopSignUp extends React.Component{
             email: "",
             postal: "",
             city: "",
-            prone: "",
+            phone: "",
             theme: "",
             society: "",
             site: "",
@@ -32,8 +32,10 @@ export default class ShopSignUp extends React.Component{
             twitter: "",
             current: 0,
             isEnd: false,
+            themeValue: ['', 'mode', 'cosmetique', 'high tech', 'food', 'jeux video',  'sport/fitness'],
             goodPassword: false,
             errMsg: {
+              "Error, account already exists": "Erreur, compte existant",
               "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
               "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
               "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
@@ -103,7 +105,7 @@ export default class ShopSignUp extends React.Component{
             "postal": this.state.postal,
             "city": this.state.city,
             "phone": this.state.phone,
-            "theme": this.state.theme,
+            "theme": this.state.theme.toString(),
             "function": this.state.function,
             "society": this.state.society,
         };
