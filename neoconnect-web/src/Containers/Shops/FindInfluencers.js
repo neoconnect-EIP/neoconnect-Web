@@ -90,7 +90,6 @@ class FindInfluencers extends React.Component {
     }
 
     cardInf = (inf) => {
-      console.log("INF ", inf);
         return (
           <Col key={inf.id} className="mb-3">
             {
@@ -120,7 +119,7 @@ class FindInfluencers extends React.Component {
                 }
                 <Row className="pl-2">
                   <StarIcon style={{width: "25px", height: "25px", color: "gold"}}/>
-                  <p>{`note: ${inf.average ? inf.average.toFixed(1) : "0" }/5`}</p>
+                  <p>note: {inf.average != null ? (inf.average.toFixed(1) + '/5') : "Aucune note"}</p>
                 </Row>
             </Card.Body>
           </Card>

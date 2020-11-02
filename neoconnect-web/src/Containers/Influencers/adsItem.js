@@ -10,6 +10,7 @@ import edit from "../../assets/edit.svg";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
@@ -18,10 +19,14 @@ import Carousel from 'react-bootstrap/Carousel';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import { store } from 'react-notifications-component';
 import LoadingOverlay from 'react-loading-overlay';
+import StarIcon from '@material-ui/icons/Star';
+import noImages from "../../assets/noImages.jpg";
 
 class adsItem extends React.Component{
     constructor(props) {
         super(props);
+        console.log("props", props);
+
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") === "shop")
@@ -44,9 +49,9 @@ class adsItem extends React.Component{
             type:['', 'Mode', 'Cosmetique', 'High Tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             raison: "",
             isActive: false,
-            commentData: null,
-            urlId: localStorage.getItem("Jwt") ? parseInt(this.getUrlParams((window.location.search)).id, 10) : 0,
-            link: window.location.href
+            urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
+            link: window.location.href,
+            suggestions: null,
         };
     }
 
@@ -56,18 +61,18 @@ class adsItem extends React.Component{
           .then(res => this.setState({adData: res}))
           .catch(error => console.error('Error:', error));
 
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/comment/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {return (res.json())})
-          .then(res => this.setState({commentData: res}))
+          .then(res => this.setState({suggestions: res}))
+          .catch(error => console.error('Error:', error));
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => res.json())
+          .then(res => {this.setState({userData: res})})
           .catch(error => console.error('Error:', error));
     }
 
     componentDidMount = () => {
         this.getDetailOffer();
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => res.json())
-            .then(res => {this.setState({userData: res})})
-            .catch(error => console.error('Error:', error));
     }
 
     getUrlParams = (search) => {
@@ -142,7 +147,6 @@ class adsItem extends React.Component{
       var msg = await res.json();
 
       if (res.status === 200) {
-        console.log("MSG ", msg);
         store.addNotification({
           title: "Envoyé",
           message: "Nous avons bien envoyé votre message",
@@ -162,7 +166,6 @@ class adsItem extends React.Component{
         this.setState({share: false, email: '', pseudo: '', emailMe: ''})
       }
       else {
-        console.log("error ", msg); //TODO pk ca a fail
         store.addNotification({
           title: "Erreur",
           message: msg,
@@ -349,8 +352,8 @@ class adsItem extends React.Component{
 
     handleComment = (x) => {
         return (
-          <Row key={x.id}>
-            <Col md={2} className="centerBlock">
+          <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
+            <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
               <div className="centerBlock" align="center">
                 <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : avatar} roundedCircle />
                 <p style={{fontWeight: '200'}}>{x.pseudo}</p>
@@ -361,6 +364,33 @@ class adsItem extends React.Component{
               <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
             </Col>
           </Row>
+        )
+    }
+
+    handleGlobalAnnonce = (id) => {
+      console.log("this entered");
+
+      window.location.pathname = `/dashboard/item/${id}`;
+      console.log("this", this);
+      //window.location.reload(false);
+      // this.getDetailOffer();
+    }
+
+
+    displaySuggestion = (item) => {
+        return (
+          <Col key={item.id}>
+            <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+              <Card.Img style={{height: '160px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={!item.productImg || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
+              <Card.Body>
+                <Card.Title>{item.productName ? item.productName : "Sans nom"}</Card.Title>
+                <Row className="ml-1">
+                  <p>{item.average ? item.average.toFixed(1) + '/5' : "Aunce note"}</p>
+                  <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
         )
     }
 
@@ -385,6 +415,7 @@ class adsItem extends React.Component{
     }
 
     render() {
+
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -455,6 +486,7 @@ class adsItem extends React.Component{
                   </Modal>
                 {
                   this.state.adData &&
+                  <>
                   <Row className="p-4">
                     <Col md={6}>
                       <Carousel controls={true} style={{height: '400px'}}>
@@ -466,16 +498,15 @@ class adsItem extends React.Component{
                       </Carousel>
                     </Col>
                     <Col md={4}>
-                        <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
-                          <div style={{ textAlign:'left'}}>
-                            <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
-                            <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
-                          </div>
-
+                      <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
+                        <div style={{ textAlign:'left'}}>
+                          <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
+                          <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
+                        </div>
                         <h3 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
                         <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
                         <Row className="m-0 p-0">
-                          <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
+                          <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
                         </Row>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
@@ -483,25 +514,36 @@ class adsItem extends React.Component{
                         <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
                         <Button onClick={() => this.setState({share: true})} className="btnInf ml-2">Partager</Button>
                     </Col>
-                    <Col md={8} className="mt-4">
+                  </Row>
+                  <Row className="mr-2 pb-4">
+                    <Col md={6} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Avis</h2>
-                      <Row className="mt-4 mb-4 ml-2">
-                        <Col md={1}>
+                      <Row className="mt-4 mb-4" xs={3} md={3} lg={3} sm={3} xl={3}>
+                        <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
                           {this.state.userData &&
-                          <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? avatar : this.state.userData.userPicture[0].imageData} roundedCircle />}
+                            <div className="centerBlock" align="center">
+                          <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? avatar : this.state.userData.userPicture[0].imageData} roundedCircle />
+                        </div>}
                         </Col>
-                        <Col md={8}>
+                        <Col xs={8} md={8} lg={8} sm={8} xl={8}>
                           <Form.Control onChange={(e) => {this.setState({commentInput: e.target.value})}} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                         </Col>
-                        <Col md={1} className="my-auto">
+                        <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
                           <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
                         </Col>
                       </Row>
                       {
-                        !this.state.commentData || this.state.commentData.length === 0 ? "" : this.state.commentData.map(x => this.handleComment(x))
+                        this.state.adData && this.state.adData.comment && this.state.adData.comment.length > 0 && this.state.adData.comment.map(x => this.handleComment(x))
                       }
                     </Col>
-                  </Row>
+                    <Col md={6} className="mt-4">
+                      <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Suggestion</h2>
+                      <Row xs={1} md={2} lg={2} sm={2} xl={3}>
+                        {!this.state.suggestions || this.state.suggestions.length > 0 && this.state.suggestions.map(item => this.displaySuggestion(item))}
+                      </Row>
+                      </Col>
+                    </Row>
+                  </>
                 }
             </div>
           </LoadingOverlay>

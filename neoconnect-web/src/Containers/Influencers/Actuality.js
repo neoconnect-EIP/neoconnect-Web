@@ -66,22 +66,67 @@ class Actuality extends React.Component{
     }
 
     handleCard = (item) => {
+      console.log("item ", item);
         return (
             <Col key={item.id} className="mb-3">
               <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
                 <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}} onClick={() => this.handleGlobalShop(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
                 <Card.Body>
-                  <Card.Title>
-                    <Row>
-                      <p className="mr-auto">{` ${item.pseudo ? item.pseudo : "Sans marque"}`}</p>
-                      <p style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</p>
-                      <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-                    </Row>
-                  </Card.Title>
+                  <Card.Title>{item.pseudo ? item.pseudo : "Sans nom"}</Card.Title>
+                  <Row className="ml-1">
+                    <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleFollow(item)}}>S'abonner</Button>
+                    <p>{item.average != null ? (item.average.toFixed(1) + '/5') : "Aucune note"}</p>
+                    {item.average != null && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
+                  </Row>
                 </Card.Body>
               </Card>
             </Col>
         );
+    }
+
+    handleFollow = (item) => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              if (res.status === 200) {
+                this.setState({visible: false});
+                store.addNotification({
+                  title: "Abonné",
+                  message: "Vous êtes bien abonné",
+                  type: "success",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+              else {
+                store.addNotification({
+                  title: "Erreur",
+                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
+                  type: "danger",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+            })
+            .catch(error => console.error('Error:', error));
+        this.handleClose();
     }
 
     handleAnnonceSubscribe = (item) => {
@@ -140,8 +185,8 @@ class Actuality extends React.Component{
                     </Card.Text>
                     <Row className="ml-1">
                       <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
-                      <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
-                      <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
+                      <p>{item.average ? (item.average.toFixed(1) + '/5') : "Aucune note"}</p>
+                      {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
                     </Row>
                   </Card.Body>
                 </Card>
@@ -186,29 +231,33 @@ class Actuality extends React.Component{
                       this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
                   }
                 </Row>
-              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                {
-                    this.state.tendanceOffer && this.state.tendanceOffer.map(inf => this.handleCardOffer(inf))
-                }
+                <Row className="pl-4">
+                  <Image src={heart}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres du moment</h4>
+                </Row>
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {
+                      this.state.tendanceOffer && this.state.tendanceOffer.map(inf => this.handleCardOffer(inf))
+                  }
+                </Row>
+                <Row className="pl-4">
+                  <Image src={fire}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
+                </Row>
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {
+                      this.state.popularOffer && this.state.popularOffer.map(inf => this.handleCardOffer(inf))
+                  }
+                </Row>
+                <Row className="pl-4 mt-4">
+                  <Image src={star}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
+                </Row>
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {
+                      this.state.bestMarkOffer && this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf))
+                  }
               </Row>
-              <Row className="pl-4">
-                <Image src={fire}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
-              </Row>
-              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                {
-                    this.state.popularOffer && this.state.popularOffer.map(inf => this.handleCardOffer(inf))
-                }
-              </Row>
-              <Row className="pl-4 mt-4">
-                <Image src={star}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
-              </Row>
-              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                {
-                    this.state.bestMarkOffer && this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf))
-                }
-            </Row>
             </div>
         );
     }

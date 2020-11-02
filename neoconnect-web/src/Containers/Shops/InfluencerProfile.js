@@ -135,13 +135,13 @@ class InfluencerProfile extends React.Component {
     handleComment = (x) => {
         return (
             <Row key={x.id}>
-              <Col md={2} className="centerBlock">
+              <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
                 <div className="centerBlock" align="center">
                   <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
                   <p style={{fontWeight: '200'}}>{x.pseudo}</p>
                 </div>
               </Col>
-              <Col>
+              <Col xs={8} md={8} lg={8} sm={8} xl={8}>
                 <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
                 <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
               </Col>
@@ -249,15 +249,12 @@ class InfluencerProfile extends React.Component {
 
     handleSendMsg() {
 
-      console.log(this.state.infData);
-
       if (this.state.msg) {
         let body = {
             "message": this.state.msg,
             "userId": this.state.infData.id.toString(), //destinataire
         };
         body = JSON.stringify(body);
-        console.log(localStorage.getItem("Jwt"));
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
           {
             method: 'POST',
@@ -342,11 +339,13 @@ class InfluencerProfile extends React.Component {
                            </Button>
                          </Modal.Footer>
                         </Modal>
-                        <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}} className="mb-4">
-                          <Col md={2} className="p-2 ml-4">
-                            <Image style={{width: '200px', height: '200px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.infData.userPicture || this.state.infData.userPicture.length === 0 ? noAvatar : this.state.infData.userPicture[0].imageData} roundedCircle/>
+                        <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}} className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={4}>
+                          <Col className="my-auto">
+                            <div className="centerBlock" align="center">
+                              <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.infData.userPicture || this.state.infData.userPicture.length === 0 ? noAvatar : this.state.infData.userPicture[0].imageData} roundedCircle/>
+                            </div>
                           </Col>
-                          <Col md={3} className="pl-2 mt-4">
+                          <Col >
                             <Row className="ml-0">
                               <h1 style={{fontWeight: '300', color: 'white'}}>{this.state.infData.pseudo}</h1>
                               <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report ml-4"/>
@@ -361,22 +360,18 @@ class InfluencerProfile extends React.Component {
                               <Col md={12} className="pl-0">
                                 <Image className="iconProfileSocial" src={phone}/> <span style={{color: 'white'}}>{this.state.infData.phone ? this.state.infData.phone : "Non renseigné"}</span>
                               </Col>
-                                <Badge pill className="pill mt-2 mb-4">
-                                  {this.state.infData.theme}
-                                </Badge>
+                              <Badge pill className="pill mt-2 mb-4">
+                                {this.state.infData.theme}
+                              </Badge>
                             </Row>
-                            <Row className="mb-2">
-                              <Button className="btnShop ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
-                            </Row>
+                            <Button className="btnShop ml-1 mt-3" style={{padding: '4px !important'}} onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
                           </Col>
-                          <Col md={3} className="mt-4">
-                            <Row>
-                              <h2 style={{fontWeight: '300', color: 'white'}}>
-                                Note
-                              </h2>
-                            </Row>
-                            {!this.state.infData.average && <p style={{fontWeight: '200'}}>Aucune note</p>}
-                            <Row>
+                          <Col>
+                            <h2 style={{fontWeight: '300', color: 'white'}}>
+                              Note
+                            </h2>
+                            {!this.state.infData.average && <p style={{fontWeight: '200', color: 'white'}}>Aucune note</p>}
+                            <Row className="pl-1">
                               {this.state.infData.average &&
                               <p className="pt-1 mr-3" style={{color: 'white'}}>{this.state.infData.average}</p>}
                               <StarRatings
@@ -389,7 +384,7 @@ class InfluencerProfile extends React.Component {
                                <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
                             </Row>
                           </Col>
-                          <Col md={3}  className="mt-4">
+                          <Col>
                             <h2 style={{fontWeight: '300', color: 'white'}}>Réseaux sociaux</h2>
                             <Row className="ml-0 mt-2">
                               {this.state.infData.facebook && <OverlayTrigger
@@ -472,6 +467,10 @@ class InfluencerProfile extends React.Component {
                               >
                                 <Image style={{width: '20px', height: '20px'}} src={twitch}/>
                               </OverlayTrigger>}
+                              {!this.state.infData.facebook && !this.state.infData.instagram && !this.state.infData.twitter && !this.state.infData.youtube &&
+                              !this.state.infData.snapchat && !this.state.infData.tiktok && !this.state.infData.pinterest && !this.state.infData.twitch &&
+                              <p style={{fontWeight: '200', color: 'white'}}>Aucun réseaux sociaux</p>
+                            }
                             </Row>
                           </Col>
                         </Row>
@@ -480,14 +479,16 @@ class InfluencerProfile extends React.Component {
                             <Card className="ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
                               <Card.Body>
                                 <Card.Title style={{color: 'white'}}>Avis</Card.Title>
-                                  <Row className="mt-4 mb-4">
-                                    <Col md={1}>
-                                      <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
+                                  <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
+                                    <Col xs={2} md={2} lg={2} sm={2} xl={2}>
+                                      <div className="centerBlock" align="center">
+                                        <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
+                                      </div>
                                     </Col>
-                                    <Col md={8}>
+                                    <Col xs={8} md={8} lg={8} sm={8} xl={8}>
                                       <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                                     </Col>
-                                    <Col md={1} className="my-auto">
+                                    <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
                                       <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
                                     </Col>
                                   </Row>

@@ -50,8 +50,6 @@ class Ads extends React.Component {
     }
 
     getAplliedOffer = () => {
-      console.log("JWT ", localStorage.getItem("Jwt"));
-      console.log("ID ", localStorage.getItem("userId"));
       if (localStorage.getItem("Jwt")) {
 
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {

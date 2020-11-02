@@ -178,8 +178,8 @@ class FindShop extends React.Component{
                     </Card.Title>
                     <Row className="ml-1">
                       <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
-                      <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
-                      <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
+                      <p>{item.average ? item.average.toFixed(1) + '/5' : "Aucune note"}</p>
+                      {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
                     </Row>
                   </Card.Body>
                 </Card>
@@ -205,7 +205,7 @@ class FindShop extends React.Component{
                 </Navbar>
                 {
                     this.state.shopList ?
-                      <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                      <Row className="ml-3 mr-3 mt-3" xs={1} sm={1} md={2} lg={3} xl={4}>
                             {
                                 this.state.shopList.map(item => this.handleCard(item))
                             }

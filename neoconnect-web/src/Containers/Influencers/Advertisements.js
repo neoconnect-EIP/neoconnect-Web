@@ -61,7 +61,7 @@ class Advertisements extends React.Component{
     }
 
     handleGlobalAnnonce = (id) => {
-        this.props.history.push(`/dashboard/item?id=${id}`)
+        this.props.history.push(`/dashboard/item/${id}`)
     }
 
     handleModal = (item) => {
@@ -129,7 +129,6 @@ class Advertisements extends React.Component{
     }
     handleSearch = () => {
       const kwd = this.state.searchForm
-      // fetch(`http://http://168.63.65.106:8080/offer/list`)
       let adsData = this.state.adsSaver
       this.setState({adsData: null})
 
@@ -207,25 +206,21 @@ class Advertisements extends React.Component{
           }else return 0
         }).reverse()})
       }
-      // document.getElementsByClassName('active').classList.remove('active')
-
     }
     handleCard = (item) => {
         return (
-          <Col className="mb-3">
-            <div key={item.id}>
-                <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-                  <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
-                  <Card.Body>
-                    <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
-                    <Row className="ml-1">
-                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
-                      <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
-                      <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-                    </Row>
-                  </Card.Body>
-                </Card>
-            </div>
+          <Col className="mb-3" key={item.id}>
+            <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+              <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
+              <Card.Body>
+                <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
+                <Row className="ml-1">
+                  <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
+                  <p>{item.average ? item.average.toFixed(1) + '/5' : "Aucune note"}</p>
+                  {item.average && <StarIcon style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
+                </Row>
+              </Card.Body>
+            </Card>
           </Col>
         );
     }
@@ -264,7 +259,7 @@ class Advertisements extends React.Component{
                 </InputGroup>
               {
                   this.state.adsData ?
-                    <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                    <Row className="ml-3 mr-3 mt-3" xs={1} sm={1} md={2} lg={3} xl={4}>
                           {
 
                               this.state.adsData.map(item => this.handleCard(item))
