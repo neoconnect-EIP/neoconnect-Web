@@ -28,6 +28,8 @@ import snapchatOff from "../../assets/snapchatOff.svg";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import place from "../../assets/place.svg";
+import edit from "../../assets/edit.svg";
+import {Rate} from "antd";
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -285,6 +287,50 @@ class shopProfile extends React.Component{
       }
     }
 
+    handleFollow = () => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              if (res.status === 200) {
+                this.setState({visible: false});
+                store.addNotification({
+                  title: "Abonné",
+                  message: "Vous êtes bien abonné",
+                  type: "success",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+              else {
+                store.addNotification({
+                  title: "Erreur",
+                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
+                  type: "danger",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
     render() {
         return (
             <div className="infBg">
@@ -398,7 +444,8 @@ class shopProfile extends React.Component{
                                   </OverlayTrigger> : <Image className="iconProfileSocial" src={snapchatOff}/>}
                                 </Row>
                                 <Row>
-                                  <Button className="btnInf mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
+                                  <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleFollow}>S'abonner</Button>
+                                  <Button variant="outline-light" className="mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
                                 </Row>
                             </Col>
                             <Col md={4} className="pt-2 ml-2">
@@ -419,6 +466,8 @@ class shopProfile extends React.Component{
                                    name='rating'
                                    starDimension="20px"
                                  />
+                                 <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
+
                               </Row>
                             </Col>
                           </Row>
@@ -457,6 +506,22 @@ class shopProfile extends React.Component{
                             style={{marginTop: "14rem"}}
                         />
                 }
+                <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
+                 <Modal.Header closeButton>
+                   <Modal.Title>Notez cette boutique</Modal.Title>
+                 </Modal.Header>
+                 <Modal.Body>
+                   <Rate onChange={(e) => this.handleMark(e)} />
+                 </Modal.Body>
+                 <Modal.Footer>
+                   <Button className="btnCancel" onClick={this.handleCloseRate}>
+                     Annuler
+                   </Button>
+                   <Button className="btnInf" onClick={this.handleSendMark}>
+                     Noter
+                   </Button>
+                 </Modal.Footer>
+                </Modal>
             </div>
         );
     }
@@ -464,20 +529,4 @@ class shopProfile extends React.Component{
 
 export default withRouter(shopProfile)
 
-// <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
-// <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
-//  <Modal.Header closeButton>
-//    <Modal.Title>Notez cette boutique</Modal.Title>
-//  </Modal.Header>
-//  <Modal.Body>
-//    <Rate onChange={(e) => this.handleMark(e)} />
-//  </Modal.Body>
-//  <Modal.Footer>
-//    <Button className="btnCancel" onClick={this.handleCloseRate}>
-//      Annuler
-//    </Button>
-//    <Button className="btnInf" onClick={this.handleSendMark}>
-//      Noter
-//    </Button>
-//  </Modal.Footer>
-// </Modal>
+// <Button className="btnInf mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>

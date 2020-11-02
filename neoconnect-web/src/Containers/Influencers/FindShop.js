@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
@@ -32,7 +33,9 @@ class FindShop extends React.Component{
             tmpSearch: "",
             popular: null,
             bestMark: null,
-            tendance: null
+            tendance: null,
+            visible: false,
+            item: null,
         };
 
     }
@@ -107,6 +110,59 @@ class FindShop extends React.Component{
         this.props.history.push(`/dashboard/shop?id=${id}`)
     }
 
+    handleClose = () => {
+      this.setState({visible: false})
+    }
+
+    handleOpen = (item) => {
+      this.setState({visible: true, item: item})
+    }
+
+    handleFollow = () => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              if (res.status === 200) {
+                this.setState({visible: false});
+                store.addNotification({
+                  title: "Abonné",
+                  message: "Vous êtes bien abonné",
+                  type: "success",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+              else {
+                store.addNotification({
+                  title: "Erreur",
+                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
+                  type: "danger",
+                  insert: "top",
+                  container: "top-right",
+                  pauseOnHover: true,
+                  isMobile: true,
+                  animationIn: ["animated", "fadeIn"],
+                  animationOut: ["animated", "fadeOut"],
+                  dismiss: {
+                    duration: 7000,
+                    onScreen: true,
+                    showIcon: true
+                  }
+                });
+              }
+            })
+            .catch(error => console.error('Error:', error));
+        this.handleClose();
+    }
+
     handleCard = (item) => {
         return (
           <Col className="mb-3">
@@ -118,12 +174,13 @@ class FindShop extends React.Component{
                   <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
                   <Card.Body>
                     <Card.Title>
-                      <Row>
                         <p className="mr-auto">{` ${item.pseudo ? item.pseudo : "Sans marque"}`}</p>
-                        <p style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</p>
-                        <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-                      </Row>
                     </Card.Title>
+                    <Row className="ml-1">
+                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
+                      <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
+                      <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
+                    </Row>
                   </Card.Body>
                 </Card>
               </div>
@@ -162,9 +219,31 @@ class FindShop extends React.Component{
                             style={{marginTop: "14rem"}}
                         />
                 }
+                <Modal centered show={this.state.visible} onHide={this.handleClose}>
+                 <Modal.Header closeButton>
+                   <Modal.Title>{"S'abonner à la boutique " + (this.state.item ? this.state.item.pseudo : '') + " ?"}</Modal.Title>
+                 </Modal.Header>
+                 <Modal.Body>
+                   {
+                     "En vous abonnant à la boutique, vous recevrez en email leur nouveauté."
+                   }
+                 </Modal.Body>
+                 <Modal.Footer>
+                   <Button className="btnCancel" onClick={this.handleClose}>
+                     Annuler
+                   </Button>
+                   <Button className="btnInf" onClick={this.handleFollow}>
+                     S'abonner
+                   </Button>
+                 </Modal.Footer>
+               </Modal>
             </div>
         );
     }
 }
 
 export default withRouter(FindShop)
+// <Row>
+// <p style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</p>
+// <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
+// </Row>

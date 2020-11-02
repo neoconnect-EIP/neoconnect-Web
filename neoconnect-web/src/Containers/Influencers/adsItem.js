@@ -419,23 +419,6 @@ class adsItem extends React.Component{
                    </Modal.Footer>
                   </Modal>
 
-                  <Modal centered show={this.state.note} onHide={this.handleCloseNote}>
-                   <Modal.Header closeButton>
-                     <Modal.Title>Noter cette offre</Modal.Title>
-                   </Modal.Header>
-                   <Modal.Body>
-                      <Rate onChange={(e) => this.handleMark(e)} />
-                   </Modal.Body>
-                   <Modal.Footer>
-                     <Button className="btnCancel" onClick={this.handleClose}>
-                       Annuler
-                     </Button>
-                     <Button className="btnInf" onClick={() => this.handleAnnonceNotation(this.state.adData)}>
-                       Noter
-                     </Button>
-                   </Modal.Footer>
-                  </Modal>
-
                   <Modal centered show={this.state.share} onHide={this.handleCloseShare}>
                    <Modal.Header closeButton>
                      <Modal.Title>Partager</Modal.Title>
@@ -493,7 +476,6 @@ class adsItem extends React.Component{
                         <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
                         <Row className="m-0 p-0">
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`Note: ${this.state.adData.average ? this.state.adData.average.toFixed(1) : "0"}/5`}</h4>
-                          <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
                         </Row>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
@@ -635,3 +617,22 @@ export default withRouter(adsItem)
 //                </ListItemText>
 //            </ListItem>
 //        </List>
+
+// <Modal centered show={this.state.note} onHide={this.handleCloseNote}>
+//  <Modal.Header closeButton>
+//    <Modal.Title>Noter cette offre</Modal.Title>
+//  </Modal.Header>
+//  <Modal.Body>
+//     <Rate onChange={(e) => this.handleMark(e)} />
+//  </Modal.Body>
+//  <Modal.Footer>
+//    <Button className="btnCancel" onClick={this.handleClose}>
+//      Annuler
+//    </Button>
+//    <Button className="btnInf" onClick={() => this.handleAnnonceNotation(this.state.adData)}>
+//      Noter
+//    </Button>
+//  </Modal.Footer>
+// </Modal>
+
+// <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>

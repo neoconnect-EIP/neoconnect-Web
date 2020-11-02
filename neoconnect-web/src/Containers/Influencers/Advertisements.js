@@ -218,9 +218,6 @@ class Advertisements extends React.Component{
                   <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
                   <Card.Body>
                     <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
-                    <Card.Text>
-                      {`${item.productColor ? item.productColor : ""}`}
-                    </Card.Text>
                     <Row className="ml-1">
                       <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
                       <h6>{item.average ? item.average.toFixed(1) : "0"}/5</h6>
@@ -306,3 +303,7 @@ class Advertisements extends React.Component{
 }
 
 export default withRouter(Advertisements)
+
+// <Card.Text>
+//   {`${item.color ? item.color : ""}`}
+// </Card.Text>
