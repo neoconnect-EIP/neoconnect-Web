@@ -49,7 +49,7 @@ class Ads extends React.Component {
 
     }
 
-    getAplliedOffer = () => {
+    getAppliedOffer = () => {
       if (localStorage.getItem("Jwt")) {
 
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
@@ -86,7 +86,7 @@ class Ads extends React.Component {
     }
 
     componentDidMount = () => {
-        this.getAplliedOffer();
+        this.getAppliedOffer();
     }
 
     handleSendMail = () => {
@@ -113,13 +113,13 @@ class Ads extends React.Component {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {
-              res.json();
-              if (res.status === 200) {
-                thisTmp.getAplliedOffer();
-              }
-            })
-            .catch(error => console.error('Error:', error));
+        .then(res => {
+          res.json();
+          if (res.status === 200) {
+            thisTmp.getAppliedOffer();
+          }
+        })
+        .catch(error => console.error('Error:', error));
     };
 
     listAbonnement = () => {

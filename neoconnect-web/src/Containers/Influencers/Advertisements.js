@@ -16,7 +16,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { store } from 'react-notifications-component';
+import { showNotif } from '../Utils.js';
 
 class Advertisements extends React.Component{
     constructor(props) {
@@ -36,32 +36,55 @@ class Advertisements extends React.Component{
             sort: 'Order (ASC)',
             popular: null,
             bestMark: null,
-            tendance: null
+            tendance: null,
+            applied: [],
         };
     }
 
-    componentDidMount = () => {
-
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => res.json())
-            .then(res => {
-              this.setState({adsSaver: res, adsData: res.sort((a, b) => {
-                if (typeof a.productName === 'string' && typeof b.productName === 'string'){
-                  if (a.productName.length && b.productName.length){
-                    if (a.productName[0] > b.productName[0]) return 1
-                    else if (a.productName[0] < b.productName[0]) return -1
-                    else return 0
-                  }else return 0
+    getOffer = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => res.json())
+          .then(res => {
+            this.setState({adsSaver: res, adsData: res.sort((a, b) => {
+              if (typeof a.productName === 'string' && typeof b.productName === 'string'){
+                if (a.productName.length && b.productName.length){
+                  if (a.productName[0] > b.productName[0]) return 1
+                  else if (a.productName[0] < b.productName[0]) return -1
+                  else return 0
                 }else return 0
-              })})
-              this.setState({adsData: res, adsSaver: res})
+              }else return 0
+            })})
+            this.setState({adsData: res, adsSaver: res})
 
-            })
-            .catch(error => console.error('Error:', error));
+          })
+          .catch(error => console.error('Error:', error));
+    }
+
+    getAppliedOffer = () => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          if (res.status >= 400)
+            throw res;
+          return res.json()
+        })
+        .then(res => this.setState({applied: res}))
+        .catch(error => {
+          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+        });
+    }
+
+    componentDidMount = () => {
+      if (localStorage.getItem("Jwt")) {
+        this.getOffer();
+        this.getAppliedOffer();
+      }
     }
 
     handleGlobalAnnonce = (id) => {
-        this.props.history.push(`/dashboard/item/${id}`)
+        this.props.history.push({pathname: `/dashboard/item/${id}`, state: this.state.applied});
     }
 
     handleModal = (item) => {
@@ -69,47 +92,23 @@ class Advertisements extends React.Component{
     }
 
     handleAnnonceSubsribe = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {
-              if (res.status === 200) {
-                this.setState({visible: false});
-                store.addNotification({
-                  title: "Postulé",
-                  message: "Nous avons bien pris en compte votre demande",
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
-              }
-              else {
-                store.addNotification({
-                  title: "Erreur",
-                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
-                  type: "danger",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
-              }
-            })
-            .catch(error => console.error('Error:', error));
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.item.id}`,
+          {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+          .then(res => {
+            if (res.status >= 400)
+              throw res;
+            return res.json()
+          })
+          .then(res => {
+            this.getOffer();
+            this.getAppliedOffer();
+          })
+          .catch(error => {
+            showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+          });
         this.handleClose();
     }
 
@@ -159,6 +158,7 @@ class Advertisements extends React.Component{
       this.setState({adsData: adsData})
 
     }
+
     handleSort = (event) => {
       const el = event.target
       const filterText = el.innerText
@@ -207,6 +207,7 @@ class Advertisements extends React.Component{
         }).reverse()})
       }
     }
+
     handleCard = (item) => {
         return (
           <Col className="mb-3" key={item.id}>
@@ -215,7 +216,12 @@ class Advertisements extends React.Component{
               <Card.Body>
                 <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
                 <Row className="ml-1">
-                  <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
+                  {
+                    this.state.applied.some(el => el.idOffer === item.id) ?
+                    <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>
+                    :
+                    <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
+                  }
                   <p>{item.average ? item.average.toFixed(1) + '/5' : "Aucune note"}</p>
                   {item.average && <StarIcon style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
                 </Row>
@@ -224,6 +230,25 @@ class Advertisements extends React.Component{
           </Col>
         );
     }
+
+    handleDelete = (id) => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/noapply/${id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          if (res.status >= 400)
+            throw res;
+          return res.json()
+        })
+        .then(res => {
+          this.getOffer();
+          this.getAppliedOffer();
+        })
+        .catch(error => {
+          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+        });
+    };
 
     render() {
         return (
@@ -280,7 +305,7 @@ class Advertisements extends React.Component{
                </Modal.Header>
                <Modal.Body>
                  {
-                   (this.state.item && this.state.item.productBrand) ? this.state.item.productBrand : "Sans marque"
+                   (this.state.item && this.state.item.productName) ? this.state.item.productName : "Sans nom"
                  }
                </Modal.Body>
                <Modal.Footer>

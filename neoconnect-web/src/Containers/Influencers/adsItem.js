@@ -21,11 +21,12 @@ import { store } from 'react-notifications-component';
 import LoadingOverlay from 'react-loading-overlay';
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg";
+import { showNotif } from '../Utils.js';
 
 class adsItem extends React.Component{
     constructor(props) {
         super(props);
-        console.log("props", props);
+        console.log("props", props.location.state);
 
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
@@ -52,10 +53,12 @@ class adsItem extends React.Component{
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
             link: window.location.href,
             suggestions: null,
+            applied: props.location.state,
         };
     }
 
     getDetailOffer = () => {
+       console.log("Whouah");
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {return (res.json())})
           .then(res => this.setState({adData: res}))
@@ -65,13 +68,14 @@ class adsItem extends React.Component{
           .then(res => {return (res.json())})
           .then(res => this.setState({suggestions: res}))
           .catch(error => console.error('Error:', error));
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => res.json())
-          .then(res => {this.setState({userData: res})})
+          .then(res => {this.setState({applied: res})})
           .catch(error => console.error('Error:', error));
     }
 
     componentDidMount = () => {
+      if (localStorage.getItem("Jwt"))
         this.getDetailOffer();
     }
 
@@ -99,48 +103,23 @@ class adsItem extends React.Component{
     };
 
     handleAnnonceSubscribe = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.adData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {
-              if (res.status === 200) {
-                this.setState({visible: false});
-                store.addNotification({
-                  title: "Postulé",
-                  message: "Nous avons bien pris en compte votre demande",
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
-              }
-              else {
-                store.addNotification({
-                  title: "Erreur",
-                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
-                  type: "danger",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
-              }
-            })
-            .catch(error => console.error('Error:', error));
-        this.props.history.push("/dashboard/advertisements")
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.adData.id}`,
+          {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+          .then(res => {
+            if (res.status >= 400)
+              throw res;
+            return res.json()
+          })
+          .then(res => {
+            this.getDetailOffer();
+          })
+          .catch(error => {
+            showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+          });
+        // this.props.history.push("/dashboard/advertisements")
     }
 
     handleResponse = async (res) => {
@@ -414,8 +393,26 @@ class adsItem extends React.Component{
       this.setState({share: false})
     }
 
-    render() {
+    handleDelete = (id) => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/noapply/${id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          if (res.status >= 400)
+            throw res;
+          return res.json()
+        })
+        .then(res => {
+          this.getDetailOffer();
+        })
+        .catch(error => {
+          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+        });
+    };
 
+    render() {
+      console.log("sugg ", this.state.suggestions);
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -511,7 +508,11 @@ class adsItem extends React.Component{
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.color ? `Couleur: ${this.state.adData.color}` : ""}</h5>
-                        <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
+                        {
+                          this.state.applied.some(el => el.idOffer === this.state.adData.id) ?
+                          <Button onClick={() => this.handleDelete(this.state.adData.id)} className="btnInf">Annuler</Button>:
+                          <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
+                          }
                         <Button onClick={() => this.setState({share: true})} className="btnInf ml-2">Partager</Button>
                     </Col>
                   </Row>
@@ -539,8 +540,9 @@ class adsItem extends React.Component{
                     <Col md={6} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Suggestion</h2>
                       <Row xs={1} md={2} lg={2} sm={2} xl={3}>
-                        {!this.state.suggestions || this.state.suggestions.length > 0 && this.state.suggestions.map(item => this.displaySuggestion(item))}
+                        {!this.state.suggestions || this.state.suggestions.length > 0 && this.state.suggestions != 'No Data' && this.state.suggestions.map(item => this.displaySuggestion(item))}
                       </Row>
+                      {this.state.suggestions == "No Data" && <h5 style={{fontWeight: '300', color: 'white'}} className="ml-4 mt-3" >Aucune suggestion trouvé</h5>}
                       </Col>
                     </Row>
                   </>
