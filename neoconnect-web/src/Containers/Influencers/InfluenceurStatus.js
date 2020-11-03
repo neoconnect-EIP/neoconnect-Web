@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import Container from 'react-bootstrap/Container';
 import facebook from "../../assets/facebookWhite.svg";
 import instagram from "../../assets/instagramWhite.svg";
 import snapchat from "../../assets/snapchatWhite.svg";
@@ -28,6 +29,8 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import { store } from 'react-notifications-component';
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
+import { showNotif } from '../Utils.js';
+
 
 class InfluenceurStatus extends React.Component{
     constructor(props) {
@@ -62,6 +65,7 @@ class InfluenceurStatus extends React.Component{
             themeValue: ['', 'mode', 'cosmetique', 'hight tech', 'food', 'jeux video', 'sport/fitness'],
             isActive: false,
             followed: [],
+            showFollowers: false,
         };
     }
 
@@ -98,10 +102,10 @@ class InfluenceurStatus extends React.Component{
     //     this.props.history.push("/dashboard/edit-profile")
     // }
 
-    handleClose = () => {
-
-
-        this.setState({visible: false})
+    handleClose = (modalName) => {
+      this.state[modalName] = false;
+        // this.setState({visible: false})
+        this.forceUpdate();
     }
 
     handleCloseDelete = () => {
@@ -177,6 +181,24 @@ class InfluenceurStatus extends React.Component{
             </Col>
           </Row>
         )
+    };
+
+    displayFollowers = () => {
+      console.log("followers ", this.state.followed);
+      return (
+        this.state.followed.map((val, idx) => (
+          <Container fluid>
+            <Row>
+              <Col>
+                <p style={{fontWeight: '200'}}>{val.pseudo}</p>
+              </Col>
+              <Col>
+                <Button variant="outline-dark"  onClick={() => {this.handleUnFollow(val.id)}}>Désabonner</Button>
+              </Col>
+            </Row>
+        </Container>
+        )
+      ));
     };
 
     handleSubmit = () => {
@@ -266,6 +288,20 @@ class InfluenceurStatus extends React.Component{
         .catch(console.error)
     }
 
+    handleUnFollow = (id) => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        .then(res => {
+          if (res.status === 200) {
+            showNotif(false, "Abonné", "Vous êtes bien désabonné");
+            this.getFollowed();
+          }
+          else {
+            showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
     render() {
 
         return (
@@ -275,7 +311,7 @@ class InfluenceurStatus extends React.Component{
             text='Chargement...'
             >
             <div className="infBg">
-              <Modal size="lg" centered show={this.state.visible} onHide={this.handleClose}>
+              <Modal size="lg" centered show={this.state.visible} onHide={() => {this.handleClose('visible')}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Modifier vos informations</Modal.Title>
                 </Modal.Header>
@@ -382,7 +418,7 @@ class InfluenceurStatus extends React.Component{
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button className="btnCancel" onClick={this.handleClose}>
+                  <Button className="btnCancel" onClick={() => {this.handleClose('visible')}}>
                     Annuler
                   </Button>
                   <Button className="btnInfDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
@@ -391,7 +427,7 @@ class InfluenceurStatus extends React.Component{
                   </Button>
                   </Modal.Footer>
                 </Modal>
-                <Modal centered show={this.state.visibleDelete} onHide={this.handleClose}>
+                <Modal centered show={this.state.visibleDelete} onHide={() => {this.handleClose('visible')}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Suppression de compte</Modal.Title>
                   </Modal.Header>
@@ -429,7 +465,7 @@ class InfluenceurStatus extends React.Component{
                              </div>
                             <p style={{color: 'white', fontWeight: '300'}}>Note</p>
                           </Col>
-                          <Col className="mx-auto mt-4" align="center">
+                          <Col className="mx-auto mt-4 report" align="center" onClick={() => {this.setState({showFollowers: true});}}>
                             <h3 style={{color: 'white'}}>{this.state.followed.length}</h3>
                             <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnement</p>
                           </Col>
@@ -523,8 +559,18 @@ class InfluenceurStatus extends React.Component{
                   />
                 }
               </div>
-          </LoadingOverlay>
-        );
+              <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Vos abonnements</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                 {
+                   this.state.followed && this.displayFollowers()
+                 }
+                </Modal.Body>
+              </Modal>
+            </LoadingOverlay>
+          );
     }
 }
 
