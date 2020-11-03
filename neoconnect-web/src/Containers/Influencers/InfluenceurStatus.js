@@ -282,6 +282,7 @@ class InfluenceurStatus extends React.Component{
         })
         .then(res => {
             localStorage.clear();
+            showNotif(false, "Succès", "Suppression de compte réussi.");
             this.props.history.push('/landing-page')
         })
         .catch(console.error)
