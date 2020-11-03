@@ -23,6 +23,7 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import { store } from 'react-notifications-component';
 import Badge from 'react-bootstrap/Badge';
+import { showNotif } from '../Utils.js';
 
 class ShopStatus extends React.Component{
     constructor(props) {
@@ -269,6 +270,7 @@ class ShopStatus extends React.Component{
         })
         .then(res => {
             localStorage.clear();
+            showNotif(false, "Succès", "Suppression de compte réussi.");
             this.props.history.push('/landing-page')
         })
         .catch(console.error)
@@ -513,7 +515,7 @@ class ShopStatus extends React.Component{
                         </Col>
                         <Col>
                           <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
-                            {!this.state.userData.comment || this.state.userData.comment.length === 0 ? "" : this.state.userData.comment.map(x => this.handleComment(x))}
+                            {!this.state.userData.comment || this.state.userData.comment.length === 0 ? <p style={{color: 'white'}}>Aucun commentaire</p> : this.state.userData.comment.map(x => this.handleComment(x))}
                         </Col>
                       </Row>
                     </div>

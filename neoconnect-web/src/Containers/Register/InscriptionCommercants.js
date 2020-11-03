@@ -8,8 +8,7 @@ import instagram from "../../assets/instagram.svg";
 import facebook from "../../assets/facebook.svg";
 import snapchat from "../../assets/snapchat.svg";
 import twitter from "../../assets/twitter.svg";
-
-//TODO refaire style
+import camera from "../../assets/camera.svg";
 
 export default class ShopSignUp extends React.Component{
     constructor(props) {
@@ -32,6 +31,7 @@ export default class ShopSignUp extends React.Component{
             twitter: "",
             current: 0,
             isEnd: false,
+            imgChanged: false,
             themeValue: ['', 'mode', 'cosmetique', 'high tech', 'food', 'jeux video',  'sport/fitness'],
             goodPassword: false,
             errMsg: {
@@ -43,6 +43,7 @@ export default class ShopSignUp extends React.Component{
             },
             function: "",
         }
+        this.inputOpenFileRef = React.createRef();
     }
 
     handleChange = (e) => {
@@ -108,6 +109,7 @@ export default class ShopSignUp extends React.Component{
             "theme": this.state.theme.toString(),
             "function": this.state.function,
             "society": this.state.society,
+            "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
         };
         body = JSON.stringify(body);
 
@@ -116,17 +118,57 @@ export default class ShopSignUp extends React.Component{
             .catch(error => console.error('Error222:', error));
 
       }
-
-            // res.json();
     };
 
+    handleSplitString = (str) => {
+        var tmp = "";
+        var i = 0;
+
+        i = str.indexOf(",");
+        tmp = str.substr(i + 1)
+        return tmp
+    };
+
+    showOpenFileDlg = () => {
+      this.inputOpenFileRef.current.click()
+    }
+
+    handleImgChange(event, thisTmp) {
+      thisTmp.state.imgChanged = true;
+      event.preventDefault();
+      let reader = new FileReader();
+      let file = event.target.files[0];
+      reader.onloadend = () => {
+          thisTmp.setState({
+              file: file,
+              userPicture: thisTmp.handleSplitString(reader.result),
+          });
+      };
+      reader.readAsDataURL(file);
+  }
+
     getStepContent = (step) => {
+      var thisTmp = this;
+
         switch (step) {
             case 0:
                 return (
                     <Grid container justify="center">
                         <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
                             <h1 style={{fontWeight: '300'}}>Informations de compte</h1>
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                          <input ref={this.inputOpenFileRef} type="file" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
+                          {
+                            this.state.imgChanged ?
+                            <Image className="report" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
+                              src={`data:image/jpeg;base64,${this.state.userPicture}`} onClick={this.showOpenFileDlg} roundedCircle/>
+                             :
+                            <div className="mx-auto report" onClick={this.showOpenFileDlg}
+                              style={{backgroundColor: '#8FBA86', width: '100px', height: '100px', borderRadius: '50px', display: 'flex'}} >
+                                <Image className="my-auto mx-auto" style={{width: '50px', height: 'auto'}} src={camera} />
+                            </div>
+                          }
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
                             <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>
