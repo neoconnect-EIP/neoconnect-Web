@@ -413,7 +413,10 @@ class ShopStatus extends React.Component{
                     this.state.userData &&
                     <div>
                       <Row className="mx-0">
-                        <Col className="mx-auto mt-4" align="center">
+                        <div style={{position: 'absolute', top: 10, right: 20}}>
+                          <Button variant="outline-light" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
+                        </div>
+                        <Col className="mx-auto" style={{marginTop: '60px'}} align="center">
                           <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
                             src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
                           <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
@@ -493,11 +496,6 @@ class ShopStatus extends React.Component{
                             {!this.state.userData.comment || this.state.userData.comment.length === 0 ? "" : this.state.userData.comment.map(x => this.handleComment(x))}
                         </Col>
                       </Row>
-                      <Row className="mx-0 mt-4 pt-4 pb-4">
-                        <Col align="center">
-                          <Button className="btnShop" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
-                        </Col>
-                      </Row>
                     </div>
                   }
               </div>
@@ -506,4 +504,11 @@ class ShopStatus extends React.Component{
     }
 }
 
-export default withRouter(ShopStatus)
+export default withRouter(ShopStatus);
+
+// <Row className="mx-0 mt-4 pt-4 pb-4">
+//   <Col align="center">
+//     <Button className="btnShop" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
+//   </Col>
+// </Row>
+//

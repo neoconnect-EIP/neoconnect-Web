@@ -406,128 +406,132 @@ class InfluenceurStatus extends React.Component{
                   </Modal.Footer>
                 </Modal>
                 {
-                    this.state.userData ?
-                      <div>
-                        <Row className="mx-0">
-                          <Col className="mx-auto mt-4" align="center">
-                            <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
-                              src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
-                            <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
-                            <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
-                            <Row xs={1} sm={1} md={2} lg={2} xl={2}>
-                              <Col className="mx-auto mt-4" align="center">
-                                <div className="mb-3">
-                                  <StarRatings
-                                     rating={this.state.userData.average ? this.state.userData.average : 0}
-                                     starRatedColor="#FFC106"
-                                     numberOfStars={5}
-                                     name='rating'
-                                     starDimension="20px" />
-                                 </div>
-                                <p style={{color: 'white', fontWeight: '300'}}>Note</p>
-                              </Col>
-                              <Col className="mx-auto mt-4" align="center">
-                                <h3 style={{color: 'white'}}>{this.state.followed.length}</h3>
-                                <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnement</p>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                        <Row className="ml-4 mt-4" xs={1} sm={1} md={2} lg={2} xl={2}>
-                          <Col>
-                            <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Informations du compte</h2>
-                            <Col>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={account}/>
-                                <p style={{color:'white'}}>{this.state.userData.pseudo}</p>
-                              </Row>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={place}/>
-                                <p style={{color:'white'}}>{this.state.userData.city ? this.state.userData.city : "Non fourni"}</p>
-                              </Row>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={mail}/>
-                                <p style={{color:'white'}}>{this.state.userData.email ? this.state.userData.email : "Non fourni"}</p>
-                              </Row>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={phone}/>
-                                <p style={{color:'white'}}>{this.state.userData.phone ? this.state.userData.phone : "Non fourni"}</p>
-                              </Row>
-                            </Col>
-                          </Col>
-                          <Col>
-                            <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Réseaux social</h2>
-                            <Row>
-                              <Col>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={facebook}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.facebook ? this.state.userData.facebook : "Non fourni"}</p>
-                                </Row>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={instagram}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.instagram ? this.state.userData.instagram : "Non fourni"}</p>
-                                </Row>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={snapchat}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.snapchat ? this.state.userData.snapchat : "Non fourni"}</p>
-                                </Row>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={twitter}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.twitter ? this.state.userData.twitter : "Non fourni"}</p>
-                                </Row>
-                              </Col>
-                              <Col>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={tiktok}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.tiktok ? this.state.userData.tiktok : "Non fourni"}</p>
-                                </Row>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={youtube}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.youtube ? this.state.userData.youtube : "Non fourni"}</p>
-                                </Row>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={pinterest}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.pinterest ? this.state.userData.pinterest : " Non fourni"}</p>
-                                </Row>
-                                <Row className="mx-0 mb-1">
-                                  <Image className="iconProfileSocial" src={twitch}/>
-                                  <p style={{color: 'white'}}>{this.state.userData.twitch ? this.state.userData.twitch : "Non fourni"}</p>
-                                </Row>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                        <Row className="ml-4 mt-4" xs={1} sm={1} md={2} lg={2} xl={2}>
-                          <Col>
-                            <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Bio</h2>
-                            <p style={{color: 'white'}}>{this.state.userData.userDescription ? this.state.userData.userDescription : "Non fourni"}</p>
-                          </Col>
-                          <Col>
-                            <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
-                            {
-                              !this.state.userData.comment || this.state.userData.comment.length === 0 ? "" : this.state.userData.comment.map(x => this.handleComment(x))
-                            }
-                          </Col>
-                        </Row>
-                        <Row className="mx-0 mt-4 pt-4 pb-3">
-                          <Col align="center">
-                            <Button className="btnInf" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
-                          </Col>
-                        </Row>
+                this.state.userData ?
+                  <div>
+                    <Row className="mx-0">
+                      <div style={{position: 'absolute', top: 10, right: 20}}>
+                        <Button variant="outline-light" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
                       </div>
-                      :
-                      <Loader
-                          type="Triangle"
-                          color="#292929"
-                          height={200}
-                          width={200}
-                          style={{marginTop: "14rem"}}
-                      />
+                      <Col className="mx-auto" style={{marginTop: '60px'}} align="center">
+                        <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
+                          src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
+                        <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
+                        <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
+                        <Row xs={1} sm={1} md={2} lg={2} xl={2}>
+                          <Col className="mx-auto mt-4" align="center">
+                            <div className="mb-3">
+                              <StarRatings
+                                 rating={this.state.userData.average ? this.state.userData.average : 0}
+                                 starRatedColor="#FFC106"
+                                 numberOfStars={5}
+                                 name='rating'
+                                 starDimension="20px" />
+                             </div>
+                            <p style={{color: 'white', fontWeight: '300'}}>Note</p>
+                          </Col>
+                          <Col className="mx-auto mt-4" align="center">
+                            <h3 style={{color: 'white'}}>{this.state.followed.length}</h3>
+                            <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnement</p>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    <Row className="ml-4 mt-4" xs={1} sm={1} md={2} lg={2} xl={2}>
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Informations du compte</h2>
+                        <Col>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={account}/>
+                            <p style={{color:'white'}}>{this.state.userData.pseudo}</p>
+                          </Row>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={place}/>
+                            <p style={{color:'white'}}>{this.state.userData.city ? this.state.userData.city : "Non fourni"}</p>
+                          </Row>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={mail}/>
+                            <p style={{color:'white'}}>{this.state.userData.email ? this.state.userData.email : "Non fourni"}</p>
+                          </Row>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={phone}/>
+                            <p style={{color:'white'}}>{this.state.userData.phone ? this.state.userData.phone : "Non fourni"}</p>
+                          </Row>
+                        </Col>
+                      </Col>
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Réseaux social</h2>
+                        <Row>
+                          <Col>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={facebook}/>
+                              <p style={{color: 'white'}}>{this.state.userData.facebook ? this.state.userData.facebook : "Non fourni"}</p>
+                            </Row>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={instagram}/>
+                              <p style={{color: 'white'}}>{this.state.userData.instagram ? this.state.userData.instagram : "Non fourni"}</p>
+                            </Row>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={snapchat}/>
+                              <p style={{color: 'white'}}>{this.state.userData.snapchat ? this.state.userData.snapchat : "Non fourni"}</p>
+                            </Row>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={twitter}/>
+                              <p style={{color: 'white'}}>{this.state.userData.twitter ? this.state.userData.twitter : "Non fourni"}</p>
+                            </Row>
+                          </Col>
+                          <Col>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={tiktok}/>
+                              <p style={{color: 'white'}}>{this.state.userData.tiktok ? this.state.userData.tiktok : "Non fourni"}</p>
+                            </Row>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={youtube}/>
+                              <p style={{color: 'white'}}>{this.state.userData.youtube ? this.state.userData.youtube : "Non fourni"}</p>
+                            </Row>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={pinterest}/>
+                              <p style={{color: 'white'}}>{this.state.userData.pinterest ? this.state.userData.pinterest : " Non fourni"}</p>
+                            </Row>
+                            <Row className="mx-0 mb-1">
+                              <Image className="iconProfileSocial" src={twitch}/>
+                              <p style={{color: 'white'}}>{this.state.userData.twitch ? this.state.userData.twitch : "Non fourni"}</p>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    <Row className="ml-4 mt-4" xs={1} sm={1} md={2} lg={2} xl={2}>
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Bio</h2>
+                        <p style={{color: 'white'}}>{this.state.userData.userDescription ? this.state.userData.userDescription : "Non fourni"}</p>
+                      </Col>
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
+                        {
+                          !this.state.userData.comment || this.state.userData.comment.length === 0 ? "" : this.state.userData.comment.map(x => this.handleComment(x))
+                        }
+                      </Col>
+                    </Row>
+                  </div>
+                  :
+                  <Loader
+                      type="Triangle"
+                      color="#292929"
+                      height={200}
+                      width={200}
+                      style={{marginTop: "14rem"}}
+                  />
                 }
-            </div>
+              </div>
           </LoadingOverlay>
         );
     }
 }
 
 export default withRouter(InfluenceurStatus)
+
+// <Row className="mx-0 mt-4 pt-4 pb-3">
+//   <Col align="center">
+//     <Button className="btnInf" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
+//   </Col>
+// </Row>
