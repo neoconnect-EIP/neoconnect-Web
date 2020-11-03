@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import Container from 'react-bootstrap/Container';
 import facebook from "../../assets/facebookWhite.svg";
 import instagram from "../../assets/instagramWhite.svg";
 import snapchat from "../../assets/snapchatWhite.svg";
@@ -83,26 +84,31 @@ class ShopStatus extends React.Component{
       .catch(error => console.error('Error:', error));
     }
 
-    getFollowed = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow`, {
+    getFollowers = () => {
+      console.log("token ", localStorage.getItem("Jwt"));
+      console.log("token ", localStorage.getItem("userId"));
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${localStorage.getItem("userId")}`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-      .then(res => res.json())
-      .then(res => this.setState({followers: res}))
+      .then(res => {
+        if (res.status >= 400)
+          throw res;
+        return (res.json());
+      })
+      .then(res => {
+        this.setState({followers: res})
+      })
       .catch(error => console.error('Error:', error));
     }
 
 
     componentDidMount = () => {
         this.getShop();
+        this.getFollowers();
     }
-
-    // handleEditProfile = () => {
-    //     this.props.history.push("/shop-dashboard/edit-profile")
-    // }
 
     handleResponse = (res) => {
       this.setState({visible: false});
@@ -136,8 +142,10 @@ class ShopStatus extends React.Component{
         }
     }
 
-    handleClose = () => {
-        this.setState({visible: false})
+    handleClose = (modalName) => {
+        // this.setState({visible: false})
+      this.state[modalName] = false;
+      this.forceUpdate();
     }
 
     handleChangeInfo = () => {
@@ -160,6 +168,24 @@ class ShopStatus extends React.Component{
           userPicture: this.state.userData.userPicture ? this.state.userData.userPicture[0] : null,
         });
     }
+
+    displayFollowers = () => {
+      console.log("follow ",   this.state.followers.followers);
+      return (
+        this.state.followers.map((val, idx) => (
+          <Container fluid>
+            <Row>
+              <Col>
+                <p style={{fontWeight: '200'}}>{val.pseudo}</p>
+              </Col>
+              <Col>
+                <Button variant="outline-dark"  onClick={() => {}}>Voir profil</Button>
+              </Col>
+            </Row>
+        </Container>
+        )
+      ));
+    };
 
     handleSubmit = () => {
       if (!this.state.theme || !this.state.email || !this.state.pseudo) {
@@ -199,12 +225,7 @@ class ShopStatus extends React.Component{
             "twitter": this.state.userData.twitter != this.state.twitter ? this.state.twitter : undefined,
             "snapchat": this.state.userData.snapchat != this.state.snapchat ? this.state.snapchat : undefined,
             "instagram": this.state.userData.instagram != this.state.instagram ? this.state.instagram : undefined,
-            // "twitch": this.state.userData.twitch != this.state.twitch ? this.state.twitch : undefined,
-            // "pinterest": this.state.userData.pinterest != this.state.pinterest ? this.state.pinterest : undefined,
-            // "youtube": this.state.userData.youtube != this.state.youtube ? this.state.youtube : undefined,
-            // "tiktok": this.state.userData.tiktok != this.state.tiktok ? this.state.tiktok : undefined,
         };
-        console.log("body ", body);
 
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, { method: 'PUT', body: body,headers: {
@@ -273,7 +294,6 @@ class ShopStatus extends React.Component{
 
 
     render() {
-      console.log(this.state.userData);
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -295,7 +315,7 @@ class ShopStatus extends React.Component{
                   </Button>
                 </Modal.Footer>
               </Modal>
-                <Modal size="lg" centered show={this.state.visible} onHide={this.handleClose}>
+                <Modal size="lg" centered show={this.state.visible} onHide={() => {this.handleClose('visible')}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Modifier vos informations</Modal.Title>
                   </Modal.Header>
@@ -400,7 +420,7 @@ class ShopStatus extends React.Component{
                     </Form>
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button className="btnCancel" onClick={this.handleClose}>
+                    <Button className="btnCancel" onClick={() => {this.handleClose('visible')}}>
                       Annuler
                     </Button>
                     <Button className="btnInfDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
@@ -433,7 +453,7 @@ class ShopStatus extends React.Component{
                                </div>
                               <p style={{color: 'white', fontWeight: '300'}}>Note</p>
                             </Col>
-                            <Col className="mx-auto mt-4" align="center">
+                            <Col className="mx-auto mt-4 report" align="center" onClick={() => {this.setState({showFollowers: true});}}>
                               <h3 style={{color: 'white'}}>{this.state.followers.length}</h3>
                               <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnée</p>
                             </Col>
@@ -499,6 +519,16 @@ class ShopStatus extends React.Component{
                     </div>
                   }
               </div>
+              <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Vos abonnements</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                 {
+                   (this.state.followers && this.state.followers.length > 0) ? this.displayFollowers() : <p>Pas d'abonnée</p>
+                 }
+                </Modal.Body>
+              </Modal>
             </LoadingOverlay>
         );
     }

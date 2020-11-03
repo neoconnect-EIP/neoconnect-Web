@@ -184,7 +184,6 @@ class InfluenceurStatus extends React.Component{
     };
 
     displayFollowers = () => {
-      console.log("followers ", this.state.followed);
       return (
         this.state.followed.map((val, idx) => (
           <Container fluid>
