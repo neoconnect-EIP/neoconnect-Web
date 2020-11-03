@@ -1,9 +1,11 @@
 import React from 'react';
 import {Icon} from 'antd';
-import {Grid, Input, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {Grid, Input, FormControl, InputLabel, Select, MenuItem, TextField, RadioGroup, Radio, FormControlLabel} from '@material-ui/core';
 import "../index.css"
 import { store } from 'react-notifications-component';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
 import instagram from "../../assets/instagram.svg";
 import facebook from "../../assets/facebook.svg";
@@ -40,6 +42,7 @@ export default class InfluencerSignUp extends React.Component{
             current: 0,
             imgChanged: false,
             file: null,
+            sexe: null,
             userPicture: null,
             isEnd: false,
             goodPassword: false,
@@ -104,6 +107,7 @@ export default class InfluencerSignUp extends React.Component{
             "twitch": this.state.twitch,
             "pinterest": this.state.pinterest,
             "tiktok": this.state.instagram,
+            "sexe": this.state.sexe == 1 ? 'Homme': (this.state.sexe == 2 ? 'Femme' : undefined),
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
         };
 
@@ -258,6 +262,24 @@ export default class InfluencerSignUp extends React.Component{
                                 value={this.state.postal}
                                 onChange={this.handleChange}
                             />
+                        </Grid>
+                        <Grid className="input-form" style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="user" style={{ color: 'black', marginRight: "8px", transform: "translateY(15px)"}}/>
+                            <FormControl variant="outlined" style={{width: "21.7rem", color: 'black'}}>
+                                <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
+                                    Sexe
+                                </InputLabel>
+                                <Select
+                                    style={{color: 'black'}}
+                                    labelId="demo-simple-select-outlined-label"
+                                    name="sexe"
+                                    value={this.state.sexe}
+                                    onChange={this.handleChange}
+                                >
+                                    <MenuItem value={1}>Homme</MenuItem>
+                                    <MenuItem value={2}>Femme</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid className="input-form" style={{textAlign: "center", marginBottom: "1rem"}}>
                             <Icon type="skin" style={{ color: 'black', marginRight: "8px", transform: "translateY(15px)"}}/>
@@ -423,8 +445,8 @@ export default class InfluencerSignUp extends React.Component{
     }
 
     passPseudoValid = () => {
-      if (this.state.pseudo.length > 12 || this.state.pseudo.length < 3) {
-        this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères.';
+      if (this.state.pseudo.length > 12 || this.state.pseudo.length < 3 || !this.state.pseudo.match("^[A-Za-z0-9]+$")) {
+        this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères. Il doit contenir que des lettres et chiffres.';
         return (false);
       }
       if (this.state.password != this.state.password2) {

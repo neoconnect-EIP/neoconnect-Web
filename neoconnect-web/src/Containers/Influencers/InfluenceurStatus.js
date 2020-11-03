@@ -70,6 +70,7 @@ class InfluenceurStatus extends React.Component{
     }
 
     getInf = () => {
+      console.log("TOKEM ", localStorage.getItem("Jwt"));
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {
           method: 'GET',
           headers: {
@@ -113,6 +114,7 @@ class InfluenceurStatus extends React.Component{
     }
 
     handleChangeInfo = () => {
+      console.log(this.state.userData);
         this.setState({
           visible: true,
           fullName: this.state.userData.full_name,
@@ -544,7 +546,7 @@ class InfluenceurStatus extends React.Component{
                       <Col>
                         <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
                         {
-                          !this.state.userData.comment || this.state.userData.comment.length === 0 ? "" : this.state.userData.comment.map(x => this.handleComment(x))
+                          !this.state.userData.comment || this.state.userData.comment.length === 0 ? <p style={{color: 'white'}}>Aucun commentaire</p> : this.state.userData.comment.map(x => this.handleComment(x))
                         }
                       </Col>
                     </Row>

@@ -435,8 +435,8 @@ export default class ShopSignUp extends React.Component{
     }
 
     passPseudoValid = () => {
-      if (this.state.pseudo.length > 12 || this.state.pseudo.length < 3) {
-        this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères.';
+      if (this.state.pseudo.length > 12 || this.state.pseudo.length < 3 || !this.state.pseudo.match("^[A-Za-z0-9]+$")) {
+        this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères. Il doit contenir que des lettres et chiffres.';
         return (false);
       }
       if (this.state.password != this.state.password2) {

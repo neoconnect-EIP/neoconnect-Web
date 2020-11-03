@@ -66,7 +66,6 @@ class Actuality extends React.Component{
     }
 
     handleCard = (item) => {
-      console.log("item ", item);
         return (
             <Col key={item.id} className="mb-3">
               <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
