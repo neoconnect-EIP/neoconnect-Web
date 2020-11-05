@@ -65,32 +65,32 @@ class Ads extends React.Component {
           method: 'GET',
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-          .then(res => {
-            if (res.status === 200) {
-              return (res.json());
-            }
-            else {
-              throw res;
-            }
-          })
-          .then(res => this.setState({adsData: res}))
-          .catch(error => {
-            store.addNotification({
-              title: "Erreur",
-              message: "Erreur provenant du serveur: " + error.statusText,
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              pauseOnHover: true,
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 7000,
-                onScreen: true,
-                showIcon: true
-              }
-            });
-          });
+      .then(res => {
+        if (res.status === 200) {
+          return (res.json());
+        }
+        else {
+          throw res;
+        }
+      })
+      .then(res => this.setState({adsData: res}))
+      .catch(error => {
+        store.addNotification({
+          title: "Erreur",
+          message: "Erreur provenant du serveur: " + error.statusText,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          pauseOnHover: true,
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+            showIcon: true
+          }
+        });
+      });
     }
 
     componentDidMount = () => {
@@ -391,6 +391,7 @@ class Ads extends React.Component {
 
 
     render() {
+      console.log(this.state.adsData);
         return (
             <div justify="center" className="shopBg">
               <Modal centered show={this.state.visible} onHide={this.handleClose}>

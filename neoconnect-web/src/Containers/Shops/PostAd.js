@@ -281,10 +281,10 @@ class PostAd extends React.Component {
     }
 
     handleSubmit = () => {
-      if (!this.state.productName || !this.state.productDesc) {
+      if (!this.state.productName || this.state.productDesc.length > 255) {
         store.addNotification({
           title: "Erreur",
-          message: "Veuillez fournir nom et description de l'offre",
+          message: "Veuillez fournir nom et description de l'offre. La description ne dois pas dépasser 255 caractères.",
           type: "danger",
           insert: "top",
           container: "top-right",
@@ -307,12 +307,11 @@ class PostAd extends React.Component {
             "productName": this.state.productName,
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
-            "productSubject": this.state.sub,
+            "productSubject": this.state.theme,
             "color": this.state.productColor,
             "brand": this.state.productBrand,
         };
 
-        console.log("FEE ", this.state.productBrand);
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/insert`, {
             method: 'POST',

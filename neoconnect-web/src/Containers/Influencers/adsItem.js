@@ -1,12 +1,9 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import {Rate} from "antd";
-// import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
 import avatar from "../../assets/noImageFindInf.jpg";
-import edit from "../../assets/edit.svg";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -26,7 +23,6 @@ import { showNotif } from '../Utils.js';
 class adsItem extends React.Component{
     constructor(props) {
         super(props);
-        console.log("props", props.location.state);
 
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
@@ -53,7 +49,7 @@ class adsItem extends React.Component{
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
             link: window.location.href,
             suggestions: null,
-            applied: props.location.state,
+            applied: props.location.state ? props.location.state : [],
         };
     }
 
@@ -358,6 +354,7 @@ class adsItem extends React.Component{
 
     displaySuggestion = (item) => {
         return (
+          item.id != this.state.adData.id &&
           <Col key={item.id}>
             <Card className="mt-4 ml-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
               <Card.Img style={{height: '160px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={!item.productImg || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
@@ -412,7 +409,6 @@ class adsItem extends React.Component{
     };
 
     render() {
-      console.log("sugg ", this.state.suggestions);
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -505,7 +501,7 @@ class adsItem extends React.Component{
                         <Row className="m-0 p-0">
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
                         </Row>
-                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ?  `Article: ${this.state.adData.productSubject}` : ""}</h5>
+                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ? this.state.adData.productSubject : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.color ? `Couleur: ${this.state.adData.color}` : ""}</h5>
                         {
@@ -540,7 +536,7 @@ class adsItem extends React.Component{
                     <Col md={6} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Suggestion</h2>
                       <Row xs={1} md={2} lg={2} sm={2} xl={3}>
-                        {!this.state.suggestions || this.state.suggestions.length > 0 && this.state.suggestions != 'No Data' && this.state.suggestions.map(item => this.displaySuggestion(item))}
+                        {this.state.suggestions && this.state.suggestions.length > 0 && this.state.suggestions != 'No Data' && this.state.suggestions.map(item => this.displaySuggestion(item))}
                       </Row>
                       {!this.state.suggestions && <h5 style={{fontWeight: '300', color: 'white'}} className="ml-4 mt-3" >Aucune suggestion trouvé</h5>}
                       </Col>

@@ -70,7 +70,6 @@ class InfluenceurStatus extends React.Component{
     }
 
     getInf = () => {
-      console.log("TOKEM ", localStorage.getItem("Jwt"));
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {
           method: 'GET',
           headers: {
@@ -304,7 +303,6 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
-
         return (
           <LoadingOverlay
             active={this.state.isActive}

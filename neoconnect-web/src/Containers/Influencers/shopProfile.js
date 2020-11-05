@@ -8,6 +8,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noShop from "../../assets/noShop.jpg";
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import Modal from 'react-bootstrap/Modal';
+import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -376,11 +377,9 @@ class shopProfile extends React.Component{
                            </Button>
                          </Modal.Footer>
                         </Modal>
-                        <Row className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={3}>
+                        <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}}  className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={3}>
                           <Col className="my-auto">
-                            <div className="centerBlock" align="center">
-                              <Image className="img-fluid" style={{width:'200px', height: '200px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}  src={(!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0) ? noShop : this.state.shopData.userPicture[0].imageData} rounded />
-                            </div>
+                            <Image className="img-fluid" style={{width:'300px', height: 'auto', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}  src={(!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0) ? noShop : this.state.shopData.userPicture[0].imageData} rounded />
                           </Col>
                           <Col>
                             <Row className="ml-0">
@@ -464,31 +463,39 @@ class shopProfile extends React.Component{
                             </Row>
                           </Col>
                         </Row>
-                        <Row className="ml-4 mt-4">
-                          <Col md={6}>
-                            <h1 style={{fontWeight: '300', color: 'white'}}>Avis</h1>
-                            <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
-                              <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
-                                <div className="centerBlock" align="center">
-                                  <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
-                                </div>
-                              </Col>
-                              <Col  xs={8} md={8} lg={8} sm={8} xl={8}>
-                                <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
-                              </Col>
-                              <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
-                                <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
-                              </Col>
-                            </Row>
-                            {
-                              !this.state.shopData.comment || this.state.shopData.comment.length === 0 ? "" : this.state.shopData.comment.map(x => this.handleComment(x))
-                            }
+                        <Row className="ml-0">
+                          <Col md={7} className="pl-0">
+                            <Card className="ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
+                              <Card.Body>
+                                <Card.Title style={{color: 'white', marginLeft: '20px'}}>Avis</Card.Title>
+                                  <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
+                                    <Col xs={2} md={2} lg={2} sm={2} xl={2}>
+                                      <div className="centerBlock" align="center">
+                                        <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
+                                      </div>
+                                    </Col>
+                                    <Col xs={8} md={8} lg={8} sm={8} xl={8}>
+                                      <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
+                                    </Col>
+                                    <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
+                                      <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
+                                    </Col>
+                                  </Row>
+                                  {
+                                    !this.state.shopData.comment || this.state.shopData.comment.length === 0 ? "" : this.state.shopData.comment.map(x => this.handleComment(x))
+                                  }
+                              </Card.Body>
+                            </Card>
                           </Col>
-                          <Col md={6} className="pr-4">
-                            <h1 style={{fontWeight: '300', color: 'white'}}>Description</h1>
-                            <p style={{color: 'white'}}>
-                              {this.state.shopData.userDescription ? this.state.shopData.userDescriptio : "Description non fourni"}
-                            </p>
+                          <Col md={5} className="pl-0">
+                            <Card className="mr-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
+                              <Card.Body>
+                                <Card.Title style={{color: 'white'}}>À propos</Card.Title>
+                                <Card.Text style={{color: 'white'}}>
+                                {this.state.shopData.userDescription ? this.state.shopData.userDescription : "Pas de description fourni"}
+                                </Card.Text>
+                              </Card.Body>
+                            </Card>
                           </Col>
                         </Row>
                       </div>
