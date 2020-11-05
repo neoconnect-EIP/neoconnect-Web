@@ -251,74 +251,74 @@ class Advertisements extends React.Component{
     };
 
     render() {
-        return (
-            <div justify="center" className="infBg"  >
-              <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des offres</Navbar.Brand>
-              </Navbar>
-              <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
-              <DropdownButton
-                as={InputGroup.Prepend}
-                variant="outline-secondary"
-                title="Sort by"
-                id="input-group-dropdown-1"
-              >
-                <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
-              </DropdownButton>
-                <FormControl
-                  placeholder="Search"
-                  aria-label="Enter your keyword"
-                  aria-describedby="basic-addon2"
-                  value={this.state.searchForm}
-                  onChange={this.handleSearchBarChange}
-                />
-                  {/* <InputGroup.Append>
-                    <Button
-                    variant="outline-success"
-                    onClick={() => this.handleSearch()}>Search</Button>
-                  </InputGroup.Append> */}
-                </InputGroup>
-              {
-                  this.state.adsData ?
-                    <Row className="ml-3 mr-3 mt-3" xs={1} sm={1} md={2} lg={3} xl={4}>
-                          {
+      return (
+          <div justify="center" className="infBg"  >
+            <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+              <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des offres</Navbar.Brand>
+            </Navbar>
+            <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
+            <DropdownButton
+              as={InputGroup.Prepend}
+              variant="outline-secondary"
+              title="Sort by"
+              id="input-group-dropdown-1"
+            >
+              <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
+              <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
+              <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
+            </DropdownButton>
+              <FormControl
+                placeholder="Search"
+                aria-label="Enter your keyword"
+                aria-describedby="basic-addon2"
+                value={this.state.searchForm}
+                onChange={this.handleSearchBarChange}
+              />
+                {/* <InputGroup.Append>
+                  <Button
+                  variant="outline-success"
+                  onClick={() => this.handleSearch()}>Search</Button>
+                </InputGroup.Append> */}
+              </InputGroup>
+            {
+                this.state.adsData ?
+                  <Row className="ml-3 mr-3 mt-3" xs={1} sm={1} md={2} lg={3} xl={4}>
+                        {
 
-                              this.state.adsData.map(item => this.handleCard(item))
-                          }
-                      </Row>
-                      :
-                      <Loader
-                          type="Triangle"
-                          color="#292929"
-                          height={200}
-                          width={200}
-                          style={{marginTop: "14rem"}}
-                      />
-              }
-              <Modal centered show={this.state.visible} onHide={this.handleClose}>
-               <Modal.Header closeButton>
-                 <Modal.Title>Postuler à cette offre ?</Modal.Title>
-               </Modal.Header>
-               <Modal.Body>
-                 {
-                   (this.state.item && this.state.item.productName) ? this.state.item.productName : "Sans nom"
-                 }
-               </Modal.Body>
-               <Modal.Footer>
-                 <Button className="btnCancel" onClick={this.handleClose}>
-                   Annuler
-                 </Button>
-                 <Button className="btnInf" onClick={this.handleAnnonceSubsribe}>
-                   Postuler
-                 </Button>
-               </Modal.Footer>
-             </Modal>
-          </div>
-        );
+                            this.state.adsData.map(item => this.handleCard(item))
+                        }
+                    </Row>
+                    :
+                    <Loader
+                        type="Triangle"
+                        color="#292929"
+                        height={200}
+                        width={200}
+                        style={{marginTop: "14rem"}}
+                    />
+            }
+            <Modal centered show={this.state.visible} onHide={this.handleClose}>
+             <Modal.Header closeButton>
+               <Modal.Title>Postuler à cette offre ?</Modal.Title>
+             </Modal.Header>
+             <Modal.Body>
+               {
+                 (this.state.item && this.state.item.productName) ? this.state.item.productName : "Sans nom"
+               }
+             </Modal.Body>
+             <Modal.Footer>
+               <Button className="btnCancel" onClick={this.handleClose}>
+                 Annuler
+               </Button>
+               <Button className="btnInf" onClick={this.handleAnnonceSubsribe}>
+                 Postuler
+               </Button>
+             </Modal.Footer>
+           </Modal>
+        </div>
+      );
     }
 }
 

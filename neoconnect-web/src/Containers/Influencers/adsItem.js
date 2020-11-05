@@ -19,6 +19,8 @@ import LoadingOverlay from 'react-loading-overlay';
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg";
 import { showNotif } from '../Utils.js';
+import edit from "../../assets/edit.svg";
+import {Rate} from "antd";
 
 class adsItem extends React.Component{
     constructor(props) {
@@ -252,7 +254,7 @@ class adsItem extends React.Component{
         };
 
         body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/mark/${parseInt(id.id)}`,
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/mark/${parseInt(this.state.urlId)}`,
           {
             method: 'POST',
             body: body,
@@ -285,7 +287,7 @@ class adsItem extends React.Component{
             "comment": this.state.commentInput,
         };
         body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/comment/${id.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/comment/${this.state.urlId}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.getDetailOffer();})
             .catch(error => console.error('Error:', error));
         this.setState({ commentInput: ""})
@@ -330,11 +332,11 @@ class adsItem extends React.Component{
 
     handleComment = (x) => {
         return (
-          <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
-            <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
+          <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3} className="pl-4">
+            <Col xs={2} md={2} lg={2} sm={2} xl={2}>
               <div className="centerBlock" align="center">
                 <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : avatar} roundedCircle />
-                <p style={{fontWeight: '200'}}>{x.pseudo}</p>
+                <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
               </div>
             </Col>
             <Col>
@@ -416,67 +418,80 @@ class adsItem extends React.Component{
             text='Chargement...'
             >
             <div justify="center" className="infBg">
-                  <Modal centered show={this.state.signal} onHide={this.handleClose}>
-                   <Modal.Header closeButton>
-                     <Modal.Title>Signaler cette offre</Modal.Title>
-                   </Modal.Header>
-                   <Modal.Body>
-                     <Form>
-                      <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Raison</Form.Label>
-                        <Form.Control value={this.state.raison} onChange={(e) => {this.setState({raison: e.target.value})}}/>
-                      </Form.Group>
-                      <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Information complémentaire</Form.Label>
-                        <Form.Control value={this.state.info} onChange={(e) => {this.setState({info: e.target.value})}} placeholder="" />
-                      </Form.Group>
-                    </Form>
-                   </Modal.Body>
-                   <Modal.Footer>
-                     {!this.state.raison && this.state.clickedSignal && <small className="text-danger">Veuillez informer une raison</small>}
-                     <Button className="btnCancel" onClick={this.handleClose}>
-                       Annuler
-                     </Button>
-                     <Button className="btnInf" onClick={() => {this.handleAnnonceReport(this)}}>
-                       Signaler
-                     </Button>
-                   </Modal.Footer>
-                  </Modal>
+              <Modal centered show={this.state.signal} onHide={this.handleClose}>
+               <Modal.Header closeButton>
+                 <Modal.Title>Signaler cette offre</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>
+                 <Form>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Raison</Form.Label>
+                    <Form.Control value={this.state.raison} onChange={(e) => {this.setState({raison: e.target.value})}}/>
+                  </Form.Group>
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Information complémentaire</Form.Label>
+                    <Form.Control value={this.state.info} onChange={(e) => {this.setState({info: e.target.value})}} placeholder="" />
+                  </Form.Group>
+                </Form>
+               </Modal.Body>
+               <Modal.Footer>
+                 {!this.state.raison && this.state.clickedSignal && <small className="text-danger">Veuillez informer une raison</small>}
+                 <Button className="btnCancel" onClick={this.handleClose}>
+                   Annuler
+                 </Button>
+                 <Button className="btnInf" onClick={() => {this.handleAnnonceReport(this)}}>
+                   Signaler
+                 </Button>
+               </Modal.Footer>
+              </Modal>
+              <Modal centered show={this.state.share} onHide={this.handleCloseShare}>
+               <Modal.Header closeButton>
+                 <Modal.Title>Partager</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>
+                 <Form>
+                  <Form.Group controlId="formBasiclink">
+                    <Form.Label>Lien à  partager</Form.Label>
+                    <Form.Control value={this.state.link} onChange={(e) => {this.setState({link: e.target.value})}}/>
+                  </Form.Group>
+                  <Form.Row className='mt-2'>
+                   <Form.Group controlId="formBasicEmail" as={Col}>
+                     <Form.Label>Email du destinataire</Form.Label>
+                     <Form.Control value={this.state.email} onChange={(e) => {this.setState({email: e.target.value})}}/>
+                   </Form.Group>
+                   <Form.Group controlId="formBasicEmail" as={Col}>
+                     <Form.Label>Votre email</Form.Label>
+                     <Form.Control value={this.state.emailMe} onChange={(e) => {this.setState({emailMe: e.target.value})}}/>
+                   </Form.Group>
+                 </Form.Row>
+                 <Button onClick={() => this.sendEmail()} className="btnInf ml-2">Via email</Button>
 
-                  <Modal centered show={this.state.share} onHide={this.handleCloseShare}>
-                   <Modal.Header closeButton>
-                     <Modal.Title>Partager</Modal.Title>
-                   </Modal.Header>
-                   <Modal.Body>
-                     <Form>
-                      <Form.Group controlId="formBasiclink">
-                        <Form.Label>Lien à  partager</Form.Label>
-                        <Form.Control value={this.state.link} onChange={(e) => {this.setState({link: e.target.value})}}/>
-                      </Form.Group>
-                      <Form.Row className='mt-2'>
-                       <Form.Group controlId="formBasicEmail" as={Col}>
-                         <Form.Label>Email du destinataire</Form.Label>
-                         <Form.Control value={this.state.email} onChange={(e) => {this.setState({email: e.target.value})}}/>
-                       </Form.Group>
-                       <Form.Group controlId="formBasicEmail" as={Col}>
-                         <Form.Label>Votre email</Form.Label>
-                         <Form.Control value={this.state.emailMe} onChange={(e) => {this.setState({emailMe: e.target.value})}}/>
-                       </Form.Group>
-                     </Form.Row>
-                     <Button onClick={() => this.sendEmail()} className="btnInf ml-2">Via email</Button>
-
-                      <Form.Row className='mt-4'>
-                       <Form.Group controlId="formBasicEmail" as={Col} sm={6}>
-                         <Form.Label>Pseudo du destinataire</Form.Label>
-                         <Form.Control value={this.state.pseudo} onChange={(e) => {this.setState({pseudo: e.target.value})}}/>
-                       </Form.Group>
-                      </Form.Row>
-                      <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
-
-
-                    </Form>
-                   </Modal.Body>
-                  </Modal>
+                  <Form.Row className='mt-4'>
+                   <Form.Group controlId="formBasicEmail" as={Col} sm={6}>
+                     <Form.Label>Pseudo du destinataire</Form.Label>
+                     <Form.Control value={this.state.pseudo} onChange={(e) => {this.setState({pseudo: e.target.value})}}/>
+                   </Form.Group>
+                  </Form.Row>
+                  <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
+                </Form>
+               </Modal.Body>
+              </Modal>
+              <Modal centered show={this.state.note} onHide={this.handleCloseNote}>
+               <Modal.Header closeButton>
+                 <Modal.Title>Noter cette offre</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>
+                  <Rate onChange={(e) => this.handleMark(e)} />
+               </Modal.Body>
+               <Modal.Footer>
+                 <Button className="btnCancel" onClick={this.handleClose}>
+                   Annuler
+                 </Button>
+                 <Button className="btnInf" onClick={() => this.handleAnnonceNotation(this.state.adData)}>
+                   Noter
+                 </Button>
+               </Modal.Footer>
+              </Modal>
                 {
                   this.state.adData &&
                   <>
@@ -484,9 +499,9 @@ class adsItem extends React.Component{
                     <Col md={6}>
                       <Carousel controls={true} style={{height: '400px'}}>
                         {
-                            this.state.adData.productImg ?
-                            this.state.adData.productImg.map((item, id) => this.displayImage(item, id)) :
-                            <p>No image</p>
+                          this.state.adData.productImg ?
+                          this.state.adData.productImg.map((item, id) => this.displayImage(item, id)) :
+                          <p>No image</p>
                         }
                       </Carousel>
                     </Col>
@@ -500,6 +515,8 @@ class adsItem extends React.Component{
                         <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
                         <Row className="m-0 p-0">
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
+                            <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
+
                         </Row>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ? this.state.adData.productSubject : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
@@ -515,12 +532,11 @@ class adsItem extends React.Component{
                   <Row className="mr-2 pb-4">
                     <Col md={6} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Avis</h2>
-                      <Row className="mt-4 mb-4" xs={3} md={3} lg={3} sm={3} xl={3}>
+                      <Row className="mt-4 mb-4 pl-4" xs={3} md={3} lg={3} sm={3} xl={3}>
                         <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
-                          {this.state.userData &&
-                            <div className="centerBlock" align="center">
-                          <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? avatar : this.state.userData.userPicture[0].imageData} roundedCircle />
-                        </div>}
+                          <div className="centerBlock" align="center">
+                            <Image style={{width: '40px', height: '40px'}} src={!this.state.userData || !this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? avatar : this.state.userData.userPicture[0].imageData} roundedCircle />
+                          </div>
                         </Col>
                         <Col xs={8} md={8} lg={8} sm={8} xl={8}>
                           <Form.Control onChange={(e) => {this.setState({commentInput: e.target.value})}} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
@@ -657,22 +673,3 @@ export default withRouter(adsItem)
 //                </ListItemText>
 //            </ListItem>
 //        </List>
-
-// <Modal centered show={this.state.note} onHide={this.handleCloseNote}>
-//  <Modal.Header closeButton>
-//    <Modal.Title>Noter cette offre</Modal.Title>
-//  </Modal.Header>
-//  <Modal.Body>
-//     <Rate onChange={(e) => this.handleMark(e)} />
-//  </Modal.Body>
-//  <Modal.Footer>
-//    <Button className="btnCancel" onClick={this.handleClose}>
-//      Annuler
-//    </Button>
-//    <Button className="btnInf" onClick={() => this.handleAnnonceNotation(this.state.adData)}>
-//      Noter
-//    </Button>
-//  </Modal.Footer>
-// </Modal>
-
-// <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
