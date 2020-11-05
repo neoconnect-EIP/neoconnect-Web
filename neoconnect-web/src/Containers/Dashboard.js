@@ -34,7 +34,7 @@ export default class Dashboard extends React.Component {
                       <Route path="/dashboard/status" component={InfluenceurStatus}/>
                       <Route path="/dashboard/shops" component={FindShop}/>
                       <Route path="/dashboard/edit-profile" component={EditProfile}/>
-                      <Route path="/dashboard/shop" component={shopProfile}/>
+                      <Route path="/dashboard/shop/:id" component={shopProfile}/>
                       <Route path="/dashboard/actuality" component={actuality}/>
                       <Route path="/dashboard/chat" component={Chat}/>
                       <Route path="/dashboard/message" component={Message}/>

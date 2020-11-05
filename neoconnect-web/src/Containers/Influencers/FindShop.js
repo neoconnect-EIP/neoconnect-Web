@@ -114,7 +114,8 @@ class FindShop extends React.Component{
     }
 
     handleGlobalAnnonce = (id) => {
-        this.props.history.push(`/dashboard/shop?id=${id}`)
+        // this.props.history.push(`/dashboard/shop?id=${id}`)
+        this.props.history.push({pathname: `/dashboard/shop/${id}`, state: this.state.followed});
     }
 
     handleClose = () => {

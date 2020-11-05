@@ -30,10 +30,12 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import place from "../../assets/place.svg";
 import edit from "../../assets/edit.svg";
 import {Rate} from "antd";
+import { showNotif } from '../Utils.js';
 
 class shopProfile extends React.Component{
     constructor(props) {
         super(props);
+
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") === "shop")
@@ -51,15 +53,16 @@ class shopProfile extends React.Component{
             info: "",
             messageModal: false,
             msg: "",
-            clickedSignal: false
+            clickedSignal: false,
+            followed: props.location.state,
+            urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
         };
     }
 
     getShopData = () => {
-      let id = this.getUrlParams((window.location.search));
-
-      if (id) {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${id.id}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+      // let id = this.getUrlParams((window.location.search));
+      if (this.state.urlId) {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => {this.setState({shopData: res})})
             .catch(error => console.error('Error:', error));
@@ -76,6 +79,18 @@ class shopProfile extends React.Component{
         .then(res => this.setState({userData: res}))
         .catch(error => console.error('Error:', error));
 
+    }
+
+    getFollowedShop = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/follow`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => res.json())
+      .then(res => this.setState({followed: res}))
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount = () => {
@@ -108,11 +123,7 @@ class shopProfile extends React.Component{
     };
 
     handleSendMessage = () => {
-      console.log("input ", this.state.commentInput);
-      console.log("input ", this.state.commentInput);
       if (this.state.commentInput && this.state.commentInput.length > 0 && this.state.commentInput.replace(/  +/g, ' ').length > 1) {
-        console.log("rentree ");
-
         let id = this.getUrlParams((window.location.search));
         let body = {
             "comment": this.state.commentInput,
@@ -136,19 +147,6 @@ class shopProfile extends React.Component{
             .catch(error => console.error('Error:', error));
         this.setState({visible: false});
     };
-
-    // <ListItem style={{height: "4.375rem", marginBottom: "2rem"}} key={x.id}>
-    //     <ListItemAvatar style={{marginRight: "1rem"}}>
-    //         <Avatar src={x.avatar}/>
-    //         <p>{x.pseudo}</p>
-    //     </ListItemAvatar>
-    //     <ListItemText>
-    //         <p style={{color: "#5f5f5f", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
-    //         <p style={{color: "black", marginTop: "15px"}}>{x.comment}</p>
-    //     </ListItemText>
-    //     <ListItemSecondaryAction>
-    //     </ListItemSecondaryAction>
-    // </ListItem>
 
     handleComment = (x) => {
         return (
@@ -297,43 +295,29 @@ class shopProfile extends React.Component{
             .then(res => {
               if (res.status === 200) {
                 this.setState({visible: false});
-                store.addNotification({
-                  title: "Abonné",
-                  message: "Vous êtes bien abonné",
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                // showNotif(false, "Abonné", "Vous êtes bien abonné");
+                this.getFollowedShop();
               }
               else {
-                store.addNotification({
-                  title: "Erreur",
-                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
-                  type: "danger",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+    }
+
+    handleUnFollow = () => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              if (res.status === 200) {
+                this.setState({visible: false});
+                // showNotif(false, "Désabonné", "Vous êtes bien désabonné");
+                this.getFollowedShop();
+              }
+              else {
+                showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
+              }
+            })
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     render() {
@@ -450,7 +434,11 @@ class shopProfile extends React.Component{
                                 </OverlayTrigger> : <Image className="iconProfileSocial" src={snapchatOff}/>}
                               </Row>
                               <Row>
-                                <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleFollow}>S'abonner</Button>
+                                {
+                                  this.state.followed.some(el => el.idFollow === this.state.shopData.id) ?
+                                  <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleUnFollow}>Désabonner</Button>:
+                                  <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleFollow}>S'abonner</Button>
+                                }
                                 <Button variant="outline-light" className="mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
                               </Row>
                           </Col>
