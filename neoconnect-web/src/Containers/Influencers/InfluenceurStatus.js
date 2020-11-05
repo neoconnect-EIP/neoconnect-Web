@@ -114,7 +114,6 @@ class InfluenceurStatus extends React.Component{
     }
 
     handleChangeInfo = () => {
-      console.log(this.state.userData);
         this.setState({
           visible: true,
           fullName: this.state.userData.full_name,
@@ -188,7 +187,7 @@ class InfluenceurStatus extends React.Component{
     displayFollowers = () => {
       return (
         this.state.followed.map((val, idx) => (
-          <Container fluid>
+          <Container fluid key={idx}>
             <Row>
               <Col>
                 <p style={{fontWeight: '200'}}>{val.pseudo}</p>

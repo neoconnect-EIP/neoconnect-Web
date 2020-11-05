@@ -56,31 +56,31 @@ class Ads extends React.Component {
             method: 'GET',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {
-              if (res.status >= 400)
-                throw res;
-              return res.json()
-            })
-            .then(res => this.setState({adsData: res, isLoading: false}))
-            .catch(error => {
-              this.setState({isLoading: false});
-              store.addNotification({
-                title: "Erreur, Veuillez essayer ultérieurement",
-                message: error.statusText,
-                type: "danger",
-                insert: "top",
-                container: "top-right",
-                pauseOnHover: true,
-                isMobile: true,
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                  duration: 7000,
-                  onScreen: true,
-                  showIcon: true
-                }
-              });
-            });
+        .then(res => {
+          if (res.status >= 400)
+            throw res;
+          return res.json()
+        })
+        .then(res => this.setState({adsData: res, isLoading: false}))
+        .catch(error => {
+          this.setState({isLoading: false});
+          store.addNotification({
+            title: "Erreur, Veuillez essayer ultérieurement",
+            message: error.statusText,
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            pauseOnHover: true,
+            isMobile: true,
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 7000,
+              onScreen: true,
+              showIcon: true
+            }
+          });
+        });
       }
 
     }
@@ -128,8 +128,8 @@ class Ads extends React.Component {
 
         return (
           this.state.adsData.map(ad => (
-            <Col className="mb-3">
-              <Card className="cardlist mb-4" key={ad.id}>
+            <Col className="mb-3" key={ad.id}>
+              <Card className="cardlist mb-4">
                 <Card.Img  style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}
                   variant="top" className="report" src={!ad.productImg || ad.productImg.length === 0 ? noImages : ad.productImg[0].imageData} />
                 <Card.Body>

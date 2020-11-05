@@ -15,7 +15,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { store } from 'react-notifications-component';
-
+import { showNotif } from '../Utils.js';
 
 class FindShop extends React.Component{
     constructor(props) {
@@ -36,25 +36,38 @@ class FindShop extends React.Component{
             tendance: null,
             visible: false,
             item: null,
+            followed: [],
         };
 
     }
 
     getAllShop = () => {
-
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/listShop`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-          .then(res => res.json())
-          .then(res => this.setState({shopList: res}))
-          .catch(error => console.error('Error:', error));
+      .then(res => res.json())
+      .then(res => this.setState({shopList: res}))
+      .catch(error => console.error('Error:', error));
+    }
+
+    getFollowedShop = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/follow`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => res.json())
+      .then(res => this.setState({followed: res}))
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount() {
         this.getAllShop();
+        this.getFollowedShop();
     }
 
     searchRes = async (res) => {
@@ -86,16 +99,10 @@ class FindShop extends React.Component{
     }
 
     handleSearch = () => {
-
       var encodedKey = encodeURIComponent("pseudo");
       var encodedValue = encodeURIComponent(this.state.search);
       var formBody = encodedKey + "=" + encodedValue;
 
-      // let body = {
-      //     "pseudo": this.state.search
-      // };
-      // body = JSON.stringify(body);
-      //
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/search`, {
           method: 'POST',
           body: formBody,
@@ -103,7 +110,7 @@ class FindShop extends React.Component{
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       }).then(res => this.searchRes(res))
-        .catch(error => console.error('Error:', error));
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     handleGlobalAnnonce = (id) => {
@@ -123,22 +130,9 @@ class FindShop extends React.Component{
             .then(res => {
               if (res.status === 200) {
                 this.setState({visible: false});
-                store.addNotification({
-                  title: "Abonné",
-                  message: "Vous êtes bien abonné",
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                this.getAllShop();
+                this.getFollowedShop();
+                showNotif(false, "Abonné", "Vous êtes bien abonné");
               }
               else {
                 store.addNotification({
@@ -163,29 +157,47 @@ class FindShop extends React.Component{
         this.handleClose();
     }
 
+    handleUnfollow = (id) => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              if (res.status === 200) {
+                this.getAllShop();
+                this.getFollowedShop();
+                showNotif(false, "Désabonné", "Vous êtes bien désabonné");
+              }
+              else {
+                showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
+              }
+            })
+            .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        this.handleClose();
+    }
+
     handleCard = (item) => {
-        return (
-          <Col className="mb-3">
-              <div key={item.id}>
-                {
-                  this.state.back && this.state.shopList.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", shopList: []}); this.getAllShop();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
-                }
-                <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-                  <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
-                  <Card.Body>
-                    <Card.Title>
-                        <p className="mr-auto">{` ${item.pseudo ? item.pseudo : "Sans marque"}`}</p>
-                    </Card.Title>
-                    <Row className="ml-1">
-                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
-                      <p>{item.average ? item.average.toFixed(1) + '/5' : "Aucune note"}</p>
-                      {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </div>
-            </Col>
-        );
+      return (
+          <Col className="mb-3" key={item.id}>
+            {
+              this.state.back && this.state.shopList.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", shopList: []}); this.getAllShop();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
+            }
+            <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+              <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
+              <Card.Body>
+                <Card.Title>
+                  <p className="mr-auto">{` ${item.pseudo ? item.pseudo : "Sans marque"}`}</p>
+                </Card.Title>
+                <Row className="ml-1">
+                  {
+                    this.state.followed.some(el => el.idFollow === item.id) ?
+                    <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleUnfollow(item.id)}}>Désabonner</Button> :
+                    <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
+                  }
+                  <p>{item.average ? item.average.toFixed(1) + '/5' : "Aucune note"}</p>
+                  {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+      );
     }
 
     render() {

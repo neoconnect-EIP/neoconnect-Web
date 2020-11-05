@@ -58,14 +58,17 @@ class adsItem extends React.Component{
     }
 
     getDetailOffer = () => {
-       console.log("Whouah");
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {return (res.json())})
           .then(res => this.setState({adData: res}))
           .catch(error => console.error('Error:', error));
 
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-          .then(res => {return (res.json())})
+          .then(res => {
+            if (res.status >= 400)
+              throw res;
+            return res.json();
+          })
           .then(res => this.setState({suggestions: res}))
           .catch(error => console.error('Error:', error));
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
@@ -347,10 +350,7 @@ class adsItem extends React.Component{
     }
 
     handleGlobalAnnonce = (id) => {
-      console.log("this entered");
-
       window.location.pathname = `/dashboard/item/${id}`;
-      console.log("this", this);
       //window.location.reload(false);
       // this.getDetailOffer();
     }
@@ -542,7 +542,7 @@ class adsItem extends React.Component{
                       <Row xs={1} md={2} lg={2} sm={2} xl={3}>
                         {!this.state.suggestions || this.state.suggestions.length > 0 && this.state.suggestions != 'No Data' && this.state.suggestions.map(item => this.displaySuggestion(item))}
                       </Row>
-                      {this.state.suggestions == "No Data" && <h5 style={{fontWeight: '300', color: 'white'}} className="ml-4 mt-3" >Aucune suggestion trouvé</h5>}
+                      {!this.state.suggestions && <h5 style={{fontWeight: '300', color: 'white'}} className="ml-4 mt-3" >Aucune suggestion trouvé</h5>}
                       </Col>
                     </Row>
                   </>
