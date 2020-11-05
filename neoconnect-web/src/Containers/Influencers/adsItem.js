@@ -248,7 +248,7 @@ class adsItem extends React.Component{
     }
 
     handleAnnonceNotation = (item) => {
-        let id = this.getUrlParams((window.location.search));
+        // let id = this.getUrlParams((window.location.search));
         let body = {
             "mark": this.state.mark,
         };
@@ -282,7 +282,7 @@ class adsItem extends React.Component{
     }
 
     handleSendMessage = () => {
-        let id = this.getUrlParams((window.location.search));
+        // let id = this.getUrlParams((window.location.search));
         let body = {
             "comment": this.state.commentInput,
         };

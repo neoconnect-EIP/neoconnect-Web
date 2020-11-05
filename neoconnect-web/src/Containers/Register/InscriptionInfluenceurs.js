@@ -1,11 +1,9 @@
 import React from 'react';
 import {Icon} from 'antd';
-import {Grid, Input, FormControl, InputLabel, Select, MenuItem, TextField, RadioGroup, Radio, FormControlLabel} from '@material-ui/core';
+import {Grid, Input, InputLabel, Select, MenuItem, FormControl} from '@material-ui/core';
 import "../index.css"
 import { store } from 'react-notifications-component';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
 import instagram from "../../assets/instagram.svg";
 import facebook from "../../assets/facebook.svg";
