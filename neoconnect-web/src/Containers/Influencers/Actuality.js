@@ -15,6 +15,7 @@ import star from "../../assets/star.svg";
 import heart from "../../assets/heart.svg";
 import noImages from "../../assets/noImages.jpg"
 import { store } from 'react-notifications-component';
+import { showNotif } from '../Utils.js';
 
 class Actuality extends React.Component{
     constructor(props) {
@@ -33,6 +34,8 @@ class Actuality extends React.Component{
             popularOffer: null,
             bestMarkOffer: null,
             tendanceOffer: null,
+            applied: [],
+            followed: [],
         };
 
     }
@@ -53,8 +56,38 @@ class Actuality extends React.Component{
       })
     }
 
+    getAppliedOffer = () => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          if (res.status >= 400)
+            throw res;
+          return res.json()
+        })
+        .then(res => this.setState({applied: res}))
+        .catch(error => {
+          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+        });
+    }
+
+    getFollowedShop = () => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/follow`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+      })
+      .then(res => res.json())
+      .then(res => this.setState({followed: res}))
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+    }
+
     componentDidMount() {
         this.getAllShop();
+        this.getAppliedOffer();
+        this.getFollowedShop();
     }
 
     handleGlobalShop = (id) => {
@@ -73,7 +106,11 @@ class Actuality extends React.Component{
                 <Card.Body>
                   <Card.Title>{item.pseudo ? item.pseudo : "Sans nom"}</Card.Title>
                   <Row className="ml-1">
-                    <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleFollow(item)}}>S'abonner</Button>
+                    {
+                      this.state.followed.some(el => el.idFollow === item.id) ?
+                      <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleUnfollow(item.id)}}>Désabonner</Button> :
+                        <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleFollow(item)}}>S'abonner</Button>
+                    }
                     <p>{item.average != null ? (item.average.toFixed(1) + '/5') : "Aucune note"}</p>
                     {item.average != null && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
                   </Row>
@@ -87,6 +124,7 @@ class Actuality extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
+                this.getFollowedShop();
                 this.setState({visible: false});
                 store.addNotification({
                   title: "Abonné",
@@ -125,7 +163,20 @@ class Actuality extends React.Component{
               }
             })
             .catch(error => console.error('Error:', error));
-        this.handleClose();
+    }
+
+    handleUnfollow = (id) => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {
+              if (res.status === 200) {
+                this.getFollowedShop();
+                showNotif(false, "Désabonné", "Vous êtes bien désabonné");
+              }
+              else {
+                showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
+              }
+            })
+            .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     handleAnnonceSubscribe = (item) => {
@@ -133,6 +184,7 @@ class Actuality extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
+                this.getAppliedOffer();
                 store.addNotification({
                   title: "Postulé",
                   message: "Nous avons bien pris en compte votre demande",
@@ -172,6 +224,25 @@ class Actuality extends React.Component{
             .catch(error => console.error('Error:', error));
     }
 
+    handleDelete = (id) => {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/noapply/${id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          if (res.status >= 400)
+            throw res;
+          return res.json()
+        })
+        .then(res => {
+          this.getAppliedOffer();
+          showNotif(false, "Réussi", "l'annulation est bien prise en compte");
+        })
+        .catch(error => {
+          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+        });
+    };
+
     handleCardOffer = (item) => {
         return (
             <Col key={item.id} className="mb-3">
@@ -183,7 +254,11 @@ class Actuality extends React.Component{
                       {`${item.productColor ? item.productColor : ""}`}
                     </Card.Text>
                     <Row className="ml-1">
-                      <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
+                      {
+                        this.state.applied.some(el => el.idOffer === item.id) ?
+                        <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>:
+                        <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
+                      }
                       <p>{item.average ? (item.average.toFixed(1) + '/5') : "Aucune note"}</p>
                       {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
                     </Row>

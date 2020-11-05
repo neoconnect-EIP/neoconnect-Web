@@ -131,7 +131,6 @@ class FindShop extends React.Component{
             .then(res => {
               if (res.status === 200) {
                 this.setState({visible: false});
-                this.getAllShop();
                 this.getFollowedShop();
                 showNotif(false, "Abonné", "Vous êtes bien abonné");
               }
@@ -162,7 +161,6 @@ class FindShop extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.getAllShop();
                 this.getFollowedShop();
                 showNotif(false, "Désabonné", "Vous êtes bien désabonné");
               }
@@ -171,7 +169,6 @@ class FindShop extends React.Component{
               }
             })
             .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
-        this.handleClose();
     }
 
     handleCard = (item) => {

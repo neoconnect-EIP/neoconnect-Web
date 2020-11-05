@@ -103,7 +103,6 @@ class Advertisements extends React.Component{
             return res.json()
           })
           .then(res => {
-            this.getOffer();
             this.getAppliedOffer();
             showNotif(false, "Réussi", "Vous avez bien postulé à l'annonce");
           })
@@ -243,7 +242,6 @@ class Advertisements extends React.Component{
           return res.json()
         })
         .then(res => {
-          this.getOffer();
           this.getAppliedOffer();
           showNotif(false, "Réussi", "l'annulation est bien prise en compte");
         })
