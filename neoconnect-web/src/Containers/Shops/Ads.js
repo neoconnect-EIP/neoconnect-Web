@@ -90,6 +90,7 @@ class Ads extends React.Component {
             showIcon: true
           }
         });
+        this.setState({adsData: []});
       });
     }
 
@@ -391,7 +392,6 @@ class Ads extends React.Component {
 
 
     render() {
-      console.log(this.state.adsData);
         return (
             <div justify="center" className="shopBg">
               <Modal centered show={this.state.visible} onHide={this.handleClose}>

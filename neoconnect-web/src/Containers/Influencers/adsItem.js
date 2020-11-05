@@ -490,7 +490,7 @@ class adsItem extends React.Component{
                         }
                       </Carousel>
                     </Col>
-                    <Col md={4}>
+                    <Col md={6}>
                       <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
                         <div style={{ textAlign:'left'}}>
                           <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
