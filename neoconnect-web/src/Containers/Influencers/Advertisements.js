@@ -105,6 +105,7 @@ class Advertisements extends React.Component{
           .then(res => {
             this.getOffer();
             this.getAppliedOffer();
+            showNotif(false, "Réussi", "Vous avez bien postulé à l'annonce");
           })
           .catch(error => {
             showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
@@ -244,6 +245,7 @@ class Advertisements extends React.Component{
         .then(res => {
           this.getOffer();
           this.getAppliedOffer();
+          showNotif(false, "Réussi", "l'annulation est bien prise en compte");
         })
         .catch(error => {
           showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);

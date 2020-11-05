@@ -203,7 +203,7 @@ class Actuality extends React.Component{
                   <Navbar.Collapse id="basic-navbar-nav">
                   </Navbar.Collapse>
                 </Navbar>
-                <Row className="pl-4">
+                <Row className="pl-4 mr-0 ml-0">
                   <Image src={heart}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
                 </Row>
@@ -212,7 +212,7 @@ class Actuality extends React.Component{
                       this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
                   }
                 </Row>
-                <Row className="pl-4">
+                <Row className="pl-4 mr-0 ml-0">
                   <Image src={fire}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques populaires</h4>
                 </Row>
@@ -221,7 +221,7 @@ class Actuality extends React.Component{
                       this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
                   }
                 </Row>
-                <Row className="pl-4 mt-4">
+                <Row className="pl-4 mt-4 mr-0 ml-0">
                   <Image src={star}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques les mieux notés</h4>
                 </Row>
@@ -230,7 +230,7 @@ class Actuality extends React.Component{
                       this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
                   }
                 </Row>
-                <Row className="pl-4">
+                <Row className="pl-4 mr-0 ml-0">
                   <Image src={heart}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres du moment</h4>
                 </Row>
@@ -239,7 +239,7 @@ class Actuality extends React.Component{
                       this.state.tendanceOffer && this.state.tendanceOffer.map(inf => this.handleCardOffer(inf))
                   }
                 </Row>
-                <Row className="pl-4">
+                <Row className="pl-4 mr-0 ml-0">
                   <Image src={fire}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
                 </Row>
@@ -248,7 +248,7 @@ class Actuality extends React.Component{
                       this.state.popularOffer && this.state.popularOffer.map(inf => this.handleCardOffer(inf))
                   }
                 </Row>
-                <Row className="pl-4 mt-4">
+                <Row className="pl-4 mt-4 mr-0 ml-0">
                   <Image src={star}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
                 </Row>

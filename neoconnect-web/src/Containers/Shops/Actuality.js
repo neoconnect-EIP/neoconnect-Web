@@ -65,7 +65,7 @@ class Actuality extends React.Component {
                   {inf.email &&
                     <Row>
                       <EmailIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
-                      <p>{inf.email}</p>
+                      <p style={{overflowX: 'auto'}}>{inf.email}</p>
                     </Row>
                   }
                   {inf.phone &&
@@ -99,7 +99,7 @@ class Actuality extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                 </Navbar.Collapse>
               </Navbar>
-              <Row className="pl-4">
+              <Row className="pl-4 mr-0 ml-0">
                 <Image src={heart}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs du moment</h4>
               </Row>
@@ -108,7 +108,7 @@ class Actuality extends React.Component {
                     this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
                 }
               </Row>
-              <Row className="pl-4 mt-4">
+              <Row className="pl-4 mt-4 mr-0 ml-0">
                 <Image src={fire}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs populaires</h4>
               </Row>
@@ -117,7 +117,7 @@ class Actuality extends React.Component {
                     this.state.moment && this.state.popular.map(inf => this.cardInf(inf))
                 }
               </Row>
-              <Row className="pl-4 mt-4">
+              <Row className="pl-4 mt-4 mr-0 ml-0">
                 <Image src={star}/>
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs les mieux notés</h4>
               </Row>

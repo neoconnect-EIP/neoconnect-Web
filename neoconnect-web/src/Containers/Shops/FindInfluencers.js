@@ -102,7 +102,7 @@ class FindInfluencers extends React.Component {
                 {inf.email &&
                   <Row>
                     <EmailIcon style={{float: "left", color: "#5BA8A0", marginLeft: "10px", marginRight: '10px'}}/>
-                    <p>{inf.email}</p>
+                    <p style={{overflowX: 'auto'}}>{inf.email}</p>
                   </Row>
                 }
                 {inf.phone &&
@@ -164,7 +164,7 @@ class FindInfluencers extends React.Component {
 
               {
                 this.state.influencersData ? this.state.influencersData.length > 0 ?
-                  <Row className="pt-4 pl-3 pr-2" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  <Row className="pt-4 pl-3 pr-2 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                     {
                         this.state.influencersData.filter((item) => (item.theme && item.theme.toLowerCase() === 'mode' && this.state.theme === 'mode') ||
                                                                     (item.theme && item.theme.toLowerCase() === 'high tech' && this.state.theme === 'tech') ||

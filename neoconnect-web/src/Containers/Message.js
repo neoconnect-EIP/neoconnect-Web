@@ -223,7 +223,7 @@ export default class Message extends React.Component{
 
         return (
           <div className={this.state.client === 'shop' ? 'shopBg' : 'infBg'}>
-            <Row>
+            <Row className="mx-0">
               <Col md={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
                 <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">Messagerie</h1>
                 {this.state.channels && this.listContact()}
