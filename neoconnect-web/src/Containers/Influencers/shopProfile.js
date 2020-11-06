@@ -114,10 +114,6 @@ class shopProfile extends React.Component{
         this.setState({commentInput: e.target.value});
     };
 
-    handleModal = (fonction) => {
-        this.setState({visible: !this.state.visible})
-    };
-
     handleResponse = (res) => {
         if (res && res.status === 200)
           this.getShopData();
@@ -387,9 +383,6 @@ class shopProfile extends React.Component{
                               <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
                             </Row>
                             <Image className="iconProfileSocial" src={place}/> <span style={{color: 'white'}}>{this.state.shopData.city ? this.state.shopData.city : "Non renseigné"}</span>
-                              <Badge className="ml-4 pill">
-                                {this.state.shopData.function}
-                              </Badge>
                               <Row className="ml-0 mt-2">
                                 {this.state.shopData.facebook ? <OverlayTrigger
                                   placement="bottom"
@@ -532,3 +525,6 @@ class shopProfile extends React.Component{
 export default withRouter(shopProfile)
 
 // <Button className="btnInf mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
+// <Badge className="ml-4 pill">
+//   {this.state.shopData.function}
+// </Badge>

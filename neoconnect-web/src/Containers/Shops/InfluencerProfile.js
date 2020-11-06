@@ -94,10 +94,6 @@ class InfluencerProfile extends React.Component {
       this.setState({commentInput: e.target.value});
     };
 
-    handleModal = (fonction) => {
-        this.setState({visible: !this.state.visible})
-    };
-
     handleMark = (e) => {
         this.setState({mark: e})
     };

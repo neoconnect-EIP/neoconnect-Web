@@ -35,7 +35,7 @@ class adsItem extends React.Component{
             visible: false,
             adData: null,
             actualId: 0,
-            fonction: "",
+            // fonction: "",
             mark: null,
             pseudo: '',
             email: '',
@@ -88,15 +88,6 @@ class adsItem extends React.Component{
             let [key, val] = hash.split('=')
             return Object.assign(params, {[key]: decodeURIComponent(val)})
         }, {})
-    }
-
-    handleModal = (fonction) => {
-        this.setState({visible: !this.state.visible})
-        if (this.state.fonction) {
-            this.setState({fonction: ""})
-        } else {
-            this.setState({fonction: fonction})
-        }
     }
 
     handleMark = (e) => {
@@ -265,7 +256,6 @@ class adsItem extends React.Component{
               this.getDetailOffer();
             })
             .catch(error => console.error('Error:', error));
-        this.handleModal("")
     }
 
     displayImage = (item, id) => {

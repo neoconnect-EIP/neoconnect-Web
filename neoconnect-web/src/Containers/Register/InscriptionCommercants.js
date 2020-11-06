@@ -24,7 +24,7 @@ export default class ShopSignUp extends React.Component{
             city: "",
             phone: "",
             theme: "",
-            society: "",
+            // society: "",
             site: "",
             facebook: "",
             instagram: "",
@@ -42,7 +42,7 @@ export default class ShopSignUp extends React.Component{
               "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
               "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
             },
-            function: "",
+            // function: "",
         }
         this.inputOpenFileRef = React.createRef();
     }
