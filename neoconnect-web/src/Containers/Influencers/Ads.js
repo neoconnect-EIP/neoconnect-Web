@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form';
 import { store } from 'react-notifications-component';
 import Button from 'react-bootstrap/Button';
 import noImages from "../../assets/noImages.jpg";
+import { showNotif } from '../Utils.js';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -192,27 +193,37 @@ class Ads extends React.Component {
     }
 
     handleSendShare = () => {
-      let body = {
-          "facebook": this.state.fb,
-          "instagram": this.state.ig,
-          "youtube": this.state.youtube,
-          "pinterest": this.state.pinterest,
-          "twitch": this.state.twitch,
-          "twitter": this.state.twitter,
-          "tiktok": this.state.tiktok,
-          "snapchat": this.state.snapchat
-      };
-      body = JSON.stringify(body);
-
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/sharePublication/${this.state.shareId}`,
+      if (this.state.validFb && this.state.validIg && this.state.validPinterest && this.state.validSnap &&
+        this.state.validTiktok && this.state.validTwitch && this.state.validTwitter && this.state.validYoutube && (
+          this.state.fb || this.state.ig || this.state.youtube || this.state.pinterest || this.state.twitch ||
+          this.state.twitter || this.state.tiktok || this.state.snapchat
+        ))
         {
-          method: 'POST',
-          body: body,
-          headers: {'Content-Type': 'application/json',
-          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        })
-        .then(res => this.handleShareRes(res))
-        .catch(error => console.error('Error:', error));
+          let body = {
+              "facebook": this.state.fb,
+              "instagram": this.state.ig,
+              "youtube": this.state.youtube,
+              "pinterest": this.state.pinterest,
+              "twitch": this.state.twitch,
+              "twitter": this.state.twitter,
+              "tiktok": this.state.tiktok,
+              "snapchat": this.state.snapchat
+          };
+          body = JSON.stringify(body);
+          
+          fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/sharePublication/${this.state.shareId}`,
+            {
+              method: 'POST',
+              body: body,
+              headers: {'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+            })
+            .then(res => this.handleShareRes(res))
+            .catch(error => console.error('Error:', error));
+        }
+        else {
+          showNotif(true, "Erreur", "Veuillez vérifier tout les champs.");
+        }
 
     }
 
