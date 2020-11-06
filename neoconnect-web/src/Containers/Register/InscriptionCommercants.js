@@ -9,6 +9,7 @@ import facebook from "../../assets/facebook.svg";
 import snapchat from "../../assets/snapchat.svg";
 import twitter from "../../assets/twitter.svg";
 import camera from "../../assets/camera.svg";
+import { showNotif } from '../Utils.js';
 
 export default class ShopSignUp extends React.Component{
     constructor(props) {
@@ -55,7 +56,10 @@ export default class ShopSignUp extends React.Component{
 
     handleResponse = async (res) => {
         if (res.status === 200)
-            this.props.history.push('/landing-page/login')
+        {
+          showNotif(false, "Succés", "Votre compte a bien été créé.");
+          this.props.history.push('/landing-page/login');
+        }
         else {
           var msg = await res.json();
           store.addNotification({

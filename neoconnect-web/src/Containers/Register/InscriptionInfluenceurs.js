@@ -14,6 +14,7 @@ import twitch from "../../assets/twitch.svg";
 import snapchat from "../../assets/snapchat.svg";
 import tiktok from "../../assets/tiktok.svg";
 import camera from "../../assets/camera.svg";
+import { showNotif } from '../Utils.js';
 
 export default class InfluencerSignUp extends React.Component{
 
@@ -64,8 +65,10 @@ export default class InfluencerSignUp extends React.Component{
     }
 
     handleResponse = async (res) => {
-        if (res.status === 200)
-            this.props.history.push('/landing-page/login');
+        if (res.status === 200) {
+          this.props.history.push('/landing-page/login');
+          showNotif(false, "Succés", "Votre compte a bien été créé.");
+        }
         else {
           var msg = await res.json();
           store.addNotification({
