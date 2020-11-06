@@ -61,14 +61,14 @@ class adsItem extends React.Component{
           .then(res => this.setState({adData: res}))
           .catch(error => console.error('Error:', error));
 
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-          .then(res => {
-            if (res.status >= 400)
-              throw res;
-            return res.json();
-          })
-          .then(res => this.setState({suggestions: res}))
-          .catch(error => console.error('Error:', error));
+      // fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+      //     .then(res => {
+      //       if (res.status >= 400)
+      //         throw res;
+      //       return res.json();
+      //     })
+      //     .then(res => this.setState({suggestions: res}))
+      //     .catch(error => console.error('Error:', error));
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => res.json())
           .then(res => {this.setState({applied: res})})
@@ -549,13 +549,6 @@ class adsItem extends React.Component{
                         this.state.adData && this.state.adData.comment && this.state.adData.comment.length > 0 && this.state.adData.comment.map(x => this.handleComment(x))
                       }
                     </Col>
-                    <Col md={6} className="mt-4">
-                      <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Suggestion</h2>
-                      <Row xs={1} md={2} lg={2} sm={2} xl={3}>
-                        {this.state.suggestions && this.state.suggestions.length > 0 && this.state.suggestions != 'No Data' && this.state.suggestions.map(item => this.displaySuggestion(item))}
-                      </Row>
-                      {!this.state.suggestions && <h5 style={{fontWeight: '300', color: 'white'}} className="ml-4 mt-3" >Aucune suggestion trouvé</h5>}
-                      </Col>
                     </Row>
                   </>
                 }
@@ -673,3 +666,11 @@ export default withRouter(adsItem)
 //                </ListItemText>
 //            </ListItem>
 //        </List>
+
+// <Col md={6} className="mt-4">
+//   <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Suggestion</h2>
+//   <Row xs={1} md={2} lg={2} sm={2} xl={3}>
+//     {this.state.suggestions && this.state.suggestions.length > 0 && this.state.suggestions != 'No Data' && this.state.suggestions.map(item => this.displaySuggestion(item))}
+//   </Row>
+//   {!this.state.suggestions && <h5 style={{fontWeight: '300', color: 'white'}} className="ml-4 mt-3" >Aucune suggestion trouvé</h5>}
+//   </Col>

@@ -36,6 +36,7 @@ class Actuality extends React.Component{
             tendanceOffer: null,
             applied: [],
             followed: [],
+            suggestions: [],
         };
 
     }
@@ -84,18 +85,33 @@ class Actuality extends React.Component{
       .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
+    getSuggestions() {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => {
+            if (res.status >= 400)
+              throw res;
+            return res.json();
+          })
+          .then(res => this.setState({suggestions: res}))
+          .catch(error => console.error('Error:', error));
+    }
+
     componentDidMount() {
         this.getAllShop();
         this.getAppliedOffer();
         this.getFollowedShop();
+        this.getSuggestions();
     }
 
     handleGlobalShop = (id) => {
-        this.props.history.push(`/dashboard/shop?id=${id}`)
+        // this.props.history.push(`/dashboard/shop?id=${id}`)
+        this.props.history.push({pathname: `/dashboard/shop/${id}`, state: this.state.followed});
+
     }
 
     handleGlobalAnnonce = (id) => {
-        this.props.history.push(`/dashboard/item?id=${id}`)
+      this.props.history.push({pathname: `/dashboard/item/${id}`, state: this.state.applied});
+        // this.props.history.push(`/dashboard/item?id=${id}`)
     }
 
     handleCard = (item) => {
@@ -278,6 +294,15 @@ class Actuality extends React.Component{
                   <Navbar.Collapse id="basic-navbar-nav">
                   </Navbar.Collapse>
                 </Navbar>
+                <Row className="pl-4 mt-4 mr-0 ml-0">
+                  <Image src={star}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Suggestion d'offre</h4>
+                </Row>
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {
+                      this.state.suggestions && this.state.suggestions.map(inf => this.handleCardOffer(inf))
+                  }
+              </Row>
                 <Row className="pl-4 mr-0 ml-0">
                   <Image src={heart}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
