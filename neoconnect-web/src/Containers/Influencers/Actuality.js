@@ -12,6 +12,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import fire from "../../assets/fire.svg";
 import star from "../../assets/star.svg";
+import bulb from "../../assets/bulb.svg";
 import heart from "../../assets/heart.svg";
 import noImages from "../../assets/noImages.jpg"
 import { store } from 'react-notifications-component';
@@ -295,7 +296,7 @@ class Actuality extends React.Component{
                   </Navbar.Collapse>
                 </Navbar>
                 <Row className="pl-4 mt-4 mr-0 ml-0">
-                  <Image src={star}/>
+                  <Image src={bulb}/>
                   <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Suggestion d'offre</h4>
                 </Row>
                 <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
