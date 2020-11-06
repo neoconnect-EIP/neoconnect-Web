@@ -442,7 +442,10 @@ class ShopStatus extends React.Component{
                           <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
                             src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
                           <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
-                          <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
+                          {
+                            this.state.userData.theme &&
+                            <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
+                          }
                           <Row xs={1} sm={1} md={2} lg={2} xl={2}>
                             <Col className="mx-auto mt-4" align="center">
                               <div className="mb-3">
