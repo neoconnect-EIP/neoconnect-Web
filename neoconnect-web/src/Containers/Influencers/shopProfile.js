@@ -55,7 +55,7 @@ class shopProfile extends React.Component{
             messageModal: false,
             msg: "",
             clickedSignal: false,
-            followed: props.location.state,
+            followed: props.location.state ? props.location.state : [],
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
         };
     }

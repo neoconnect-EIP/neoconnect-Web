@@ -452,7 +452,7 @@ class InfluenceurStatus extends React.Component{
                           src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
                         <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
                         {
-                          this.state.userData.theme && 
+                          this.state.userData.theme &&
                           <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
                         }
                         <Row xs={1} sm={1} md={2} lg={2} xl={2}>
@@ -561,7 +561,7 @@ class InfluenceurStatus extends React.Component{
                   />
                 }
               </div>
-              <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>
+              <Modal centered size={'sm'} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Vos abonnements</Modal.Title>
                 </Modal.Header>

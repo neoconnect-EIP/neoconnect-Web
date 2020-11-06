@@ -286,7 +286,6 @@ class Actuality extends React.Component{
     }
 
     render() {
-
         return (
           <div className="infBg"  >
                 <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
