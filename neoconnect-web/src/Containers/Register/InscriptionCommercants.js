@@ -16,7 +16,7 @@ export default class ShopSignUp extends React.Component{
         super(props);
         this.state = {
             pseudo: "",
-            password: null,
+            password: "",
             password2: "",
             full_name: "",
             email: "",
@@ -110,9 +110,10 @@ export default class ShopSignUp extends React.Component{
             "postal": this.state.postal,
             "city": this.state.city,
             "phone": this.state.phone,
+            "website": this.state.site,
             "theme": this.state.theme.toString(),
-            "function": this.state.function,
-            "society": this.state.society,
+            // "function": this.state.function,
+            // "society": this.state.society,
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
         };
         body = JSON.stringify(body);
@@ -280,48 +281,48 @@ export default class ShopSignUp extends React.Component{
                         </Grid>
                     </Grid>
                 );
-            case 2:
-                return (
-                    <Grid container justify="center">
-                        <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
-                            <h1 style={{fontWeight: '300'}}>Informations légales</h1>
-                        </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                            <Icon type="shop" style={{ color: 'black', marginRight: "8px"}} />
-                            <Input
-                                style={{color: 'black'}}
-                                type="text"
-                                name="society"
-                                placeholder="Société"
-                                value={this.state.society}
-                                onChange={this.handleChange}
-                            />
-                        </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                            <Icon type="info" style={{ color: 'black', marginRight: "8px"}} />
-                            <Input
-                                style={{color: 'black'}}
-                                type="text"
-                                name="function"
-                                placeholder="Fonction"
-                                value={this.state.function}
-                                onChange={this.handleChange}
-                            />
-                        </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                            <Icon type="global" style={{ color: 'black', marginRight: "8px"}} />
-                            <Input
-                                style={{color: 'black'}}
-                                type="text"
-                                name="siteweb"
-                                placeholder="Site web"
-                                value={this.state.site}
-                                onChange={this.handleChange}
-                            />
-                        </Grid>
-                    </Grid>
-                );
-                case 3:
+            // case 2:
+            //     return (
+            //         <Grid container justify="center">
+            //             <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+            //                 <h1 style={{fontWeight: '300'}}>Informations légales</h1>
+            //             </Grid>
+            //             <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+            //                 <Icon type="shop" style={{ color: 'black', marginRight: "8px"}} />
+            //                 <Input
+            //                     style={{color: 'black'}}
+            //                     type="text"
+            //                     name="society"
+            //                     placeholder="Société"
+            //                     value={this.state.society}
+            //                     onChange={this.handleChange}
+            //                 />
+            //             </Grid>
+            //             <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+            //                 <Icon type="info" style={{ color: 'black', marginRight: "8px"}} />
+            //                 <Input
+            //                     style={{color: 'black'}}
+            //                     type="text"
+            //                     name="function"
+            //                     placeholder="Fonction"
+            //                     value={this.state.function}
+            //                     onChange={this.handleChange}
+            //                 />
+            //             </Grid>
+            //             <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+            //                 <Icon type="global" style={{ color: 'black', marginRight: "8px"}} />
+            //                 <Input
+            //                     style={{color: 'black'}}
+            //                     type="text"
+            //                     name="siteweb"
+            //                     placeholder="Site web"
+            //                     value={this.state.site}
+            //                     onChange={this.handleChange}
+            //                 />
+            //             </Grid>
+            //         </Grid>
+            //     );
+                case 2:
                     return (
                         <Grid container justify="center">
                             <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
@@ -368,6 +369,17 @@ export default class ShopSignUp extends React.Component{
                                     name="snapchat"
                                     placeholder="Snapchat"
                                     value={this.state.snapchat}
+                                    onChange={this.handleChange}
+                                />
+                            </Grid>
+                            <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                                <Icon type="global" style={{ color: 'black', marginRight: "8px"}} />
+                                <Input
+                                    style={{color: 'black'}}
+                                    type="text"
+                                    name="siteweb"
+                                    placeholder="Site web"
+                                    value={this.state.site}
                                     onChange={this.handleChange}
                                 />
                             </Grid>

@@ -48,9 +48,9 @@ class ShopStatus extends React.Component{
             email: "",
             city: "",
             theme: "",
-            society: "",
+            // society: "",
             website: "",
-            fonction: "",
+            // fonction: "",
             visibleDelete: false,
             file: null,
             userPicture: null,
@@ -86,8 +86,6 @@ class ShopStatus extends React.Component{
     }
 
     getFollowers = () => {
-      console.log("token ", localStorage.getItem("Jwt"));
-      console.log("token ", localStorage.getItem("userId"));
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${localStorage.getItem("userId")}`, {
           method: 'GET',
           headers: {
@@ -153,25 +151,24 @@ class ShopStatus extends React.Component{
         this.setState({
           visible: true,
           fullName: this.state.userData.full_name,
-          desc: this.state.userData.userDescription,
+          desc: this.state.userData.userDescription ? this.state.userData.userDescription : "",
           pseudo: this.state.userData.pseudo,
-          phone: this.state.userData.phone,
+          phone: this.state.userData.phone ? this.state.userData.phone : "",
           email: this.state.userData.email,
-          city: this.state.userData.city,
-          snap: this.state.userData.snapchat,
-          facebook: this.state.userData.facebook,
-          twitter: this.state.userData.twitter,
-          instagram: this.state.userData.instagram,
+          city: this.state.userData.city ? this.state.userData.city : "",
+          snap: this.state.userData.snapchat ? this.state.userData.snapchat : "",
+          facebook: this.state.userData.facebook  ? this.state.userData.facebook : "",
+          twitter: this.state.userData.twitter  ? this.state.userData.twitter : "",
+          instagram: this.state.userData.instagram  ? this.state.userData.instagram : "",
           theme: this.state.userData.theme,
-          society: this.state.userData.society,
-          fonction: this.state.userData.function,
+          // society: this.state.userData.society,
+          // fonction: this.state.userData.function,
           website: this.state.userData.website,
           userPicture: this.state.userData.userPicture ? this.state.userData.userPicture[0] : null,
         });
     }
 
     displayFollowers = () => {
-      console.log("follow ",   this.state.followers.followers);
       return (
         this.state.followers.map((val, idx) => (
           <Container fluid>
@@ -218,7 +215,7 @@ class ShopStatus extends React.Component{
             "phone": this.state.phone,
             "city": this.state.city,
             "website": this.state.website,
-            "function": this.state.fonction,
+            // "function": this.state.fonction,
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
             "userDescription": this.state.desc,
             "theme": this.state.themeValue.indexOf(this.state.theme).toString(),
@@ -380,16 +377,7 @@ class ShopStatus extends React.Component{
                           <Form.Control value={this.state.snapchat} onChange={e => {this.setState({snapchat: e.target.value})}}/>
                         </Form.Group>
                       </Form.Row>
-                      <Form.Row>
-                        <Form.Group as={Col}>
-                          <Form.Label>Société</Form.Label>
-                          <Form.Control value={this.state.society} onChange={e => {this.setState({society: e.target.value})}}/>
-                        </Form.Group>
-                        <Form.Group as={Col}>
-                          <Form.Label>Function</Form.Label>
-                          <Form.Control value={this.state.fonction} onChange={e => {this.setState({fonction: e.target.value})}}/>
-                        </Form.Group>
-                      </Form.Row>
+
                       <Form.Row>
                         <Form.Group as={Col}>
                           <Form.Label>Site web</Form.Label>
@@ -546,4 +534,16 @@ export default withRouter(ShopStatus);
 //     <Button className="btnShop" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
 //   </Col>
 // </Row>
+
+// <Form.Row>
+//   <Form.Group as={Col}>
+//     <Form.Label>Société</Form.Label>
+//     <Form.Control value={this.state.society} onChange={e => {this.setState({society: e.target.value})}}/>
+//   </Form.Group>
+//   <Form.Group as={Col}>
+//     <Form.Label>Function</Form.Label>
+//     <Form.Control value={this.state.fonction} onChange={e => {this.setState({fonction: e.target.value})}}/>
+//   </Form.Group>
+// </Form.Row>
+
 //
