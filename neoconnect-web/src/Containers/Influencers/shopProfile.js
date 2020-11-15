@@ -53,7 +53,7 @@ class shopProfile extends React.Component{
             messageModal: false,
             msg: "",
             clickedSignal: false,
-            followed: props.location.state ? props.location.state : [],
+            follow: props.location.state ? props.location.state : false,
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
         };
     }
@@ -77,18 +77,6 @@ class shopProfile extends React.Component{
         .then(res => this.setState({userData: res}))
         .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
 
-    }
-
-    getFollowedShop = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/follow`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => res.json())
-      .then(res => this.setState({followed: res}))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount = () => {
@@ -239,9 +227,7 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.setState({visible: false});
-                // showNotif(false, "Abonné", "Vous êtes bien abonné");
-                this.getFollowedShop();
+                this.setState({visible: false, follow: true});
               }
               else {
                 showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
@@ -254,9 +240,7 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.setState({visible: false});
-                // showNotif(false, "Désabonné", "Vous êtes bien désabonné");
-                this.getFollowedShop();
+                this.setState({visible: false, follow: false});
               }
               else {
                 showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
@@ -375,7 +359,7 @@ class shopProfile extends React.Component{
                               </Row>
                               <Row>
                                 {
-                                  this.state.followed.some(el => el.idFollow === this.state.shopData.id) ?
+                                  this.state.follow === true ?
                                   <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleUnFollow}>Désabonner</Button>:
                                   <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleFollow}>S'abonner</Button>
                                 }

@@ -35,7 +35,6 @@ class FindShop extends React.Component{
             tendance: null,
             visible: false,
             item: null,
-            followed: [],
         };
 
     }
@@ -52,32 +51,16 @@ class FindShop extends React.Component{
       .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
-    getFollowedShop = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/follow`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => res.json())
-      .then(res => this.setState({followed: res}))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
-    }
-
     componentDidMount() {
         this.getAllShop();
-        this.getFollowedShop();
     }
 
     searchRes = async (res) => {
       if (res.status === 200){
         var shops = await res.json();
-        // this.setState({shopList: [shops], back: true});
         this.handleGlobalAnnonce(shops.id);
-        // this.handleGlobalAnnonce(item.id)
       }
       else {
-        // this.setState({show: true, shopList: [], tmpSearch: this.state.search})
         showNotif(true, "Non trouvé", "Aucune boutique correspond à " + this.state.search);
       }
     }
@@ -97,9 +80,8 @@ class FindShop extends React.Component{
         .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
-    handleGlobalAnnonce = (id) => {
-        // this.props.history.push(`/dashboard/shop?id=${id}`)
-        this.props.history.push({pathname: `/dashboard/shop/${id}`, state: this.state.followed});
+    handleGlobalAnnonce = (item) => {
+      this.props.history.push({pathname: `/dashboard/shop/${item.id}`, state: item.follow});
     }
 
     handleClose = () => {
@@ -114,8 +96,8 @@ class FindShop extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
+                this.getAllShop();
                 this.setState({visible: false});
-                this.getFollowedShop();
                 showNotif(false, "Abonné", "Vous êtes bien abonné");
               }
               else {
@@ -130,7 +112,7 @@ class FindShop extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.getFollowedShop();
+                this.getAllShop();
                 showNotif(false, "Désabonné", "Vous êtes bien désabonné");
               }
               else {
@@ -147,14 +129,14 @@ class FindShop extends React.Component{
               this.state.back && this.state.shopList.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", shopList: []}); this.getAllShop();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
             }
             <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-              <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
+              <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
               <Card.Body>
                 <Card.Title>
                   <p className="mr-auto">{` ${item.pseudo ? item.pseudo : "Sans marque"}`}</p>
                 </Card.Title>
                 <Row className="ml-1">
                   {
-                    this.state.followed.some(el => el.idFollow === item.id) ?
+                    item.follow ===  true ?
                     <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleUnfollow(item.id)}}>Désabonner</Button> :
                     <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
                   }
