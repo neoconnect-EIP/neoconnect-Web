@@ -8,7 +8,6 @@ import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import { store } from 'react-notifications-component';
 import Button from 'react-bootstrap/Button';
 import noImages from "../../assets/noImages.jpg";
 import { showNotif } from '../Utils.js';
@@ -65,22 +64,7 @@ class Ads extends React.Component {
         .then(res => this.setState({adsData: res, isLoading: false}))
         .catch(error => {
           this.setState({isLoading: false});
-          store.addNotification({
-            title: "Erreur, Veuillez essayer ultérieurement",
-            message: error.statusText,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            pauseOnHover: true,
-            isMobile: true,
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 7000,
-              onScreen: true,
-              showIcon: true
-            }
-          });
+          showNotif(true,"Erreur, Veuillez essayer ultérieurement", error.statusText);
         });
       }
 
@@ -154,40 +138,10 @@ class Ads extends React.Component {
     handleShareRes = async (res) => {
       if (res.status !== 200) {
         var msg = await res.json();
-        store.addNotification({
-          title: "Erreur",
-          message: msg,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", msg);
       }
       else {
-        store.addNotification({
-          title: "Envoyé",
-          message: "Un email avec les lien de publications a été envoyé au boutique",
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(false, "Envoyé", "Un email avec les lien de publications a été envoyé au boutique");
         this.setState({visible: false})
       }
     }
@@ -373,39 +327,3 @@ class Ads extends React.Component {
 }
 
 export default withRouter(Ads)
-
-//
-// <Table className="mt-4 ml-4 table " style={{color: 'white'}}>
-//   <thead>
-//     <tr>
-//       <th>Nom</th>
-//       <th>Type</th>
-//       <th>Date de candidature</th>
-//       <th>Status</th>
-//       <th>Actions</th>
-//     </tr>
-//   </thead>
-//   <tbody>
-//     {this.listAbonnement()}
-//   </tbody>
-// </Table>
-
-    //
-    // listAbonnement = () => {
-    //   if (this.state.adsData && this.state.adsData.length > 0)
-    //     return (
-    //       this.state.adsData.map(ad => (
-    //         <tr key={ad.idOffer}>
-    //           <td>{ad.productName}</td>
-    //           <td>{this.state.type[ad.productSubject]}</td>
-    //           <td>{new Date(ad.createdAt).toLocaleDateString()}</td>
-    //           <td>{ad.status === "pending" ? "En attente" : (ad.status === "refused" ? "Refusé" : "Accepté")}</td>
-    //           <td>
-    //             <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>{' '}
-    //             <Button className="btnInf" onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}>Détail</Button>{' '}
-    //             <Button className="btnInf" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>
-    //           </td>
-    //         </tr>
-    //       ))
-    //     )
-    // }

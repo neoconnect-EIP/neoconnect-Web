@@ -323,7 +323,3 @@ class Advertisements extends React.Component{
 }
 
 export default withRouter(Advertisements)
-
-// <Card.Text>
-//   {`${item.color ? item.color : ""}`}
-// </Card.Text>

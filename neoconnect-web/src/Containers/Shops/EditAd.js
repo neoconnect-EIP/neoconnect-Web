@@ -11,7 +11,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import { store } from 'react-notifications-component';
+import { showNotif } from '../Utils.js';
 
 class EditAd extends React.Component {
     constructor(props) {
@@ -67,7 +67,7 @@ class EditAd extends React.Component {
         })
             .then(res => res.json())
             .then(res => this.statesetter(res))
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     getUrlParams = (search) => {
@@ -318,23 +318,7 @@ class EditAd extends React.Component {
 
     handleSubmit = () => {
       if (!this.state.productName || !this.state.productDesc) {
-        store.addNotification({
-          title: "Erreur",
-          message: "Veuillez fournir nom et description de l'offre",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true,
-            pauseOnHover: true
-          }
-        });
+        showNotif(true, "Erreur", "Veuillez fournir nom et description de l'offre");
       }
       else {
         let id = this.getUrlParams((window.location.search));
@@ -353,7 +337,7 @@ class EditAd extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
             .then(res => {res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     }
 

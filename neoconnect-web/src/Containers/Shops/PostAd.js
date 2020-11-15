@@ -8,9 +8,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import { store } from 'react-notifications-component';
 import LoadingOverlay from 'react-loading-overlay';
-
+import { showNotif } from '../Utils.js';
 
 class PostAd extends React.Component {
     constructor(props) {
@@ -282,23 +281,7 @@ class PostAd extends React.Component {
 
     handleSubmit = () => {
       if (!this.state.productName || this.state.productDesc.length > 255) {
-        store.addNotification({
-          title: "Erreur",
-          message: "Veuillez fournir nom et description de l'offre. La description ne dois pas dépasser 255 caractères.",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true,
-            pauseOnHover: true
-          }
-        });
+        showNotif(true, "Erreur", "Veuillez fournir nom et description de l'offre. La description ne dois pas dépasser 255 caractères.");
       }
       else {
         this.setState({isActive: true});
@@ -319,7 +302,7 @@ class PostAd extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
           .then(res => {res.json(); this.handleResponse(res)})
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     }
 
@@ -416,15 +399,3 @@ class PostAd extends React.Component {
 }
 
 export default withRouter(PostAd)
-
-// <Form.Group as={Col}>
-//   <Form.Label style={{color:'white'}}>Thème</Form.Label>
-//   <Form.Control as="select" value={this.state.sub} onChange={(e) =>{ this.setState({sub: e.target.value});}}>
-//     <option value={1}>Mode</option>
-//     <option value={2}>Cosmetique</option>
-//     <option value={3}>Haute Technologie</option>
-//     <option value={4}>Nourriture</option>
-//     <option value={5}>Jeux vidéo</option>
-//     <option value={6}>Sport/Fitness</option>
-//   </Form.Control>
-// </Form.Group>

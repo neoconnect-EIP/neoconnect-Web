@@ -2,7 +2,6 @@ import React from 'react';
 import {Icon} from 'antd';
 import {Grid, Input, InputLabel, Select, MenuItem, FormControl} from '@material-ui/core';
 import "../index.css"
-import { store } from 'react-notifications-component';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import instagram from "../../assets/instagram.svg";
@@ -71,22 +70,7 @@ export default class InfluencerSignUp extends React.Component{
         }
         else {
           var msg = await res.json();
-          store.addNotification({
-            title: "Erreur",
-            message: this.state.errMsg[msg],
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            pauseOnHover: true,
-            isMobile: true,
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 7000,
-              onScreen: true,
-              showIcon: true
-            }
-          });
+          showNotif(true, "Erreur", this.state.errMsg[msg]);
         }
     }
 
@@ -108,14 +92,14 @@ export default class InfluencerSignUp extends React.Component{
             "twitch": this.state.twitch,
             "pinterest": this.state.pinterest,
             "tiktok": this.state.instagram,
-            "sexe": this.state.sexe == 1 ? 'Homme': (this.state.sexe == 2 ? 'Femme' : undefined),
+            "sexe": parseInt(this.state.sexe) === 1 ? 'Homme': (parseInt(this.state.sexe) === 2 ? 'Femme' : undefined),
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
         };
 
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     };
 
     handleSplitString = (str) => {
@@ -413,22 +397,7 @@ export default class InfluencerSignUp extends React.Component{
         this.setState({ current });
       }
       else {
-        store.addNotification({
-          title: "Erreur",
-          message: this.state.errorMsg,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", this.state.errorMsg);
       }
     }
 
@@ -450,7 +419,7 @@ export default class InfluencerSignUp extends React.Component{
         this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères. Il doit contenir que des lettres et chiffres.';
         return (false);
       }
-      if (this.state.password != this.state.password2) {
+      if (this.state.password !== this.state.password2) {
         this.state.errorMsg = 'Les mots de passes diffèrent.';
         return (false);
       }
@@ -477,6 +446,8 @@ export default class InfluencerSignUp extends React.Component{
           case 1:
             if (!this.checkTheme()) return false;
             else return (true);
+         default:
+            return (true);
       }
     }
 
@@ -514,10 +485,3 @@ export default class InfluencerSignUp extends React.Component{
         );
     }
 }
-
-// errMsg: {
-//   "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
-//   "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
-//   "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
-//   "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
-// }

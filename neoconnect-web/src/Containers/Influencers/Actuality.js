@@ -15,7 +15,6 @@ import star from "../../assets/star.svg";
 import bulb from "../../assets/bulb.svg";
 import heart from "../../assets/heart.svg";
 import noImages from "../../assets/noImages.jpg"
-import { store } from 'react-notifications-component';
 import { showNotif } from '../Utils.js';
 
 class Actuality extends React.Component{
@@ -94,7 +93,7 @@ class Actuality extends React.Component{
             return res.json();
           })
           .then(res => this.setState({suggestions: res}))
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount() {
@@ -143,40 +142,10 @@ class Actuality extends React.Component{
               if (res.status === 200) {
                 this.getFollowedShop();
                 this.setState({visible: false});
-                store.addNotification({
-                  title: "Abonné",
-                  message: "Vous êtes bien abonné",
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(false, "Abonné", "Vous êtes bien abonné");
               }
               else {
-                store.addNotification({
-                  title: "Erreur",
-                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
-                  type: "danger",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
             .catch(error => console.error('Error:', error));
@@ -202,40 +171,10 @@ class Actuality extends React.Component{
             .then(res => {
               if (res.status === 200) {
                 this.getAppliedOffer();
-                store.addNotification({
-                  title: "Postulé",
-                  message: "Nous avons bien pris en compte votre demande",
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(false, "Postulé", "Nous avons bien pris en compte votre demande");
               }
               else {
-                store.addNotification({
-                  title: "Erreur",
-                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
-                  type: "danger",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
             .catch(error => console.error('Error:', error));

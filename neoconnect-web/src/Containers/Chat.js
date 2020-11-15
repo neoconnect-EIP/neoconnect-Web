@@ -3,7 +3,7 @@ import {Grid, Input, TextField} from "@material-ui/core";
 import "./index.css"
 import {Icon} from "antd";
 import Button from 'react-bootstrap/Button';
-import { store } from 'react-notifications-component';
+import { showNotif } from './Utils.js';
 
 export default class Chat extends React.Component{
     constructor(props) {
@@ -24,38 +24,10 @@ export default class Chat extends React.Component{
       var msg = await res.json();
 
       if (res.status !== 200) {
-        store.addNotification({
-          title: "Erreur",
-          message: "Erreur provenant du serveur: " + msg,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", msg);
       }
       else {
-        store.addNotification({
-          title: "Envoyé",
-          message: "Votre email a bien été envoyé.",
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(false, "Envoyé", "Votre email a bien été envoyé.");
         this.setState({email: "", subject: "", message: "", to: ""});
       }
     }

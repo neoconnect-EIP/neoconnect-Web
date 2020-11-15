@@ -1,11 +1,11 @@
 import React from 'react';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import { store } from 'react-notifications-component';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
+import { showNotif } from '../Utils.js';
 
 export default class Login extends React.Component{
     constructor(props) {
@@ -52,23 +52,7 @@ export default class Login extends React.Component{
             res.userType === "influencer" ? this.props.history.push('/dashboard/actuality') : this.props.history.push('/shop-dashboard/actuality')
         }
         else {
-            store.addNotification({
-              title: "Erreur",
-              message: "L'utilisateur n'existe pas ou mot de passe incorrecte",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              pauseOnHover: true,
-              isMobile: true,
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 7000,
-                onScreen: true,
-                showIcon: true,
-                pauseOnHover: true
-              }
-            });
+          showNotif(true, "Erreur", "L'utilisateur n'existe pas ou mot de passe incorrecte");
             this.setState({isLoading: false})
         }
     }
@@ -90,26 +74,10 @@ export default class Login extends React.Component{
               return res.json()
             })
             .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); localStorage.setItem('userType', res.userType); localStorage.setItem('pseudo', this.state.username);localStorage.setItem('theme', res.theme); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
       else {
-        store.addNotification({
-          title: "Erreur",
-          message: "Veuillez fournir le nom d'utilisateur et le mot de passe.",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true,
-            pauseOnHover: true
-          }
-        });
+        showNotif(true, "Erreur", "Veuillez fournir le nom d'utilisateur et le mot de passe.");
       }
 
     };
@@ -123,23 +91,7 @@ export default class Login extends React.Component{
     handleForgotResponse = (res) => {
       if (res.status === 200) {
         this.setState({sent: true});
-        store.addNotification({
-          title: "Envoyé",
-          message: "Nous avons envoyé un email à l'adresse fournis",
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true,
-            pauseOnHover: true
-          }
-        });
+        showNotif(false, "Envoyé", "Nous avons envoyé un email à l'adresse fournis");
       }
 
     }
@@ -149,23 +101,7 @@ export default class Login extends React.Component{
             "email": this.state.email,
         };
         if (!this.state.email) {
-          store.addNotification({
-            title: "Erreur",
-            message: "Veuillez indiquez votre adresse email",
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            pauseOnHover: true,
-            isMobile: true,
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 7000,
-              onScreen: true,
-              showIcon: true,
-              pauseOnHover: true
-            }
-          });
+          showNotif(true, "Erreur", "Veuillez indiquez votre adresse email");
         }
         else {
             body = JSON.stringify(body);
@@ -174,30 +110,14 @@ export default class Login extends React.Component{
                 body: body,
                 headers: {'Content-Type': 'application/json'}
             })
-                .then(res => { res.json(); this.handleForgotResponse(res)})
-                .catch(error => console.error('Error:', error));
+            .then(res => { res.json(); this.handleForgotResponse(res)})
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
         }
     };
 
     handleResetPass = () => {
       if (this.state.newPass !== this.state.newPassSec) {
-        store.addNotification({
-          title: "Erreur",
-          message: "Les mots de passe ne se correspondent pas",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true,
-            pauseOnHover: true
-          }
-        });
+        showNotif(true, "Erreur", "Les mots de passe ne se correspondent pas");
       }
       else {
 
@@ -227,49 +147,19 @@ export default class Login extends React.Component{
                   'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
                   "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
                 })
-                  .then(res => {
-                    if (res.status === 400) {
-                      store.addNotification({
-                        title: "Erreur",
-                        message: "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
-                        type: "danger",
-                        insert: "top",
-                        container: "top-right",
-                        pauseOnHover: true,
-                        isMobile: true,
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 7000,
-                          onScreen: true,
-                          showIcon: true,
-                          pauseOnHover: true
-                        }
-                      });
-                    }
-                    else {
-                      store.addNotification({
-                        title: "Success",
-                        message: "Mot de passe a été modifié avec succès",
-                        type: "success",
-                        insert: "top",
-                        container: "top-right",
-                        pauseOnHover: true,
-                        isMobile: true,
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                          duration: 7000,
-                          onScreen: true,
-                          showIcon: true,
-                          pauseOnHover: true
-                        }
-                      });
-                      this.setState({visible: false})
-                    }
-                  })
+                .then(res => {
+                  if (res.status === 400) {
+                    showNotif(true, "Erreur", "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.");
+                  }
+                  else {
+                    showNotif(false, "Réussis", "Votre mot de passe a été modifié avec succès");
+                    this.setState({visible: false})
+                  }
+                })
+                .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
             }
           })
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
 
 
@@ -306,26 +196,9 @@ export default class Login extends React.Component{
                <Modal.Footer>
                  {!this.state.sent &&
                    <Button className="btnInf" onClick={() => {
-
                        if (!this.state.email)
                        {
-                         store.addNotification({
-                           title: "Erreur",
-                           message: "Veuillez indiquez votre addresse email",
-                           type: "danger",
-                           insert: "top",
-                           container: "top-right",
-                           pauseOnHover: true,
-                           isMobile: true,
-                           animationIn: ["animated", "fadeIn"],
-                           animationOut: ["animated", "fadeOut"],
-                           dismiss: {
-                             duration: 7000,
-                             onScreen: true,
-                             showIcon: true,
-                             pauseOnHover: true
-                           }
-                         });
+                        showNotif(true, "Erreur", "Veuillez indiquez votre addresse email");
                        }
                        else
                        {
@@ -373,42 +246,3 @@ export default class Login extends React.Component{
         );
     }
 }
-
-//
-// <Form onSubmit={this.handleSubmit} style={{paddingTop: "50px", textAlign: "center"}}>
-//     <div style={{backgroundImage: "linear-gradient(65deg, #000, #292929)", marginLeft: "5rem", marginRight: "5rem", marginTop: "-4.5rem", borderRadius: "8px", height: "3rem"}}>
-//         <h2 style={{marginBottom: "4rem", color: "white"}}>Connexion</h2>
-//     </div>
-//     <div className="input-form" style={{marginTop: "2rem"}}>
-//         <Icon type="user" style={{ color: '#fff', marginRight: "8px"}} />
-//         <Input
-//             style={{color: "#fff"}}
-//             type="text"
-//             name="email"
-//             placeholder="Pseudo"
-//             value={this.state.username}
-//             onChange={this.handleUsernameChange}
-//         />
-//     </div>
-//     <div className="input-form">
-//         <Icon type="lock" style={{ color: '#fff', marginRight: "8px" }} />
-//         <Input
-//             style={{color: "#fff"}}
-//             type="password"
-//             name="password"
-//             placeholder="Mot de passe"
-//             value={this.state.password}
-//             onChange={this.handlePasswordChange}
-//             onKeyPress={this.handleKeyPress}
-//         />
-//     </div>
-//     <Grid container style={{marginTop: "50px", paddingBottom: "30px"}}>
-//         <Grid item xs={12}>
-//             <Button onClick={this.handleSubmit} disabled={this.state.isLoading} style={{color: 'white', width: "9.375rem", height: "2.1875rem", borderRadius: "10px", backgroundImage: "linear-gradient(65deg, #000, #292929)"}}>Connexion</Button>
-//         </Grid>
-//         <Grid item xs={12}>
-//             <p style={{color: "#fff", marginTop: "0.2", marginBottom: "0rem"}}>-ou-</p>
-//             <a style={{color: "#fff"}} onClick={this.forgotPassword}>Mot de passe oublié</a>
-//         </Grid>
-//     </Grid>
-// </Form>

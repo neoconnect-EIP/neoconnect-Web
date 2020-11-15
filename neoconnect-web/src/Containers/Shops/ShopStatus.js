@@ -21,7 +21,6 @@ import account from "../../assets/account.svg";
 import StarRatings from 'react-star-ratings';
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
-import { store } from 'react-notifications-component';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif } from '../Utils.js';
 
@@ -48,9 +47,7 @@ class ShopStatus extends React.Component{
             email: "",
             city: "",
             theme: "",
-            // society: "",
             website: "",
-            // fonction: "",
             visibleDelete: false,
             file: null,
             userPicture: null,
@@ -70,7 +67,7 @@ class ShopStatus extends React.Component{
       }
       else {
         msg = await res.json();
-        console.log("Error msg", msg);
+        showNotif(true, "Erreur, Veuillez essayer ultérieurement", msg);
       }
     }
 
@@ -82,7 +79,7 @@ class ShopStatus extends React.Component{
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {this.handleRes(res);})
-      .catch(error => console.error('Error:', error));
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     getFollowers = () => {
@@ -100,7 +97,7 @@ class ShopStatus extends React.Component{
       .then(res => {
         this.setState({followers: res})
       })
-      .catch(error => console.error('Error:', error));
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
 
@@ -121,28 +118,12 @@ class ShopStatus extends React.Component{
         }
         else {
           var msg = await res.json();
-          store.addNotification({
-            title: "Erreur",
-            message: msg,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            pauseOnHover: true,
-            isMobile: true,
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 7000,
-              onScreen: true,
-              showIcon: true
-            }
-          });
+          showNotif(true, "Erreur", msg);
           this.setState({isActive: false});
         }
     }
 
     handleClose = (modalName) => {
-        // this.setState({visible: false})
       this.state[modalName] = false;
       this.forceUpdate();
     }
@@ -161,8 +142,6 @@ class ShopStatus extends React.Component{
           twitter: this.state.userData.twitter  ? this.state.userData.twitter : "",
           instagram: this.state.userData.instagram  ? this.state.userData.instagram : "",
           theme: this.state.userData.theme,
-          // society: this.state.userData.society,
-          // fonction: this.state.userData.function,
           website: this.state.userData.website,
           userPicture: this.state.userData.userPicture ? this.state.userData.userPicture[0] : null,
         });
@@ -187,22 +166,7 @@ class ShopStatus extends React.Component{
 
     handleSubmit = () => {
       if (!this.state.theme || !this.state.email || !this.state.pseudo) {
-        store.addNotification({
-          title: "Erreur",
-          message: "Les champs pseudo, email et thème sont obligatoire",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", "Les champs pseudo, email et thème sont obligatoire");
       }
       else {
         this.setState({isActive: true, visible: false});
@@ -211,18 +175,17 @@ class ShopStatus extends React.Component{
             "pseudo": this.state.name,
             "userType": this.state.userData.userType,
             "full_name": this.state.fullName,
-            "email": this.state.userData.email != this.state.email ? this.state.email : undefined,
+            "email": this.state.userData.email !== this.state.email ? this.state.email : undefined,
             "phone": this.state.phone,
             "city": this.state.city,
             "website": this.state.website,
-            // "function": this.state.fonction,
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
             "userDescription": this.state.desc,
             "theme": this.state.themeValue.indexOf(this.state.theme).toString(),
-            "facebook": this.state.userData.facebook != this.state.facebook ? this.state.facebook : undefined,
-            "twitter": this.state.userData.twitter != this.state.twitter ? this.state.twitter : undefined,
-            "snapchat": this.state.userData.snapchat != this.state.snapchat ? this.state.snapchat : undefined,
-            "instagram": this.state.userData.instagram != this.state.instagram ? this.state.instagram : undefined,
+            "facebook": this.state.userData.facebook !== this.state.facebook ? this.state.facebook : undefined,
+            "twitter": this.state.userData.twitter !== this.state.twitter ? this.state.twitter : undefined,
+            "snapchat": this.state.userData.snapchat !== this.state.snapchat ? this.state.snapchat : undefined,
+            "instagram": this.state.userData.instagram !== this.state.instagram ? this.state.instagram : undefined,
         };
 
         body = JSON.stringify(body);
@@ -432,7 +395,7 @@ class ShopStatus extends React.Component{
                           <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
                           {
                             this.state.userData.theme &&
-                            <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
+                            <Badge pill className="pill mt-2">{this.state.userData.theme !== 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
                           }
                           <Row xs={1} sm={1} md={2} lg={2} xl={2}>
                             <Col className="mx-auto mt-4" align="center">
@@ -528,22 +491,3 @@ class ShopStatus extends React.Component{
 }
 
 export default withRouter(ShopStatus);
-
-// <Row className="mx-0 mt-4 pt-4 pb-4">
-//   <Col align="center">
-//     <Button className="btnShop" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
-//   </Col>
-// </Row>
-
-// <Form.Row>
-//   <Form.Group as={Col}>
-//     <Form.Label>Société</Form.Label>
-//     <Form.Control value={this.state.society} onChange={e => {this.setState({society: e.target.value})}}/>
-//   </Form.Group>
-//   <Form.Group as={Col}>
-//     <Form.Label>Function</Form.Label>
-//     <Form.Control value={this.state.fonction} onChange={e => {this.setState({fonction: e.target.value})}}/>
-//   </Form.Group>
-// </Form.Row>
-
-//

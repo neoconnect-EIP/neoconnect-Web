@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import noAvatar from "../assets/noImageFindInf.jpg";
 import SendIcon from '@material-ui/icons/Send';
-import { store } from 'react-notifications-component';
+import { showNotif } from './Utils.js';
 
 export default class Message extends React.Component{
     constructor(props) {
@@ -50,21 +50,7 @@ export default class Message extends React.Component{
         this.handleGetMsg(res);
       })
       .catch(error => {
-        store.addNotification({
-          title: "Erreur",
-          message: "Erreur provenant du serveur: " + error.statusText,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", error.statusText);
       });
     }
 
@@ -105,21 +91,7 @@ export default class Message extends React.Component{
       })
       .then(res => this.handleDetailRes(res))
       .catch(error => {
-        store.addNotification({
-          title: "Erreur",
-          message: "Erreur provenant du serveur: " + error.statusText,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", error.statusText);
       });
       this.setState({currentDest: pseudo, index: id});
     }
@@ -137,23 +109,7 @@ export default class Message extends React.Component{
       }
       else {
         msg = await res.json();
-
-        store.addNotification({
-          title: "Erreur",
-          message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText));
       }
     }
 

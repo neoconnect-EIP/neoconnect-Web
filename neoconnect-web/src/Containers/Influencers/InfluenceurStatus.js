@@ -26,7 +26,6 @@ import phone from "../../assets/phone.svg";
 import account from "../../assets/account.svg";
 import StarRatings from 'react-star-ratings';
 import noAvatar from "../../assets/noImageFindInf.jpg";
-import { store } from 'react-notifications-component';
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif } from '../Utils.js';
@@ -98,13 +97,8 @@ class InfluenceurStatus extends React.Component{
         this.getFollowed();
     }
 
-    // handleEditProfile = () => {
-    //     this.props.history.push("/dashboard/edit-profile")
-    // }
-
     handleClose = (modalName) => {
       this.state[modalName] = false;
-        // this.setState({visible: false})
         this.forceUpdate();
     }
 
@@ -134,11 +128,6 @@ class InfluenceurStatus extends React.Component{
         });
     }
 
-    // handleResponse = (res) => {
-    //   this.setState({visible: false});
-    //   this.getInf();
-    // }
-
     handleResponse = async (res) => {
         if (res.status === 200) {
           this.setState({isActive: false});
@@ -146,22 +135,7 @@ class InfluenceurStatus extends React.Component{
         }
         else {
           var msg = await res.json();
-          store.addNotification({
-            title: "Erreur",
-            message: msg,
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            pauseOnHover: true,
-            isMobile: true,
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 7000,
-              onScreen: true,
-              showIcon: true
-            }
-          });
+          showNotif(true,  "Erreur", msg);
           this.setState({isActive: false});
         }
     }
@@ -203,41 +177,26 @@ class InfluenceurStatus extends React.Component{
     handleSubmit = () => {
       this.setState({isActive: true, visible: false});
       if (!this.state.theme || !this.state.email || !this.state.pseudo) {
-        store.addNotification({
-          title: "Erreur",
-          message: "Les champs pseudo, email et thème sont obligatoire",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true,  "Erreur", "Les champs pseudo, email et thème sont obligatoire");
       }
       else {
         this.setState({isActive: true, visible: false});
         let body = {
             "pseudo": this.state.pseudo,
             "full_name": this.state.fullName,
-            "email": this.state.userData.email != this.state.email ? this.state.email : undefined,
+            "email": this.state.userData.email !== this.state.email ? this.state.email : undefined,
             "phone": this.state.phone,
             "city": this.state.city,
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
             "userDescription": this.state.desc,
-            "facebook": this.state.userData.facebook != this.state.facebook ? this.state.facebook : undefined,
-            "twitter": this.state.userData.twitter != this.state.twitter ? this.state.twitter : undefined,
-            "snapchat": this.state.userData.snapchat != this.state.snapchat ? this.state.snapchat : undefined,
-            "instagram": this.state.userData.instagram != this.state.instagram ? this.state.instagram : undefined,
-            "twitch": this.state.userData.twitch != this.state.twitch ? this.state.twitch : undefined,
-            "pinterest": this.state.userData.pinterest != this.state.pinterest ? this.state.pinterest : undefined,
-            "youtube": this.state.userData.youtube != this.state.youtube ? this.state.youtube : undefined,
-            "tiktok": this.state.userData.tiktok != this.state.tiktok ? this.state.tiktok : undefined,
+            "facebook": this.state.userData.facebook !== this.state.facebook ? this.state.facebook : undefined,
+            "twitter": this.state.userData.twitter !== this.state.twitter ? this.state.twitter : undefined,
+            "snapchat": this.state.userData.snapchat !== this.state.snapchat ? this.state.snapchat : undefined,
+            "instagram": this.state.userData.instagram !== this.state.instagram ? this.state.instagram : undefined,
+            "twitch": this.state.userData.twitch !== this.state.twitch ? this.state.twitch : undefined,
+            "pinterest": this.state.userData.pinterest !== this.state.pinterest ? this.state.pinterest : undefined,
+            "youtube": this.state.userData.youtube !== this.state.youtube ? this.state.youtube : undefined,
+            "tiktok": this.state.userData.tiktok !== this.state.tiktok ? this.state.tiktok : undefined,
             "theme": this.state.themeValue.indexOf(this.state.theme).toString(),
         };
         body = JSON.stringify(body);
@@ -245,7 +204,7 @@ class InfluenceurStatus extends React.Component{
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
         .then(res => {this.handleResponse(res)})
-        .catch(error => console.error('Error:', error));
+        .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
   }
 
@@ -285,7 +244,7 @@ class InfluenceurStatus extends React.Component{
             showNotif(false, "Succès", "Suppression de compte réussi.");
             this.props.history.push('/landing-page')
         })
-        .catch(console.error)
+        .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText))
     }
 
     handleUnFollow = (id) => {
@@ -453,7 +412,7 @@ class InfluenceurStatus extends React.Component{
                         <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
                         {
                           this.state.userData.theme &&
-                          <Badge pill className="pill mt-2">{this.state.userData.theme != 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
+                          <Badge pill className="pill mt-2">{this.state.userData.theme !== 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
                         }
                         <Row xs={1} sm={1} md={2} lg={2} xl={2}>
                           <Col className="mx-auto mt-4" align="center">
@@ -577,9 +536,3 @@ class InfluenceurStatus extends React.Component{
 }
 
 export default withRouter(InfluenceurStatus)
-
-// <Row className="mx-0 mt-4 pt-4 pb-3">
-//   <Col align="center">
-//     <Button className="btnInf" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
-//   </Col>
-// </Row>

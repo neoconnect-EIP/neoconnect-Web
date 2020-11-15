@@ -14,7 +14,6 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { store } from 'react-notifications-component';
 import { showNotif } from '../Utils.js';
 
 class FindShop extends React.Component{
@@ -50,7 +49,7 @@ class FindShop extends React.Component{
       })
       .then(res => res.json())
       .then(res => this.setState({shopList: res}))
-      .catch(error => console.error('Error:', error));
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     getFollowedShop = () => {
@@ -79,22 +78,7 @@ class FindShop extends React.Component{
       }
       else {
         // this.setState({show: true, shopList: [], tmpSearch: this.state.search})
-        store.addNotification({
-          title: "Non trouvé",
-          message: "Aucune boutique correspond à " + this.state.search,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Non trouvé", "Aucune boutique correspond à " + this.state.search);
       }
     }
 
@@ -135,25 +119,10 @@ class FindShop extends React.Component{
                 showNotif(false, "Abonné", "Vous êtes bien abonné");
               }
               else {
-                store.addNotification({
-                  title: "Erreur",
-                  message: "Un erreur s'est produit. Veuillez essayer ultérieurement.",
-                  type: "danger",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
         this.handleClose();
     }
 
@@ -253,7 +222,3 @@ class FindShop extends React.Component{
 }
 
 export default withRouter(FindShop)
-// <Row>
-// <p style={{marginBottom: "10px", marginLeft: "20px"}}>{item.average ? item.average.toFixed(1) : "0"}/5</p>
-// <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold"}}/>
-// </Row>

@@ -2,7 +2,6 @@ import React from 'react';
 import {Form, Icon} from 'antd';
 import {Grid, Input, Button, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import "../index.css";
-import { store } from 'react-notifications-component';
 import Image from 'react-bootstrap/Image';
 import instagram from "../../assets/instagram.svg";
 import facebook from "../../assets/facebook.svg";
@@ -24,7 +23,6 @@ export default class ShopSignUp extends React.Component{
             city: "",
             phone: "",
             theme: "",
-            // society: "",
             site: "",
             facebook: "",
             instagram: "",
@@ -42,7 +40,6 @@ export default class ShopSignUp extends React.Component{
               "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
               "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
             },
-            // function: "",
         }
         this.inputOpenFileRef = React.createRef();
     }
@@ -62,44 +59,13 @@ export default class ShopSignUp extends React.Component{
         }
         else {
           var msg = await res.json();
-          store.addNotification({
-            title: "Erreur",
-            message: this.state.errMsg[msg],
-            type: "danger",
-            insert: "top",
-            container: "top-right",
-            pauseOnHover: true,
-            isMobile: true,
-            animationIn: ["animated", "fadeIn"],
-            animationOut: ["animated", "fadeOut"],
-            dismiss: {
-              duration: 7000,
-              onScreen: true,
-              showIcon: true,
-              pauseOnHover: true
-            }
-          });
+          showNotif(true, "Erreur", this.state.errMsg[msg]);
         }
     };
 
     handleSubmit = () => {
       if (!this.state.theme) {
-        store.addNotification({
-          title: "Erreur",
-          message: "Veuillez choisir un thème",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", "Veuillez choisir un thème");
       } else {
         let body = {
             "pseudo": this.state.pseudo,
@@ -112,15 +78,13 @@ export default class ShopSignUp extends React.Component{
             "phone": this.state.phone,
             "website": this.state.site,
             "theme": this.state.theme.toString(),
-            // "function": this.state.function,
-            // "society": this.state.society,
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
         };
         body = JSON.stringify(body);
 
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => this.handleResponse(res))
-            .catch(error => console.error('Error222:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
 
       }
     };
@@ -281,47 +245,6 @@ export default class ShopSignUp extends React.Component{
                         </Grid>
                     </Grid>
                 );
-            // case 2:
-            //     return (
-            //         <Grid container justify="center">
-            //             <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
-            //                 <h1 style={{fontWeight: '300'}}>Informations légales</h1>
-            //             </Grid>
-            //             <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-            //                 <Icon type="shop" style={{ color: 'black', marginRight: "8px"}} />
-            //                 <Input
-            //                     style={{color: 'black'}}
-            //                     type="text"
-            //                     name="society"
-            //                     placeholder="Société"
-            //                     value={this.state.society}
-            //                     onChange={this.handleChange}
-            //                 />
-            //             </Grid>
-            //             <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-            //                 <Icon type="info" style={{ color: 'black', marginRight: "8px"}} />
-            //                 <Input
-            //                     style={{color: 'black'}}
-            //                     type="text"
-            //                     name="function"
-            //                     placeholder="Fonction"
-            //                     value={this.state.function}
-            //                     onChange={this.handleChange}
-            //                 />
-            //             </Grid>
-            //             <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-            //                 <Icon type="global" style={{ color: 'black', marginRight: "8px"}} />
-            //                 <Input
-            //                     style={{color: 'black'}}
-            //                     type="text"
-            //                     name="siteweb"
-            //                     placeholder="Site web"
-            //                     value={this.state.site}
-            //                     onChange={this.handleChange}
-            //                 />
-            //             </Grid>
-            //         </Grid>
-            //     );
                 case 2:
                     return (
                         <Grid container justify="center">
@@ -418,22 +341,7 @@ export default class ShopSignUp extends React.Component{
         this.setState({ current });
       }
       else {
-        store.addNotification({
-          title: "Erreur",
-          message: this.state.errorMsg,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", this.state.errorMsg);
       }
     }
 
@@ -455,7 +363,7 @@ export default class ShopSignUp extends React.Component{
         this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères. Il doit contenir que des lettres et chiffres.';
         return (false);
       }
-      if (this.state.password != this.state.password2) {
+      if (this.state.password !== this.state.password2) {
         this.state.errorMsg = 'Les mots de passes diffèrent.';
         return (false);
       }
@@ -467,7 +375,7 @@ export default class ShopSignUp extends React.Component{
     }
 
     checkForm = () => {
-      if (this.state.current == 0  && (!this.emailValid() || !this.passPseudoValid()))
+      if (this.state.current === 0  && (!this.emailValid() || !this.passPseudoValid()))
         return false;
       return true;
     }

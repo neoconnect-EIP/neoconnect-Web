@@ -30,7 +30,7 @@ import instagram from "../../assets/instagram.svg";
 import youtube from "../../assets/youtube.svg";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
-import { store } from 'react-notifications-component';
+import { showNotif } from '../Utils.js';
 
 class InfluencerProfile extends React.Component {
     constructor(props) {
@@ -62,7 +62,7 @@ class InfluencerProfile extends React.Component {
       })
           .then(res => res.json())
           .then(res => {this.setState({infData: res})})
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount = () => {
@@ -77,7 +77,7 @@ class InfluencerProfile extends React.Component {
       })
           .then(res => res.json())
           .then(res => this.setState({userData: res}))
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     };
 
     getUrlParams = (search) => {
@@ -111,7 +111,7 @@ class InfluencerProfile extends React.Component {
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
         this.setState({visible: false});
     };
 
@@ -125,7 +125,7 @@ class InfluencerProfile extends React.Component {
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/comment/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
         this.setState({ commentInput: ""});
       }
     }
@@ -179,22 +179,7 @@ class InfluencerProfile extends React.Component {
               res.json();
               if (res.status === 200) {
                 this.setState({signal: false, raison: "", info: ""});
-                store.addNotification({
-                  title: "Envoyé",
-                  message: "Nous avons bien pris en compte votre signalement pour l'influenceur " + thisTmp.state.infData.pseudo,
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(false, "Envoyé", "Nous avons bien pris en compte votre signalement pour l'influenceur " + thisTmp.state.infData.pseudo);
               }
             }).catch(error => console.error('Error:', error));
       }
@@ -207,41 +192,11 @@ class InfluencerProfile extends React.Component {
         msg = await res.json();
 
         this.setState({messageModal: false});
-        store.addNotification({
-          title: "Envoyé",
-          message: "Message envoyé à " + this.state.infData.pseudo,
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(false, "Envoyé", "Message envoyé à " + this.state.infData.pseudo);
       }
       else {
         msg = await res.json();
-        store.addNotification({
-          title: "Erreur",
-          message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true, "Erreur", "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText));
       }
     }
 
@@ -525,5 +480,3 @@ class InfluencerProfile extends React.Component {
 }
 
 export default withRouter(InfluencerProfile);
-
-// , textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'

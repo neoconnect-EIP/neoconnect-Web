@@ -13,11 +13,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image';
 import StarRatings from 'react-star-ratings';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
-import { store } from 'react-notifications-component';
 import facebook from "../../assets/facebook.svg";
 import facebookOff from "../../assets/facebookOff.svg";
 import twitter from "../../assets/twitter.svg";
@@ -61,12 +59,11 @@ class shopProfile extends React.Component{
     }
 
     getShopData = () => {
-      // let id = this.getUrlParams((window.location.search));
       if (this.state.urlId) {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => {this.setState({shopData: res})})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     }
 
@@ -78,7 +75,7 @@ class shopProfile extends React.Component{
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       }).then(res => res.json())
         .then(res => this.setState({userData: res}))
-        .catch(error => console.error('Error:', error));
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
 
     }
 
@@ -121,27 +118,25 @@ class shopProfile extends React.Component{
 
     handleSendMessage = () => {
       if (this.state.commentInput && this.state.commentInput.length > 0 && this.state.commentInput.replace(/  +/g, ' ').length > 1) {
-        let id = this.getUrlParams((window.location.search));
         let body = {
             "comment": this.state.commentInput,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/comment/${this.state.urlId}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
         this.setState({ commentInput: ""});
       }
     };
 
     handleSendMark = () => {
-        let id = this.getUrlParams((window.location.search));
         let body = {
             "mark": this.state.mark,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${this.state.urlId}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {res.json(); this.handleResponse(res)})
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
         this.setState({visible: false});
     };
 
@@ -202,68 +197,21 @@ class shopProfile extends React.Component{
               res.json();
               if (res.status === 200) {
                 this.setState({signal: false});
-                store.addNotification({
-                  title: "Envoyé",
-                  message: "Nous avons bien pris en compte votre signalement pour la marque " + thisTmp.state.shopData.pseudo,
-                  type: "success",
-                  insert: "top",
-                  container: "top-right",
-                  pauseOnHover: true,
-                  isMobile: true,
-                  animationIn: ["animated", "fadeIn"],
-                  animationOut: ["animated", "fadeOut"],
-                  dismiss: {
-                    duration: 7000,
-                    onScreen: true,
-                    showIcon: true
-                  }
-                });
+                showNotif(false,  "Envoyé", "Nous avons bien pris en compte votre signalement pour la marque " + thisTmp.state.shopData.pseudo)
               }
-            }).catch(error => console.error('Error:', error));
+            }).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     }
 
     handleMsgRes = async (res) => {
       var msg;
+      msg = await res.json();
       if (res.status === 200) {
-        msg = await res.json();
-
         this.setState({messageModal: false});
-        store.addNotification({
-          title: "Envoyé",
-          message: "Message envoyé à " + this.state.shopData.pseudo,
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(false, "Envoyé", "Message envoyé à " + this.state.shopData.pseudo);
       }
       else {
-        msg = await res.json();
-        store.addNotification({
-          title: "Erreur",
-          message: "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText),
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          pauseOnHover: true,
-          isMobile: true,
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-            showIcon: true
-          }
-        });
+        showNotif(true,  "Erreur", msg);
       }
     }
 
@@ -283,7 +231,7 @@ class shopProfile extends React.Component{
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
             .then(res => this.handleMsgRes(res)
-          ).catch(error => console.error('Error:', error));
+          ).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     }
 
@@ -523,8 +471,3 @@ class shopProfile extends React.Component{
 }
 
 export default withRouter(shopProfile)
-
-// <Button className="btnInf mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
-// <Badge className="ml-4 pill">
-//   {this.state.shopData.function}
-// </Badge>

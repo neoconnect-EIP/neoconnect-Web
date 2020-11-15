@@ -3,9 +3,8 @@ import { Form } from 'antd';
 import { Input, TextField, Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import "../index.css"
 import Button from 'react-bootstrap/Button';
-import { store } from 'react-notifications-component';
 import LoadingOverlay from 'react-loading-overlay';
-
+import { showNotif } from './Utils.js';
 
 export default class Contact extends React.Component{
     constructor(props) {
@@ -41,43 +40,12 @@ export default class Contact extends React.Component{
         if (res.status === 200) {
           msg = await res.json();
           this.setState({mailSend: true});
-          store.addNotification({
-              title: "Envoyé",
-              message: "Nous avons bien reçu votre avis.",
-              type: "success",
-              insert: "top",
-              container: "top-right",
-              pauseOnHover: true,
-              isMobile: true,
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 7000,
-                onScreen: true,
-                showIcon: true
-              }
-            });
-            this.setState({subject: "", pseudo: "", email: "", message: ""});
+          showNotif(false, "Envoyé", msg)
+        this.setState({subject: "", pseudo: "", email: "", message: ""});
         }
       else {
           msg = await res.json();
-          store.addNotification({
-              title: "Erreur",
-              message: msg,
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              pauseOnHover: true,
-              isMobile: true,
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 7000,
-                onScreen: true,
-                showIcon: true
-              }
-            });
-
+          showNotif(true, "Erreur", msg);
       }
       this.setState({isActive: false});
     }
