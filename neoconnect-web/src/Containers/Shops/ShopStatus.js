@@ -79,10 +79,12 @@ class ShopStatus extends React.Component{
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {this.handleRes(res);})
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur, information de profil non reçu", error.statusText));
     }
 
     getFollowers = () => {
+      console.log(localStorage.getItem("Jwt"));
+      console.log(localStorage.getItem("userId"));
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${localStorage.getItem("userId")}`, {
           method: 'GET',
           headers: {
@@ -97,7 +99,7 @@ class ShopStatus extends React.Component{
       .then(res => {
         this.setState({followers: res})
       })
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur, followers non reçu", error.statusText));
     }
 
 

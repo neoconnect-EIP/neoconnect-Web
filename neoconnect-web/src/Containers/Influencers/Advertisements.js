@@ -4,7 +4,6 @@ import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg"
-import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -38,6 +37,7 @@ class Advertisements extends React.Component{
             bestMark: null,
             tendance: null,
             applied: [],
+            suggestions: [],
         };
     }
 
@@ -76,10 +76,22 @@ class Advertisements extends React.Component{
         });
     }
 
+    getSuggestions() {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => {
+            if (res.status >= 400)
+              throw res;
+            return res.json();
+          })
+          .then(res => this.setState({suggestions: res}))
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+    }
+
     componentDidMount = () => {
       if (localStorage.getItem("Jwt")) {
         this.getOffer();
         this.getAppliedOffer();
+        this.getSuggestions();
       }
     }
 
@@ -276,29 +288,23 @@ class Advertisements extends React.Component{
                 value={this.state.searchForm}
                 onChange={this.handleSearchBarChange}
               />
-                {/* <InputGroup.Append>
-                  <Button
-                  variant="outline-success"
-                  onClick={() => this.handleSearch()}>Search</Button>
-                </InputGroup.Append> */}
               </InputGroup>
-            {
-                this.state.adsData ?
-                  <Row className="ml-3 mr-3 mt-3" xs={1} sm={1} md={2} lg={3} xl={4}>
-                        {
-
-                            this.state.adsData.map(item => this.handleCard(item))
-                        }
-                    </Row>
-                    :
-                    <Loader
-                        type="Triangle"
-                        color="#292929"
-                        height={200}
-                        width={200}
-                        style={{marginTop: "14rem"}}
-                    />
-            }
+            <Row className="pl-4 mt-4 mr-0 ml-0">
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Suggestion d'offre</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.suggestions && this.state.suggestions.map(item => this.handleCard(item))
+              }
+            </Row>
+            <Row className="pl-4 mt-4 mr-0 ml-0">
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Tout les offres</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.adsData && this.state.adsData.map(item => this.handleCard(item))
+              }
+            </Row>
             <Modal centered show={this.state.visible} onHide={this.handleClose}>
              <Modal.Header closeButton>
                <Modal.Title>Postuler à cette offre ?</Modal.Title>
