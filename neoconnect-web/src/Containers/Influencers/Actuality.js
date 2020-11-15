@@ -34,7 +34,6 @@ class Actuality extends React.Component{
             bestMarkOffer: null,
             tendanceOffer: null,
             applied: [],
-            followed: [],
         };
 
     }
@@ -71,28 +70,15 @@ class Actuality extends React.Component{
         });
     }
 
-    getFollowedShop = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/follow`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => res.json())
-      .then(res => this.setState({followed: res}))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
-    }
-
     componentDidMount() {
       if (localStorage.getItem("Jwt")) {
         this.getAllShop();
         this.getAppliedOffer();
-        this.getFollowedShop();
       }
     }
 
-    handleGlobalShop = (id) => {
-        this.props.history.push({pathname: `/dashboard/shop/${id}`, state: this.state.followed});
+    handleGlobalShop = (item) => {
+        this.props.history.push({pathname: `/dashboard/shop/${item.id}`, state: item.follow});
 
     }
 
@@ -104,12 +90,12 @@ class Actuality extends React.Component{
         return (
             <Col key={item.id} className="mb-3">
               <Card className="mt-4 ml-2 cardlist" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
-                <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}} onClick={() => this.handleGlobalShop(item.id)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
+                <Card.Img className="card" style={{height: '190px', objectFit: 'cover'}} onClick={() => this.handleGlobalShop(item)} variant="top" src={item.userPicture === null || item.userPicture.length === 0 ? noShop : item.userPicture[0].imageData} alt="MISSING JPG"/>
                 <Card.Body>
                   <Card.Title>{item.pseudo ? item.pseudo : "Sans nom"}</Card.Title>
                   <Row className="ml-1">
                     {
-                      this.state.followed.some(el => el.idFollow === item.id) ?
+                      item.follow === true ?
                       <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleUnfollow(item.id)}}>Désabonner</Button> :
                         <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleFollow(item)}}>S'abonner</Button>
                     }
@@ -126,7 +112,7 @@ class Actuality extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.getFollowedShop();
+                this.getAllShop();
                 this.setState({visible: false});
                 showNotif(false, "Abonné", "Vous êtes bien abonné");
               }
@@ -141,7 +127,7 @@ class Actuality extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.getFollowedShop();
+                this.getAllShop();
                 showNotif(false, "Désabonné", "Vous êtes bien désabonné");
               }
               else {
