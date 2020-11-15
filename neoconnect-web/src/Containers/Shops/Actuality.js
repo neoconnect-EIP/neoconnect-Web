@@ -45,7 +45,6 @@ class Actuality extends React.Component {
         return (res.json());
       })
       .then(res => {
-        console.log("res ", res);
         this.setState({moment: res.listInfTendance, popular: res.listInfPopulaire, bestMark: res.listInfNotes});
       })
     };

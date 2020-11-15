@@ -57,7 +57,7 @@ class Advertisements extends React.Component{
             this.setState({adsData: res, adsSaver: res})
 
           })
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     getAppliedOffer = () => {
@@ -263,6 +263,8 @@ class Advertisements extends React.Component{
     };
 
     render() {
+      // console.log(this.state.adsData);
+      // console.log(this.state.suggestions);
       return (
           <div justify="center" className="infBg"  >
             <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>

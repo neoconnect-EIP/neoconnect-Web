@@ -83,8 +83,6 @@ class ShopStatus extends React.Component{
     }
 
     getFollowers = () => {
-      console.log(localStorage.getItem("Jwt"));
-      console.log(localStorage.getItem("userId"));
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${localStorage.getItem("userId")}`, {
           method: 'GET',
           headers: {
@@ -195,7 +193,7 @@ class ShopStatus extends React.Component{
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
         .then(res => {this.handleResponse(res)})
-        .catch(error => console.error('Error:', error));
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     };
 
@@ -235,7 +233,7 @@ class ShopStatus extends React.Component{
             showNotif(false, "Succès", "Suppression de compte réussi.");
             this.props.history.push('/landing-page')
         })
-        .catch(console.error)
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     handleComment = (x) => {

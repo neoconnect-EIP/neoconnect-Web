@@ -18,6 +18,7 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import Alert from 'react-bootstrap/Alert';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { showNotif } from '../Utils.js';
 
 class FindInfluencers extends React.Component {
     constructor(props) {
@@ -48,9 +49,9 @@ class FindInfluencers extends React.Component {
           method: 'GET',
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-          .then(res => res.json())
-          .then(res => this.setState({influencersData: res}))
-          .catch(error => console.error('Error:', error));
+      .then(res => res.json())
+      .then(res => this.setState({influencersData: res}))
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount = () => {
@@ -85,8 +86,9 @@ class FindInfluencers extends React.Component {
           headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      }).then(res => this.searchRes(res))
-        .catch(error => console.error('Error:', error));
+      })
+      .then(res => this.searchRes(res))
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     cardInf = (inf) => {

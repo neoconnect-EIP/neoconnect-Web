@@ -148,7 +148,6 @@ class InfluencerProfile extends React.Component {
     };
 
     handleOpen = () => {
-      console.log("HELLO ", this.state.infData);
       this.setState({signal: true})
     }
 
@@ -181,7 +180,7 @@ class InfluencerProfile extends React.Component {
                 this.setState({signal: false, raison: "", info: ""});
                 showNotif(false, "Envoyé", "Nous avons bien pris en compte votre signalement pour l'influenceur " + thisTmp.state.infData.pseudo);
               }
-            }).catch(error => console.error('Error:', error));
+            }).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     }
 
@@ -216,7 +215,7 @@ class InfluencerProfile extends React.Component {
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
             .then(res => this.handleMsgRes(res)
-          ).catch(error => console.error('Error:', error));
+          ).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
       }
     }
 

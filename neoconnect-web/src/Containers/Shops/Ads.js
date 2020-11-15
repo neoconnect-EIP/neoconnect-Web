@@ -31,7 +31,6 @@ class Ads extends React.Component {
     constructor(props) {
         super(props);
 
-        // console.log("JWT ", localStorage.getItem("userId"));
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") !== "shop")
@@ -98,8 +97,8 @@ class Ads extends React.Component {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {res.json(); this.handleVisibleModal(null, "")})
-            .catch(error => console.error('Error:', error));
+        .then(res => {res.json(); this.handleVisibleModal(null, "")})
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     };
 
     handleMessageChange = (e) => {
@@ -140,8 +139,9 @@ class Ads extends React.Component {
           headers: {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      }).then(res => this.handleResponse(res, choice, inf))
-        .catch(error => console.error('Error:', error));
+      })
+      .then(res => this.handleResponse(res, choice, inf))
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
 
     }
 
@@ -267,11 +267,6 @@ class Ads extends React.Component {
             ))
           )
         }
-    }
-
-
-    detailOffer = (ad) => {
-      console.log("AD ", ad);
     }
 
     listOffer = () => {

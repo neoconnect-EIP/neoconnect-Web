@@ -54,12 +54,12 @@ class adsItem extends React.Component{
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {return (res.json())})
           .then(res => this.setState({adData: res}))
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
 
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => res.json())
           .then(res => {this.setState({applied: res})})
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount = () => {

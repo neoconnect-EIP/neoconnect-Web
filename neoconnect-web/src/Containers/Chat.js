@@ -51,7 +51,7 @@ export default class Chat extends React.Component{
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
           .then(res => {this.handleResponse(res)})
-          .catch(error => console.error('Error:', error));
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     };
 
     handleChange = (e) => {

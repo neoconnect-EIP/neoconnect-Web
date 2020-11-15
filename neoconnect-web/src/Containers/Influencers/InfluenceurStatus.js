@@ -77,7 +77,7 @@ class InfluenceurStatus extends React.Component{
       })
       .then(res => res.json())
       .then(res => this.setState({userData: res}))
-      .catch(error => console.error('Error:', error));
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     getFollowed = () => {
@@ -89,7 +89,7 @@ class InfluenceurStatus extends React.Component{
       })
       .then(res => res.json())
       .then(res => this.setState({followed: res}))
-      .catch(error => console.error('Error:', error));
+      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     componentDidMount = () => {
@@ -258,7 +258,7 @@ class InfluenceurStatus extends React.Component{
             showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
           }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     render() {

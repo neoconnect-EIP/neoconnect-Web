@@ -84,8 +84,8 @@ class Ads extends React.Component {
             body: body,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => {res.json(); this.setState({adsData: res})})
-            .catch(error => console.error('Error:', error));
+        .then(res => {res.json(); this.setState({adsData: res})})
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
     handleMessageChange = (e) => {
@@ -104,7 +104,7 @@ class Ads extends React.Component {
             thisTmp.getAppliedOffer();
           }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     };
 
     listAbonnement = () => {
@@ -173,7 +173,7 @@ class Ads extends React.Component {
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
             })
             .then(res => this.handleShareRes(res))
-            .catch(error => console.error('Error:', error));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
         }
         else {
           showNotif(true, "Erreur", "Veuillez vérifier tout les champs.");

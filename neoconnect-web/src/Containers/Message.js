@@ -30,13 +30,11 @@ export default class Message extends React.Component{
       var msg;
       if (res.status === 200) {
         msg = await res.json();
-        console.log("msg ", msg);
         this.setState({channels: msg})
         return msg;
       }
       else {
         msg = await res.json();
-        console.log("error", msg);
         throw msg;
       }
     }
@@ -79,7 +77,6 @@ export default class Message extends React.Component{
       }
       else {
         msg = await res.json();
-        console.log("error", msg);
         throw msg;
       }
     }
@@ -129,7 +126,7 @@ export default class Message extends React.Component{
           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => this.handleMsgRes(res, dest))
-        .catch(error => console.error('Error:', error));
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     };
 
     listContact = () => {
