@@ -16,8 +16,6 @@ import socialShare from "../assets/socialShareInf.svg";
 import followerInf from "../assets/followersInf.svg";
 import storeLogo from "../assets/storeLogo.png"
 import Footer from "../Components/Footer";
-import ResetPassword from "./Register/ResetPassword";
-import ForgotPassword from "./Register/ForgotPassword";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -142,8 +140,6 @@ export default class LandingPage extends React.Component{
                                     <Route path="/landing-page/contributors" component={Contributors}/>
                                     <Route path="/landing-page/influencer-sign-up" component={InfluencerSignUp}/>
                                     <Route path="/landing-page/shop-sign-up" component={ShopSignUp}/>
-                                    <Route path="/landing-page/forgot-password" component={ForgotPassword}/>
-                                    <Route path="/landing-page/reset-password" component={ResetPassword}/>
                                     <Route path="/landing-page/contact" component={Contact}/>
                                 </Switch>
                         </div>

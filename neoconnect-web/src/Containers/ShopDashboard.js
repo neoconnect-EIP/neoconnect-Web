@@ -2,7 +2,6 @@ import React from 'react';
 import {Switch, Route } from "react-router-dom"
 import Aside from "../Components/Aside";
 import ShopStatus from "./Shops/ShopStatus";
-import EditProfile from "./Shops/EditProfile";
 import FindInfluencers from "./Shops/FindInfluencers";
 import Actuality from "./Shops/Actuality";
 import Ads from "./Shops/Ads";
@@ -32,7 +31,6 @@ export default class ShopDashboard extends React.Component {
                         <Route path="/shop-dashboard/ads" component={Ads}/>
                         <Route path="/shop-dashboard/edit-ad" component={EditAd}/>
                         <Route path="/shop-dashboard/status" component={ShopStatus}/>
-                        <Route path="/shop-dashboard/edit-profile" component={EditProfile}/>
                         <Route path="/shop-dashboard/influencers" component={FindInfluencers}/>
                         <Route path="/shop-dashboard/influencer" component={InfluencerProfile}/>
                         <Route path="/shop-dashboard/actuality" component={Actuality}/>
