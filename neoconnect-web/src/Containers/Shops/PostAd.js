@@ -39,140 +39,6 @@ class PostAd extends React.Component {
         };
     }
 
-
-    next = () => {
-        const current = this.state.current + 1;
-        this.setState({ current });
-    }
-
-    prev = () => {
-        const current = this.state.current - 1;
-        this.setState({ current });
-    }
-
-    getStepContent = (step) => {
-        switch (step) {
-            case 0:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Donnez un nom à votre offre: </h1>
-                            <Input
-                                type="text"
-                                name="productName"
-                                placeholder="name"
-                                value={this.state.productName}
-                                onChange={this.handleChange}
-                            />
-                        </Grid>
-                    </Grid>
-                );
-            case 1:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Donnez une description à votre offre: </h1>
-                            <TextField
-                                id="demo-simple-select-outlined"
-                                name="productDesc"
-                                label="Déscription"
-                                multiline
-                                rows="8"
-                                margin="normal"
-                                variant="outlined"
-                                style={{width: "700px", height: "160px"}}
-                                value={this.state.productDesc}
-                                onChange={(value) => this.handleChange(value)}
-                            />
-                        </Grid>
-                    </Grid>
-                );
-            case 2:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12}>
-                            <h1 style={{textAlign: "center"}}>A quoi resemble votre item ?</h1>
-                           <Grid container>
-                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem", marginTop: "3rem"}}>
-                                   <input type="file" onChange={e => this.handleImage1(e)}/>
-                               </Grid>
-                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                                   <input type="file" onChange={e => this.handleImage2(e)}/>
-                               </Grid>
-                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                                   <input type="file" onChange={e => this.handleImage3(e)}/>
-                               </Grid>
-                               <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                                   <input type="file" onChange={e => this.handleImage4(e)}/>
-                               </Grid>
-                           </Grid>
-                        </Grid>
-                    </Grid>
-                );
-            case 3:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>A quel type d'item correspond votre offre: </h1>
-                            <FormControl variant="outlined" style={{width: "10rem"}}>
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    Theme
-                                </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-outlined-label"
-                                    name="productSubject"
-                                    value={this.state.productSubject}
-                                    onChange={this.handleChange}
-                                >
-                                    <MenuItem value={1}>Mode</MenuItem>
-                                    <MenuItem value={2}>Cosmetique</MenuItem>
-                                    <MenuItem value={3}>Hight tech</MenuItem>
-                                    <MenuItem value={4}>Food</MenuItem>
-                                    <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                    <MenuItem value={6}>Sport/fitness</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                );
-            case 4:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>A qui s'adresse votre offre ? </h1>
-                            <FormControl variant="outlined" style={{width: "10rem"}}>
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    Genre
-                                </InputLabel>
-                                <Select
-                                    name="productSex"
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={this.state.productSex}
-                                    onChange={this.handleChange}
-                                >
-                                    <MenuItem value="homme">Homme</MenuItem>
-                                    <MenuItem value="femme">Femme</MenuItem>
-                                    <MenuItem value="unisexe">Unisexe</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                );
-            case 5:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Vérifiez bien vos informations avant de valider.</h1>
-                            <h3>(Vous pourrez modifier votre offre si besoin dans l'onglet "Ads".)</h3>
-                        </Grid>
-                    </Grid>
-                );
-            default:
-                return 'Unknown step';
-        }
-    };
-
     handleSplitString = (str) => {
         var tmp = "";
         var i = 0;
@@ -280,8 +146,9 @@ class PostAd extends React.Component {
     }
 
     handleSubmit = () => {
-      if (!this.state.productName || this.state.productDesc.length > 255) {
-        showNotif(true, "Erreur", "Veuillez fournir nom et description de l'offre. La description ne dois pas dépasser 255 caractères.");
+      var images = this.handleGolobalImg();
+      if (!this.state.productName || this.state.productDesc.length > 255 || images.length === 0) {
+        showNotif(true, "Erreur", "Veuillez fournir nom, description de l'offre et au moins une image. La description ne dois pas dépasser 255 caractères.");
       }
       else {
         this.setState({isActive: true});
