@@ -397,7 +397,7 @@ export default class ShopSignUp extends React.Component{
                                     Précédent
                                 </Button>
                                 {
-                                    this.state.current < 3 ?
+                                    this.state.current < 2 ?
                                         <Button className="btnShop" onClick={this.next}>
                                             Suivant
                                         </Button>

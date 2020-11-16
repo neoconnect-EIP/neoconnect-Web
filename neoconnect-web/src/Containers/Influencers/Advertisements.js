@@ -83,7 +83,7 @@ class Advertisements extends React.Component{
               throw res;
             return res.json();
           })
-          .then(res => this.setState({suggestions: res}))
+          .then(res => {if (typeof(res) == Array) this.setState({suggestions: res});})
           .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
@@ -265,6 +265,7 @@ class Advertisements extends React.Component{
     render() {
       // console.log(this.state.adsData);
       // console.log(this.state.suggestions);
+      console.log("sugg ", this.state.suggestions);
       return (
           <div justify="center" className="infBg"  >
             <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>

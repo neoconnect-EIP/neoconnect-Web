@@ -113,7 +113,7 @@ class adsItem extends React.Component{
       }
       this.setState({isActive: false});
     }
-  
+
 
     searchRes = async (res) => {
       var msg = await res.json();
@@ -391,7 +391,7 @@ class adsItem extends React.Component{
                 {
                   this.state.adData &&
                   <>
-                  <Row className="p-4">
+                  <Row className="p-4 mx-0">
                     <Col md={6}>
                       <Carousel controls={true} style={{height: '400px'}}>
                         {
@@ -425,7 +425,7 @@ class adsItem extends React.Component{
                         <Button onClick={() => this.setState({share: true})} className="btnInf ml-2">Partager</Button>
                     </Col>
                   </Row>
-                  <Row className="mr-2 pb-4">
+                  <Row className=" pb-4 mx-0">
                     <Col md={6} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Avis</h2>
                       <Row className="mt-4 mb-4 pl-4" xs={3} md={3} lg={3} sm={3} xl={3}>
