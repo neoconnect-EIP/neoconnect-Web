@@ -422,7 +422,7 @@ class adsItem extends React.Component{
                     </Col>
                   </Row>
                   <Row className=" pb-4 mx-0">
-                    <Col md={6} className="mt-4">
+                    <Col md={8} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Avis</h2>
                       <Row className="mt-4 mb-4 pl-4" xs={3} md={3} lg={3} sm={3} xl={3}>
                         <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
