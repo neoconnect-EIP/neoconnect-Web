@@ -199,68 +199,68 @@ class Actuality extends React.Component{
     render() {
         return (
           <div className="infBg"  >
-                <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                  <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Actualité</Navbar.Brand>
-                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                  <Navbar.Collapse id="basic-navbar-nav">
-                  </Navbar.Collapse>
-                </Navbar>
-                <Row className="pl-4 mr-0 ml-0">
-                  <Image src={heart}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
-                  }
-                </Row>
-                <Row className="pl-4 mr-0 ml-0">
-                  <Image src={fire}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques populaires</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
-                  }
-                </Row>
-                <Row className="pl-4 mt-4 mr-0 ml-0">
-                  <Image src={star}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques les mieux notés</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
-                  }
-                </Row>
-                <Row className="pl-4 mr-0 ml-0">
-                  <Image src={heart}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres du moment</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      this.state.tendanceOffer && this.state.tendanceOffer.map(inf => this.handleCardOffer(inf))
-                  }
-                </Row>
-                <Row className="pl-4 mr-0 ml-0">
-                  <Image src={fire}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      this.state.popularOffer && this.state.popularOffer.map(inf => this.handleCardOffer(inf))
-                  }
-                </Row>
-                <Row className="pl-4 mt-4 mr-0 ml-0">
-                  <Image src={star}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      this.state.bestMarkOffer && this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf))
-                  }
-              </Row>
-            </div>
-        );
+            <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+              <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Actualité</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+              </Navbar.Collapse>
+            </Navbar>
+            <Row className="pl-4 mr-0 ml-0">
+              <Image src={heart}/>
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
+              }
+            </Row>
+            <Row className="pl-4 mr-0 ml-0">
+              <Image src={fire}/>
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques populaires</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
+              }
+            </Row>
+            <Row className="pl-4 mt-4 mr-0 ml-0">
+              <Image src={star}/>
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques les mieux notés</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
+              }
+            </Row>
+            <Row className="pl-4 mr-0 ml-0">
+              <Image src={heart}/>
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres du moment</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.tendanceOffer && this.state.tendanceOffer.map(inf => this.handleCardOffer(inf))
+              }
+            </Row>
+            <Row className="pl-4 mr-0 ml-0">
+              <Image src={fire}/>
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres populaires</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.popularOffer && this.state.popularOffer.map(inf => this.handleCardOffer(inf))
+              }
+            </Row>
+            <Row className="pl-4 mt-4 mr-0 ml-0">
+              <Image src={star}/>
+              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Offres les mieux notés</h4>
+            </Row>
+            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  this.state.bestMarkOffer && this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf))
+              }
+          </Row>
+        </div>
+      );
     }
 }
 

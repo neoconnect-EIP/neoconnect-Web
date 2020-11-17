@@ -25,7 +25,7 @@ class FindShop extends React.Component{
         if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
-            shopList: null,
+            shopList: [],
             search: "",
             show: false,
             back: false,
@@ -35,6 +35,7 @@ class FindShop extends React.Component{
             tendance: null,
             visible: false,
             item: null,
+            suggestions: []
         };
 
     }
@@ -51,8 +52,20 @@ class FindShop extends React.Component{
       .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
     }
 
+    getSuggestions() {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => {
+            if (res.status >= 400)
+              throw res;
+            return res.json();
+          })
+          .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res});})
+          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+    }
+
     componentDidMount() {
         this.getAllShop();
+        this.getSuggestions();
     }
 
     searchRes = async (res) => {
@@ -150,56 +163,65 @@ class FindShop extends React.Component{
     }
 
     render() {
-
         return (
-          <div className="infBg"  >
-                <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-                  <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver une boutique</Navbar.Brand>
-                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                  <Navbar.Collapse id="basic-navbar-nav">
-                    <Form inline className="ml-auto">
-                      <FormControl type="text" placeholder="Exemple: Levis" className="mr-sm-2" value={this.state.search}
-                        onChange={e => this.setState({ search: e.target.value })} />
-                      <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
-                    </Form>
-                  </Navbar.Collapse>
-                </Navbar>
-                {
-                    this.state.shopList ?
-                      <Row className="ml-3 mr-3 mt-3" xs={1} sm={1} md={2} lg={3} xl={4}>
-                            {
-                                this.state.shopList.map(item => this.handleCard(item))
-                            }
-                      </Row>
-                      :
-                        <Loader
-                            type="Triangle"
-                            color="#292929"
-                            height={200}
-                            width={200}
-                            style={{marginTop: "14rem"}}
-                        />
-                }
-                <Modal centered show={this.state.visible} onHide={this.handleClose}>
-                 <Modal.Header closeButton>
-                   <Modal.Title>{"S'abonner à la boutique " + (this.state.item ? this.state.item.pseudo : '') + " ?"}</Modal.Title>
-                 </Modal.Header>
-                 <Modal.Body>
-                   {
-                     "En vous abonnant à la boutique, vous recevrez en email leur nouveauté."
-                   }
-                 </Modal.Body>
-                 <Modal.Footer>
-                   <Button className="btnCancel" onClick={this.handleClose}>
-                     Annuler
-                   </Button>
-                   <Button className="btnInf" onClick={this.handleFollow}>
-                     S'abonner
-                   </Button>
-                 </Modal.Footer>
-               </Modal>
-            </div>
-        );
+          <div className="infBg">
+            <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
+              <Navbar.Brand href="#home" style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver une boutique</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Form inline className="ml-auto">
+                  <FormControl type="text" placeholder="Exemple: Levis" className="mr-sm-2" value={this.state.search}
+                    onChange={e => this.setState({ search: e.target.value })} />
+                  <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
+                </Form>
+              </Navbar.Collapse>
+            </Navbar>
+            <Row className="pl-4 mt-4 mr-0 mx-0">
+              <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Suggestion de boutiques</h4>
+            </Row>
+            <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  typeof(this.state.suggestions) === 'object' && this.state.suggestions && this.state.suggestions.map(item => this.handleCard(item))
+              }
+            </Row>
+            <Row className="pl-4 mt-4 mr-0 mx-0">
+              <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Tout les boutiques</h4>
+            </Row>
+            <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
+              {
+                  typeof(this.state.shopList) === 'object' && this.state.shopList.map(item => this.handleCard(item))
+              }
+            </Row>
+            {
+              !this.state.shopList &&
+              <Loader
+                  type="Triangle"
+                  color="#292929"
+                  height={200}
+                  width={200}
+                  style={{marginTop: "14rem"}}
+              />
+            }
+            <Modal centered show={this.state.visible} onHide={this.handleClose}>
+             <Modal.Header closeButton>
+               <Modal.Title>{"S'abonner à la boutique " + (this.state.item ? this.state.item.pseudo : '') + " ?"}</Modal.Title>
+             </Modal.Header>
+             <Modal.Body>
+               {
+                 "En vous abonnant à la boutique, vous recevrez en email leur nouveauté."
+               }
+             </Modal.Body>
+             <Modal.Footer>
+               <Button className="btnCancel" onClick={this.handleClose}>
+                 Annuler
+               </Button>
+               <Button className="btnInf" onClick={this.handleFollow}>
+                 S'abonner
+               </Button>
+             </Modal.Footer>
+           </Modal>
+        </div>
+      );
     }
 }
 
