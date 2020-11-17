@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import { Grid} from '@material-ui/core/';
 import "../index.css"
-import {FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
