@@ -55,7 +55,7 @@ class FindShop extends React.Component{
     getSuggestions() {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {
-            if (res.status >= 400)
+            if (res.status >= 500)
               throw res;
             return res.json();
           })

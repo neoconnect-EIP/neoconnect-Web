@@ -220,6 +220,7 @@ class InfluencerProfile extends React.Component {
     }
 
     render() {
+      console.log(this.state.infData);
         return (
             <div className="shopBg">
                 {

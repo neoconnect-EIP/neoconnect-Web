@@ -214,11 +214,11 @@ class PostAd extends React.Component {
                         <Form.Row>
                           <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
                           <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
-                            onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}/>
+                            onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "Fomme"})}}/>
                           <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
-                            onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}/>
+                            onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "Femme"})}}/>
                           <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
-                            onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}/>
+                            onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "Unisexe"})}}/>
                         </Form.Row>
 
                         <Form.Row>
