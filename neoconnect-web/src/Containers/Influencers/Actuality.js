@@ -27,12 +27,12 @@ class Actuality extends React.Component{
         this.state = {
             show: false,
             back: false,
-            popular: null,
-            bestMark: null,
-            tendance: null,
-            popularOffer: null,
-            bestMarkOffer: null,
-            tendanceOffer: null,
+            popular: [],
+            bestMark: [],
+            tendance: [],
+            popularOffer: [],
+            bestMarkOffer: [],
+            tendanceOffer: [],
             applied: [],
         };
 

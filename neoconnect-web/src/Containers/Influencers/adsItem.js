@@ -360,17 +360,13 @@ class adsItem extends React.Component{
                      <Form.Control value={this.state.emailMe} onChange={(e) => {this.setState({emailMe: e.target.value})}}/>
                    </Form.Group>
                  </Form.Row>
-                 <Button onClick={() => this.sendEmail()} className="btnInf ml-2">Via email</Button>
-
-                  <Form.Row className='mt-4'>
-                   <Form.Group controlId="formBasicEmail" as={Col} sm={6}>
-                     <Form.Label>Pseudo du destinataire</Form.Label>
-                     <Form.Control value={this.state.pseudo} onChange={(e) => {this.setState({pseudo: e.target.value})}}/>
-                   </Form.Group>
-                  </Form.Row>
-                  <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
                 </Form>
                </Modal.Body>
+               <Modal.Footer>
+                 <Button className="btnInf" onClick={() => {this.sendEmail()}}>
+                   Envoyer
+                 </Button>
+               </Modal.Footer>
               </Modal>
               <Modal centered show={this.state.note} onHide={this.handleCloseNote}>
                <Modal.Header closeButton>
@@ -454,4 +450,12 @@ class adsItem extends React.Component{
     }
 }
 
-export default withRouter(adsItem)
+export default withRouter(adsItem);
+
+// <Form.Row className='mt-4'>
+//  <Form.Group controlId="formBasicEmail" as={Col} sm={6}>
+//    <Form.Label>Pseudo du destinataire</Form.Label>
+//    <Form.Control value={this.state.pseudo} onChange={(e) => {this.setState({pseudo: e.target.value})}}/>
+//  </Form.Group>
+// </Form.Row>
+// <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
