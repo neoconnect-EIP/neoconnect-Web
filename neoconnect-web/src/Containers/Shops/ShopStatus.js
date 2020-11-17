@@ -54,7 +54,7 @@ class ShopStatus extends React.Component{
             imgChanged: false,
             isActive: false,
             followers: [],
-            themeValue: ['', 'mode', 'cosmetique', 'hight tech', 'food', 'jeux video', 'sport/fitness'],
+            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'j=Jeux video', 'Sport/fitness'],
         };
 
     }
@@ -171,7 +171,6 @@ class ShopStatus extends React.Component{
         this.setState({isActive: true, visible: false});
 
         let body = {
-            "pseudo": this.state.name,
             "userType": this.state.userData.userType,
             "full_name": this.state.fullName,
             "email": this.state.userData.email !== this.state.email ? this.state.email : undefined,
@@ -285,12 +284,12 @@ class ShopStatus extends React.Component{
                     <Form className="mx-4 mt-4">
                       <Form.Row>
                         <Form.Group as={Col}>
-                          <Form.Label>Nom et Prénom</Form.Label>
-                          <Form.Control value={this.state.fullName} onChange={e => {this.setState({fullName: e.target.value})}}/>
+                          <Form.Label>Pseudo</Form.Label>
+                          <Form.Control value={this.state.pseudo} onChange={e => {}} disabled/>
                         </Form.Group>
                         <Form.Group as={Col}>
-                          <Form.Label>Pseudo</Form.Label>
-                          <Form.Control value={this.state.pseudo} onChange={e => {this.setState({pseudo: e.target.value})}}/>
+                          <Form.Label>Nom et Prénom</Form.Label>
+                          <Form.Control value={this.state.fullName} onChange={e => {this.setState({fullName: e.target.value})}}/>
                         </Form.Group>
                         <Form.Group as={Col}>
                           <Form.Label column>

@@ -61,7 +61,7 @@ class InfluenceurStatus extends React.Component{
             userPicture: null,
             visibleDelete: false,
             imgChanged: false,
-            themeValue: ['', 'mode', 'cosmetique', 'hight tech', 'food', 'jeux video', 'sport/fitness'],
+            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'j=Jeux video', 'Sport/fitness'],
             isActive: false,
             followed: [],
             showFollowers: false,
@@ -182,7 +182,6 @@ class InfluenceurStatus extends React.Component{
       else {
         this.setState({isActive: true, visible: false});
         let body = {
-            "pseudo": this.state.pseudo,
             "full_name": this.state.fullName,
             "email": this.state.userData.email !== this.state.email ? this.state.email : undefined,
             "phone": this.state.phone,
@@ -278,12 +277,12 @@ class InfluenceurStatus extends React.Component{
                   <Form className="mx-4 mt-4">
                     <Form.Row>
                       <Form.Group as={Col}>
-                        <Form.Label>Nom et Prénom</Form.Label>
-                        <Form.Control value={this.state.fullName} onChange={e => {this.setState({fullName: e.target.value})}}/>
+                        <Form.Label>Pseudo</Form.Label>
+                        <Form.Control value={this.state.pseudo} onChange={e => {}} disabled/>
                       </Form.Group>
                       <Form.Group as={Col}>
-                        <Form.Label>Pseudo</Form.Label>
-                        <Form.Control value={this.state.pseudo} onChange={e => {this.setState({pseudo: e.target.value})}}/>
+                        <Form.Label>Nom et Prénom</Form.Label>
+                        <Form.Control value={this.state.fullName} onChange={e => {this.setState({fullName: e.target.value})}}/>
                       </Form.Group>
                       <Form.Group as={Col}>
                         <Form.Label column>
@@ -404,7 +403,7 @@ class InfluenceurStatus extends React.Component{
                   <div>
                     <Row className="mx-0">
                       <div style={{position: 'absolute', top: 10, right: 20}}>
-                        <Button variant="outline-light" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
+                        <Button variant="outline-light" onClick={this.handleChangeInfo}>Modifier vos informations</Button>
                       </div>
                       <Col className="mx-auto" style={{marginTop: '60px'}} align="center">
                         <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
