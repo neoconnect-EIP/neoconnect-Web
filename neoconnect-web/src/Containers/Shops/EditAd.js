@@ -11,6 +11,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import { showNotif } from '../Utils.js';
+import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
+
+const themeVal = ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux Vidéo', 'Sport/Fitness'];
 
 class EditAd extends React.Component {
     constructor(props) {
@@ -34,22 +37,26 @@ class EditAd extends React.Component {
             isLoading: true,
             homme: false,
             femme: false,
-            theme: localStorage.getItem("theme"),
-            uni: true
+            theme: "",
+            uni: true,
+            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
+
         };
     }
 
     statesetter = (res) => {
+      console.log(res);
         this.setState({
             productBrand: res.brand,
             productImg: res.productImg,
             productName: res.productName,
             productSex: res.productSex,
             productDesc: res.productDesc,
+            theme: res.productSubject,
             isLoading: false,
-            homme: res.productSex === "homme" ? true : false,
-            femme: res.productSex === "femme" ? true : false,
-            uni: res.productSex === "unisexe" ? true : false,
+            homme: res.productSex === "Homme" ? true : false,
+            femme: res.productSex === "Femme" ? true : false,
+            uni: res.productSex === "Unisexe" ? true : false,
         })
     };
 
@@ -60,9 +67,12 @@ class EditAd extends React.Component {
             method: 'GET',
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
-            .then(res => res.json())
-            .then(res => this.statesetter(res))
-            .catch(error => showNotif(true, "Erreur",null));
+        .then(res => {
+          if (res.status === 200)
+            return res.json();
+        })
+        .then(res => this.statesetter(res))
+        .catch(error => {showNotif(true, "Erreur", null)});
     }
 
     getUrlParams = (search) => {
@@ -180,16 +190,19 @@ class EditAd extends React.Component {
     };
 
     handleSubmit = () => {
-      if (!this.state.productName || !this.state.productDesc) {
-        showNotif(true, "Erreur", "Veuillez fournir nom et description de l'offre");
+      var images = this.handleGolobalImg();
+
+      if (!this.state.productName || this.state.productDesc.length > 255 || images.length === 0 || !this.state.theme) {
+        showNotif(true, "Erreur", "Veuillez fournir nom, thème, description de l'offre et au moins une image. La description ne dois pas dépasser 255 caractères.");
       }
       else {
         let id = this.getUrlParams((window.location.search));
         let body = {
-            "productImg": this.handleGolobalImg(),
+            "productImg": images,
             "productName": this.state.productName,
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
+            "productSubject": this.state.theme,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id.id}`, {
@@ -216,9 +229,28 @@ class EditAd extends React.Component {
                               <Form.Label style={{color:'white'}}>Marque</Form.Label>
                               <p style={{color:'white'}}>{this.state.productBrand}</p>
                             </Form.Group>
-                            <Form.Group as={Col}>
-                              <Form.Label style={{color:'white'}}>Thème</Form.Label>
-                              <p style={{color:'white'}}>{this.state.theme}</p>
+                            <Form.Group as={Col} className="mt-1">
+                              <FormControl variant="outlined" style={{ color: 'white'}}>
+                                <InputLabel id="demo-simple-select-outlined-label" style={{color: 'white'}}>
+                                    Thème
+                                </InputLabel>
+                                <Select
+                                    style={{color: 'white'}}
+                                    labelId="demo-simple-select-outlined-label"
+                                    name="theme"
+                                    value={this.state.themeValue.indexOf(this.state.theme)}
+                                    onChange={(e) => {
+                                      this.setState({theme: this.state.themeValue[e.target.value]});
+                                    }}
+                                >
+                                  <MenuItem value={1}>Mode</MenuItem>
+                                  <MenuItem value={2}>Cosmétique</MenuItem>
+                                  <MenuItem value={3}>Hight tech</MenuItem>
+                                  <MenuItem value={4}>Nourriture</MenuItem>
+                                  <MenuItem value={5}>Jeux vidéo</MenuItem>
+                                  <MenuItem value={6}>Sport/Fitness</MenuItem>
+                                </Select>
+                              </FormControl>
                             </Form.Group>
                           </Form.Row>
 
@@ -235,16 +267,18 @@ class EditAd extends React.Component {
                               <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
                             </Form.Group>
                           </Form.Row>
-                          <Form.Row>
-                            <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
-                            <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
-                              onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "homme"})}}/>
-                            <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
-                              onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "femme"})}}/>
-                            <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
-                              onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "unisexe"})}}/>
-                          </Form.Row>
-
+                          {
+                            (this.state.theme == "Mode" || this.state.theme == "Cosmétique") &&
+                            <Form.Row>
+                              <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
+                              <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
+                                onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "Homme"})}}/>
+                              <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
+                                onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "Femme"})}}/>
+                              <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
+                                onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "Unisexe"})}}/>
+                            </Form.Row>
+                          }
                           <Form.Row>
                             <Form.Group as={Col}>
                               <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
