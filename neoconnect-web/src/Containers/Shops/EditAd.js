@@ -98,52 +98,80 @@ class EditAd extends React.Component {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        reader.onloadend = () => {
-            this.setState({
-                productImgName1: file.name,
-                productImgData1: this.handleSplitString(reader.result),
-            });
-        };
-        reader.readAsDataURL(file);
+        if (file.type.includes('image'))
+        {
+          reader.onloadend = () => {
+              this.setState({
+                  productImgName1: file.name,
+                  productImgData1: this.handleSplitString(reader.result),
+              });
+          };
+          reader.readAsDataURL(file);
+        }
+        else {
+          e.target.value = null;
+          showNotif(true, "Erreur", "Veuillez choisir une image.")
+        }
     };
 
     handleImage2 = (e) => {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        reader.onloadend = () => {
-            this.setState({
-                productImgName2: file.name,
-                productImgData2: this.handleSplitString(reader.result),
-            });
-        };
-        reader.readAsDataURL(file);
+        if (file.type.includes('image'))
+        {
+          reader.onloadend = () => {
+              this.setState({
+                  productImgName2: file.name,
+                  productImgData2: this.handleSplitString(reader.result),
+              });
+          };
+          reader.readAsDataURL(file);
+        }
+        else {
+          e.target.value = null;
+          showNotif(true, "Erreur", "Veuillez choisir une image.")
+        }
     };
 
     handleImage3 = (e) => {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        reader.onloadend = () => {
-            this.setState({
-                productImgName3: file.name,
-                productImgData3: this.handleSplitString(reader.result),
-            });
-        };
-        reader.readAsDataURL(file);
+        if (file.type.includes('image'))
+        {
+          reader.onloadend = () => {
+              this.setState({
+                  productImgName3: file.name,
+                  productImgData3: this.handleSplitString(reader.result),
+              });
+          };
+          reader.readAsDataURL(file);
+        }
+        else {
+          e.target.value = null;
+          showNotif(true, "Erreur", "Veuillez choisir une image.")
+        }
     };
 
     handleImage4 = (e) => {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        reader.onloadend = () => {
-            this.setState({
-                productImgName4: file.name,
-                productImgData4: this.handleSplitString(reader.result),
-            });
-        };
-        reader.readAsDataURL(file);
+        if (file.type.includes('image'))
+        {
+          reader.onloadend = () => {
+              this.setState({
+                  productImgName4: file.name,
+                  productImgData4: this.handleSplitString(reader.result),
+              });
+          };
+          reader.readAsDataURL(file);
+        }
+        else {
+          e.target.value = null;
+          showNotif(true, "Erreur", "Veuillez choisir une image.")
+        }
     };
 
     handleGolobalImg = () => {

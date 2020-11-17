@@ -120,13 +120,20 @@ export default class InfluencerSignUp extends React.Component{
       event.preventDefault();
       let reader = new FileReader();
       let file = event.target.files[0];
-      reader.onloadend = () => {
-          thisTmp.setState({
-              file: file,
-              userPicture: thisTmp.handleSplitString(reader.result),
-          });
-      };
-      reader.readAsDataURL(file);
+      if (file.type.includes('image'))
+      {
+        reader.onloadend = () => {
+            this.setState({
+                file: file,
+                userPicture: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
+      }
+      else {
+        event.target.value = null;
+        showNotif(true, "Erreur", "Veuillez choisir une image.")
+      }
   }
 
     getStepContent = (step) => {

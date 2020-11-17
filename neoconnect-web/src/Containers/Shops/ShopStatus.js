@@ -209,13 +209,20 @@ class ShopStatus extends React.Component{
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        reader.onloadend = () => {
-            this.setState({
-                file: file,
-                userPicture: this.handleSplitString(reader.result),
-            });
-        };
-        reader.readAsDataURL(file);
+        if (file.type.includes('image'))
+        {
+          reader.onloadend = () => {
+              this.setState({
+                  file: file,
+                  userPicture: this.handleSplitString(reader.result),
+              });
+          };
+          reader.readAsDataURL(file);
+        }
+        else {
+          e.target.value = null;
+          showNotif(true, "Erreur", "Veuillez choisir une image.")
+        }
     };
 
     handleDelete = () => {
