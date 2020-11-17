@@ -4,7 +4,7 @@ import "../index.css"
 import StarIcon from '@material-ui/icons/Star';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import noShop from "../../assets/noShop.jpg"
+import noShop from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -37,7 +37,7 @@ class FindShop extends React.Component{
             item: null,
             suggestions: []
         };
-
+        console.log("error ", localStorage.getItem("Jwt"));
     }
 
     getAllShop = () => {
@@ -47,20 +47,22 @@ class FindShop extends React.Component{
               'Content-Type': 'application/json',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 200)
+          return (res.json());
+      })
       .then(res => this.setState({shopList: res}))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => {console.log("error ", error);showNotif(true, "Erreur",null)});
     }
 
     getSuggestions() {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {
-            if (res.status >= 500)
-              throw res;
-            return res.json();
+            if (res.status === 200)
+              return (res.json());
           })
           .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res});})
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => {showNotif(true, "Erreur", null)});
     }
 
     componentDidMount() {
@@ -90,7 +92,7 @@ class FindShop extends React.Component{
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       }).then(res => this.searchRes(res))
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     }
 
     handleGlobalAnnonce = (item) => {
@@ -117,7 +119,7 @@ class FindShop extends React.Component{
                 showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true,  "Erreur",null));
         this.handleClose();
     }
 
@@ -132,7 +134,7 @@ class FindShop extends React.Component{
                 showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true,  "Erreur",null));
     }
 
     handleCard = (item) => {

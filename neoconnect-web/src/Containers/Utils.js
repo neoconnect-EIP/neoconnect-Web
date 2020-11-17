@@ -3,7 +3,7 @@ import { store } from 'react-notifications-component';
 export const showNotif = (error, title, msg) => {
   store.addNotification({
     title: title,
-    message: msg,
+    message: msg ? msg : "Veuillez essayer ultérieurement.",
     type: error ? "danger" : "success",
     insert: "top",
     container: "top-right",

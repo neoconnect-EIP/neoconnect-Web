@@ -51,7 +51,7 @@ class FindInfluencers extends React.Component {
       })
       .then(res => res.json())
       .then(res => this.setState({influencersData: res}))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur",null));
     }
 
     componentDidMount = () => {
@@ -88,7 +88,7 @@ class FindInfluencers extends React.Component {
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => this.searchRes(res))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur",null));
     }
 
     cardInf = (inf) => {

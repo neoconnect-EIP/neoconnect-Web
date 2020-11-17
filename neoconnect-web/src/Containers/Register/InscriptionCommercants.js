@@ -84,7 +84,7 @@ export default class ShopSignUp extends React.Component{
 
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => this.handleResponse(res))
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
 
       }
     };

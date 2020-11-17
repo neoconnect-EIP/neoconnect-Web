@@ -126,7 +126,7 @@ export default class Message extends React.Component{
           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => this.handleMsgRes(res, dest))
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     };
 
     listContact = () => {

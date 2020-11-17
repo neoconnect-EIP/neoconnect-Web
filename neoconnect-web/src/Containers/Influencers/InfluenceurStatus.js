@@ -77,7 +77,7 @@ class InfluenceurStatus extends React.Component{
       })
       .then(res => res.json())
       .then(res => this.setState({userData: res}))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur",null));
     }
 
     getFollowed = () => {
@@ -89,7 +89,7 @@ class InfluenceurStatus extends React.Component{
       })
       .then(res => res.json())
       .then(res => this.setState({followed: res}))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur",null));
     }
 
     componentDidMount = () => {
@@ -204,7 +204,7 @@ class InfluenceurStatus extends React.Component{
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
         .then(res => {this.handleResponse(res)})
-        .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true,  "Erreur",null));
     }
   }
 
@@ -244,7 +244,7 @@ class InfluenceurStatus extends React.Component{
             showNotif(false, "Succès", "Suppression de compte réussi.");
             this.props.history.push('/landing-page')
         })
-        .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText))
+        .catch(error => showNotif(true,  "Erreur",null))
     }
 
     handleUnFollow = (id) => {
@@ -258,7 +258,7 @@ class InfluenceurStatus extends React.Component{
             showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
           }
         })
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     }
 
     render() {

@@ -90,14 +90,13 @@ class ShopStatus extends React.Component{
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {
-        if (res.status >= 400)
-          throw res;
-        return (res.json());
+        if (res.status === 200)
+          return (res.json());
       })
       .then(res => {
         this.setState({followers: res})
       })
-      .catch(error => showNotif(true, "Erreur, followers non reçu", error.statusText));
+      .catch(error => showNotif(true, "Erreur", null));
     }
 
 
@@ -193,7 +192,7 @@ class ShopStatus extends React.Component{
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
         .then(res => {this.handleResponse(res)})
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
       }
     };
 
@@ -233,7 +232,7 @@ class ShopStatus extends React.Component{
             showNotif(false, "Succès", "Suppression de compte réussi.");
             this.props.history.push('/landing-page')
         })
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     }
 
     handleComment = (x) => {

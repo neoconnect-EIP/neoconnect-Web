@@ -57,14 +57,13 @@ class Ads extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => {
-          if (res.status >= 400)
-            throw res;
-          return res.json()
+          if (res.status === 200)
+            return (res.json());
         })
         .then(res => this.setState({adsData: res, isLoading: false}))
         .catch(error => {
           this.setState({isLoading: false});
-          showNotif(true,"Erreur, Veuillez essayer ultérieurement", error.statusText);
+          showNotif(true,"Erreur", null);
         });
       }
 
@@ -85,7 +84,7 @@ class Ads extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => {res.json(); this.setState({adsData: res})})
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     }
 
     handleMessageChange = (e) => {
@@ -104,7 +103,7 @@ class Ads extends React.Component {
             thisTmp.getAppliedOffer();
           }
         })
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     };
 
     listAbonnement = () => {
@@ -164,7 +163,7 @@ class Ads extends React.Component {
               "snapchat": this.state.snapchat
           };
           body = JSON.stringify(body);
-          
+
           fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/sharePublication/${this.state.shareId}`,
             {
               method: 'POST',
@@ -173,7 +172,7 @@ class Ads extends React.Component {
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
             })
             .then(res => this.handleShareRes(res))
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
         }
         else {
           showNotif(true, "Erreur", "Veuillez vérifier tout les champs.");

@@ -74,7 +74,7 @@ export default class Login extends React.Component{
               return res.json()
             })
             .then(res => {console.log(res);localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); localStorage.setItem('userType', res.userType); localStorage.setItem('pseudo', this.state.username);localStorage.setItem('theme', res.theme); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
       }
       else {
         showNotif(true, "Erreur", "Veuillez fournir le nom d'utilisateur et le mot de passe.");
@@ -111,7 +111,7 @@ export default class Login extends React.Component{
                 headers: {'Content-Type': 'application/json'}
             })
             .then(res => { res.json(); this.handleForgotResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
         }
     };
 
@@ -156,10 +156,10 @@ export default class Login extends React.Component{
                     this.setState({visible: false})
                   }
                 })
-                .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+                .catch(error => showNotif(true, "Erreur",null));
             }
           })
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
       }
 
 

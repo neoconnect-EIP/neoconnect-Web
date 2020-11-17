@@ -63,7 +63,7 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => {this.setState({shopData: res})})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
       }
     }
 
@@ -75,7 +75,7 @@ class shopProfile extends React.Component{
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       }).then(res => res.json())
         .then(res => this.setState({userData: res}))
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
 
     }
 
@@ -112,7 +112,7 @@ class shopProfile extends React.Component{
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/comment/${this.state.urlId}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
         this.setState({ commentInput: ""});
       }
     };
@@ -124,7 +124,7 @@ class shopProfile extends React.Component{
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${this.state.urlId}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
         this.setState({visible: false});
     };
 
@@ -187,7 +187,7 @@ class shopProfile extends React.Component{
                 this.setState({signal: false});
                 showNotif(false,  "Envoyé", "Nous avons bien pris en compte votre signalement pour la marque " + thisTmp.state.shopData.pseudo)
               }
-            }).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            }).catch(error => showNotif(true, "Erreur",null));
       }
     }
 
@@ -219,7 +219,7 @@ class shopProfile extends React.Component{
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
             .then(res => this.handleMsgRes(res)
-          ).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          ).catch(error => showNotif(true, "Erreur",null));
       }
     }
 
@@ -233,7 +233,7 @@ class shopProfile extends React.Component{
                 showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
     }
 
     handleUnFollow = () => {
@@ -246,7 +246,7 @@ class shopProfile extends React.Component{
                 showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
     }
 
     render() {

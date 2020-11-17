@@ -168,7 +168,7 @@ class PostAd extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
           .then(res => {res.json(); this.handleResponse(res)})
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
       }
     }
 

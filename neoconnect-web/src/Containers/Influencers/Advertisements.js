@@ -57,7 +57,7 @@ class Advertisements extends React.Component{
             this.setState({adsData: res, adsSaver: res})
 
           })
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
     }
 
     getAppliedOffer = () => {
@@ -66,25 +66,23 @@ class Advertisements extends React.Component{
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => {
-          if (res.status >= 400)
-            throw res;
-          return res.json()
+          if (res.status === 200)
+            return (res.json());
         })
         .then(res => this.setState({applied: res}))
         .catch(error => {
-          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+          showNotif(true, "Erreur", null);
         });
     }
 
     getSuggestions() {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {
-            if (res.status >= 400)
-              throw res;
-            return res.json();
+            if (res.status === 200)
+              return (res.json());
           })
           .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res});})
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur", null));
     }
 
     componentDidMount = () => {
@@ -110,16 +108,15 @@ class Advertisements extends React.Component{
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
           .then(res => {
-            if (res.status >= 400)
-              throw res;
-            return res.json()
+            if (res.status === 200)
+              return (res.json());
           })
           .then(res => {
             this.getAppliedOffer();
             showNotif(false, "Réussi", "Vous avez bien postulé à l'annonce");
           })
           .catch(error => {
-            showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+            showNotif(true, "Erreur", null);
           });
         this.handleClose();
     }
@@ -249,16 +246,15 @@ class Advertisements extends React.Component{
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => {
-          if (res.status >= 400)
-            throw res;
-          return res.json()
+          if (res.status === 200)
+            return (res.json());
         })
         .then(res => {
           this.getAppliedOffer();
           showNotif(false, "Réussi", "l'annulation est bien prise en compte");
         })
         .catch(error => {
-          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+          showNotif(true, "Erreur", null);
         });
     };
 

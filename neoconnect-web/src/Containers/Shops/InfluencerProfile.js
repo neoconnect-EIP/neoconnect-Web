@@ -62,7 +62,7 @@ class InfluencerProfile extends React.Component {
       })
           .then(res => res.json())
           .then(res => {this.setState({infData: res})})
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
     }
 
     componentDidMount = () => {
@@ -77,7 +77,7 @@ class InfluencerProfile extends React.Component {
       })
           .then(res => res.json())
           .then(res => this.setState({userData: res}))
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
     };
 
     getUrlParams = (search) => {
@@ -111,7 +111,7 @@ class InfluencerProfile extends React.Component {
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
         this.setState({visible: false});
     };
 
@@ -125,7 +125,7 @@ class InfluencerProfile extends React.Component {
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/comment/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
         this.setState({ commentInput: ""});
       }
     }
@@ -180,7 +180,7 @@ class InfluencerProfile extends React.Component {
                 this.setState({signal: false, raison: "", info: ""});
                 showNotif(false, "Envoyé", "Nous avons bien pris en compte votre signalement pour l'influenceur " + thisTmp.state.infData.pseudo);
               }
-            }).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            }).catch(error => showNotif(true, "Erreur",null));
       }
     }
 
@@ -215,7 +215,7 @@ class InfluencerProfile extends React.Component {
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
             .then(res => this.handleMsgRes(res)
-          ).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          ).catch(error => showNotif(true, "Erreur",null));
       }
     }
 

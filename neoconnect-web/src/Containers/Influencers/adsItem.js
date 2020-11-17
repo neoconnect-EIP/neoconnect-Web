@@ -54,12 +54,12 @@ class adsItem extends React.Component{
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {return (res.json())})
           .then(res => this.setState({adData: res}))
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
 
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => res.json())
           .then(res => {this.setState({applied: res})})
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
     }
 
     componentDidMount = () => {
@@ -88,15 +88,14 @@ class adsItem extends React.Component{
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
           .then(res => {
-            if (res.status >= 400)
-              throw res;
-            return res.json()
+            if (res.status === 200)
+              return (res.json());
           })
           .then(res => {
             this.getDetailOffer();
           })
           .catch(error => {
-            showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+            showNotif(true, "Erreur", null);
           });
         // this.props.history.push("/dashboard/advertisements")
     }
@@ -133,7 +132,7 @@ class adsItem extends React.Component{
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
           .then(res => this.handleResponse(res))
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
       }
       else {
         showNotif(true, "Erreur", msg);
@@ -154,7 +153,7 @@ class adsItem extends React.Component{
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       }).then(res => this.searchRes(res))
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     }
 
   sendEmail = () => {
@@ -177,7 +176,7 @@ class adsItem extends React.Component{
       .then(res => {this.handleResponse(res)})
       .catch(error => {
         this.setState({isActive: false});
-        showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+        showNotif(true, "Erreur",null);
       });
     }
 
@@ -198,7 +197,7 @@ class adsItem extends React.Component{
         this.setState({note: false});
         this.getDetailOffer();
       })
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur",null));
     }
 
   displayImage = (item, id) => {
@@ -221,7 +220,7 @@ class adsItem extends React.Component{
       body = JSON.stringify(body);
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/comment/${this.state.urlId}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => { res.json(); this.getDetailOffer();})
-          .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+          .catch(error => showNotif(true, "Erreur",null));
       this.setState({ commentInput: ""})
   }
 
@@ -245,7 +244,7 @@ class adsItem extends React.Component{
           this.setState({signal: false, raison: "", info: ""});
           showNotif(false, "Envoyé", "Nous avons bien pris en compte votre signalement pour l'offre " + name);
         }
-      }).catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      }).catch(error => showNotif(true, "Erreur",null));
     }
   }
 
@@ -296,14 +295,13 @@ class adsItem extends React.Component{
         headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
     })
     .then(res => {
-      if (res.status >= 400)
-        throw res;
-      return res.json()
+      if (res.status === 200)
+        return (res.json());
     })
     .then(res => {
       this.getDetailOffer();
     })
-    .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+    .catch(error => showNotif(true, "Erreur", null));
   };
 
     render() {

@@ -74,7 +74,7 @@ class Ads extends React.Component {
       })
       .then(res => this.setState({adsData: res}))
       .catch(error => {
-        showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText)
+        showNotif(true, "Erreur",null)
         this.setState({adsData: []});
       });
     }
@@ -98,7 +98,7 @@ class Ads extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => {res.json(); this.handleVisibleModal(null, "")})
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+        .catch(error => showNotif(true, "Erreur",null));
     };
 
     handleMessageChange = (e) => {
@@ -141,7 +141,7 @@ class Ads extends React.Component {
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => this.handleResponse(res, choice, inf))
-      .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      .catch(error => showNotif(true, "Erreur",null));
 
     }
 

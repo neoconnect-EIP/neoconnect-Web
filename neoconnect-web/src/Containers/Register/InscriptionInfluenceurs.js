@@ -99,7 +99,7 @@ export default class InfluencerSignUp extends React.Component{
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
     };
 
     handleSplitString = (str) => {

@@ -60,13 +60,12 @@ class Actuality extends React.Component{
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => {
-          if (res.status >= 400)
-            throw res;
-          return res.json()
+          if (res.status === 200)
+            return (res.json());
         })
         .then(res => this.setState({applied: res}))
         .catch(error => {
-          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+          showNotif(true, "Erreur", null);
         });
     }
 
@@ -120,7 +119,7 @@ class Actuality extends React.Component{
                 showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", null));
     }
 
     handleUnfollow = (id) => {
@@ -134,7 +133,7 @@ class Actuality extends React.Component{
                 showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true,  "Erreur",null));
     }
 
     handleAnnonceSubscribe = (item) => {
@@ -149,7 +148,7 @@ class Actuality extends React.Component{
                 showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
               }
             })
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText));
+            .catch(error => showNotif(true, "Erreur",null));
     }
 
     handleDelete = (id) => {
@@ -158,16 +157,15 @@ class Actuality extends React.Component{
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => {
-          if (res.status >= 400)
-            throw res;
-          return res.json()
+          if (res.status === 200)
+            return (res.json());
         })
         .then(res => {
           this.getAppliedOffer();
           showNotif(false, "Réussi", "l'annulation est bien prise en compte");
         })
         .catch(error => {
-          showNotif(true, "Erreur, Veuillez essayer ultérieurement", error.statusText);
+          showNotif(true, "Erreur", null);
         });
     };
 
