@@ -400,18 +400,19 @@ class adsItem extends React.Component{
                     <Col md={6}>
                       <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
                         <div style={{ textAlign:'left'}}>
-                          <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>
+                          <h3 style={{marginTop: "1rem", color: 'white', fontWeight: '300', display: "inline"}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
                           <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
                         </div>
-                        <h3 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
-                        <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{"Sex: " + (this.state.adData.productSex ? this.state.adData.productSex : "Non défini")}</h4>
+                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
+                        {
+                          (this.state.adData.productSubject == 'Mode' || this.state.adData.productSubject == 'Cosmétique') &&
+                          <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{ this.state.adData.productSex}</h5>
+                        }
+                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
                         <Row className="m-0 p-0">
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
-                            <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
-
+                          <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
                         </Row>
-                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ? this.state.adData.productSubject : ""}</h5>
-                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         {
                           this.state.applied.some(el => el.idOffer === this.state.adData.id) ?
                           <Button onClick={() => this.handleDelete(this.state.adData.id)} className="btnInf">Annuler</Button>:
@@ -459,3 +460,4 @@ export default withRouter(adsItem);
 // </Form.Row>
 // <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
 // <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject == 'mode' ||  this.state.adData.productSubject == 'cosmetic'? `Couleur: ${this.state.adData.color}` : ""}</h5>
+// <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>

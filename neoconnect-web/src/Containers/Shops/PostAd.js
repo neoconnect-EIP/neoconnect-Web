@@ -157,7 +157,7 @@ class PostAd extends React.Component {
             "productName": this.state.productName,
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
-            "productSubject": themeVal.indexOf(this.state.theme),
+            "productSubject": themeVal.indexOf(this.state.theme).toString(),
             "brand": this.state.productBrand,
         };
 

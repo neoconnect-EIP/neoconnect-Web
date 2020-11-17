@@ -92,7 +92,7 @@ export default class InfluencerSignUp extends React.Component{
             "twitch": this.state.twitch,
             "pinterest": this.state.pinterest,
             "tiktok": this.state.instagram,
-            "sexe": parseInt(this.state.sexe) === 1 ? 'Homme': (parseInt(this.state.sexe) === 2 ? 'Femme' : undefined),
+            "sexe": parseInt(this.state.sexe) === 1 ? 'Male': (parseInt(this.state.sexe) === 2 ? 'Female' : undefined),
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
         };
 
