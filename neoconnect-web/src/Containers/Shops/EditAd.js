@@ -31,7 +31,6 @@ class EditAd extends React.Component {
             productSex: "",
             productDesc: "",
             productSubject: "",
-            productColor: "",
             current: 0,
             isEnd: false,
             isLoading: true,
@@ -78,138 +77,6 @@ class EditAd extends React.Component {
             return Object.assign(params, {[key]: decodeURIComponent(val)})
         }, {})
     }
-
-    next = () => {
-        const current = this.state.current + 1;
-        this.setState({ current });
-    }
-
-    prev = () => {
-        const current = this.state.current - 1;
-        this.setState({ current });
-    }
-
-    getStepContent = (step) => {
-        switch (step) {
-            case 0:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier le nom de votre offre: </h1>
-                            <Input
-                                type="text"
-                                name="productName"
-                                placeholder="name"
-                                value={this.state.productName}
-                                onChange={this.handleChange}
-                            />
-                        </Grid>
-                    </Grid>
-                );
-            case 1:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier la description de votre offre: </h1>
-                            <TextField
-                                id="demo-simple-select-outlined"
-                                name="productDesc"
-                                label="Déscription"
-                                multiline
-                                rows="8"
-                                margin="normal"
-                                variant="outlined"
-                                style={{width: "700px", height: "160px"}}
-                                value={this.state.productDesc}
-                                onChange={(value) => this.handleChange(value)}
-                            />
-                        </Grid>
-                    </Grid>
-                );
-            case 2:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12}>
-                            <h1 style={{textAlign: "center"}}>Modifier les images de votre item ?</h1>
-                            <Grid container>
-                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem", marginTop: "3rem"}}>
-                                    <input type="file" onChange={e => this.handleImage1(e)}/>
-                                </Grid>
-                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                                    <input type="file" onChange={e => this.handleImage2(e)}/>
-                                </Grid>
-                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                                    <input type="file" onChange={e => this.handleImage3(e)}/>
-                                </Grid>
-                                <Grid item xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
-                                    <input type="file" onChange={e => this.handleImage4(e)}/>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                );
-            case 3:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier le type d'item correspondant à votre offre: </h1>
-                            <FormControl variant="outlined" style={{width: "150px"}}>
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    Theme
-                                </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-outlined-label"
-                                    name="productSubject"
-                                    value={this.state.productSubject}
-                                    onChange={this.handleChange}
-                                >
-                                    <MenuItem value={1}>Mode</MenuItem>
-                                    <MenuItem value={2}>Cosmetique</MenuItem>
-                                    <MenuItem value={3}>Hight tech</MenuItem>
-                                    <MenuItem value={4}>Food</MenuItem>
-                                    <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                    <MenuItem value={6}>Sport/fitness</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                );
-            case 4:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Modifier à qui s'adresse votre offre ? </h1>
-                            <FormControl variant="outlined" style={{width: "10rem"}}>
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    Genre
-                                </InputLabel>
-                                <Select
-                                    name="productSex"
-                                    labelId="demo-simple-select-label"
-                                    value={this.state.productSex}
-                                    onChange={this.handleChange}
-                                >
-                                    <MenuItem value="homme">Homme</MenuItem>
-                                    <MenuItem value="femme">Femme</MenuItem>
-                                    <MenuItem value="unisexe">Unisexe</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                );
-            case 5:
-                return (
-                    <Grid container justify="center" style={{margin: "4rem"}}>
-                        <Grid item xs={12} style={{textAlign: "center"}}>
-                            <h1>Vérifiez bien vos informations avant de valider.</h1>
-                            <h3>Cliquez sur "VALIDER" pour terminer l'édition</h3>
-                        </Grid>
-                    </Grid>
-                );
-            default:
-                return 'Unknown step';
-        }
-    };
 
     handleSplitString = (str) => {
         var tmp = "";
@@ -327,7 +194,6 @@ class EditAd extends React.Component {
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
             "productSubject": this.state.productSubject,
-            "color": this.state.productColor,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id.id}`, {
@@ -373,14 +239,6 @@ class EditAd extends React.Component {
                               <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
                             </Form.Group>
                           </Form.Row>
-
-                          <Form.Row>
-                            <Form.Group as={Col}  sm={12} >
-                              <Form.Label style={{color:'white'}}>Couleur</Form.Label>
-                              <Form.Control placeholder="Couleur de votre produit" value={this.state.productColor} onChange={e => {this.setState({productColor: e.target.value})}}/>
-                            </Form.Group>
-                          </Form.Row>
-
                           <Form.Row>
                             <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
                             <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}

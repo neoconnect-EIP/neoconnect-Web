@@ -28,7 +28,6 @@ class PostAd extends React.Component {
             productSex: "",
             productDesc: "",
             productSubject: "",
-            productColor: "",
             productBrand: localStorage.getItem("pseudo"),
             current: 0,
             isEnd: false,
@@ -158,7 +157,6 @@ class PostAd extends React.Component {
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
             "productSubject": this.state.theme,
-            "color": this.state.productColor,
             "brand": this.state.productBrand,
         };
 
@@ -212,14 +210,6 @@ class PostAd extends React.Component {
                             <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
                           </Form.Group>
                         </Form.Row>
-
-                        <Form.Row>
-                          <Form.Group as={Col}  sm={12} >
-                            <Form.Label style={{color:'white'}}>Couleur</Form.Label>
-                            <Form.Control placeholder="Couleur de votre produit" value={this.state.productColor} onChange={e => {this.setState({productColor: e.target.value})}}/>
-                          </Form.Group>
-                        </Form.Row>
-
                         <Form.Row>
                           <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
                           <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
