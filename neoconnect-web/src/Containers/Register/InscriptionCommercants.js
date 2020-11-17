@@ -31,8 +31,6 @@ export default class ShopSignUp extends React.Component{
             current: 0,
             isEnd: false,
             imgChanged: false,
-            themeValue: ['', 'mode', 'cosmetique', 'high tech', 'food', 'jeux video',  'sport/fitness'],
-            goodPassword: false,
             errMsg: {
               "Error, account already exists": "Erreur, compte existant",
               "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
@@ -328,10 +326,10 @@ export default class ShopSignUp extends React.Component{
                                     >
                                         <MenuItem value={1}>Mode</MenuItem>
                                         <MenuItem value={2}>Cosmetique</MenuItem>
-                                        <MenuItem value={3}>Haute Technologie</MenuItem>
+                                        <MenuItem value={3}>High Tech</MenuItem>
                                         <MenuItem value={4}>Food</MenuItem>
                                         <MenuItem value={5}>Jeux vidéo</MenuItem>
-                                        <MenuItem value={6}>Sport/fitness</MenuItem>
+                                        <MenuItem value={6}>Sport/Fitness</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>

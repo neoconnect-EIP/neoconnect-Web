@@ -42,8 +42,6 @@ export default class InfluencerSignUp extends React.Component{
             file: null,
             sexe: null,
             userPicture: null,
-            isEnd: false,
-            goodPassword: false,
             errorMsg: 'Veuillez remplir les champs obligatoire: Pseudo, email et mot de passe',
             errMsg: {
               "Error, account already exists": "Erreur, compte existant",
