@@ -412,7 +412,6 @@ class adsItem extends React.Component{
                         </Row>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject ? this.state.adData.productSubject : ""}</h5>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
-                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.color ? `Couleur: ${this.state.adData.color}` : ""}</h5>
                         {
                           this.state.applied.some(el => el.idOffer === this.state.adData.id) ?
                           <Button onClick={() => this.handleDelete(this.state.adData.id)} className="btnInf">Annuler</Button>:
@@ -459,3 +458,4 @@ export default withRouter(adsItem);
 //  </Form.Group>
 // </Form.Row>
 // <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
+// <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject == 'mode' ||  this.state.adData.productSubject == 'cosmetic'? `Couleur: ${this.state.adData.color}` : ""}</h5>

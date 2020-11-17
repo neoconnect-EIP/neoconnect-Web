@@ -10,6 +10,8 @@ import Col from 'react-bootstrap/Col';
 import LoadingOverlay from 'react-loading-overlay';
 import { showNotif } from '../Utils.js';
 
+const themeVal = ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux Vidéo', 'Sport/Fitness'];
+
 class PostAd extends React.Component {
     constructor(props) {
         super(props);
@@ -33,7 +35,7 @@ class PostAd extends React.Component {
             homme: false,
             femme: false,
             theme: localStorage.getItem("theme"),
-            uni: true
+            uni: true,
         };
     }
 
@@ -155,7 +157,7 @@ class PostAd extends React.Component {
             "productName": this.state.productName,
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
-            "productSubject": this.state.theme,
+            "productSubject": themeVal.indexOf(this.state.theme),
             "brand": this.state.productBrand,
         };
 

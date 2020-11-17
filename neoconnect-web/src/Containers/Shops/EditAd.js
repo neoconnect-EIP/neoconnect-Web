@@ -29,7 +29,6 @@ class EditAd extends React.Component {
             productName: "",
             productSex: "",
             productDesc: "",
-            productSubject: "",
             current: 0,
             isEnd: false,
             isLoading: true,
@@ -47,7 +46,6 @@ class EditAd extends React.Component {
             productName: res.productName,
             productSex: res.productSex,
             productDesc: res.productDesc,
-            productSubject: res.productSubject,
             isLoading: false,
             homme: res.productSex === "homme" ? true : false,
             femme: res.productSex === "femme" ? true : false,
@@ -192,7 +190,6 @@ class EditAd extends React.Component {
             "productName": this.state.productName,
             "productSex": this.state.productSex,
             "productDesc": this.state.productDesc,
-            "productSubject": this.state.productSubject,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id.id}`, {
