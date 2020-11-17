@@ -61,7 +61,7 @@ class InfluenceurStatus extends React.Component{
             userPicture: null,
             visibleDelete: false,
             imgChanged: false,
-            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'j=Jeux video', 'Sport/fitness'],
+            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             isActive: false,
             followed: [],
             showFollowers: false,

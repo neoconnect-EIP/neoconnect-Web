@@ -54,7 +54,7 @@ class ShopStatus extends React.Component{
             imgChanged: false,
             isActive: false,
             followers: [],
-            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'j=Jeux video', 'Sport/fitness'],
+            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
         };
 
     }
