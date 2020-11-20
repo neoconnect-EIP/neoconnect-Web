@@ -270,7 +270,7 @@ class Ads extends React.Component {
     }
 
     listOffer = () => {
-      if (this.state.adsData) {
+      if (this.state.adsData &&  this.state.adsData.length > 0) {
         return (
           this.state.adsData.map((ad, id) => (
             <div key={id}>
@@ -319,7 +319,7 @@ class Ads extends React.Component {
       }
       else {
         return (
-          <></>
+          <p className="ml-2 mt-2 text-light">Aucune offre publié pour le moment</p>
         );
       }
     }

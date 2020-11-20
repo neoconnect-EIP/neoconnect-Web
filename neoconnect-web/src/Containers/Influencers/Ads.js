@@ -107,9 +107,6 @@ class Ads extends React.Component {
     };
 
     listAbonnement = () => {
-
-      if (this.state.adsData && this.state.adsData.length > 0)
-
         return (
           this.state.adsData.map(ad => (
             <Col className="mb-3" key={ad.id}>
@@ -305,20 +302,21 @@ class Ads extends React.Component {
                   <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Offre postulé</Navbar.Brand>
                 </Navbar>
                 {
-                  this.state.isLoading ?
-                      <Loader
-                          type="Triangle"
-                          color="#292929"
-                          height={200}
-                          width={200}
-                          style={{marginTop: "14rem"}}
-                      />
-                      :
-                      <Row className="ml-3 mr-3 mt-3"  xs={1} md={2} lg={3} sm={2} xl={4}>
-                          {
-                            this.listAbonnement()
-                          }
-                      </Row>
+                  this.state.isLoading &&
+                    <Loader
+                        type="Triangle"
+                        color="#292929"
+                        height={200}
+                        width={200}
+                        style={{marginTop: "14rem"}}
+                    />
+                  }
+                  {
+                    this.state.adsData && this.state.adsData.length > 0 ?
+                    <Row className="ml-3 mr-3 mt-3"  xs={1} md={2} lg={3} sm={2} xl={4}>
+                       {this.listAbonnement()}
+                    </Row> :
+                    <p className="ml-2 mt-2 text-light">Aucune offre postulé pour le moment.</p>
                 }
             </div>
         );
