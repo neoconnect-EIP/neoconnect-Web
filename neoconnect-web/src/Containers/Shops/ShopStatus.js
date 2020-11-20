@@ -149,7 +149,7 @@ class ShopStatus extends React.Component{
     displayFollowers = () => {
       return (
         this.state.followers.map((val, idx) => (
-          <Container fluid>
+          <Container fluid key={idx}>
             <Row>
               <Col>
                 <p style={{fontWeight: '200'}}>{val.pseudo}</p>

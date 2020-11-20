@@ -65,6 +65,8 @@ class InfluenceurStatus extends React.Component{
             isActive: false,
             followed: [],
             showFollowers: false,
+            showParrainage: false,
+            code: '',
         };
     }
 
@@ -140,13 +142,47 @@ class InfluenceurStatus extends React.Component{
         }
     }
 
+  handleCodeResponse = async (res) => {
+    if (res.status === 200) {
+      this.state.code = '';
+      this.state.showParrainage = false;
+      showNotif(false, "Réussi", "Nous avons bien pris en compte de votre code de parrainage.");
+    }
+    else {
+      var msg = await res.json();
+      showNotif(true,  "Erreur", msg);
+    }
+    this.setState({isActive: false});
+  }
+
+    submitCode = () => {
+      if (!this.state.code) {
+        showNotif(true,  "Erreur", "Veuillez fournir le code de parrainage.");
+      }
+      else {
+        this.setState({isActive: true});
+        let body = {
+            "codeParrainage": this.state.code,
+        };
+        body = JSON.stringify(body);
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/insertParrainage`, { method: 'POST', body: body,headers: {
+                'Content-Type': 'application/json'}})
+        .then(res => {
+          if (res.status >= 500)
+            throw res;
+          this.handleCodeResponse(res);
+        })
+        .catch(error => showNotif(true,  "Erreur, Veuillez essayer ultérieurement", error.statusText));
+      }
+    }
+
     handleComment = (x) => {
         return (
           <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
             <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
               <div className="centerBlock" align="center">
                 <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
-                <p style={{fontWeight: '200'}}>{x.pseudo}</p>
+                <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
               </div>
             </Col>
             <Col>
@@ -420,7 +456,7 @@ class InfluenceurStatus extends React.Component{
                           this.state.userData.theme &&
                           <Badge pill className="pill mt-2">{this.state.userData.theme !== 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
                         }
-                        <Row xs={1} sm={1} md={2} lg={2} xl={2}>
+                        <Row xs={1} sm={2} md={2} lg={3} xl={3}>
                           <Col className="mx-auto mt-4" align="center">
                             <div className="mb-3">
                               <StarRatings
@@ -434,7 +470,11 @@ class InfluenceurStatus extends React.Component{
                           </Col>
                           <Col className="mx-auto mt-4 report" align="center" onClick={() => {this.setState({showFollowers: true});}}>
                             <h3 style={{color: 'white'}}>{this.state.followed.length}</h3>
-                            <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnement</p>
+                            <p style={{color: 'white', fontWeight: '400'}}>Abonnement</p>
+                          </Col>
+                          <Col className="mx-auto mt-4 report" align="center" onClick={() => {this.setState({showParrainage: true});}}>
+                            <h3 style={{color: 'white'}}>{this.state.userData.countParrainage}</h3>
+                            <p style={{color: 'white', fontWeight: '400'}}>Parrainage</p>
                           </Col>
                         </Row>
                       </Col>
@@ -532,9 +572,29 @@ class InfluenceurStatus extends React.Component{
                 </Modal.Header>
                 <Modal.Body>
                  {
-                   this.state.followed && this.displayFollowers()
+                   this.state.followed && this.state.followed.length > 0 ? this.displayFollowers() : 'Aucun abonnement pour le moment'
                  }
                 </Modal.Body>
+              </Modal>
+              <Modal centered show={this.state.showParrainage} onHide={() => {this.handleClose('showParrainage')}}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Parrainage</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                {
+                  this.state.userData &&
+                  <div>
+                    <p>Code de parrainage: <b>{this.state.userData.codeParrainage}</b></p>
+                    <p>Vous avez été parrainé ? Rentrez votre code ci dessous</p>
+                    <Form.Label>Code</Form.Label>
+                    <Form.Control value={this.state.code} onChange={e => {this.setState({code: e.target.value})}}/>
+                  </div>
+                }
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button className="btnCancel" onClick={() => {this.handleClose('showParrainage')}}>Annuler</Button>
+                  <Button className="btnInf" onClick={this.submitCode}>Envoyer</Button>
+                </Modal.Footer>
               </Modal>
             </LoadingOverlay>
           );
