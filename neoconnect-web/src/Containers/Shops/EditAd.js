@@ -45,7 +45,6 @@ class EditAd extends React.Component {
     }
 
     statesetter = (res) => {
-      console.log(res);
         this.setState({
             productBrand: res.brand,
             productImg: res.productImg,
@@ -98,80 +97,52 @@ class EditAd extends React.Component {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        if (file.type.includes('image'))
-        {
-          reader.onloadend = () => {
-              this.setState({
-                  productImgName1: file.name,
-                  productImgData1: this.handleSplitString(reader.result),
-              });
-          };
-          reader.readAsDataURL(file);
-        }
-        else {
-          e.target.value = null;
-          showNotif(true, "Erreur", "Veuillez choisir une image.")
-        }
+        reader.onloadend = () => {
+            this.setState({
+                productImgName1: file.name,
+                productImgData1: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
     };
 
     handleImage2 = (e) => {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        if (file.type.includes('image'))
-        {
-          reader.onloadend = () => {
-              this.setState({
-                  productImgName2: file.name,
-                  productImgData2: this.handleSplitString(reader.result),
-              });
-          };
-          reader.readAsDataURL(file);
-        }
-        else {
-          e.target.value = null;
-          showNotif(true, "Erreur", "Veuillez choisir une image.")
-        }
+        reader.onloadend = () => {
+            this.setState({
+                productImgName2: file.name,
+                productImgData2: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
     };
 
     handleImage3 = (e) => {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        if (file.type.includes('image'))
-        {
-          reader.onloadend = () => {
-              this.setState({
-                  productImgName3: file.name,
-                  productImgData3: this.handleSplitString(reader.result),
-              });
-          };
-          reader.readAsDataURL(file);
-        }
-        else {
-          e.target.value = null;
-          showNotif(true, "Erreur", "Veuillez choisir une image.")
-        }
+        reader.onloadend = () => {
+            this.setState({
+                productImgName3: file.name,
+                productImgData3: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
     };
 
     handleImage4 = (e) => {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        if (file.type.includes('image'))
-        {
-          reader.onloadend = () => {
-              this.setState({
-                  productImgName4: file.name,
-                  productImgData4: this.handleSplitString(reader.result),
-              });
-          };
-          reader.readAsDataURL(file);
-        }
-        else {
-          e.target.value = null;
-          showNotif(true, "Erreur", "Veuillez choisir une image.")
-        }
+        reader.onloadend = () => {
+            this.setState({
+                productImgName4: file.name,
+                productImgData4: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
     };
 
     handleGolobalImg = () => {
@@ -312,10 +283,10 @@ class EditAd extends React.Component {
                               <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
                                 Images*
                               </Form.Label>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage3(e)}/>
-                              <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage4(e)}/>
+                              <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
+                              <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage2(e)}/>
+                              <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage3(e)}/>
+                              <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage4(e)}/>
                             </Form.Group>
                           </Form.Row>
 

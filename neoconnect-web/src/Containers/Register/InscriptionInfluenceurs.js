@@ -120,20 +120,14 @@ export default class InfluencerSignUp extends React.Component{
       event.preventDefault();
       let reader = new FileReader();
       let file = event.target.files[0];
-      if (file.type.includes('image'))
-      {
-        reader.onloadend = () => {
-            this.setState({
-                file: file,
-                userPicture: this.handleSplitString(reader.result),
-            });
-        };
-        reader.readAsDataURL(file);
-      }
-      else {
-        event.target.value = null;
-        showNotif(true, "Erreur", "Veuillez choisir une image.")
-      }
+      reader.onloadend = () => {
+          this.setState({
+              file: file,
+              userPicture: this.handleSplitString(reader.result),
+          });
+      };
+      reader.readAsDataURL(file);
+
   }
 
     getStepContent = (step) => {
@@ -199,7 +193,7 @@ export default class InfluencerSignUp extends React.Component{
                             <h1 style={{fontWeight: '300'}}>Informations de profil</h1>
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                          <input ref={this.inputOpenFileRef} type="file" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
+                          <input ref={this.inputOpenFileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
                           {
                             this.state.imgChanged ?
                             <Image className="report" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}

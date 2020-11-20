@@ -257,20 +257,13 @@ class InfluenceurStatus extends React.Component{
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        if (file.type.includes('image'))
-        {
-          reader.onloadend = () => {
-              this.setState({
-                  file: file,
-                  userPicture: this.handleSplitString(reader.result),
-              });
-          };
-          reader.readAsDataURL(file);
-        }
-        else {
-          e.target.value = null;
-          showNotif(true, "Erreur", "Veuillez choisir une image.")
-        }
+        reader.onloadend = () => {
+            this.setState({
+                file: file,
+                userPicture: this.handleSplitString(reader.result),
+            });
+        };
+        reader.readAsDataURL(file);
     };
 
     handleDelete = () => {
@@ -331,7 +324,7 @@ class InfluenceurStatus extends React.Component{
                         <Form.Label column>
                           Photo de profile
                         </Form.Label>
-                        <Form.File className="mt-2" onChange={e => this.handleImageChange(e)}/>
+                        <Form.File className="mt-2" accept="image/*" onChange={e => this.handleImageChange(e)}/>
                       </Form.Group>
                     </Form.Row>
                     <Form.Row>
