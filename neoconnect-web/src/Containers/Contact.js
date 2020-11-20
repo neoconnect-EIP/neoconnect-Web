@@ -20,6 +20,7 @@ export default class Contact extends React.Component{
             isActive: false,
             client: localStorage.getItem("userType"),
             pseudo: localStorage.getItem("pseudo"),
+            type: ''
         };
     }
 
@@ -51,6 +52,10 @@ export default class Contact extends React.Component{
     }
 
     handleSubmit = () => {
+      if (!this.state.pseudo || !this.state.email || !this.state.subject || !this.state.message) {
+        showNotif(true, "Erreur", 'Veuillez remplir tout les champs.')
+      }
+      else {
         let body = {
             'pseudo': this.state.pseudo,
             'email': this.state.email,
@@ -61,9 +66,10 @@ export default class Contact extends React.Component{
         body = JSON.stringify(body);
         this.setState({isActive: true});
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/contact`,
-          { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
-            .then(res => {this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", null));
+        { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+        .then(res => {this.handleResponse(res)})
+        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", null));
+      }
     };
 
     handleChange = (e) => {
@@ -88,7 +94,7 @@ export default class Contact extends React.Component{
                              <div className="input-form">
                                <FormControl variant="outlined" style={{width: "700px", color: 'black'}}>
                                    <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
-                                       Type
+                                       Type*
                                    </InputLabel>
                                    <Select
                                        style={{color: 'black'}}
@@ -109,7 +115,7 @@ export default class Contact extends React.Component{
                                      style={{width: "700px"}}
                                      type="text"
                                      name="subject"
-                                     placeholder="Sujet"
+                                     placeholder="Sujet*"
                                      value={this.state.subject}
                                      onChange={this.handleSubjectChange}
                                      size="large"
@@ -120,7 +126,7 @@ export default class Contact extends React.Component{
                                      style={{width: "700px"}}
                                      type="text"
                                      name="email"
-                                     placeholder="Email"
+                                     placeholder="Email*"
                                      value={this.state.email}
                                      onChange={(val) => this.handleEmailChange(val)}
                                      size="large"
@@ -129,7 +135,7 @@ export default class Contact extends React.Component{
                              <div className="input-form">
                                  <TextField
                                      id="outlined-multiline-static"
-                                     label="Message"
+                                     label="Message*"
                                      multiline
                                      rows="8"
                                      margin="normal"

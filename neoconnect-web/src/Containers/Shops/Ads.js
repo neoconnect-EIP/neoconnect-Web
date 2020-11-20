@@ -150,8 +150,8 @@ class Ads extends React.Component {
         if (ad.apply && ad.apply.length > 0) {
           return (
             ad.apply.map((inf, id) => (
-              <Col className="mb-2">
-                <Card className="cardlist" key={inf.id}>
+              <Col className="mb-2" key={id}>
+                <Card className="cardlist">
                   <Card.Img style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}
                     variant="top" className="report" src={!inf.userPicture || inf.userPicture.length === 0 ? noAvatar : inf.userPicture[0].imageData} />
                   <Card.Body>
@@ -273,7 +273,7 @@ class Ads extends React.Component {
       if (this.state.adsData) {
         return (
           this.state.adsData.map((ad, id) => (
-            <>
+            <div key={id}>
             <Row className="ml-4 mt-4 offerBg mr-4">
               <p className="offerTitle mx-auto my-auto p-2">{ad.productName}</p>
               <p className="offerTitle mx-auto my-auto p-2">{this.state.type[ad.productSubject]}</p>
@@ -313,7 +313,7 @@ class Ads extends React.Component {
             <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
               {this.listInf(ad)}
             </Row>
-          </>
+          </div>
           ))
         )
       }

@@ -174,13 +174,13 @@ class InfluencerProfile extends React.Component {
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/report/${this.state.infData.id}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {
-              res.json();
-              if (res.status === 200) {
-                this.setState({signal: false, raison: "", info: ""});
-                showNotif(false, "Envoyé", "Nous avons bien pris en compte votre signalement pour l'influenceur " + thisTmp.state.infData.pseudo);
-              }
-            }).catch(error => showNotif(true, "Erreur",null));
+        .then(res => {
+          res.json();
+          if (res.status === 200) {
+            this.setState({signal: false, raison: "", info: ""});
+            showNotif(false, "Envoyé", "Nous avons bien pris en compte votre signalement pour l'influenceur " + thisTmp.state.infData.pseudo);
+          }
+        }).catch(error => showNotif(true, "Erreur",null));
       }
     }
 
@@ -220,7 +220,6 @@ class InfluencerProfile extends React.Component {
     }
 
     render() {
-      console.log(this.state.infData);
         return (
             <div className="shopBg">
                 {
@@ -233,7 +232,7 @@ class InfluencerProfile extends React.Component {
                          <Modal.Body>
                            <Form>
                             <Form.Group controlId="formBasicEmail">
-                              <Form.Label>Message à envoyer</Form.Label>
+                              <Form.Label>Message à envoyer*</Form.Label>
                               <Form.Control value={this.state.msg} onChange={(e) => {this.setState({msg: e.target.value})}}/>
                               <Form.Text className="text-muted">
                                 Un chat sera créer dans vos messagerie avec cette boutique.
@@ -273,7 +272,7 @@ class InfluencerProfile extends React.Component {
                          <Modal.Body>
                            <Form>
                             <Form.Group controlId="formBasicEmail">
-                              <Form.Label>Raison</Form.Label>
+                              <Form.Label>Raison*</Form.Label>
                               <Form.Control value={this.state.raison} onChange={(e) => {this.setState({raison: e.target.value})}}/>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">

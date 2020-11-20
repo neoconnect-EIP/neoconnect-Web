@@ -139,45 +139,50 @@ class adsItem extends React.Component{
       }
     }
 
-    sendMsg = () => {
-      this.setState({isActive: true, share: false});
-
-      var encodedKey = encodeURIComponent("pseudo");
-      var encodedValue = encodeURIComponent(this.state.pseudo);
-      var formBody = encodedKey + "=" + encodedValue;
-
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/search`, {
-          method: 'POST',
-          body: formBody,
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      }).then(res => this.searchRes(res))
-        .catch(error => showNotif(true, "Erreur",null));
-    }
+    // sendMsg = () => {
+    //   this.setState({isActive: true, share: false});
+    //
+    //   var encodedKey = encodeURIComponent("pseudo");
+    //   var encodedValue = encodeURIComponent(this.state.pseudo);
+    //   var formBody = encodedKey + "=" + encodedValue;
+    //
+    //   fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/search`, {
+    //       method: 'POST',
+    //       body: formBody,
+    //       headers: {
+    //           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    //           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+    //   }).then(res => this.searchRes(res))
+    //     .catch(error => showNotif(true, "Erreur",null));
+    // }
 
   sendEmail = () => {
-    this.setState({isActive: true, share: false});
-    var body = {
-        "pseudo": localStorage.getItem("pseudo"),
-        "email": this.state.emailMe,
-        "subject": "Partage lien d'offre",
-        "message": "Je te partage l'offre : " + this.state.link,
-        "to": this.state.email,
-    };
-    body = JSON.stringify(body);
-    fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/contact`, {
-        method: 'POST',
-        body: body,
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => {this.handleResponse(res)})
-      .catch(error => {
-        this.setState({isActive: false});
-        showNotif(true, "Erreur",null);
-      });
+    if (this.state.emailMe && this.state.email) {
+      this.setState({isActive: true, share: false});
+      var body = {
+          "pseudo": localStorage.getItem("pseudo"),
+          "email": this.state.emailMe,
+          "subject": "Partage lien d'offre",
+          "message": "Je te partage l'offre : " + this.state.link,
+          "to": this.state.email,
+      };
+      body = JSON.stringify(body);
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/contact`, {
+          method: 'POST',
+          body: body,
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {this.handleResponse(res)})
+        .catch(error => {
+          this.setState({isActive: false});
+          showNotif(true, "Erreur",null);
+        });
+      }
+      else {
+        showNotif(true, "Erreur", "Veuillez remplir tout les champs.");
+      }
     }
 
   handleAnnonceNotation = (item) => {
@@ -319,7 +324,7 @@ class adsItem extends React.Component{
                <Modal.Body>
                  <Form>
                   <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Raison</Form.Label>
+                    <Form.Label>Raison*</Form.Label>
                     <Form.Control value={this.state.raison} onChange={(e) => {this.setState({raison: e.target.value})}}/>
                   </Form.Group>
                   <Form.Group controlId="formBasicPassword">
@@ -350,11 +355,11 @@ class adsItem extends React.Component{
                   </Form.Group>
                   <Form.Row className='mt-2'>
                    <Form.Group controlId="formBasicEmail" as={Col}>
-                     <Form.Label>Email du destinataire</Form.Label>
+                     <Form.Label>Email du destinataire*</Form.Label>
                      <Form.Control value={this.state.email} onChange={(e) => {this.setState({email: e.target.value})}}/>
                    </Form.Group>
                    <Form.Group controlId="formBasicEmail" as={Col}>
-                     <Form.Label>Votre email</Form.Label>
+                     <Form.Label>Votre email*</Form.Label>
                      <Form.Control value={this.state.emailMe} onChange={(e) => {this.setState({emailMe: e.target.value})}}/>
                    </Form.Group>
                  </Form.Row>

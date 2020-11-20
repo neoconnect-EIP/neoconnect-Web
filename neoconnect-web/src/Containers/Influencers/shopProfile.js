@@ -208,7 +208,7 @@ class shopProfile extends React.Component{
       if (this.state.msg) {
         let body = {
             "message": this.state.msg,
-            "userId": this.state.shopData.id.toString(), //destinataire
+            "userId": this.state.shopData.id.toString(),
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
@@ -262,7 +262,7 @@ class shopProfile extends React.Component{
                          <Modal.Body>
                            <Form>
                             <Form.Group controlId="formBasicEmail">
-                              <Form.Label>Message à envoyer</Form.Label>
+                              <Form.Label>Message à envoyer*</Form.Label>
                               <Form.Control value={this.state.msg} onChange={(e) => {this.setState({msg: e.target.value})}}/>
                               <Form.Text className="text-muted">
                                 Un chat sera créer dans vos messagerie avec cette boutique.
@@ -286,7 +286,7 @@ class shopProfile extends React.Component{
                          <Modal.Body>
                            <Form>
                             <Form.Group controlId="formBasicEmail">
-                              <Form.Label>Raison</Form.Label>
+                              <Form.Label>Raison*</Form.Label>
                               <Form.Control value={this.state.raison} onChange={(e) => {this.setState({raison: e.target.value})}}/>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
@@ -307,7 +307,9 @@ class shopProfile extends React.Component{
                         </Modal>
                         <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}}  className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={3}>
                           <Col className="my-auto">
-                            <Image className="img-fluid" style={{width:'300px', height: 'auto', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}  src={(!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0) ? noShop : this.state.shopData.userPicture[0].imageData} rounded />
+                            <div className="centerBlock" align="center">
+                              <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0 ? noAvatar : this.state.shopData.userPicture[0].imageData} roundedCircle/>
+                            </div>
                           </Col>
                           <Col>
                             <Row className="ml-0">

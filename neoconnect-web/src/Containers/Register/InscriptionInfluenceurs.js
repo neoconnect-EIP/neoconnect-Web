@@ -28,7 +28,7 @@ export default class InfluencerSignUp extends React.Component{
             postal: "",
             city: "",
             phone: "",
-            theme: null,
+            theme: "",
             instagram: "",
             facebook: "",
             twitter: "",
@@ -40,7 +40,7 @@ export default class InfluencerSignUp extends React.Component{
             current: 0,
             imgChanged: false,
             file: null,
-            sexe: null,
+            sexe: '',
             userPicture: null,
             errorMsg: 'Veuillez remplir les champs obligatoire: Pseudo, email et mot de passe',
             errMsg: {
@@ -163,7 +163,7 @@ export default class InfluencerSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="text"
                                 name="pseudo"
-                                placeholder="Pseudo"
+                                placeholder="Pseudo*"
                                 value={this.state.pseudo}
                                 onChange={this.handleChange}
                             />
@@ -174,7 +174,7 @@ export default class InfluencerSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="text"
                                 name="email"
-                                placeholder="Email"
+                                placeholder="Email*"
                                 value={this.state.email}
                                 onChange={this.handleChange}
                             />
@@ -185,7 +185,7 @@ export default class InfluencerSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="password"
                                 name="password"
-                                placeholder="Mot de passe"
+                                placeholder="Mot de passe*"
                                 value={this.state.password}
                                 onChange={this.handleChange}
                             />
@@ -196,7 +196,7 @@ export default class InfluencerSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="password"
                                 name="password2"
-                                placeholder="Confirmation"
+                                placeholder="Confirmation*"
                                 value={this.state.password2}
                                 onChange={this.handleChange}
                             />
@@ -275,7 +275,7 @@ export default class InfluencerSignUp extends React.Component{
                             <Icon type="skin" style={{ color: 'black', marginRight: "8px", transform: "translateY(15px)"}}/>
                             <FormControl variant="outlined" style={{width: "21.7rem", color: 'black'}}>
                                 <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
-                                    Thème
+                                    Thème*
                                 </InputLabel>
                                 <Select
                                     style={{color: 'black'}}
@@ -298,10 +298,10 @@ export default class InfluencerSignUp extends React.Component{
             case 2:
                 return (
                     <Grid container justify="center">
-                        <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                        <Grid item style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
                             <h1 style={{fontWeight: "300"}}>Renseigner vos réseaux</h1>
                         </Grid>
-                        <Grid className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                        <Grid className="input-form" style={{textAlign: "center", marginBottom: "1rem"}}>
                             <Image className="iconProfileSocial" src={instagram}/>
                             <Input
                                 style={{color: 'black'}}
@@ -312,7 +312,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                        <Grid item className="input-form" style={{textAlign: "center", marginBottom: "1rem"}}>
                           <Image className="iconProfileSocial" src={facebook}/>
                             <Input
                                 style={{color: 'black'}}
@@ -323,7 +323,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                        <Grid item className="input-form" style={{textAlign: "center", marginBottom: "1rem"}}>
                           <Image className="iconProfileSocial" src={twitter}/>
                             <Input
                                 style={{color: 'black'}}
@@ -334,7 +334,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                        <Grid item className="input-form" style={{textAlign: "center", marginBottom: "2rem"}}>
                           <Image className="iconProfileSocial" src={snapchat}/>
                             <Input
                                 style={{color: 'black'}}
@@ -345,7 +345,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                        <Grid item className="input-form" style={{textAlign: "center", marginBottom: "2rem"}}>
                           <Image className="iconProfileSocial" src={youtube}/>
                             <Input
                                 style={{color: 'black'}}
@@ -356,7 +356,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                        <Grid item className="input-form" style={{textAlign: "center", marginBottom: "2rem"}}>
                           <Image className="iconProfileSocial" src={twitch}/>
                             <Input
                                 style={{color: 'black'}}
@@ -367,7 +367,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                        <Grid item className="input-form" style={{textAlign: "center", marginBottom: "2rem"}}>
                           <Image className="iconProfileSocial" src={pinterest}/>
                             <Input
                                 style={{color: 'black'}}
@@ -378,7 +378,7 @@ export default class InfluencerSignUp extends React.Component{
                                 onChange={this.handleChange}
                             />
                         </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "2rem"}}>
+                        <Grid item className="input-form" style={{textAlign: "center", marginBottom: "2rem"}}>
                           <Image className="iconProfileSocial" src={tiktok}/>
                             <Input
                                 style={{color: 'black'}}

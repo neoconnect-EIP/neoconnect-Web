@@ -150,7 +150,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="text"
                                 name="pseudo"
-                                placeholder="Pseudo"
+                                placeholder="Pseudo*"
                                 value={this.state.pseudo}
                                 onChange={this.handleChange}
                             />
@@ -161,7 +161,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="text"
                                 name="email"
-                                placeholder="Email"
+                                placeholder="Email*"
                                 value={this.state.email}
                                 onChange={this.handleChange}
                             />
@@ -172,7 +172,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="password"
                                 name="password"
-                                placeholder="Mot de passe"
+                                placeholder="Mot de passe*"
                                 value={this.state.password}
                                 onChange={this.handleChange}
                                 size="large"
@@ -184,7 +184,7 @@ export default class ShopSignUp extends React.Component{
                                 style={{color: 'black'}}
                                 type="password"
                                 name="password2"
-                                placeholder="Confirmation"
+                                placeholder="Confirmation*"
                                 value={this.state.password2}
                                 onChange={this.handleChange}
                             />
@@ -253,10 +253,10 @@ export default class ShopSignUp extends React.Component{
                 case 2:
                     return (
                         <Grid container justify="center">
-                            <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                            <Grid item style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
                                 <h1 style={{fontWeight: '300'}}>Renseigner vos réseaux</h1>
                             </Grid>
-                            <Grid className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Grid className="input-form" item xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
                                 <Image className="iconProfileSocial" src={instagram}/>
                                 <Input
                                     style={{color: 'black'}}
@@ -315,7 +315,7 @@ export default class ShopSignUp extends React.Component{
                                 <Icon type="skin" style={{ color: 'black', marginRight: "8px"}} />
                                 <FormControl variant="outlined" style={{width: "21.7rem", color: 'black'}}>
                                     <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
-                                        Thème
+                                        Thème*
                                     </InputLabel>
                                     <Select
                                         style={{color: 'black'}}
@@ -392,7 +392,7 @@ export default class ShopSignUp extends React.Component{
 
                     <Form className="formular" onSubmit={this.handleSubmit} style={{margin: "2rem"}}>
                         <Grid container className="steps-action" justify="center">
-                            <Grid item={12}>
+                            <Grid item>
                                 {
                                     this.getStepContent(this.state.current)
                                 }

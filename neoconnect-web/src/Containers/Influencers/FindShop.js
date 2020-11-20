@@ -37,7 +37,6 @@ class FindShop extends React.Component{
             item: null,
             suggestions: []
         };
-        console.log("error ", localStorage.getItem("Jwt"));
     }
 
     getAllShop = () => {

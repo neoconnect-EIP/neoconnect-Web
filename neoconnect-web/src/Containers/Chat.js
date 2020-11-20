@@ -34,7 +34,10 @@ export default class Chat extends React.Component{
 
 
     handleSend = () => {
-
+      if (!this.state.pseudo || !this.state.email || !this.state.subject || !this.state.message || !this.state.to) {
+        showNotif(true, "Erreur", 'Veuillez remplir tout les champs.')
+      }
+      else {
         var body = {
             "pseudo": this.state.pseudo,
             "email": this.state.email,
@@ -52,6 +55,7 @@ export default class Chat extends React.Component{
           })
           .then(res => {this.handleResponse(res)})
           .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", null));
+      }
     };
 
     handleChange = (e) => {
@@ -73,7 +77,7 @@ export default class Chat extends React.Component{
                         <Input type="text"
                                name="email"
                                color="secondary"
-                               placeholder="votre addresse email"
+                               placeholder="Votre addresse email*"
                                value={this.state.email}
                                style={{width: "42rem"}}
                                onChange={this.handleChange}
@@ -84,7 +88,7 @@ export default class Chat extends React.Component{
                         <Input type="text"
                                name="to"
                                color="secondary"
-                               placeholder="email destinataire"
+                               placeholder="Email destinataire*"
                                value={this.state.to}
                                style={{width: "42rem"}}
                                onChange={this.handleChange}
@@ -95,7 +99,7 @@ export default class Chat extends React.Component{
                         <Input type="text"
                                name="subject"
                                color="secondary"
-                               placeholder="Sujet"
+                               placeholder="Sujet*"
                                value={this.state.subject}
                                style={{width: "42rem"}}
                                onChange={this.handleChange}
@@ -105,7 +109,7 @@ export default class Chat extends React.Component{
                     <Grid item xs={12} style={{marginTop: "1rem", marginBottom: "1rem", textAlign: "center", color: "white"}}>
                         <TextField
                             id="outlined-multiline-static"
-                            label="Message"
+                            label="Message*"
                             multiline
                             rows="8"
                             color="secondary"

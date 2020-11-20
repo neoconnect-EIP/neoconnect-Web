@@ -260,7 +260,7 @@ class EditAd extends React.Component {
                             <Form.Group as={Col} className="mt-1">
                               <FormControl variant="outlined" style={{ color: 'white'}}>
                                 <InputLabel id="demo-simple-select-outlined-label" style={{color: 'white'}}>
-                                    Thème
+                                    Thème*
                                 </InputLabel>
                                 <Select
                                     style={{color: 'white'}}
@@ -284,14 +284,14 @@ class EditAd extends React.Component {
 
                           <Form.Row>
                             <Form.Group as={Col} sm={12}>
-                              <Form.Label style={{color:'white'}}>Nom</Form.Label>
+                              <Form.Label style={{color:'white'}}>Nom*</Form.Label>
                               <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
                             </Form.Group>
                           </Form.Row>
 
                           <Form.Row>
                             <Form.Group as={Col} sm={12}>
-                              <Form.Label style={{color:'white'}}>Description</Form.Label>
+                              <Form.Label style={{color:'white'}}>Description*</Form.Label>
                               <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
                             </Form.Group>
                           </Form.Row>
@@ -310,7 +310,7 @@ class EditAd extends React.Component {
                           <Form.Row>
                             <Form.Group as={Col}>
                               <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
-                                Images
+                                Images*
                               </Form.Label>
                               <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage1(e)}/>
                               <Form.File style={{color:'white'}} className="mt-2" onChange={e => this.handleImage2(e)}/>
