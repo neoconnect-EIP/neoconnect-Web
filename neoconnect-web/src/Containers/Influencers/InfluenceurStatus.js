@@ -61,7 +61,7 @@ class InfluenceurStatus extends React.Component{
             userPicture: null,
             visibleDelete: false,
             imgChanged: false,
-            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
+            themeValue: ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             isActive: false,
             followed: [],
             showFollowers: false,
@@ -408,7 +408,7 @@ class InfluenceurStatus extends React.Component{
                         >
                           <MenuItem value={1}>Mode</MenuItem>
                           <MenuItem value={2}>Cosmétique</MenuItem>
-                          <MenuItem value={3}>Hight tech</MenuItem>
+                          <MenuItem value={3}>High tech</MenuItem>
                           <MenuItem value={4}>Nourriture</MenuItem>
                           <MenuItem value={5}>Jeux vidéo</MenuItem>
                           <MenuItem value={6}>Sport/fitness</MenuItem>
@@ -427,7 +427,7 @@ class InfluenceurStatus extends React.Component{
                   </Button>
                   </Modal.Footer>
                 </Modal>
-                <Modal centered show={this.state.visibleDelete} onHide={() => {this.handleClose('visible')}}>
+                <Modal centered show={this.state.visibleDelete} onHide={() => {this.handleClose('visibleDelete')}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Suppression de compte</Modal.Title>
                   </Modal.Header>

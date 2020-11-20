@@ -37,7 +37,7 @@ class PostAd extends React.Component {
             femme: false,
             theme: 0,
             uni: true,
-            themeValue: ['', 'Mode', 'Cosmétique', 'Hight tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
+            themeValue: ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
         };
     }
 
@@ -238,7 +238,7 @@ class PostAd extends React.Component {
                               >
                                 <MenuItem value={1}>Mode</MenuItem>
                                 <MenuItem value={2}>Cosmétique</MenuItem>
-                                <MenuItem value={3}>Hight tech</MenuItem>
+                                <MenuItem value={3}>High tech</MenuItem>
                                 <MenuItem value={4}>Nourriture</MenuItem>
                                 <MenuItem value={5}>Jeux vidéo</MenuItem>
                                 <MenuItem value={6}>Sport/Fitness</MenuItem>

@@ -29,6 +29,7 @@ export default class ShopSignUp extends React.Component{
             snapchat: "",
             twitter: "",
             current: 0,
+            bio: '',
             isEnd: false,
             imgChanged: false,
             errMsg: {
@@ -75,6 +76,7 @@ export default class ShopSignUp extends React.Component{
             "city": this.state.city,
             "phone": this.state.phone,
             "website": this.state.site,
+            "userDescription": this.state.bio,
             "theme": this.state.theme.toString(),
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
         };
@@ -132,19 +134,6 @@ export default class ShopSignUp extends React.Component{
                             <h1 style={{fontWeight: '300'}}>Informations de compte</h1>
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                          <input ref={this.inputOpenFileRef} type="file" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
-                          {
-                            this.state.imgChanged ?
-                            <Image className="report" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
-                              src={`data:image/jpeg;base64,${this.state.userPicture}`} onClick={this.showOpenFileDlg} roundedCircle/>
-                             :
-                            <div className="mx-auto report" onClick={this.showOpenFileDlg}
-                              style={{backgroundColor: '#8FBA86', width: '100px', height: '100px', borderRadius: '50px', display: 'flex'}} >
-                                <Image className="my-auto mx-auto" style={{width: '50px', height: 'auto'}} src={camera} />
-                            </div>
-                          }
-                        </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
                             <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>
                             <Input
                                 style={{color: 'black'}}
@@ -198,7 +187,39 @@ export default class ShopSignUp extends React.Component{
                         </Grid>
                     </Grid>
                 );
-            case 1:
+                case 1:
+                    return (
+                        <Grid container justify="center">
+                            <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                                <h1 style={{fontWeight: '300'}}>Informations de profil</h1>
+                            </Grid>
+                            <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                              <input ref={this.inputOpenFileRef} type="file" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
+                              {
+                                this.state.imgChanged ?
+                                <Image className="report" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
+                                  src={`data:image/jpeg;base64,${this.state.userPicture}`} onClick={this.showOpenFileDlg} roundedCircle/>
+                                 :
+                                <div className="mx-auto report" onClick={this.showOpenFileDlg}
+                                  style={{backgroundColor: '#7EB681', width: '100px', height: '100px', borderRadius: '50px', display: 'flex'}} >
+                                    <Image className="my-auto mx-auto" style={{width: '50px', height: 'auto'}} src={camera} />
+                                </div>
+                              }
+                            </Grid>
+                            <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                                <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>
+                                <Input
+                                    style={{color: 'black'}}
+                                    type="text"
+                                    name="bio"
+                                    placeholder="Description de votre profil"
+                                    value={this.state.bio}
+                                    onChange={this.handleChange}
+                                />
+                            </Grid>
+                        </Grid>
+                    );
+            case 2:
                 return (
                     <Grid container justify="center">
                         <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
@@ -250,7 +271,7 @@ export default class ShopSignUp extends React.Component{
                         </Grid>
                     </Grid>
                 );
-                case 2:
+                case 3:
                     return (
                         <Grid container justify="center">
                             <Grid item style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
@@ -380,7 +401,7 @@ export default class ShopSignUp extends React.Component{
     }
 
     checkForm = () => {
-      if (this.state.current === 0  && (!this.emailValid() || !this.passPseudoValid()))
+      if (this.state.current === 0 && (!this.emailValid() || !this.passPseudoValid()))
         return false;
       return true;
     }
@@ -402,7 +423,7 @@ export default class ShopSignUp extends React.Component{
                                     Précédent
                                 </Button>
                                 {
-                                    this.state.current < 2 ?
+                                    this.state.current < 3 ?
                                         <Button className="btnShop" onClick={this.next}>
                                             Suivant
                                         </Button>

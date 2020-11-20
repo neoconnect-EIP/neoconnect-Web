@@ -41,6 +41,7 @@ export default class InfluencerSignUp extends React.Component{
             imgChanged: false,
             file: null,
             sexe: '',
+            bio: '',
             userPicture: null,
             errorMsg: 'Veuillez remplir les champs obligatoire: Pseudo, email et mot de passe',
             errMsg: {
@@ -80,6 +81,7 @@ export default class InfluencerSignUp extends React.Component{
             "email": this.state.email,
             "phone": this.state.phone,
             "postal": this.state.postal,
+            'userDescription': this.state.bio,
             "city": this.state.city,
             "theme": this.state.theme.toString(),
             "facebook": this.state.facebook,
@@ -145,19 +147,6 @@ export default class InfluencerSignUp extends React.Component{
                             <h1 style={{fontWeight: '300'}}>Informations de compte</h1>
                         </Grid>
                         <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
-                          <input ref={this.inputOpenFileRef} type="file" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
-                          {
-                            this.state.imgChanged ?
-                            <Image className="report" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
-                              src={`data:image/jpeg;base64,${this.state.userPicture}`} onClick={this.showOpenFileDlg} roundedCircle/>
-                             :
-                            <div className="mx-auto report" onClick={this.showOpenFileDlg}
-                              style={{backgroundColor: '#50A2C0', width: '100px', height: '100px', borderRadius: '50px', display: 'flex'}} >
-                                <Image className="my-auto mx-auto" style={{width: '50px', height: 'auto'}} src={camera} />
-                            </div>
-                          }
-                        </Grid>
-                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
                             <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>
                             <Input
                                 style={{color: 'black'}}
@@ -204,6 +193,38 @@ export default class InfluencerSignUp extends React.Component{
                     </Grid>
                 );
             case 1:
+                return (
+                    <Grid container justify="center">
+                        <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
+                            <h1 style={{fontWeight: '300'}}>Informations de profil</h1>
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                          <input ref={this.inputOpenFileRef} type="file" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
+                          {
+                            this.state.imgChanged ?
+                            <Image className="report" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
+                              src={`data:image/jpeg;base64,${this.state.userPicture}`} onClick={this.showOpenFileDlg} roundedCircle/>
+                             :
+                            <div className="mx-auto report" onClick={this.showOpenFileDlg}
+                              style={{backgroundColor: '#50A2C0', width: '100px', height: '100px', borderRadius: '50px', display: 'flex'}} >
+                                <Image className="my-auto mx-auto" style={{width: '50px', height: 'auto'}} src={camera} />
+                            </div>
+                          }
+                        </Grid>
+                        <Grid item className="input-form" xs={12} style={{textAlign: "center", marginBottom: "1rem"}}>
+                            <Icon type="user" style={{ color: 'black', marginRight: "8px"}}/>
+                            <Input
+                                style={{color: 'black'}}
+                                type="text"
+                                name="bio"
+                                placeholder="Description de votre profil"
+                                value={this.state.bio}
+                                onChange={this.handleChange}
+                            />
+                        </Grid>
+                    </Grid>
+                );
+            case 2:
                 return (
                     <Grid container justify="center">
                         <Grid item xs={12} style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
@@ -286,7 +307,7 @@ export default class InfluencerSignUp extends React.Component{
                                 >
                                     <MenuItem value={1}>Mode</MenuItem>
                                     <MenuItem value={2}>Cosmétique</MenuItem>
-                                    <MenuItem value={3}>Hight tech</MenuItem>
+                                    <MenuItem value={3}>High tech</MenuItem>
                                     <MenuItem value={4}>Nourriture</MenuItem>
                                     <MenuItem value={5}>Jeux vidéo</MenuItem>
                                     <MenuItem value={6}>Sport/fitness</MenuItem>
@@ -295,7 +316,7 @@ export default class InfluencerSignUp extends React.Component{
                         </Grid>
                     </Grid>
                 );
-            case 2:
+            case 3:
                 return (
                     <Grid container justify="center">
                         <Grid item style={{textAlign: "center", marginTop: "1rem", marginBottom: "1rem"}}>
@@ -448,7 +469,7 @@ export default class InfluencerSignUp extends React.Component{
           case 0:
             if (!this.emailValid() || !this.passPseudoValid()) return false;
             else return (true);
-          case 1:
+          case 2:
             if (!this.checkTheme()) return false;
             else return (true);
          default:
@@ -473,7 +494,7 @@ export default class InfluencerSignUp extends React.Component{
                                     Précédent
                                 </Button>
                                 {
-                                  this.state.current < 2 ?
+                                  this.state.current < 3 ?
                                       <Button className="btnInf" onClick={() => {this.next()}}>
                                           Suivant
                                       </Button>
