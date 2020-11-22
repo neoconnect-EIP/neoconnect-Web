@@ -265,7 +265,7 @@ class shopProfile extends React.Component{
                               <Form.Label>Message à envoyer*</Form.Label>
                               <Form.Control value={this.state.msg} onChange={(e) => {this.setState({msg: e.target.value})}}/>
                               <Form.Text className="text-muted">
-                                Un chat sera créer dans vos messagerie avec cette boutique.
+                                Un chat sera créer dans vos messagerie avec cette marque.
                               </Form.Text>
                             </Form.Group>
                           </Form>
@@ -437,7 +437,7 @@ class shopProfile extends React.Component{
                 }
                 <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
                  <Modal.Header closeButton>
-                   <Modal.Title>Notez cette boutique</Modal.Title>
+                   <Modal.Title>Notez cette marque</Modal.Title>
                  </Modal.Header>
                  <Modal.Body>
                    <Rate onChange={(e) => this.handleMark(e)} />

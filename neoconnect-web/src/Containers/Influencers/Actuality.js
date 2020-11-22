@@ -223,7 +223,7 @@ class Actuality extends React.Component{
             <div>
               <Row className="pl-4 mr-0 ml-0">
                 <Image src={heart}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques du moment</h4>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Marques du moment</h4>
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
@@ -232,7 +232,7 @@ class Actuality extends React.Component{
               </Row>
               <Row className="pl-4 mr-0 ml-0">
                 <Image src={fire}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques populaires</h4>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Marques populaires</h4>
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
@@ -241,7 +241,7 @@ class Actuality extends React.Component{
               </Row>
               <Row className="pl-4 mt-4 mr-0 ml-0">
                 <Image src={star}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Boutiques les mieux notés</h4>
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Marques les mieux notés</h4>
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {

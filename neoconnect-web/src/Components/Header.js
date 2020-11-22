@@ -56,7 +56,7 @@ class Header extends React.Component{
               </Modal.Header>
               <Modal.Body className="mx-auto">
                 <Button className="btnShop mr-4" style={{color: "white"}} onClick={() => {this.handleClose();this.props.history.push('/landing-page/shop-sign-up')}}>
-                  Boutique
+                  Marque
                 </Button>
                 <Button className="btnInf ml-4" style={{color: "white"}}  onClick={() => {this.handleClose();this.props.history.push('/landing-page/influencer-sign-up')}}>
                   Influenceur

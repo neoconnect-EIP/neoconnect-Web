@@ -73,7 +73,13 @@ export default class Login extends React.Component{
             .then(res => {
               return res.json()
             })
-            .then(res => {localStorage.setItem('Jwt', res.token); localStorage.setItem('userId', res.userId); localStorage.setItem('userType', res.userType); localStorage.setItem('pseudo', this.state.username);this.handleResponse(res)})
+            .then(res => {
+              localStorage.setItem('Jwt', res.token);
+              localStorage.setItem('userId', res.userId);
+              localStorage.setItem('userType', res.userType);
+              localStorage.setItem('pseudo', this.state.username);
+              localStorage.setItem('menuId', res.userType === 'shop' ? 7 : 0);
+              this.handleResponse(res)})
             .catch(error => showNotif(true, "Erreur",null));
       }
       else {

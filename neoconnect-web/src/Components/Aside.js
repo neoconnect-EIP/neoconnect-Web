@@ -140,7 +140,7 @@ class Aside extends React.Component{
                             </Nav.Item>
                             <Nav.Item className={this.state.menuId === 4 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 4});this.handlePage("/dashboard/shops")}}>
                                 <StorefrontIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
-                                <Nav.Link className={this.state.menuId === 4 ? "sideBarTxt-active" : "sideBarTxt"}>Boutiques</Nav.Link>
+                                <Nav.Link className={this.state.menuId === 4 ? "sideBarTxt-active" : "sideBarTxt"}>Marques</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className={this.state.menuId === 5 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 5});this.handlePage("/dashboard/message")}}>
                                 <QuestionAnswerIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
@@ -168,71 +168,3 @@ class Aside extends React.Component{
 }
 
 export default withRouter(Aside)
-
-// <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
-// <div className="aside-button" onClick={() => this.handlePage("/dashboard/actuality")} style={{color: "white"}}>
-//     <LocalActivityIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Actualités
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/dashboard/advertisements")} style={{color: "white"}}>
-//     <LocalActivityIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Offres
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/dashboard/ads")} style={{color: "white"}}>
-//     <AssignmentIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Mes offres
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/dashboard/status")} style={{color: "white"}}>
-//     <AccountCircleIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Profile
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/dashboard/shops")} style={{color: "white"}}>
-//     <StorefrontIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Boutiques
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/dashboard/message")} style={{color: "white"}}>
-//     <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Messagerie
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/dashboard/chat", false)} style={{color: "white"}}>
-//     <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Contact
-// </div>
-// <div className="aside-button" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", borderBottom: "none", color: "white"}}>
-//     <ExitToAppIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
-//     Déconnexion
-// </div>
-
-// <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
-// <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/post-ad")} style={{color: "white"}}>
-//     <PostAddIcon style={{float: "left", marginLeft: "20px"}}/>
-//     Publier
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/actuality")} style={{color: "white"}}>
-//     <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
-//     Actualités
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/ads")} style={{color: "white"}}>
-//     <AssignmentIcon style={{float: "left", marginLeft: "20px"}}/>
-//     Offres
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/status")} style={{color: "white"}}>
-//     <AccountCircleIcon style={{float: "left", marginLeft: "20px"}}/>
-//     Statut
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/influencers")} style={{color: "white"}}>
-//     <SearchIcon style={{float: "left", marginLeft: "20px"}}/>
-//     Influenceurs
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/message")} style={{color: "white"}}>
-//     <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Messagerie
-// </div>
-// <div className="aside-button" onClick={() => this.handlePage("/shop-dashboard/chat", true)} style={{color: "white"}}>
-//     <QuestionAnswerIcon style={{float: "left", color: "white", marginLeft: "10px"}}/>
-//     Contact
-// </div>
-// <div className="aside-button" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", borderBottom: "none", color: "white"}}>
-//     <ExitToAppIcon style={{float: "left", color: "white", marginLeft: "20px"}}/>
-//     Déconnexion
-// </div>

@@ -137,7 +137,7 @@ class Ads extends React.Component {
         showNotif(true, "Erreur", msg);
       }
       else {
-        showNotif(false, "Envoyé", "Un email avec les lien de publications a été envoyé au boutique");
+        showNotif(false, "Envoyé", "Un email avec les lien de publications a été envoyé au marque");
         this.setState({visible: false})
       }
     }

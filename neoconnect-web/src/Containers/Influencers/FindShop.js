@@ -85,7 +85,7 @@ class FindShop extends React.Component{
         this.handleGlobalAnnonce(shops.id);
       }
       else {
-        showNotif(true, "Non trouvé", "Aucune boutique correspond à " + this.state.search);
+        showNotif(true, "Non trouvé", "Aucune marque correspond à " + this.state.search);
       }
     }
 
@@ -177,7 +177,7 @@ class FindShop extends React.Component{
         return (
           <div className="infBg">
             <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
-              <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver une boutique</Navbar.Brand>
+              <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Trouver une marque</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Form inline className="ml-auto">
@@ -199,7 +199,7 @@ class FindShop extends React.Component{
             :
             <div>
               <Row className="pl-4 mt-4 mr-0 mx-0">
-                <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Suggestion de boutiques</h4>
+                <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Suggestion de marques</h4>
               </Row>
               <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
@@ -209,7 +209,7 @@ class FindShop extends React.Component{
                 }
               </Row>
               <Row className="pl-4 mt-4 mr-0 mx-0">
-                <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Tout les boutiques</h4>
+                <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Tout les marques</h4>
               </Row>
               <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
@@ -221,11 +221,11 @@ class FindShop extends React.Component{
             }
             <Modal centered show={this.state.visible} onHide={this.handleClose}>
              <Modal.Header closeButton>
-               <Modal.Title>{"S'abonner à la boutique " + (this.state.item ? this.state.item.pseudo : '') + " ?"}</Modal.Title>
+               <Modal.Title>{"S'abonner à la marque " + (this.state.item ? this.state.item.pseudo : '') + " ?"}</Modal.Title>
              </Modal.Header>
              <Modal.Body>
                {
-                 "En vous abonnant à la boutique, vous recevrez en email leur nouveauté."
+                 "En vous abonnant à la marque, vous recevrez des emails de leur nouveauté."
                }
              </Modal.Body>
              <Modal.Footer>

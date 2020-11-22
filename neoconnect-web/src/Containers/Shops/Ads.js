@@ -30,7 +30,7 @@ import { showNotif } from '../Utils.js';
 class Ads extends React.Component {
     constructor(props) {
         super(props);
-        
+
         localStorage.setItem('menuId', 9);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
@@ -52,7 +52,7 @@ class Ads extends React.Component {
             type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             errMsg: {
               "Bad Request, please Put idUser, idOffer and status in body": "Veuillez fournir l'idUser, l'idOffer et le status",
-              "Bad Request, Only for Shop": "Vous devrez être une boutique pour effectuer cette action",
+              "Bad Request, Only for Shop": "Vous devrez être une marque pour effectuer cette action",
               "Bad Request, Bad field status": "mauvais type de status",
               "Bad Request, No apply": "L'offre a déjà étais accepté ou refusé ou supprimé.",
               "Bad Request, No authorized": "non authorisé",

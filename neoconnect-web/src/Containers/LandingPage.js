@@ -37,7 +37,7 @@ export default class LandingPage extends React.Component{
                               <Col md={12} className="landing-div first-div" style={{height: "40rem"}}>
                                 <div className="my-auto">
                                   <h1 style={{textAlign: "center", background: "-webkit-linear-gradient(65deg, #E5DF24, #1C8FDC)", paddingTop: "100px", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontSize: "90px"}}>
-                                      Boutique
+                                      Marque
                                   </h1>
                                   <h1 style={{textAlign: "center", color: "white", marginTop: "80px", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Soyez au premier plan</h1>
                                   <h4 style={{textAlign: "center", color: "white", textShadow: "0px 0px 20px rgba(0, 0, 0)"}}>Neoconnect est la plateforme idéale pour les marques qui souhaitent entrer en<br/>
@@ -71,7 +71,7 @@ export default class LandingPage extends React.Component{
                                   <Card className="mx-auto mb-4" style={{ width: '100%', minHeight: '26rem', maxWidth: '24rem', borderColor: 'transparent', backgroundColor: "transparent"}}>
                                     <Card.Body>
                                       <Image src={queueShop} />
-                                      <Card.Title className="text-center" style={{color:"white"}}>Devenez une boutique incontournable</Card.Title>
+                                      <Card.Title className="text-center" style={{color:"white"}}>Devenez une marque incontournable</Card.Title>
                                       <Card.Text className="text-center" style={{color:"white"}}>
                                         Voyez votre nombre de client augmenter grâce aux influenceurs!
                                       </Card.Text>
@@ -91,9 +91,9 @@ export default class LandingPage extends React.Component{
                                   <Card className="mx-auto mb-4" style={{ width: '100%', minHeight: '26rem', maxWidth: '24rem', borderColor: 'transparent', padding: "10px", backgroundColor: "transparent" }}>
                                     <Card.Body>
                                       <Image src={chatInf} />
-                                      <Card.Title className="text-center" style={{color: "white"}}>Mise en relation avec des boutiques</Card.Title>
+                                      <Card.Title className="text-center" style={{color: "white"}}>Mise en relation avec des marques</Card.Title>
                                       <Card.Text className="text-center" style={{color: "white"}}>
-                                        Crééz des relation avec differentes boutiques pour de futurs partenariats
+                                        Crééz des relation avec differentes marques pour de futurs partenariats
                                       </Card.Text>
                                     </Card.Body>
                                   </Card>
