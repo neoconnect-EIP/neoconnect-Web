@@ -17,6 +17,7 @@ const themeVal = ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux Vi
 class PostAd extends React.Component {
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 8);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") !== "shop")

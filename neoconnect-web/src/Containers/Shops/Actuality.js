@@ -21,6 +21,7 @@ import Loader from "react-loader-spinner";
 class Actuality extends React.Component {
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 7);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") !== "shop")

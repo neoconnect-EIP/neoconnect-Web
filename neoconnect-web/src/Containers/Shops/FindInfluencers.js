@@ -23,6 +23,7 @@ import { showNotif } from '../Utils.js';
 class FindInfluencers extends React.Component {
     constructor(props) {
         super(props);
+        localStorage.setItem('menuId', 11);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") !== "shop")

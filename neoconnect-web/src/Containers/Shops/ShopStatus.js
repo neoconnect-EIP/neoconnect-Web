@@ -28,11 +28,11 @@ class ShopStatus extends React.Component{
     constructor(props) {
         super(props);
 
+        localStorage.setItem('menuId', 10);
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") !== "shop")
           this.props.history.push('/page-not-found');
-
         this.state = {
             userData: null,
             visible: false,
