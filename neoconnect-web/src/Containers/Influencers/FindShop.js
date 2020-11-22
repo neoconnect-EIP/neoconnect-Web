@@ -51,7 +51,7 @@ class FindShop extends React.Component{
           return (res.json());
       })
       .then(res => this.setState({shopList: res}))
-      .catch(error => {console.log("error ", error);showNotif(true, "Erreur",null)});
+      .catch(error => {showNotif(true, "Erreur",null)});
     }
 
     getSuggestions() {

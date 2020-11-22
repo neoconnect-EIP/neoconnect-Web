@@ -15,6 +15,8 @@ import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import heart from "../../assets/heart.svg";
 import fire from "../../assets/fire.svg";
 import star from "../../assets/star.svg";
+import { showNotif } from '../Utils.js';
+import Loader from "react-loader-spinner";
 
 class Actuality extends React.Component {
     constructor(props) {
@@ -31,6 +33,7 @@ class Actuality extends React.Component {
             moment: null,
             bestMark: null,
             popular: null,
+            loading: true,
         };
     }
 
@@ -45,8 +48,9 @@ class Actuality extends React.Component {
         return (res.json());
       })
       .then(res => {
-        this.setState({moment: res.listInfTendance, popular: res.listInfPopulaire, bestMark: res.listInfNotes});
+        this.setState({moment: res.listInfTendance, popular: res.listInfPopulaire, bestMark: res.listInfNotes, loading: false});
       })
+      .catch(err => showNotif(true, "Erreur", null))
     };
 
     handleGlobalInf = (id) => {
@@ -98,33 +102,46 @@ class Actuality extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                 </Navbar.Collapse>
               </Navbar>
-              <Row className="pl-4 mr-0 ml-0">
-                <Image src={heart}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs du moment</h4>
-              </Row>
-              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                {
-                    this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
-                }
-              </Row>
-              <Row className="pl-4 mt-4 mr-0 ml-0">
-                <Image src={fire}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs populaires</h4>
-              </Row>
-              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                {
-                    this.state.moment && this.state.popular.map(inf => this.cardInf(inf))
-                }
-              </Row>
-              <Row className="pl-4 mt-4 mr-0 ml-0">
-                <Image src={star}/>
-                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs les mieux notés</h4>
-              </Row>
-              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                {
-                    this.state.moment && this.state.bestMark.map(inf => this.cardInf(inf))
-                }
-              </Row>
+              {
+                this.state.loading ?
+                <Loader
+                    type="Triangle"
+                    color="#fff"
+                    height={200}
+                    width={200}
+                    style={{marginTop: "14rem", marginLeft: '40vh'}}
+                />
+              :
+              <div>
+                <Row className="pl-4 mr-0 ml-0">
+                  <Image src={heart}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs du moment</h4>
+                </Row>
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {
+                      this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                  }
+                </Row>
+                <Row className="pl-4 mt-4 mr-0 ml-0">
+                  <Image src={fire}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs populaires</h4>
+                </Row>
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {
+                      this.state.moment && this.state.popular.map(inf => this.cardInf(inf))
+                  }
+                </Row>
+                <Row className="pl-4 mt-4 mr-0 ml-0">
+                  <Image src={star}/>
+                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs les mieux notés</h4>
+                </Row>
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {
+                      this.state.moment && this.state.bestMark.map(inf => this.cardInf(inf))
+                  }
+                </Row>
+                </div>
+              }
             </div>
         );
     }

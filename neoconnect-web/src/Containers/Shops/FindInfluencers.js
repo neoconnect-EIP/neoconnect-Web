@@ -40,7 +40,8 @@ class FindInfluencers extends React.Component {
             tech: false,
             cosmetic: false,
             sport: false,
-            theme: ''
+            theme: '',
+            loading: true
         };
     }
 
@@ -50,7 +51,7 @@ class FindInfluencers extends React.Component {
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => res.json())
-      .then(res => this.setState({influencersData: res}))
+      .then(res => this.setState({influencersData: res, loading: false}))
       .catch(error => showNotif(true, "Erreur",null));
     }
 
@@ -95,7 +96,10 @@ class FindInfluencers extends React.Component {
         return (
           <Col key={inf.id} className="mb-3">
             {
-              this.state.back && this.state.influencersData.length === 1 && <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>  <ArrowBackIosIcon style={{marginLeft: "10px"}}/></Button>
+              this.state.back && this.state.influencersData.length === 1 &&
+              <Button variant="outline-dark" className="mt-4 ml-4" onClick={() => {this.setState({back: false, search: "", influencersData: []}); this.getAllInfluencer();}}>
+                <ArrowBackIosIcon style={{marginLeft: "10px"}}/>
+              </Button>
             }
           <Card className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
             <Card.Img variant="top" style={{height: '190px', objectFit: 'cover'}} src={!inf.userPicture || inf.userPicture.length === 0 ? noImageFindInf : inf.userPicture[0].imageData} />
@@ -139,33 +143,43 @@ class FindInfluencers extends React.Component {
                   <Form inline className="ml-auto">
                     <FormControl type="text" placeholder="Exemple: David" className="mr-sm-2" value={this.state.search}
                       onChange={e => this.setState({ search: e.target.value })} />
-                    <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
+                    <Button variant="outline-success" disabled={!this.state.influencersData || this.state.influencersData.length === 0} onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
                   </Form>
                 </Navbar.Collapse>
               </Navbar>
-              <div className="ml-3">
-                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'mode' ? '#C5D341' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme !== 'mode' ? 'mode' : ''})}}>
-                  Mode
-                </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'game' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'game' ? 'game' : ''})}}>
-                  Jeux vidéo
-                </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'tech' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'tech' ? 'tech' : ''})}}>
-                  High Tech
-                </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'food' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'food' ? 'food' : ''})}}>
-                  Nourriture
-                </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'cosmetic' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'cosmetic' ? 'cosmetic' : ''})}}>
-                  Cosmétique
-                </Badge>{' '}
-                <Badge pill className="report" style={{backgroundColor: this.state.theme === 'sport' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'sport' ? 'sport' : ''})}}>
-                  Sport
-                </Badge>{' '}
-              </div>
-
               {
-                this.state.influencersData ? this.state.influencersData.length > 0 ?
+                this.state.loading ?
+                <Loader
+                    type="Triangle"
+                    color="#fff"
+                    height={200}
+                    width={200}
+                    style={{marginTop: "14rem", marginLeft: '40vh'}}
+                />
+              :
+              <div>
+                <div className="ml-3">
+                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'mode' ? '#C5D341' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme !== 'mode' ? 'mode' : ''})}}>
+                    Mode
+                  </Badge>{' '}
+                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'game' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'game' ? 'game' : ''})}}>
+                    Jeux vidéo
+                  </Badge>{' '}
+                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'tech' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'tech' ? 'tech' : ''})}}>
+                    High Tech
+                  </Badge>{' '}
+                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'food' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'food' ? 'food' : ''})}}>
+                    Nourriture
+                  </Badge>{' '}
+                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'cosmetic' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'cosmetic' ? 'cosmetic' : ''})}}>
+                    Cosmétique
+                  </Badge>{' '}
+                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'sport' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'sport' ? 'sport' : ''})}}>
+                    Sport
+                  </Badge>{' '}
+                </div>
+                {
+                  (this.state.influencersData && this.state.influencersData.length > 0) ?
                   <Row className="pt-4 pl-3 pr-2 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                     {
                         this.state.influencersData.filter((item) => (item.theme && item.theme.toLowerCase() === 'mode' && this.state.theme === 'mode') ||
@@ -176,24 +190,13 @@ class FindInfluencers extends React.Component {
                                                                     (item.theme && item.theme.toLowerCase() === 'cosmétique' && this.state.theme === 'cosmetic') ||
                                                                   (!this.state.theme)).map(inf => this.cardInf(inf))
                     }
-                  </Row> :
-                  <Alert variant="warning" className="mt-4" show={ this.state.show}
-                    onClose={() => {this.setState({show: false, search: ""}); this.getAllInfluencer();}} dismissible>
-                     <Alert.Heading>Essayez à nouveau</Alert.Heading>
-                     <p>
-                       Aucun influencer correspond à <strong>{this.state.tmpSearch}</strong>
-                     </p>
-                  </Alert>
+                  </Row>
                   :
-                  <Loader
-                      type="Triangle"
-                      color="#FFFFF"
-                      height={200}
-                      width={200}
-                      style={{marginTop: "14rem"}}
-                  />
-              }
-            </div>
+                  <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment.</p>
+                }
+              </div>
+          }
+        </div>
         );
     }
 }

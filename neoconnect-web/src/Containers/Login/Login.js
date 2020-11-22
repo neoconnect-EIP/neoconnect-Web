@@ -214,33 +214,33 @@ export default class Login extends React.Component{
               </Modal>
                 {
                   this.state.isLoading ?
-                      <Loader
-                          type="Triangle"
-                          color="#fff"
-                          height={200}
-                          width={200}
-                          style={{marginTop: "2rem", marginBottom: "2rem"}}
-                      />
-                      :
-                      <Row className="justify-content-center">
-                        <Form>
-                          <Form.Group controlId="formBasicEmail">
-                            <Form.Label style={{color: 'white', fontWeight: '600'}}>Pseudo</Form.Label>
-                            <Form.Control type="email" onChange={this.handleUsernameChange} value={this.state.username}/>
-                          </Form.Group>
+                    <Loader
+                        type="Triangle"
+                        color="#fff"
+                        height={200}
+                        width={200}
+                        style={{ marginLeft: "50vh"}}
+                    />
+                  :
+                  <Row className="justify-content-center">
+                    <Form>
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Label style={{color: 'white', fontWeight: '600'}}>Pseudo</Form.Label>
+                        <Form.Control type="email" onChange={this.handleUsernameChange} value={this.state.username}/>
+                      </Form.Group>
 
-                          <Form.Group controlId="formBasicPassword">
-                            <Form.Label style={{color: 'white', fontWeight: '600'}}>Mot de passe</Form.Label>
-                            <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange}/>
-                            <Form.Text style={{color:'white'}} type="submit" onClick={() => {this.setState({visible: true})}}>
-                               Mot de passe oublié
-                             </Form.Text>
-                          </Form.Group>
-                          <Button className="btnShop" onClick={this.handleSubmit} disabled={this.state.isLoading}>
-                            Se connecter
-                          </Button>
-                        </Form>
-                      </Row>
+                      <Form.Group controlId="formBasicPassword">
+                        <Form.Label style={{color: 'white', fontWeight: '600'}}>Mot de passe</Form.Label>
+                        <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                        <Form.Text style={{color:'white'}} type="submit" onClick={() => {this.setState({visible: true})}}>
+                           Mot de passe oublié
+                         </Form.Text>
+                      </Form.Group>
+                      <Button className="btnShop" onClick={this.handleSubmit} disabled={this.state.isLoading}>
+                        Se connecter
+                      </Button>
+                    </Form>
+                  </Row>
                 }
             </div>
         );

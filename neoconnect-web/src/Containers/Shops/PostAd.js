@@ -110,6 +110,7 @@ class PostAd extends React.Component {
     };
 
     handleResponse = (res) => {
+
       this.setState({isActive: false});
       if (res.status === 200)
           this.setState({isEnd: true})
@@ -155,7 +156,7 @@ class PostAd extends React.Component {
       else {
         this.setState({isActive: true});
         let body = {
-            "productImg": this.handleGolobalImg(),
+            "productImg": images,
             "productName": this.state.productName,
             "productSex": (this.state.theme == "Mode" || this.state.theme == "Cosmétique") ? this.state.productSex : undefined,
             "productDesc": this.state.productDesc,

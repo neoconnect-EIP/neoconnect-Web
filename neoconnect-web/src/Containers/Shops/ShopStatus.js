@@ -260,7 +260,7 @@ class ShopStatus extends React.Component{
             spinner
             text='Chargement...'
             >
-              <div className="shopBg"  >
+              <div className="shopBg">
               <Modal centered show={this.state.visibleDelete} onHide={() => { this.setState({visibleDelete: false})}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Suppression de compte</Modal.Title>
