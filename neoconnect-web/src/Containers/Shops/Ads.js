@@ -354,7 +354,7 @@ class Ads extends React.Component {
                    color="white"
                    height={200}
                    width={200}
-                   style={{marginTop: "14rem", marginLeft: '40vh'}}
+                   style={{marginTop: "14rem", marginLeft: '40%'}}
                />
               }
           </div>

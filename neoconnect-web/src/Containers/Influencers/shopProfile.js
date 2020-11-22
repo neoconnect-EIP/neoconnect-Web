@@ -429,10 +429,10 @@ class shopProfile extends React.Component{
                       :
                       <Loader
                           type="Triangle"
-                          color="#292929"
+                          color="#fff"
                           height={200}
                           width={200}
-                          style={{marginTop: "14rem"}}
+                          style={{paddingTop: "14rem", marginLeft: '40%'}}
                       />
                 }
                 <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>

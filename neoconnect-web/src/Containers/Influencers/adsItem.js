@@ -451,7 +451,7 @@ class adsItem extends React.Component{
                     color="white"
                     height={200}
                     width={200}
-                    style={{paddingTop: "14rem", marginLeft: '40vh'}}
+                    style={{paddingTop: "14rem", marginLeft: '40%'}}
 
                 />
                 }

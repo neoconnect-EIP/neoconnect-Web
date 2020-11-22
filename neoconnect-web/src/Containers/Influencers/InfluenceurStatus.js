@@ -555,7 +555,7 @@ class InfluenceurStatus extends React.Component{
                         color="#fff"
                         height={200}
                         width={200}
-                        style={{paddingTop: "14rem", marginLeft: '40vh'}}
+                        style={{paddingTop: "14rem", marginLeft: '40%'}}
                     />
                   </div>
                 }
