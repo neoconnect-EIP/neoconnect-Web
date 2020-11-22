@@ -220,6 +220,7 @@ class InfluencerProfile extends React.Component {
     }
 
     render() {
+      console.log(this.state.infData);
         return (
             <div className="shopBg">
                 {
@@ -464,14 +465,16 @@ class InfluencerProfile extends React.Component {
 
                       </div>
                       :
-                      <Loader
-                          type="Triangle"
-                          color="white"
-                          height={200}
-                          width={200}
-                          style={{marginTop: "14rem"}}
+                      <div>
+                        <Loader
+                            type="Triangle"
+                            color="white"
+                            height={200}
+                            width={200}
+                            style={{paddingTop: "14rem", marginLeft: '40vh'}}
 
-                      />
+                        />
+                      </div>
                 }
             </div>
         );

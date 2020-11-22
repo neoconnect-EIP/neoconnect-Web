@@ -18,3 +18,5 @@ export const showNotif = (error, title, msg) => {
     }
   });
 }
+
+export const themeVal = ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux Vidéo', 'Sport/Fitness'];

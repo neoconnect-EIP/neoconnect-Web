@@ -28,7 +28,7 @@ import StarRatings from 'react-star-ratings';
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
-import { showNotif } from '../Utils.js';
+import { showNotif, themeVal } from '../Utils.js';
 
 
 class InfluenceurStatus extends React.Component{
@@ -61,7 +61,6 @@ class InfluenceurStatus extends React.Component{
             userPicture: null,
             visibleDelete: false,
             imgChanged: false,
-            themeValue: ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             isActive: false,
             followed: [],
             showFollowers: false,
@@ -232,7 +231,7 @@ class InfluenceurStatus extends React.Component{
             "pinterest": this.state.userData.pinterest !== this.state.pinterest ? this.state.pinterest : undefined,
             "youtube": this.state.userData.youtube !== this.state.youtube ? this.state.youtube : undefined,
             "tiktok": this.state.userData.tiktok !== this.state.tiktok ? this.state.tiktok : undefined,
-            "theme": this.state.themeValue.indexOf(this.state.theme).toString(),
+            "theme": themeVal.indexOf(this.state.theme).toString(),
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, { method: 'PUT', body: body,headers: {
@@ -394,9 +393,9 @@ class InfluenceurStatus extends React.Component{
                             style={{color: 'black'}}
                             labelId="demo-simple-select-outlined-label"
                             name="theme"
-                            value={this.state.themeValue.indexOf(this.state.theme)}
+                            value={themeVal.indexOf(this.state.theme)}
                             onChange={(e) => {
-                              this.setState({theme: this.state.themeValue[e.target.value]});
+                              this.setState({theme: themeVal[e.target.value]});
                             }}
                         >
                           <MenuItem value={1}>Mode</MenuItem>

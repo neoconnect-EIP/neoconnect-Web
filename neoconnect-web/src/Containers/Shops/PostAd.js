@@ -8,11 +8,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import LoadingOverlay from 'react-loading-overlay';
-import { showNotif } from '../Utils.js';
+import { showNotif, themeVal } from '../Utils.js';
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
-
-
-const themeVal = ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux Vidéo', 'Sport/Fitness'];
 
 class PostAd extends React.Component {
     constructor(props) {
@@ -38,7 +35,6 @@ class PostAd extends React.Component {
             femme: false,
             theme: 0,
             uni: true,
-            themeValue: ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
         };
     }
 
@@ -205,9 +201,9 @@ class PostAd extends React.Component {
                                   style={{color: 'white'}}
                                   labelId="demo-simple-select-outlined-label"
                                   name="theme"
-                                  value={this.state.themeValue.indexOf(this.state.theme)}
+                                  value={themeVal.indexOf(this.state.theme)}
                                   onChange={(e) => {
-                                    this.setState({theme: this.state.themeValue[e.target.value]});
+                                    this.setState({theme: themeVal[e.target.value]});
                                   }}
                               >
                                 <MenuItem value={1}>Mode</MenuItem>

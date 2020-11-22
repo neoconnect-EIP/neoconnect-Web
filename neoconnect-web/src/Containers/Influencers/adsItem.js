@@ -17,6 +17,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import { showNotif } from '../Utils.js';
 import edit from "../../assets/edit.svg";
 import {Rate} from "antd";
+import Loader from 'react-loader-spinner';
 
 class adsItem extends React.Component{
     constructor(props) {
@@ -40,7 +41,6 @@ class adsItem extends React.Component{
             note: false,
             info: "",
             share: false,
-            type:['', 'Mode', 'Cosmetique', 'High Tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             raison: "",
             isActive: false,
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
@@ -388,7 +388,7 @@ class adsItem extends React.Component{
                </Modal.Footer>
               </Modal>
                 {
-                  this.state.adData &&
+                  this.state.adData ?
                   <>
                   <Row className="p-4 mx-0">
                     <Col md={6}>
@@ -444,8 +444,16 @@ class adsItem extends React.Component{
                         this.state.adData && this.state.adData.comment && this.state.adData.comment.length > 0 && this.state.adData.comment.map(x => this.handleComment(x))
                       }
                     </Col>
-                    </Row>
-                  </>
+                  </Row>
+                </> :
+                <Loader
+                    type="Triangle"
+                    color="white"
+                    height={200}
+                    width={200}
+                    style={{paddingTop: "14rem", marginLeft: '40vh'}}
+
+                />
                 }
             </div>
           </LoadingOverlay>

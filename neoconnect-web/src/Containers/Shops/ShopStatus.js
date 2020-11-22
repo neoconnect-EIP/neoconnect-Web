@@ -23,7 +23,7 @@ import StarRatings from 'react-star-ratings';
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
-import { showNotif } from '../Utils.js';
+import { showNotif, themeVal } from '../Utils.js';
 
 class ShopStatus extends React.Component{
     constructor(props) {
@@ -55,7 +55,6 @@ class ShopStatus extends React.Component{
             imgChanged: false,
             isActive: false,
             followers: [],
-            themeValue: ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
         };
 
     }
@@ -180,7 +179,7 @@ class ShopStatus extends React.Component{
             "website": this.state.website,
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
             "userDescription": this.state.desc,
-            "theme": this.state.themeValue.indexOf(this.state.theme).toString(),
+            "theme": themeVal.indexOf(this.state.theme).toString(),
             "facebook": this.state.userData.facebook !== this.state.facebook ? this.state.facebook : undefined,
             "twitter": this.state.userData.twitter !== this.state.twitter ? this.state.twitter : undefined,
             "snapchat": this.state.userData.snapchat !== this.state.snapchat ? this.state.snapchat : undefined,
@@ -354,9 +353,9 @@ class ShopStatus extends React.Component{
                                 style={{color: 'black'}}
                                 labelId="demo-simple-select-outlined-label"
                                 name="theme"
-                                value={this.state.themeValue.indexOf(this.state.theme)}
+                                value={themeVal.indexOf(this.state.theme)}
                                 onChange={(e) => {
-                                  this.setState({theme: this.state.themeValue[e.target.value]});
+                                  this.setState({theme: themeVal[e.target.value]});
                                 }}
                             >
                               <MenuItem value={1}>Mode</MenuItem>

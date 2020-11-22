@@ -169,7 +169,7 @@ class FindInfluencers extends React.Component {
                   <Badge pill className="report" style={{backgroundColor: this.state.theme === 'tech' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'tech' ? 'tech' : ''})}}>
                     High Tech
                   </Badge>{' '}
-                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'food' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'food' ? 'food' : ''})}}>
+                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'nourriture' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'nourriture' ? 'nourriture' : ''})}}>
                     Nourriture
                   </Badge>{' '}
                   <Badge pill className="report" style={{backgroundColor: this.state.theme === 'cosmetic' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'cosmetic' ? 'cosmetic' : ''})}}>
@@ -187,7 +187,7 @@ class FindInfluencers extends React.Component {
                                                                     (item.theme && item.theme.toLowerCase() === 'high tech' && this.state.theme === 'tech') ||
                                                                     (item.theme && item.theme.toLowerCase() === 'jeux vidéo' && this.state.theme === 'game') ||
                                                                     (item.theme && item.theme.toLowerCase() === 'sport/fitness' && this.state.theme === 'sport') ||
-                                                                    (item.theme && item.theme.toLowerCase() === 'food' && this.state.theme === 'food') ||
+                                                                    (item.theme && item.theme.toLowerCase() === 'nourriture' && this.state.theme === 'nourriture') ||
                                                                     (item.theme && item.theme.toLowerCase() === 'cosmétique' && this.state.theme === 'cosmetic') ||
                                                                   (!this.state.theme)).map(inf => this.cardInf(inf))
                     }

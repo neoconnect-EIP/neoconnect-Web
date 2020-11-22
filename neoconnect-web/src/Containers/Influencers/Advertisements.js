@@ -305,7 +305,7 @@ class Advertisements extends React.Component{
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.suggestions ? this.state.suggestions.map(item => this.handleCard(item)) :
-                    <p className="ml-2 mt-2 text-light">Aucune suggestion pour le moment</p>
+                    <p className="ml-4 mt-2 text-light">Aucune suggestion pour le moment</p>
                 }
               </Row>
               <Row className="pl-4 mt-4 mr-0 ml-0">
@@ -314,7 +314,7 @@ class Advertisements extends React.Component{
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
                     this.state.adsData ? this.state.adsData.map(item => this.handleCard(item)) :
-                    <p className="ml-2 mt-2 text-light">Aucune offre pour le moment</p>
+                    <p className="ml-4 mt-2 text-light">Aucune offre pour le moment</p>
                 }
               </Row>
             </div>
