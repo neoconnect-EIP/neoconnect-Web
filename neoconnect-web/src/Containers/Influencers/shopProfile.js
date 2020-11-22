@@ -29,7 +29,14 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import place from "../../assets/place.svg";
 import edit from "../../assets/edit.svg";
 import {Rate} from "antd";
+import mail from "../../assets/mail.svg";
+import phone from "../../assets/phone.svg";
+import globe from "../../assets/globe.svg";
 import { showNotif } from '../Utils.js';
+import Badge from 'react-bootstrap/Badge';
+import Container from 'react-bootstrap/Container';
+import StarIcon from '@material-ui/icons/Star';
+import noImages from "../../assets/noImages.jpg";
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -40,7 +47,8 @@ class shopProfile extends React.Component{
         if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
-            shopData: [],
+            shopData: null,
+            shopOffers: null,
             userData: null,
             activeIndex: 0,
             visible: false,
@@ -53,7 +61,6 @@ class shopProfile extends React.Component{
             messageModal: false,
             msg: "",
             clickedSignal: false,
-            follow: props.location.state ? props.location.state : false,
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
         };
     }
@@ -63,6 +70,15 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
             .then(res => {this.setState({shopData: res})})
+            .catch(error => showNotif(true, "Erreur",null));
+      }
+    }
+
+    getShopOffers = () => {
+      if (this.state.urlId) {
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/shop/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => res.json())
+            .then(res => {console.log(res);this.setState({shopOffers: res})})
             .catch(error => showNotif(true, "Erreur",null));
       }
     }
@@ -81,6 +97,7 @@ class shopProfile extends React.Component{
 
     componentDidMount = () => {
       this.getShopData();
+      this.getShopOffers();
       this.getUserData();
 
   }
@@ -134,7 +151,7 @@ class shopProfile extends React.Component{
             <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
               <div className="centerBlock" align="center">
                 <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
-                <p style={{fontWeight: '200'}}>{x.pseudo}</p>
+                <p style={{color: "white", fontWeight: '200'}}>{x.pseudo}</p>
               </div>
             </Col>
             <Col>
@@ -227,7 +244,9 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.setState({visible: false, follow: true});
+                this.state.shopData.nbFollows += 1;
+                this.setState({visible: false});
+                this.getShopData();
               }
               else {
                 showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
@@ -240,7 +259,9 @@ class shopProfile extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.setState({visible: false, follow: false});
+                this.state.shopData.nbFollows -= 1;
+                this.setState({visible: false});
+                this.getShopData();
               }
               else {
                 showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
@@ -249,7 +270,30 @@ class shopProfile extends React.Component{
             .catch(error => showNotif(true, "Erreur",null));
     }
 
+    handleGlobalAnnonce = (id) => {
+        this.props.history.push({pathname: `/dashboard/item/${id}`, state: this.state.applied});
+    }
+
+    handleCard = (item) => {
+        return (
+          <Col key={item.id} xs={12} sm={12} md={12} lg={6} xl={6}>
+            <Card className="mt-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+              <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
+              <Card.Body>
+                <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
+                <Row className="ml-1">
+                  <p>{item.average && item.average.toFixed(1) + '/5'}</p>
+                  {item.average && <StarIcon style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
+                </Row>
+                <p>{item.productSubject}</p>
+              </Card.Body>
+            </Card>
+          </Col>
+        );
+    }
+
     render() {
+      console.log(this.state.shopData);
         return (
             <div className="infBg">
                 {
@@ -305,126 +349,158 @@ class shopProfile extends React.Component{
                            </Button>
                          </Modal.Footer>
                         </Modal>
-                        <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}}  className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={3}>
-                          <Col className="my-auto">
-                            <div className="centerBlock" align="center">
-                              <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0 ? noAvatar : this.state.shopData.userPicture[0].imageData} roundedCircle/>
-                            </div>
-                          </Col>
-                          <Col>
-                            <Row className="ml-0">
-                              <h1 style={{fontWeight: '300', marginRight: '25px', color: 'white'}}>{this.state.shopData.pseudo}</h1>
-                              <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
-                            </Row>
-                            <Image className="iconProfileSocial" src={place}/> <span style={{color: 'white'}}>{this.state.shopData.city ? this.state.shopData.city : "Non renseigné"}</span>
-                              <Row className="ml-0 mt-2">
-                                {this.state.shopData.facebook ? <OverlayTrigger
-                                  placement="bottom"
-                                  overlay={
-                                    <Tooltip>
-                                      {this.state.shopData.facebook}
-                                    </Tooltip>
-                                  }
-                                >
-                                  <Image className="iconProfileSocial" src={facebook}/>
-                                </OverlayTrigger> : <Image className="iconProfileSocial" src={facebookOff}/>}
-                                {this.state.shopData.instagram ? <OverlayTrigger
-                                  placement="bottom"
-                                  overlay={
-                                    <Tooltip>
-                                      {this.state.shopData.instagram}
-                                    </Tooltip>
-                                  }
-                                >
-                                <Image className="iconProfileSocial" src={instagram}/>
-                                </OverlayTrigger> : <Image src={instagramOff} className="iconProfileSocial"/>}
-                                {this.state.shopData.twitter ? <OverlayTrigger
-                                  placement="bottom"
-                                  overlay={
-                                    <Tooltip>
-                                      {this.state.shopData.twitter}
-                                    </Tooltip>
-                                  }
-                                >
-                                  <Image className="iconProfileSocial" src={twitter}/>
-                                </OverlayTrigger> : <Image className="iconProfileSocial" src={twitterOff}/>}
-                                {this.state.shopData.snapchat ? <OverlayTrigger
-                                  placement="bottom"
-                                  overlay={
-                                    <Tooltip>
-                                      {this.state.shopData.snapchat}
-                                    </Tooltip>
-                                  }
-                                >
-                                  <Image className="iconProfileSocial" src={snapchat}/>
-                                </OverlayTrigger> : <Image className="iconProfileSocial" src={snapchatOff}/>}
-                              </Row>
-                              <Row>
-                                {
-                                  this.state.follow === true ?
-                                  <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleUnFollow}>Désabonner</Button>:
-                                  <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleFollow}>S'abonner</Button>
-                                }
-                                <Button variant="outline-light" className="mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
-                              </Row>
-                          </Col>
-                          <Col className="pt-2">
-                            <Row>
-                              <h2 style={{fontWeight: '300', color: 'white'}}>
-                                Note
-                              </h2>
-                            </Row>
-
-                            {!this.state.shopData.average && <p style={{fontWeight: '200'}}>Aucune note</p>}
-                            <Row>
-                              {this.state.shopData.average &&
-                              <p className="pt-1 mr-3" style={{color: "white"}}>{this.state.shopData.average}</p>}
-                              <StarRatings
-                                 rating={this.state.shopData.average ? this.state.shopData.average : 0}
-                                 starRatedColor="#FFC106"
-                                 numberOfStars={5}
-                                 name='rating'
-                                 starDimension="20px"
-                               />
-                               <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
-                            </Row>
-                          </Col>
-                        </Row>
-                        <Row className="ml-0">
-                          <Col md={7} className="pl-0">
-                            <Card className="ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
-                              <Card.Body>
-                                <Card.Title style={{color: 'white', marginLeft: '20px'}}>Avis</Card.Title>
-                                  <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
-                                    <Col xs={2} md={2} lg={2} sm={2} xl={2}>
-                                      <div className="centerBlock" align="center">
-                                        <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
-                                      </div>
+                        <div>
+                          <Container fluid style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                              <Row xs={1} sm={1} md={1} lg={2} xl={2}>
+                                <Col className="my-auto" xs={10} sm={8} md={4} lg={3} xl={2}>
+                                  <div className="centerBlock mt-2" align="center">
+                                    <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0 ? noAvatar : this.state.shopData.userPicture[0].imageData} roundedCircle/>
+                                  </div>
+                                </Col>
+                                <Col className="my-auto" className="my-auto" xs={10} sm={12} md={8} lg={9} xl={10}>
+                                  <Row className="mx-0 mt-4" align="center">
+                                    <h2  className="my-auto mr-2" style={{color: 'white', fontWeight: '400'}}>{this.state.shopData.full_name}</h2>
+                                    <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
+                                    {
+                                      this.state.shopData.theme &&
+                                      <Badge pill className="pill my-3 py-auto mx-3">{this.state.shopData.theme}</Badge>
+                                    }
+                                    <Row className="ml-0 my-auto">
+                                     {this.state.shopData.facebook && <OverlayTrigger
+                                       placement="bottom"
+                                       overlay={
+                                         <Tooltip>
+                                           {this.state.shopData.facebook}
+                                         </Tooltip>
+                                       }
+                                     >
+                                       <Image className="iconProfileSocial" src={facebook}/>
+                                     </OverlayTrigger>}
+                                     {this.state.shopData.instagram && <OverlayTrigger
+                                       placement="bottom"
+                                       overlay={
+                                         <Tooltip>
+                                           {this.state.shopData.instagram}
+                                         </Tooltip>
+                                       }
+                                     >
+                                     <Image className="iconProfileSocial" src={instagram}/>
+                                     </OverlayTrigger>}
+                                     {this.state.shopData.twitter && <OverlayTrigger
+                                       placement="bottom"
+                                       overlay={
+                                         <Tooltip>
+                                           {this.state.shopData.twitter}
+                                         </Tooltip>
+                                       }
+                                     >
+                                       <Image className="iconProfileSocial" src={twitter}/>
+                                     </OverlayTrigger>}
+                                     {this.state.shopData.snapchat && <OverlayTrigger
+                                       placement="bottom"
+                                       overlay={
+                                         <Tooltip>
+                                           {this.state.shopData.snapchat}
+                                         </Tooltip>
+                                       }
+                                     >
+                                       <Image className="iconProfileSocial" src={snapchat}/>
+                                     </OverlayTrigger>}
+                                    </Row>
+                                  </Row>
+                                  <Row xs={1} sm={2} md={2} lg={3} xl={3} className="mx-auto w-100">
+                                    <Col className="mt-2 px-0" align="center">
+                                      <h3 style={{color: 'white'}}>{this.state.shopData.nbFollows}</h3>
+                                      <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnée</p>
                                     </Col>
-                                    <Col xs={8} md={8} lg={8} sm={8} xl={8}>
-                                      <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
+                                    <Col className="mt-2 px-0" align="center">
+                                      <h3 style={{color: 'white'}}>{this.state.shopData.nbOfferPosted}</h3>
+                                      <p style={{color: 'white', fontWeight: '400'}}>Nombre d'offres</p>
                                     </Col>
-                                    <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
-                                      <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
+                                    <Col className="mt-2 px-0" align="center">
+                                      <Row className="mb-3">
+                                        <StarRatings
+                                           rating={this.state.shopData.average ? this.state.shopData.average : 0}
+                                           starRatedColor="#FFC106"
+                                           numberOfStars={5}
+                                           name='rating'
+                                           starDimension="20px" />
+                                         <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
+                                       </Row>
                                     </Col>
                                   </Row>
-                                  {
-                                    !this.state.shopData.comment || this.state.shopData.comment.length === 0 ? "" : this.state.shopData.comment.map(x => this.handleComment(x))
-                                  }
-                              </Card.Body>
-                            </Card>
-                          </Col>
-                          <Col md={5} className="pl-0">
-                            <Card className="mr-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
-                              <Card.Body>
-                                <Card.Title style={{color: 'white'}}>À propos</Card.Title>
-                                <Card.Text style={{color: 'white'}}>
-                                {this.state.shopData.userDescription ? this.state.shopData.userDescription : "Pas de description fourni"}
-                                </Card.Text>
-                              </Card.Body>
-                            </Card>
-                          </Col>
-                        </Row>
+                                  <Row >
+                                    <Col>
+                                      <b className="text-light">{this.state.shopData.full_name}</b>
+                                      <p className="text-light">{this.state.shopData.userDescription ? this.state.shopData.userDescription : "Pas de description fourni"}</p>
+                                    </Col>
+                                  </Row>
+                                </Col>
+                              </Row>
+                          </Container>
+                          <Row className="px-auto pb-2">
+                           {
+                             this.state.shopData.follow === true ?
+                             <Button className="mt-4 ml-auto btnInf" onClick={this.handleUnFollow}>Désabonner</Button> :
+                             <Button className="mt-4 ml-auto btnInf" onClick={this.handleFollow}>S'abonner</Button>
+                           }
+                           <Button className="mt-4 mr-auto ml-2 btnInf" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
+                         </Row>
+                          <Row xs={1} sm={1} md={2} lg={2} xl={2} className="mt-4 mx-0">
+                            <Col className="mx-0 p-0">
+                              <div className="mx-2 p-2" style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Informations de la marque</h2>
+                                <Row className="mx-0 mb-1">
+                                  <Image className="iconProfileSocial" src={globe}/>
+                                  <p style={{color:'white'}}>{this.state.shopData.website ? this.state.shopData.website : "Non fourni"}</p>
+                                </Row>
+                                <Row className="mx-0 mb-1">
+                                  <Image className="iconProfileSocial" src={mail}/>
+                                  <p style={{color:'white'}}>{this.state.shopData.email ? this.state.shopData.email : "Non fourni"}</p>
+                                </Row>
+                                <Row className="mx-0 mb-1">
+                                  <Image className="iconProfileSocial" src={place}/>
+                                  <p style={{color:'white'}}>{this.state.shopData.city ? this.state.shopData.city : "Non fourni"}</p>
+                                </Row>
+                                <Row className="mx-0 mb-1">
+                                  <Image className="iconProfileSocial" src={phone}/>
+                                  <p style={{color:'white'}}>{this.state.shopData.phone ? this.state.shopData.phone : "Non fourni"}</p>
+                                </Row>
+                              </div>
+                              <div className="mx-2 mt-4 p-2" style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Offres</h2>
+                                {
+                                   (this.state.shopOffers && this.state.shopOffers.length > 0) ?
+                                    <Row className="mx-0" xs={1} sm={1} md={2} lg={2} xl={2}>
+                                      {this.state.shopOffers.map(item => this.handleCard(item))}
+                                    </Row> :
+                                    <p className="text-light">Aucune offre posté.</p>
+                                }
+                              </div>
+                            </Col>
+                            <Col className="mx-0 p-0">
+                              <div className="mx-2 p-2" style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+                                <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
+                                <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
+                                  <Col xs={2} md={2} lg={2} sm={2} xl={2}>
+                                    <div className="centerBlock" align="center">
+                                      <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
+                                    </div>
+                                  </Col>
+                                  <Col xs={8} md={8} lg={8} sm={8} xl={8}>
+                                    <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
+                                  </Col>
+                                  <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
+                                    <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
+                                  </Col>
+                                </Row>
+                                {
+                                  !this.state.shopData.comment || this.state.shopData.comment.length === 0 ? "" : this.state.shopData.comment.map(x => this.handleComment(x))
+                                }
+                              </div>
+                            </Col>
+                          </Row>
+                        </div>
                       </div>
                       :
                       <Loader
@@ -457,3 +533,94 @@ class shopProfile extends React.Component{
 }
 
 export default withRouter(shopProfile)
+
+// <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}}  className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={3}>
+//   <Col className="my-auto">
+//     <div className="centerBlock" align="center">
+//       <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0 ? noAvatar : this.state.shopData.userPicture[0].imageData} roundedCircle/>
+//     </div>
+//   </Col>
+//   <Col>
+//     <Row className="ml-0">
+//       <h1 style={{fontWeight: '300', marginRight: '25px', color: 'white'}}>{this.state.shopData.pseudo}</h1>
+//       <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
+//     </Row>
+//     <Image className="iconProfileSocial" src={place}/> <span style={{color: 'white'}}>{this.state.shopData.city ? this.state.shopData.city : "Non renseigné"}</span>
+//       <Row className="ml-0 mt-2">
+//         {this.state.shopData.facebook && <OverlayTrigger
+//           placement="bottom"
+//           overlay={
+//             <Tooltip>
+//               {this.state.shopData.facebook}
+//             </Tooltip>
+//           }
+//         >
+//           <Image className="iconProfileSocial" src={facebook}/>
+//         </OverlayTrigger>}
+//         {this.state.shopData.instagram && <OverlayTrigger
+//           placement="bottom"
+//           overlay={
+//             <Tooltip>
+//               {this.state.shopData.instagram}
+//             </Tooltip>
+//           }
+//         >
+//         <Image className="iconProfileSocial" src={instagram}/>
+//         </OverlayTrigger>}
+//         {this.state.shopData.twitter && <OverlayTrigger
+//           placement="bottom"
+//           overlay={
+//             <Tooltip>
+//               {this.state.shopData.twitter}
+//             </Tooltip>
+//           }
+//         >
+//           <Image className="iconProfileSocial" src={twitter}/>
+//         </OverlayTrigger>}
+//         {this.state.shopData.snapchat && <OverlayTrigger
+//           placement="bottom"
+//           overlay={
+//             <Tooltip>
+//               {this.state.shopData.snapchat}
+//             </Tooltip>
+//           }
+//         >
+//           <Image className="iconProfileSocial" src={snapchat}/>
+//         </OverlayTrigger>}
+//       </Row>
+//       <Row>
+//         {
+//           this.state.follow === true ?
+//           <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleUnFollow}>Désabonner</Button>:
+//           <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleFollow}>S'abonner</Button>
+//         }
+//         <Button variant="outline-light" className="mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
+//       </Row>
+//   </Col>
+//   <Col className="pt-2">
+//     <Row>
+//       <h2 style={{fontWeight: '300', color: 'white'}}>Note</h2>
+//     </Row>
+//     {!this.state.shopData.average && <p style={{fontWeight: '200'}}>Aucune note</p>}
+//     <Row>
+//       {this.state.shopData.average &&
+//       <p className="pt-1 mr-3" style={{color: "white"}}>{this.state.shopData.average}</p>}
+//       <StarRatings
+//          rating={this.state.shopData.average ? this.state.shopData.average : 0}
+//          starRatedColor="#FFC106"
+//          numberOfStars={5}
+//          name='rating'
+//          starDimension="20px"
+//        />
+//        <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
+//     </Row>
+//   </Col>
+//   <Col>
+//     <h2 style={{fontWeight: '300', color: 'white'}}>Offres</h2>
+//     <p className="text-light">{this.state.shopData.nbOfferPosted}</p>
+//   </Col>
+//   <Col>
+//     <h2 style={{fontWeight: '300', color: 'white'}}>Abonnées</h2>
+//     <p className="text-light">{this.state.shopData.nbFollows}</p>
+//   </Col>
+// </Row>

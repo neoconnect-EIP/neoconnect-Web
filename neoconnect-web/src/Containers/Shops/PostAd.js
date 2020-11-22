@@ -155,7 +155,7 @@ class PostAd extends React.Component {
         let body = {
             "productImg": images,
             "productName": this.state.productName,
-            "productSex": (this.state.theme == "Mode" || this.state.theme == "Cosmétique") ? this.state.productSex : undefined,
+            "productSex": (this.state.theme === "Mode" || this.state.theme === "Cosmétique") ? this.state.productSex : undefined,
             "productDesc": this.state.productDesc,
             "productSubject": themeVal.indexOf(this.state.theme).toString(),
             "brand": this.state.productBrand,

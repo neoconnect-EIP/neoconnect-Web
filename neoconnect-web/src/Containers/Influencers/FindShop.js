@@ -117,18 +117,21 @@ class FindShop extends React.Component{
     }
 
     handleFollow = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {
-              if (res.status === 200) {
-                this.getAllShop();
-                this.setState({visible: false});
-                showNotif(false, "Abonné", "Vous êtes bien abonné");
-              }
-              else {
-                showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
-              }
-            })
-            .catch(error => showNotif(true,  "Erreur",null));
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.item.id}`,
+          { method: 'PUT',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+          })
+          .then(res => {
+            if (res.status === 200) {
+              this.getAllShop();
+              this.setState({visible: false});
+              showNotif(false, "Abonné", "Vous êtes bien abonné");
+            }
+            else {
+              showNotif(true, "Erreur", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
+            }
+          })
+          .catch(error => showNotif(true,  "Erreur",null));
         this.handleClose();
     }
 
@@ -203,7 +206,7 @@ class FindShop extends React.Component{
               </Row>
               <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    (typeof(this.state.suggestions) === 'object' && this.state.suggestion) ? this.state.suggestions.map(item => this.handleCard(item)) :
+                    (this.state.suggestion && typeof(this.state.suggestions) === 'object' && this.state.suggestion.length > 0) ? this.state.suggestions.map(item => this.handleCard(item)) :
                     <p className="ml-4 mt-2 text-light">Aucune suggestion pour le moment</p>
 
                 }
@@ -213,7 +216,7 @@ class FindShop extends React.Component{
               </Row>
               <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    typeof(this.state.shopList) === 'object' ? this.state.shopList.map(item => this.handleCard(item)) :
+                    (typeof(this.state.shopList) === 'object' && this.state.shopList.length > 0) ? this.state.shopList.map(item => this.handleCard(item)) :
                     <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
                 }
               </Row>

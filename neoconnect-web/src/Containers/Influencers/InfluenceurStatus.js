@@ -494,7 +494,7 @@ class InfluenceurStatus extends React.Component{
                         </Col>
                       </Col>
                       <Col>
-                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Réseaux social</h2>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Réseaux sociaux</h2>
                         <Row>
                           <Col>
                             <Row className="mx-0 mb-1">

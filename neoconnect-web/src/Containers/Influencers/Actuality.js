@@ -48,7 +48,9 @@ class Actuality extends React.Component{
           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {
-        return (res.json());
+        if  (res.status === 200)
+          return (res.json());
+        this.setState({loading: false});
       })
       .then(res => {
         this.setState({popular: res.listShopPopulaire, bestMark: res.listShopTendance, tendance: res.listShopTendance,
@@ -68,6 +70,7 @@ class Actuality extends React.Component{
         .then(res => {
           if (res.status === 200)
             return (res.json());
+          this.setState({loading: false});
         })
         .then(res => this.setState({applied: res}))
         .catch(error => {

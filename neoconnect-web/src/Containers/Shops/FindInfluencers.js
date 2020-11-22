@@ -16,7 +16,6 @@ import Row from 'react-bootstrap/Row';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
-import Alert from 'react-bootstrap/Alert';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { showNotif } from '../Utils.js';
 
