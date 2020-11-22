@@ -305,10 +305,10 @@ class Ads extends React.Component {
                   this.state.isLoading &&
                     <Loader
                         type="Triangle"
-                        color="#292929"
+                        color="#fff"
                         height={200}
                         width={200}
-                        style={{marginTop: "14rem"}}
+                        style={{marginTop: "14rem", marginLeft: '40vh'}}
                     />
                   }
                   {

@@ -20,7 +20,6 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 class Aside extends React.Component{
     constructor(props) {
         super(props);
-        console.log(localStorage.getItem("menuId"));
         this.state = {
             setting: this.props.data,
             visible: false,

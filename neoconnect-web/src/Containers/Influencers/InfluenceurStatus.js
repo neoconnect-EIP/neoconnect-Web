@@ -550,13 +550,15 @@ class InfluenceurStatus extends React.Component{
                     </Row>
                   </div>
                   :
-                  <Loader
-                      type="Triangle"
-                      color="#292929"
-                      height={200}
-                      width={200}
-                      style={{marginTop: "14rem"}}
-                  />
+                  <div>
+                    <Loader
+                        type="Triangle"
+                        color="#fff"
+                        height={200}
+                        width={200}
+                        style={{paddingTop: "14rem", marginLeft: '40vh'}}
+                    />
+                  </div>
                 }
               </div>
               <Modal centered size={'sm'} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>

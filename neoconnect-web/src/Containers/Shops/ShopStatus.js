@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
-import "../index.css"
+import "../index.css";
+import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -381,7 +382,7 @@ class ShopStatus extends React.Component{
                     </Modal.Footer>
                   </Modal>
                   {
-                    this.state.userData &&
+                    this.state.userData ?
                     <div>
                       <Row className="mx-0">
                         <div style={{position: 'absolute', top: 10, right: 20}}>
@@ -471,6 +472,14 @@ class ShopStatus extends React.Component{
                         </Col>
                       </Row>
                     </div>
+                    :
+                    <Loader
+                        type="Triangle"
+                        color="#fff"
+                        height={200}
+                        width={200}
+                        style={{paddingTop: "14rem", marginLeft: '40vh'}}
+                    />
                   }
               </div>
               <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>

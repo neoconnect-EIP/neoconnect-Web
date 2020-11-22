@@ -3,7 +3,8 @@ import { withRouter } from "react-router-dom"
 import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StarIcon from '@material-ui/icons/Star';
-import noImages from "../../assets/noImages.jpg"
+import noImages from "../../assets/noImages.jpg";
+import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -37,7 +38,9 @@ class Advertisements extends React.Component{
             bestMark: null,
             tendance: null,
             applied: [],
-            suggestions: [],
+            suggestions: null,
+            loadOffer: true,
+            loadSugg: true,
         };
     }
 
@@ -54,10 +57,13 @@ class Advertisements extends React.Component{
                 }else return 0
               }else return 0
             })})
-            this.setState({adsData: res, adsSaver: res})
+            this.setState({adsData: res, adsSaver: res, loadOffer: false})
 
           })
-          .catch(error => showNotif(true, "Erreur",null));
+          .catch(error => {
+            showNotif(true, "Erreur",null);
+            this.setState({loadOffer: false});
+          });
     }
 
     getAppliedOffer = () => {
@@ -78,11 +84,16 @@ class Advertisements extends React.Component{
     getSuggestions() {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {
+            console.log(res);
             if (res.status === 200)
               return (res.json());
+            this.setState({loadSugg: false});
           })
-          .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res});})
-          .catch(error => showNotif(true, "Erreur", null));
+          .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res, loadSugg: false});})
+          .catch(error => {
+            showNotif(true, "Erreur", null);
+            this.setState({loadSugg: false});
+          });
     }
 
     componentDidMount = () => {
@@ -124,9 +135,11 @@ class Advertisements extends React.Component{
     handleClose = () => {
       this.setState({visible: false})
     }
+
     handleOpen = (item) => {
       this.setState({visible: true, item: item})
     }
+
     handleSearchBarChange = event => {
       this.setState({searchForm: event.target.value})
       if (!event.target.value.length){
@@ -135,37 +148,35 @@ class Advertisements extends React.Component{
         this.handleSearch()
       }
     }
+
     handleSearch = () => {
       const kwd = this.state.searchForm
       let adsData = this.state.adsSaver
       this.setState({adsData: null})
 
-      adsData = adsData.filter(val => {
-        let searchFactor = 0
-        if(
-          val.productDesc.toLowerCase().includes(kwd) ||
-          val.productName.toLowerCase().includes(kwd) ||
-          val.productSex.toLowerCase().includes(kwd) ||
-          val.productSubject.toLowerCase().includes(kwd)
-          ) searchFactor++
-          if (val.brand){
-            if (val.brand.toLowerCase().includes(kwd)) searchFactor++
-          }
-          if (val.color){
-            if (val.color.toLowerCase().includes(kwd)) searchFactor++
-          }
-          val.comment.forEach(comment => {
-            if (
-              comment.comment.toLowerCase().includes(kwd) ||
-              comment.pseudo.toLowerCase().includes(kwd)
-            ) searchFactor++
-          })
-          if (searchFactor) return val
-          else return false
-      })
-
-      this.setState({adsData: adsData})
-
+      if (adsData) {
+        adsData = adsData.filter(val => {
+          let searchFactor = 0
+          if(
+            (val.productDesc && val.productDesc.toLowerCase().includes(kwd)) ||
+            (val.productName && val.productName.toLowerCase().includes(kwd))) searchFactor++
+            if (val.brand){
+              if (val.brand.toLowerCase().includes(kwd)) searchFactor++
+            }
+            if (val.color){
+              if (val.color.toLowerCase().includes(kwd)) searchFactor++
+            }
+            val.comment.forEach(comment => {
+              if (
+                comment.comment.toLowerCase().includes(kwd) ||
+                comment.pseudo.toLowerCase().includes(kwd)
+              ) searchFactor++
+            })
+            if (searchFactor) return val
+            else return false
+        });
+        this.setState({adsData: adsData});
+      }
     }
 
     handleSort = (event) => {
@@ -180,16 +191,6 @@ class Advertisements extends React.Component{
             if (a.brand.length && b.brand.length){
               if (a.brand[0] > b.brand[0]) return 1
               else if (a.brand[0] < b.brand[0]) return -1
-              else return 0
-            }else return 0
-          }else return 0
-        })})
-      }else if (filterText === 'Couleur') {
-        this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.color == 'string' && typeof b.color === 'string'){
-            if (a.color.length && b.color.length){
-              if (a.color[0] > b.color[0]) return 1
-              else if (a.color[0] < b.color[0]) return -1
               else return 0
             }else return 0
           }else return 0
@@ -267,18 +268,18 @@ class Advertisements extends React.Component{
               <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des offres</Navbar.Brand>
             </Navbar>
             <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
-            <DropdownButton
-              as={InputGroup.Prepend}
-              variant="outline-secondary"
-              title="Sort by"
-              id="input-group-dropdown-1"
-            >
-              <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
-              <Dropdown.Item onClick={this.handleSort} href="#">Couleur</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
-              <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
-            </DropdownButton>
+              <DropdownButton
+                disabled={this.state.loadSugg || this.state.loadOffer}
+                as={InputGroup.Prepend}
+                variant="outline-secondary"
+                title="Sort by"
+                id="input-group-dropdown-1"
+              >
+                <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
+              </DropdownButton>
               <FormControl
                 placeholder="Search"
                 aria-label="Enter your keyword"
@@ -286,23 +287,38 @@ class Advertisements extends React.Component{
                 value={this.state.searchForm}
                 onChange={this.handleSearchBarChange}
               />
-              </InputGroup>
-            <Row className="pl-4 mt-4 mr-0 ml-0">
-              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Suggestion d'offre</h4>
-            </Row>
-            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-              {
-                  this.state.suggestions && this.state.suggestions.map(item => this.handleCard(item))
-              }
-            </Row>
-            <Row className="pl-4 mt-4 mr-0 ml-0">
-              <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Tout les offres</h4>
-            </Row>
-            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-              {
-                  this.state.adsData && this.state.adsData.map(item => this.handleCard(item))
-              }
-            </Row>
+            </InputGroup>
+            {
+              (this.state.loadSugg || this.state.loadOffer) ?
+              <Loader
+                  type="Triangle"
+                  color="#fff"
+                  height={200}
+                  width={200}
+                  style={{marginTop: "2rem", marginLeft: '40vh'}}
+              />
+            :
+            <div>
+              <Row className="pl-4 mt-4 mr-0 ml-0">
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Suggestion d'offre</h4>
+              </Row>
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                {
+                    this.state.suggestions ? this.state.suggestions.map(item => this.handleCard(item)) :
+                    <p className="ml-2 mt-2 text-light">Aucune suggestion pour le moment</p>
+                }
+              </Row>
+              <Row className="pl-4 mt-4 mr-0 ml-0">
+                <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Tout les offres</h4>
+              </Row>
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                {
+                    this.state.adsData ? this.state.adsData.map(item => this.handleCard(item)) :
+                    <p className="ml-2 mt-2 text-light">Aucune offre pour le moment</p>
+                }
+              </Row>
+            </div>
+            }
             <Modal centered show={this.state.visible} onHide={this.handleClose}>
              <Modal.Header closeButton>
                <Modal.Title>Postuler à cette offre ?</Modal.Title>

@@ -35,7 +35,9 @@ class FindShop extends React.Component{
             tendance: null,
             visible: false,
             item: null,
-            suggestions: []
+            suggestions: [],
+            loadShop: true,
+            loadSugg: true,
         };
     }
 
@@ -49,9 +51,13 @@ class FindShop extends React.Component{
       .then(res => {
         if (res.status === 200)
           return (res.json());
+        this.setState({loadShop: false});
       })
-      .then(res => this.setState({shopList: res}))
-      .catch(error => {showNotif(true, "Erreur",null)});
+      .then(res => this.setState({shopList: res, loadShop: false}))
+      .catch(error => {
+        showNotif(true, "Erreur",null);
+        this.setState({loadShop: false});
+      });
     }
 
     getSuggestions() {
@@ -59,9 +65,13 @@ class FindShop extends React.Component{
           .then(res => {
             if (res.status === 200)
               return (res.json());
+            this.setState({loadSugg: false});
           })
-          .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res});})
-          .catch(error => {showNotif(true, "Erreur", null)});
+          .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res, loadSugg: false});})
+          .catch(error => {
+            showNotif(true, "Erreur", null);
+            this.setState({loadSugg: false});
+          });
     }
 
     componentDidMount() {
@@ -173,35 +183,41 @@ class FindShop extends React.Component{
                 <Form inline className="ml-auto">
                   <FormControl type="text" placeholder="Exemple: Levis" className="mr-sm-2" value={this.state.search}
                     onChange={e => this.setState({ search: e.target.value })} />
-                  <Button variant="outline-success" onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
+                  <Button variant="outline-success" disabled={this.state.loadShop} onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
                 </Form>
               </Navbar.Collapse>
             </Navbar>
-            <Row className="pl-4 mt-4 mr-0 mx-0">
-              <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Suggestion de boutiques</h4>
-            </Row>
-            <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
-              {
-                  typeof(this.state.suggestions) === 'object' && this.state.suggestions && this.state.suggestions.map(item => this.handleCard(item))
-              }
-            </Row>
-            <Row className="pl-4 mt-4 mr-0 mx-0">
-              <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Tout les boutiques</h4>
-            </Row>
-            <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
-              {
-                  typeof(this.state.shopList) === 'object' && this.state.shopList.map(item => this.handleCard(item))
-              }
-            </Row>
             {
-              !this.state.shopList &&
+              (this.state.loadSugg || this.state.loadShop) ?
               <Loader
                   type="Triangle"
-                  color="#292929"
+                  color="#fff"
                   height={200}
                   width={200}
-                  style={{marginTop: "14rem"}}
+                  style={{marginTop: "2rem", marginLeft: '40vh'}}
               />
+            :
+            <div>
+              <Row className="pl-4 mt-4 mr-0 mx-0">
+                <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Suggestion de boutiques</h4>
+              </Row>
+              <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
+                {
+                    (typeof(this.state.suggestions) === 'object' && this.state.suggestion) ? this.state.suggestions.map(item => this.handleCard(item)) :
+                    <p className="ml-4 mt-2 text-light">Aucune suggestion pour le moment</p>
+
+                }
+              </Row>
+              <Row className="pl-4 mt-4 mr-0 mx-0">
+                <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Tout les boutiques</h4>
+              </Row>
+              <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
+                {
+                    typeof(this.state.shopList) === 'object' ? this.state.shopList.map(item => this.handleCard(item)) :
+                    <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
+                }
+              </Row>
+            </div>
             }
             <Modal centered show={this.state.visible} onHide={this.handleClose}>
              <Modal.Header closeButton>
