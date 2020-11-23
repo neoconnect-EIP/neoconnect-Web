@@ -9,6 +9,7 @@ import snapchat from "../../assets/snapchat.svg";
 import twitter from "../../assets/twitter.svg";
 import camera from "../../assets/camera.svg";
 import { showNotif } from '../Utils.js';
+import LoadingOverlay from 'react-loading-overlay';
 
 export default class ShopSignUp extends React.Component{
     constructor(props) {
@@ -32,13 +33,15 @@ export default class ShopSignUp extends React.Component{
             bio: '',
             isEnd: false,
             imgChanged: false,
+            isActive: false,
             errMsg: {
-              "Error, account already exists": "Erreur, compte existant",
+              "Error, account already exists": "Erreur, compte existant, vérifiez vos réseaux sociaux",
               "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
               "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
               "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
               "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
             },
+            emailPseudoExist: true,
         }
         this.inputOpenFileRef = React.createRef();
     }
@@ -60,12 +63,14 @@ export default class ShopSignUp extends React.Component{
           var msg = await res.json();
           showNotif(true, "Erreur", this.state.errMsg[msg]);
         }
+        this.setState({isActive: false});
     };
 
     handleSubmit = () => {
       if (!this.state.theme) {
         showNotif(true, "Erreur", "Veuillez choisir un thème");
       } else {
+        this.setState({isActive: true});
         let body = {
             "pseudo": this.state.pseudo,
             "password": this.state.password,
@@ -84,7 +89,10 @@ export default class ShopSignUp extends React.Component{
 
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => this.handleResponse(res))
-            .catch(error => showNotif(true, "Erreur",null));
+            .catch(error => {
+              showNotif(true, "Erreur",null);
+              this.setState({isActive: false});
+            });
 
       }
     };
@@ -114,8 +122,33 @@ export default class ShopSignUp extends React.Component{
           });
       };
       reader.readAsDataURL(file);
-
   }
+
+  checkField = (pseudo) => {
+    let body;
+    if (pseudo === true)
+      body = {"pseudo": this.state.pseudo};
+    else
+      body = {"email": this.state.email};
+    body = JSON.stringify(body);
+    fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/checkField`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        if (res === true)
+          showNotif(true, "Erreur", "Compte existant, veuillez essayer un autre email ou pseudo");
+        else {
+          if (pseudo === true) {
+            this.checkField(false);
+          }
+          else {
+            this.setState({emailPseudoExist: false, current: this.state.current + 1})
+          }
+        }
+      })
+      .catch(error => showNotif(true, "Erreur",null));
+  };
 
     getStepContent = (step) => {
       var thisTmp = this;
@@ -357,8 +390,10 @@ export default class ShopSignUp extends React.Component{
 
     next = () => {
       if (this.checkForm()) {
-        const current = this.state.current + 1;
-        this.setState({ current });
+        if (this.state.current === 0)
+          this.checkField(true);
+        else
+        this.setState({ current: this.state.current + 1 });
       }
       else {
         showNotif(true, "Erreur", this.state.errorMsg);
@@ -366,8 +401,7 @@ export default class ShopSignUp extends React.Component{
     }
 
     prev = () => {
-        const current = this.state.current - 1;
-        this.setState({ current });
+        this.setState({ current: this.state.current - 1 });
     }
 
     emailValid = () => {
@@ -402,6 +436,11 @@ export default class ShopSignUp extends React.Component{
 
     render() {
         return (
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
             <Grid container direction="row" justify="center" alignItems="center" className="shopBg" style={{height: "100%"}}>
                 <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "white", backdropFilter: "blur(8px)"}}>
 
@@ -431,6 +470,7 @@ export default class ShopSignUp extends React.Component{
                     </Form>
                 </Grid>
             </Grid>
+          </LoadingOverlay>
         );
     }
 }
