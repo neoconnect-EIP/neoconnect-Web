@@ -136,7 +136,7 @@ class InfluencerProfile extends React.Component {
               <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
                 <div className="centerBlock" align="center">
                   <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
-                  <p style={{fontWeight: '200'}}>{x.pseudo}</p>
+                  <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
                 </div>
               </Col>
               <Col xs={8} md={8} lg={8} sm={8} xl={8}>
@@ -220,7 +220,6 @@ class InfluencerProfile extends React.Component {
     }
 
     render() {
-      console.log(this.state.infData);
         return (
             <div className="shopBg">
                 {
@@ -298,33 +297,21 @@ class InfluencerProfile extends React.Component {
                               <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.infData.userPicture || this.state.infData.userPicture.length === 0 ? noAvatar : this.state.infData.userPicture[0].imageData} roundedCircle/>
                             </div>
                           </Col>
-                          <Col >
+                          <Col xs='auto' md='auto' lg='auto' sm='auto' xl='auto'>
                             <Row className="ml-0">
                               <h1 style={{fontWeight: '300', color: 'white'}}>{this.state.infData.pseudo}</h1>
                               <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report ml-4"/>
+                              <Badge pill className="pill my-4 ml-2">{this.state.infData.theme}</Badge>
                             </Row>
-                            <Row className="ml-0">
-                              <Col md={12} className="pl-0">
-                                <Image className="iconProfileSocial" src={place}/> <span style={{color: 'white'}}>{this.state.infData.city ? this.state.infData.city : "Non renseigné"}</span>
-                              </Col>
-                              <Col md={12} className="pl-0">
-                                <Image className="iconProfileSocial" src={mail}/> <span style={{color: 'white'}}>{this.state.infData.email ? this.state.infData.email : "Non renseigné"}</span>
-                              </Col>
-                              <Col md={12} className="pl-0">
-                                <Image className="iconProfileSocial" src={phone}/> <span style={{color: 'white'}}>{this.state.infData.phone ? this.state.infData.phone : "Non renseigné"}</span>
-                              </Col>
-                              <Badge pill className="pill mt-2 mb-4">
-                                {this.state.infData.theme}
-                              </Badge>
-                            </Row>
-                            <Button className="btnShop ml-1 mt-3" style={{padding: '4px !important'}} onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
+                              <p className="text-light">{this.state.infData.userDescription}</p>
+                            <Button className="btnShop mt-1" style={{padding: '4px !important'}} onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
                           </Col>
-                          <Col>
-                            <h2 style={{fontWeight: '300', color: 'white'}}>
-                              Note
-                            </h2>
-                            {!this.state.infData.average && <p style={{fontWeight: '200', color: 'white'}}>Aucune note</p>}
-                            <Row className="pl-1">
+                          <Col className="my-auto">
+                            <h3 className="text-light" align="center">{this.state.infData.nbOfferApplied}</h3>
+                            <h3 className="text-light" align="center" style={{fontWeight: '300'}}>Offres effectué</h3>
+                          </Col>
+                          <Col align="center" className="my-auto">
+                            <Row className="pl-1 mx-auto mt-2">
                               {this.state.infData.average &&
                               <p className="pt-1 mr-3" style={{color: 'white'}}>{this.state.infData.average}</p>}
                               <StarRatings
@@ -335,95 +322,6 @@ class InfluencerProfile extends React.Component {
                                  starDimension="20px"
                                />
                                <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
-                            </Row>
-                          </Col>
-                          <Col>
-                            <h2 style={{fontWeight: '300', color: 'white'}}>Réseaux sociaux</h2>
-                            <Row className="ml-0 mt-2">
-                              {this.state.infData.facebook && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.facebook}
-                                  </Tooltip>
-                                }
-                              >
-                                <Image className="iconProfileSocial" src={facebook}/>
-                              </OverlayTrigger>}
-                              {this.state.infData.instagram && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.instagram}
-                                  </Tooltip>
-                                }
-                              >
-                              <Image className="iconProfileSocial" src={instagram}/>
-                              </OverlayTrigger>}
-                              {this.state.infData.twitter && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.twitter}
-                                  </Tooltip>
-                                }
-                              >
-                                <Image className="iconProfileSocial" src={twitter}/>
-                              </OverlayTrigger>}
-                              {this.state.infData.youtube && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.youtube}
-                                  </Tooltip>
-                                }
-                              >
-                                <Image className="iconProfileSocial" src={youtube}/>
-                              </OverlayTrigger>}
-                              {this.state.infData.snapchat && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.snapchat}
-                                  </Tooltip>
-                                }
-                              >
-                                <Image className="iconProfileSocial" src={snapchat}/>
-                              </OverlayTrigger>}
-                              {this.state.infData.tiktok && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.tiktok}
-                                  </Tooltip>
-                                }
-                              >
-                                <Image className="iconProfileSocial" src={tiktok}/>
-                              </OverlayTrigger>}
-                              {this.state.infData.pinterest && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.pinterest}
-                                  </Tooltip>
-                                }
-                              >
-                                <Image className="iconProfileSocial" src={pinterest}/>
-                              </OverlayTrigger>}
-                              {this.state.infData.twitch && <OverlayTrigger
-                                placement="bottom"
-                                overlay={
-                                  <Tooltip>
-                                    {this.state.infData.twitch}
-                                  </Tooltip>
-                                }
-                              >
-                                <Image style={{width: '20px', height: '20px'}} src={twitch}/>
-                              </OverlayTrigger>}
-                              {!this.state.infData.facebook && !this.state.infData.instagram && !this.state.infData.twitter && !this.state.infData.youtube &&
-                              !this.state.infData.snapchat && !this.state.infData.tiktok && !this.state.infData.pinterest && !this.state.infData.twitch &&
-                              <p style={{fontWeight: '200', color: 'white'}}>Aucun réseaux sociaux</p>
-                            }
                             </Row>
                           </Col>
                         </Row>
@@ -452,14 +350,103 @@ class InfluencerProfile extends React.Component {
                             </Card>
                           </Col>
                           <Col md={5} className="pl-0">
-                            <Card className="mr-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
-                              <Card.Body>
-                                <Card.Title style={{color: 'white'}}>À propos</Card.Title>
-                                <Card.Text style={{color: 'white'}}>
-                                {this.state.infData.userDescription ? this.state.infData.userDescription : "Pas de description fourni"}
-                                </Card.Text>
-                              </Card.Body>
-                            </Card>
+                            <div className="mr-2 p-3" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
+                              <h2 style={{color: 'white', fontWeight: '300'}}>Information de l'influenceur</h2>
+                                <Row className="ml-0">
+                                  <Col md={12} className="pl-0">
+                                    <Image className="iconProfileSocial" src={place}/> <span style={{color: 'white'}}>{this.state.infData.city ? this.state.infData.city : "Non renseigné"}</span>
+                                  </Col>
+                                  <Col md={12} className="pl-0">
+                                    <Image className="iconProfileSocial" src={mail}/> <span style={{color: 'white'}}>{this.state.infData.email ? this.state.infData.email : "Non renseigné"}</span>
+                                  </Col>
+                                  <Col md={12} className="pl-0">
+                                    <Image className="iconProfileSocial" src={phone}/> <span style={{color: 'white'}}>{this.state.infData.phone ? this.state.infData.phone : "Non renseigné"}</span>
+                                  </Col>
+                                </Row>
+                                <Row className="ml-0 mt-2">
+                                  {this.state.infData.facebook && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.facebook}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Image className="iconProfileSocial" src={facebook}/>
+                                  </OverlayTrigger>}
+                                  {this.state.infData.instagram && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.instagram}
+                                      </Tooltip>
+                                    }
+                                  >
+                                  <Image className="iconProfileSocial" src={instagram}/>
+                                  </OverlayTrigger>}
+                                  {this.state.infData.twitter && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.twitter}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Image className="iconProfileSocial" src={twitter}/>
+                                  </OverlayTrigger>}
+                                  {this.state.infData.youtube && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.youtube}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Image className="iconProfileSocial" src={youtube}/>
+                                  </OverlayTrigger>}
+                                  {this.state.infData.snapchat && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.snapchat}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Image className="iconProfileSocial" src={snapchat}/>
+                                  </OverlayTrigger>}
+                                  {this.state.infData.tiktok && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.tiktok}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Image className="iconProfileSocial" src={tiktok}/>
+                                  </OverlayTrigger>}
+                                  {this.state.infData.pinterest && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.pinterest}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Image className="iconProfileSocial" src={pinterest}/>
+                                  </OverlayTrigger>}
+                                  {this.state.infData.twitch && <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={
+                                      <Tooltip>
+                                        {this.state.infData.twitch}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Image style={{width: '20px', height: '20px'}} src={twitch}/>
+                                  </OverlayTrigger>}
+
+                                </Row>
+                            </div>
                           </Col>
                         </Row>
 
