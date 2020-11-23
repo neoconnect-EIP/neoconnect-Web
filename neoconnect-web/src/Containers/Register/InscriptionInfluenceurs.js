@@ -73,7 +73,8 @@ export default class InfluencerSignUp extends React.Component{
         }
     }
 
-    handleSubmit = e => {
+    handleSubmit = () => {
+      console.log("oui");
         let body = {
             "pseudo": this.state.pseudo,
             "password": this.state.password,
@@ -99,6 +100,38 @@ export default class InfluencerSignUp extends React.Component{
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/register`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
             .then(res => {this.handleResponse(res)})
+            .catch(error => showNotif(true, "Erreur",null));
+    };
+
+    checkField = () => {
+        let body = {
+            "pseudo": this.state.pseudo,
+            "email": this.state.email,
+            "facebook": this.state.facebook,
+            "twitter": this.state.twitter,
+            "snapchat": this.state.snapchat,
+            "instagram": this.state.instagram,
+            "youtube": this.state.youtube,
+            "twitch": this.state.twitch,
+            "pinterest": this.state.pinterest,
+            "tiktok": this.state.tiktok,
+        };
+        Object.keys(body).forEach(key => body[key] === "" && delete body[key])
+        body = JSON.stringify(body);
+        console.log("body ", body);
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/checkField`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
+            .then(res => {
+              console.log(res);
+              return res.json();
+            })
+            .then(res => {
+              console.log(res);
+              if (res === true)
+                showNotif(true, "Erreur", "Compte existant, veuillez essayer un autre email, pseudo oou nom de réseaux sociaux.");
+              else {
+                this.handleSubmit();
+              }
+            })
             .catch(error => showNotif(true, "Erreur",null));
     };
 
@@ -493,7 +526,7 @@ export default class InfluencerSignUp extends React.Component{
                                           Suivant
                                       </Button>
                                       :
-                                      <Button onClick={this.handleSubmit} className="btnInf">
+                                      <Button onClick={() => {this.checkField()}} className="btnInf">
                                           S'inscrire
                                       </Button>
                                 }
