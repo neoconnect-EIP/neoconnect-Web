@@ -29,8 +29,7 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif, themeVal } from '../Utils.js';
-import { Line } from 'react-chartjs-2';
-import { displayComment } from '../../Components/Utils.js';
+import { displayComment, displayGraph } from '../../Components/Utils.js';
 
 class InfluenceurStatus extends React.Component{
     constructor(props) {
@@ -66,113 +65,9 @@ class InfluenceurStatus extends React.Component{
             followed: [],
             showFollowers: false,
             showParrainage: false,
+            showComment: false,
             code: '',
         };
-    }
-
-    getData = () => {
-       let data = {
-        labels: ['Avant', 'Maintenant'],
-        datasets: [
-          {
-            label: "Youtube",
-            backgroundColor: 'transparent',
-            borderColor: '#EA3323',
-            borderWidth: 2,
-            hoverBackgroundColor: 'transparent',
-            hoverBorderColor: '#EA3323',
-            data: [
-                (this.state.userData.youtube && this.state.userData.youtubeNb) ? this.state.userData.youtubeNb[0] : 0,
-                (this.state.userData.youtube && this.state.userData.youtubeNb && this.state.userData.youtubeNb.length > 1) ? this.state.userData.youtubeNb[1] : "",
-            ]
-          },
-          {
-            label: "Twitch",
-            backgroundColor: 'transparent',
-            borderColor: '#603DB0',
-            borderWidth: 2,
-            hoverBackgroundColor: 'transparent',
-            hoverBorderColor: '#603DB0',
-            data: [
-                (this.state.userData.twitch && this.state.userData.twitchNb) ? this.state.userData.twitchNb[0] : 0,
-                (this.state.userData.twitch && this.state.userData.twitchNb && this.state.userData.twitchNb.length > 1) ? this.state.userData.twitchNb[1] : "",
-            ]
-          },
-          {
-            label: "Twitter",
-            backgroundColor: 'transparent',
-            borderColor: '#68A8EB',
-            borderWidth: 2,
-            hoverBackgroundColor: 'transparent',
-            hoverBorderColor: '#68A8EB',
-            data: [
-                (this.state.userData.twitter && this.state.userData.twitterNb) ? this.state.userData.twitterNb[0] : 0,
-                (this.state.userData.twitter && this.state.userData.twitterNb&& this.state.userData.twitterNb.length > 1) ? this.state.userData.twitterNb[1] : "",
-            ]
-          },
-          {
-            label: "Instagram",
-            backgroundColor: 'transparent',
-            borderColor: '#B13C75',
-            borderWidth: 2,
-            hoverBackgroundColor: 'transparent',
-            hoverBorderColor: '#B13C75',
-            data: [
-                (this.state.userData.instagram && this.state.userData.instagramNb) ? this.state.userData.instagramNb[0] : 0,
-                (this.state.userData.instagram && this.state.userData.instagramNb && this.state.userData.instagramNb.length > 1) ? this.state.userData.instagramNb[1] : "",
-            ]
-          },
-          {
-            label: "Facebook",
-            backgroundColor: 'transparent',
-            borderColor: '#3876EA',
-            borderWidth: 2,
-            hoverBackgroundColor: 'transparent',
-            hoverBorderColor: '#3876EA',
-            data: [
-                (this.state.userData.facebook && this.state.userData.facebookNb) ? this.state.userData.facebookNb[0] : 0,
-                (this.state.userData.facebook && this.state.userData.facebookNb && this.state.userData.facebookNb.length > 1) ? this.state.userData.facebookNb[1] : "0",
-            ]
-          },
-          {
-            label: "Pinterest",
-            backgroundColor: 'transparent',
-            borderColor: '#86FB7D',
-            borderWidth: 2,
-            hoverBackgroundColor: 'transparent',
-            hoverBorderColor: '#86FB7D',
-            data: [
-                (this.state.userData.pinterest && this.state.userData.pinterestNb) ? this.state.userData.pinterestNb[0] : 0,
-                (this.state.userData.pinterest && this.state.userData.pinterestNb && this.state.userData.pinterestNb.length > 1) ? this.state.userData.pinterestNb[1] : "",
-            ]
-          },
-          {
-            label: "TikTok",
-            backgroundColor: 'transparent',
-            borderColor: '#000000',
-            borderWidth: 2,
-            hoverBackgroundColor: 'rgb(176, 196, 179)',
-            hoverBorderColor: '#000000',
-            data: [
-                (this.state.userData.tiktok && this.state.userData.tiktokNb) ? this.state.userData.tiktokNb[0] : 0,
-                (this.state.userData.tiktok && this.state.userData.tiktokNb && this.state.userData.tiktokNb.length > 1) ? this.state.userData.tiktokNb[1] : "",
-            ]
-          },
-          {
-            label: "Snapchat",
-            backgroundColor: 'transparent',
-            borderColor: '#FCEC60',
-            borderWidth: 2,
-            hoverBackgroundColor: 'transparent',
-            hoverBorderColor: '#FCEC60',
-            data: [
-                (this.state.userData.snapchat && this.state.userData.snapchatNb) ? this.state.userData.snapchatNb[0] : 0,
-                (this.state.userData.snapchat && this.state.userData.snapchatNb && this.state.userData.snapchatNb.length > 1) ? this.state.userData.snapchatNb[1] : "",
-            ]
-          }
-        ]
-      };
-      return data;
     }
 
     getInf = () => {
@@ -183,7 +78,7 @@ class InfluenceurStatus extends React.Component{
               "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => res.json())
-      .then(res => this.setState({userData: res}))
+      .then(res => {this.setState({userData: res})})
       .catch(error => showNotif(true, "Erreur",null));
     }
 
@@ -382,6 +277,7 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
+      console.log("this", this.state.userData);
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -519,6 +415,16 @@ class InfluenceurStatus extends React.Component{
                     </Button>
                   </Modal.Footer>
                 </Modal>
+                <Modal centered show={this.state.showComment} onHide={() => {this.closeModal('showComment')}}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Liste des commentaire</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {!this.state.userData || !this.state.userData.comment || this.state.userData.comment.length === 0 ?
+                      <p>Aucun commentaire</p> : this.state.userData.comment.map(x => {x.color = true; return displayComment(x);})
+                    }
+                  </Modal.Body>
+                </Modal>
                 {
                 this.state.userData ?
                   <div>
@@ -628,26 +534,12 @@ class InfluenceurStatus extends React.Component{
                       </Col>
                       <Col>
                         <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
-                        {
-                          !this.state.userData.comment || this.state.userData.comment.length === 0 ? <p style={{color: 'white'}}>Aucun commentaire</p> : this.state.userData.comment.map(x => displayComment(x))
-                        }
+                        <Button variant="outline-light" onClick={() => {this.setState({showComment: true})}}>Voir la liste des commentaire</Button>
                       </Col>
                     </Row>
                     {
-                      this.state.userData &&
-                      <Row className="ml-4 mt-4 mx-0 pb-3">
-                        <Col>
-                          <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avancées</h2>
-                          <div>
-                            <Line
-                              data={this.getData()}
-                              width={200}
-                              height={250}
-                              options={{ maintainAspectRatio: false }}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
+                      this.state.userData && this.state.userData.countParrainage >= 5 &&
+                      displayGraph(this.state.userData)
                     }
                   </div>
                   :

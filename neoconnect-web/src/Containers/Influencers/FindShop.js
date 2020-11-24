@@ -67,7 +67,13 @@ class FindShop extends React.Component{
               return (res.json());
             this.setState({loadSugg: false});
           })
-          .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res, loadSugg: false});})
+          .then(res => {
+            if (typeof(res) == 'object')
+              this.setState({suggestions: res, loadSugg: false});
+            else {
+              this.setState({loadSugg: false});
+            }
+          })
           .catch(error => {
             showNotif(true, "Erreur", null);
             this.setState({loadSugg: false});

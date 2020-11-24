@@ -48,7 +48,7 @@ class Advertisements extends React.Component{
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => res.json())
           .then(res => {
-            this.setState({adsSaver: res, adsData: res.sort((a, b) => {
+            this.setState({adsSaver: res, loadOffer: false, adsData: res.sort((a, b) => {
               if (typeof a.productName === 'string' && typeof b.productName === 'string'){
                 if (a.productName.length && b.productName.length){
                   if (a.productName[0] > b.productName[0]) return 1
@@ -56,7 +56,7 @@ class Advertisements extends React.Component{
                   else return 0
                 }else return 0
               }else return 0
-            })})
+            })});
             this.setState({adsData: res, adsSaver: res, loadOffer: false})
 
           })
@@ -84,12 +84,18 @@ class Advertisements extends React.Component{
     getSuggestions() {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {
-            console.log(res);
+            console.log("sugg ", res);
             if (res.status === 200)
               return (res.json());
             this.setState({loadSugg: false});
           })
-          .then(res => {if (typeof(res) == 'object') this.setState({suggestions: res, loadSugg: false});})
+          .then(res => {
+            if (typeof(res) == 'object')
+              this.setState({suggestions: res, loadSugg: false});
+            else {
+              this.setState({loadSugg: false});
+            }
+          })
           .catch(error => {
             showNotif(true, "Erreur", null);
             this.setState({loadSugg: false});
@@ -260,6 +266,8 @@ class Advertisements extends React.Component{
     };
 
     render() {
+      console.log("this.state.loadSugg", this.state.loadSugg);
+      console.log("this.state.loadOffer", this.state.loadOffer);
       // console.log("sugg ", this.state.suggestions);
       // console.log("adsData ", this.state.adsData);
       return (
