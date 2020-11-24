@@ -81,14 +81,14 @@ class InfluenceurStatus extends React.Component{
             hoverBackgroundColor: 'rgb(176, 196, 179)',
             hoverBorderColor: 'rgba(139,168,143,1)',
             data: [
-              this.state.userData.youtubeNb ? this.state.userData.youtubeNb[0] : 0,
-              this.state.userData.twitchNb ? this.state.userData.twitchNb[0] : 0,
-              this.state.userData.twitterNb ? this.state.userData.twitterNb[0] : 0,
-              this.state.userData.instagramNb ? this.state.userData.instagramNb[0] : 0,
-              this.state.userData.facebookNb ? this.state.userData.facebookNb[0] : 0,
-              this.state.userData.pinterestNb ? this.state.userData.pinterestNb[0] : 0,
-              this.state.userData.tiktokNb ? this.state.userData.tiktokNb[0] : 0,
-              this.state.userData.snapchatNb ? this.state.userData.snapchatNb[0] : 0
+                (this.state.userData.youtube && this.state.userData.youtubeNb) ? this.state.userData.youtubeNb[0] : 0,
+              (this.state.userData.twitch && this.state.userData.twitchNb) ? this.state.userData.twitchNb[0] : 0,
+              (this.state.userData.twitter && this.state.userData.twitterNb) ? this.state.userData.twitterNb[0] : 0,
+              (this.state.userData.instagram && this.state.userData.instagramNb) ? this.state.userData.instagramNb[0] : 0,
+              (this.state.userData.facebook && this.state.userData.facebookNb) ? this.state.userData.facebookNb[0] : 0,
+              (this.state.userData.pinterest && this.state.userData.pinterestNb) ? this.state.userData.pinterestNb[0] : 0,
+              (this.state.userData.tiktok && this.state.userData.tiktokNb) ? this.state.userData.tiktokNb[0] : 0,
+              (this.state.userData.snapchat && this.state.userData.snapchatNb) ? this.state.userData.snapchatNb[0] : 0
             ]
           }
         ]
@@ -125,13 +125,10 @@ class InfluenceurStatus extends React.Component{
         this.getFollowed();
     }
 
-    handleClose = (modalName) => {
-      this.state[modalName] = false;
-        this.forceUpdate();
-    }
-
-    handleCloseDelete = () => {
-        this.setState({visibleDelete: false})
+    closeModal = (modalName) => {
+      let stateVal = {};
+      stateVal[modalName] = false;
+      this.setState(stateVal);
     }
 
     handleChangeInfo = () => {
@@ -168,18 +165,17 @@ class InfluenceurStatus extends React.Component{
         }
     }
 
-  handleCodeResponse = async (res) => {
-    if (res.status === 200) {
-      this.state.code = '';
-      this.state.showParrainage = false;
-      showNotif(false, "Réussi", "Nous avons bien pris en compte de votre code de parrainage.");
+    handleCodeResponse = async (res) => {
+      if (res.status === 200) {
+        this.setState({code: '', showParrainage: false});
+        showNotif(false, "Réussi", "Nous avons bien pris en compte de votre code de parrainage.");
+      }
+      else {
+        var msg = await res.json();
+        showNotif(true,  "Erreur", msg);
+      }
+      this.setState({isActive: false});
     }
-    else {
-      var msg = await res.json();
-      showNotif(true,  "Erreur", msg);
-    }
-    this.setState({isActive: false});
-  }
 
     submitCode = () => {
       if (!this.state.code) {
@@ -260,8 +256,7 @@ class InfluenceurStatus extends React.Component{
             "tiktok": this.state.userData.tiktok !== this.state.tiktok ? this.state.tiktok : undefined,
             "theme": themeVal.indexOf(this.state.theme).toString(),
         };
-        Object.keys(body).forEach((key) => (body[key] === undefined || body[key] === "") && delete body[key]);
-        console.log(body);
+        Object.keys(body).forEach((key) => (body[key] === undefined) && delete body[key]);
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
@@ -325,7 +320,6 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
-      console.log(this.state.userData);
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -333,7 +327,7 @@ class InfluenceurStatus extends React.Component{
             text='Chargement...'
             >
             <div className="infBg">
-              <Modal size="lg" centered show={this.state.visible} onHide={() => {this.handleClose('visible')}}>
+              <Modal size="lg" centered show={this.state.visible} onHide={() => {this.closeModal('visible')}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Modifier vos informations</Modal.Title>
                 </Modal.Header>
@@ -440,7 +434,7 @@ class InfluenceurStatus extends React.Component{
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button className="btnCancel" onClick={() => {this.handleClose('visible')}}>
+                  <Button className="btnCancel" onClick={() => {this.closeModal('visible')}}>
                     Annuler
                   </Button>
                   <Button className="btnInfDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
@@ -449,13 +443,13 @@ class InfluenceurStatus extends React.Component{
                   </Button>
                   </Modal.Footer>
                 </Modal>
-                <Modal centered show={this.state.visibleDelete} onHide={() => {this.handleClose('visibleDelete')}}>
+                <Modal centered show={this.state.visibleDelete} onHide={() => {this.closeModal('visibleDelete')}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Suppression de compte</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>Êtes-vous sur de vouloir supprimer votre compte ?</Modal.Body>
                   <Modal.Footer>
-                    <Button className="btnCancel" onClick={this.handleCloseDelete}>
+                    <Button className="btnCancel" onClick={() => this.closeModal('visibleDelete')}>
                       Non
                     </Button>
                     <Button className="btnInfDelete" onClick={this.handleDelete}>
@@ -606,7 +600,7 @@ class InfluenceurStatus extends React.Component{
                   </div>
                 }
               </div>
-              <Modal centered size={'sm'} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>
+              <Modal centered size={'sm'} show={this.state.showFollowers} onHide={() => {this.closeModal('showFollowers')}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Vos abonnements</Modal.Title>
                 </Modal.Header>
@@ -616,7 +610,7 @@ class InfluenceurStatus extends React.Component{
                  }
                 </Modal.Body>
               </Modal>
-              <Modal centered show={this.state.showParrainage} onHide={() => {this.handleClose('showParrainage')}}>
+              <Modal centered show={this.state.showParrainage} onHide={() => {this.closeModal('showParrainage')}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Parrainage</Modal.Title>
                 </Modal.Header>
@@ -632,7 +626,7 @@ class InfluenceurStatus extends React.Component{
                 }
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button className="btnCancel" onClick={() => {this.handleClose('showParrainage')}}>Annuler</Button>
+                  <Button className="btnCancel" onClick={() => {this.closeModal('showParrainage')}}>Annuler</Button>
                   <Button className="btnInf" onClick={this.submitCode}>Envoyer</Button>
                 </Modal.Footer>
               </Modal>
