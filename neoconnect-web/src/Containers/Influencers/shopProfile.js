@@ -44,7 +44,6 @@ class shopProfile extends React.Component{
         this.state = {
             shopData: null,
             shopOffers: null,
-            userData: null,
             activeIndex: 0,
             visible: false,
             signal: false,
@@ -78,24 +77,10 @@ class shopProfile extends React.Component{
       }
     }
 
-    getUserData = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      }).then(res => res.json())
-        .then(res => this.setState({userData: res}))
-        .catch(error => showNotif(true, "Erreur",null));
-
-    }
-
     componentDidMount = () => {
       this.getShopData();
       this.getShopOffers();
-      this.getUserData();
-
-  }
+    }
 
     getUrlParams = (search) => {
         if (search === "")
@@ -145,7 +130,7 @@ class shopProfile extends React.Component{
           <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
             <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
               <div className="centerBlock" align="center">
-                <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
+                <Image style={{width: '40px', height: '40px'}} src={!x.userPicture || x.userPicture.length === 0 ? noAvatar : x.userPicture[0].imageData} roundedCircle />
                 <p style={{color: "white", fontWeight: '200'}}>{x.pseudo}</p>
               </div>
             </Col>
@@ -292,7 +277,7 @@ class shopProfile extends React.Component{
         return (
             <div className="infBg">
                 {
-                  this.state.shopData && this.state.userData ?
+                  this.state.shopData ?
                       <div>
                         <Modal centered show={this.state.messageModal} onHide={() => {this.setState({messageModal: false})}}>
                          <Modal.Header closeButton>
@@ -476,13 +461,8 @@ class shopProfile extends React.Component{
                             <Col className="mx-0 p-0">
                               <div className="mx-2 p-2" style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
                                 <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
-                                <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
-                                  <Col xs={2} md={2} lg={2} sm={2} xl={2}>
-                                    <div className="centerBlock" align="center">
-                                      <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
-                                    </div>
-                                  </Col>
-                                  <Col xs={8} md={8} lg={8} sm={8} xl={8}>
+                                <Row className="mt-4 mb-4"  xs={2} md={2} lg={2} sm={2} xl={2}>
+                                  <Col xs={10} md={10} lg={10} sm={10} xl={10}>
                                     <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                                   </Col>
                                   <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
