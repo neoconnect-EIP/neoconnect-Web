@@ -29,7 +29,7 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif, themeVal } from '../Utils.js';
-
+import {HorizontalBar} from 'react-chartjs-2';
 
 class InfluenceurStatus extends React.Component{
     constructor(props) {
@@ -67,6 +67,33 @@ class InfluenceurStatus extends React.Component{
             showParrainage: false,
             code: '',
         };
+    }
+
+    getData = () => {
+       var data = {
+        labels: ['Youtube', 'Twitch', 'Twitter', 'Instagram', 'Facebook', 'Pinterest', 'Tiktok', 'Snapchat'],
+        datasets: [
+          {
+            label: "Nombre d'abonnées",
+            backgroundColor: 'rgb(176, 196, 179)',
+            borderColor: 'rgba(139,168,143,1)',
+            borderWidth: 2,
+            hoverBackgroundColor: 'rgb(176, 196, 179)',
+            hoverBorderColor: 'rgba(139,168,143,1)',
+            data: [
+              this.state.userData.youtubeNb ? this.state.userData.youtubeNb[0] : 0,
+              this.state.userData.twitchNb ? this.state.userData.twitchNb[0] : 0,
+              this.state.userData.twitterhNb ? this.state.userData.twitterhNb[0] : 0,
+              this.state.userData.instagramNb ? this.state.userData.instagramNb[0] : 0,
+              this.state.userData.facebookNb ? this.state.userData.facebookNb[0] : 0,
+              this.state.userData.pinterestNb ? this.state.userData.pinterestNb[0] : 0,
+              this.state.userData.tiktokNb ? this.state.userData.tiktokNb[0] : 0,
+              this.state.userData.snapchatNb ? this.state.userData.snapchatNb[0] : 0
+            ]
+          }
+        ]
+      };
+      return data;
     }
 
     getInf = () => {
@@ -217,12 +244,12 @@ class InfluenceurStatus extends React.Component{
       else {
         this.setState({isActive: true, visible: false});
         let body = {
-            "full_name": this.state.fullName,
+            "full_name": this.state.userData.full_name !== this.state.fullName ? this.state.fullName : undefined,
             "email": this.state.userData.email !== this.state.email ? this.state.email : undefined,
-            "phone": this.state.phone,
-            "city": this.state.city,
+            "phone": this.state.userData.phone !== this.state.phone ? this.state.phone : undefined,
+            "city": this.state.userData.city !== this.state.city ? this.state.city : undefined,
             "userPicture": this.state.imgChanged ? this.state.userPicture : undefined,
-            "userDescription": this.state.desc,
+            "userDescription": this.state.userData.userDescription !== this.state.desc ? this.state.desc : undefined,
             "facebook": this.state.userData.facebook !== this.state.facebook ? this.state.facebook : undefined,
             "twitter": this.state.userData.twitter !== this.state.twitter ? this.state.twitter : undefined,
             "snapchat": this.state.userData.snapchat !== this.state.snapchat ? this.state.snapchat : undefined,
@@ -233,6 +260,8 @@ class InfluenceurStatus extends React.Component{
             "tiktok": this.state.userData.tiktok !== this.state.tiktok ? this.state.tiktok : undefined,
             "theme": themeVal.indexOf(this.state.theme).toString(),
         };
+        Object.keys(body).forEach((key) => (body[key] === undefined || body[key] === "") && delete body[key]);
+        console.log(body);
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/me`, { method: 'PUT', body: body,headers: {
                 'Content-Type': 'application/json',
@@ -296,6 +325,7 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
+      console.log(this.state.userData);
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -547,6 +577,22 @@ class InfluenceurStatus extends React.Component{
                         }
                       </Col>
                     </Row>
+                    {
+                      this.state.userData &&
+                      <Row className="ml-4 mt-4 mx-0 pb-3" xs={1} sm={1} md={2} lg={2} xl={2}>
+                        <Col>
+                          <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avancées</h2>
+                          <div>
+                            <HorizontalBar
+                              data={this.getData()}
+                              width={100}
+                              height={300}
+                              options={{ maintainAspectRatio: false }}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    }
                   </div>
                   :
                   <div>
