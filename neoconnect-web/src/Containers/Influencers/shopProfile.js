@@ -273,7 +273,6 @@ class shopProfile extends React.Component{
     }
 
     render() {
-      console.log(this.state.shopData);
         return (
             <div className="infBg">
                 {
