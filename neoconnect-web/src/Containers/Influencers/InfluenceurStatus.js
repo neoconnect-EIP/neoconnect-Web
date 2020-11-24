@@ -83,7 +83,7 @@ class InfluenceurStatus extends React.Component{
             data: [
               this.state.userData.youtubeNb ? this.state.userData.youtubeNb[0] : 0,
               this.state.userData.twitchNb ? this.state.userData.twitchNb[0] : 0,
-              this.state.userData.twitterhNb ? this.state.userData.twitterhNb[0] : 0,
+              this.state.userData.twitterNb ? this.state.userData.twitterNb[0] : 0,
               this.state.userData.instagramNb ? this.state.userData.instagramNb[0] : 0,
               this.state.userData.facebookNb ? this.state.userData.facebookNb[0] : 0,
               this.state.userData.pinterestNb ? this.state.userData.pinterestNb[0] : 0,
