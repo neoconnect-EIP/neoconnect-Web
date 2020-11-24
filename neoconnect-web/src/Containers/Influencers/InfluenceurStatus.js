@@ -29,7 +29,7 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif, themeVal } from '../Utils.js';
-import {HorizontalBar} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { displayComment } from '../../Components/Utils.js';
 
 class InfluenceurStatus extends React.Component{
@@ -71,25 +71,103 @@ class InfluenceurStatus extends React.Component{
     }
 
     getData = () => {
-       var data = {
-        labels: ['Youtube', 'Twitch', 'Twitter', 'Instagram', 'Facebook', 'Pinterest', 'Tiktok', 'Snapchat'],
+       let data = {
+        labels: ['Avant', 'Maintenant'],
         datasets: [
           {
-            label: "Nombre d'abonnées",
-            backgroundColor: 'rgb(176, 196, 179)',
-            borderColor: 'rgba(139,168,143,1)',
+            label: "Youtube",
+            backgroundColor: 'transparent',
+            borderColor: '#EA3323',
             borderWidth: 2,
-            hoverBackgroundColor: 'rgb(176, 196, 179)',
-            hoverBorderColor: 'rgba(139,168,143,1)',
+            hoverBackgroundColor: 'transparent',
+            hoverBorderColor: '#EA3323',
             data: [
                 (this.state.userData.youtube && this.state.userData.youtubeNb) ? this.state.userData.youtubeNb[0] : 0,
-              (this.state.userData.twitch && this.state.userData.twitchNb) ? this.state.userData.twitchNb[0] : 0,
-              (this.state.userData.twitter && this.state.userData.twitterNb) ? this.state.userData.twitterNb[0] : 0,
-              (this.state.userData.instagram && this.state.userData.instagramNb) ? this.state.userData.instagramNb[0] : 0,
-              (this.state.userData.facebook && this.state.userData.facebookNb) ? this.state.userData.facebookNb[0] : 0,
-              (this.state.userData.pinterest && this.state.userData.pinterestNb) ? this.state.userData.pinterestNb[0] : 0,
-              (this.state.userData.tiktok && this.state.userData.tiktokNb) ? this.state.userData.tiktokNb[0] : 0,
-              (this.state.userData.snapchat && this.state.userData.snapchatNb) ? this.state.userData.snapchatNb[0] : 0
+                (this.state.userData.youtube && this.state.userData.youtubeNb && this.state.userData.youtubeNb.length > 1) ? this.state.userData.youtubeNb[1] : "",
+            ]
+          },
+          {
+            label: "Twitch",
+            backgroundColor: 'transparent',
+            borderColor: '#603DB0',
+            borderWidth: 2,
+            hoverBackgroundColor: 'transparent',
+            hoverBorderColor: '#603DB0',
+            data: [
+                (this.state.userData.twitch && this.state.userData.twitchNb) ? this.state.userData.twitchNb[0] : 0,
+                (this.state.userData.twitch && this.state.userData.twitchNb && this.state.userData.twitchNb.length > 1) ? this.state.userData.twitchNb[1] : "",
+            ]
+          },
+          {
+            label: "Twitter",
+            backgroundColor: 'transparent',
+            borderColor: '#68A8EB',
+            borderWidth: 2,
+            hoverBackgroundColor: 'transparent',
+            hoverBorderColor: '#68A8EB',
+            data: [
+                (this.state.userData.twitter && this.state.userData.twitterNb) ? this.state.userData.twitterNb[0] : 0,
+                (this.state.userData.twitter && this.state.userData.twitterNb&& this.state.userData.twitterNb.length > 1) ? this.state.userData.twitterNb[1] : "",
+            ]
+          },
+          {
+            label: "Instagram",
+            backgroundColor: 'transparent',
+            borderColor: '#B13C75',
+            borderWidth: 2,
+            hoverBackgroundColor: 'transparent',
+            hoverBorderColor: '#B13C75',
+            data: [
+                (this.state.userData.instagram && this.state.userData.instagramNb) ? this.state.userData.instagramNb[0] : 0,
+                (this.state.userData.instagram && this.state.userData.instagramNb && this.state.userData.instagramNb.length > 1) ? this.state.userData.instagramNb[1] : "",
+            ]
+          },
+          {
+            label: "Facebook",
+            backgroundColor: 'transparent',
+            borderColor: '#3876EA',
+            borderWidth: 2,
+            hoverBackgroundColor: 'transparent',
+            hoverBorderColor: '#3876EA',
+            data: [
+                (this.state.userData.facebook && this.state.userData.facebookNb) ? this.state.userData.facebookNb[0] : 0,
+                (this.state.userData.facebook && this.state.userData.facebookNb && this.state.userData.facebookNb.length > 1) ? this.state.userData.facebookNb[1] : "0",
+            ]
+          },
+          {
+            label: "Pinterest",
+            backgroundColor: 'transparent',
+            borderColor: '#86FB7D',
+            borderWidth: 2,
+            hoverBackgroundColor: 'transparent',
+            hoverBorderColor: '#86FB7D',
+            data: [
+                (this.state.userData.pinterest && this.state.userData.pinterestNb) ? this.state.userData.pinterestNb[0] : 0,
+                (this.state.userData.pinterest && this.state.userData.pinterestNb && this.state.userData.pinterestNb.length > 1) ? this.state.userData.pinterestNb[1] : "",
+            ]
+          },
+          {
+            label: "TikTok",
+            backgroundColor: 'transparent',
+            borderColor: '#000000',
+            borderWidth: 2,
+            hoverBackgroundColor: 'rgb(176, 196, 179)',
+            hoverBorderColor: '#000000',
+            data: [
+                (this.state.userData.tiktok && this.state.userData.tiktokNb) ? this.state.userData.tiktokNb[0] : 0,
+                (this.state.userData.tiktok && this.state.userData.tiktokNb && this.state.userData.tiktokNb.length > 1) ? this.state.userData.tiktokNb[1] : "",
+            ]
+          },
+          {
+            label: "Snapchat",
+            backgroundColor: 'transparent',
+            borderColor: '#FCEC60',
+            borderWidth: 2,
+            hoverBackgroundColor: 'transparent',
+            hoverBorderColor: '#FCEC60',
+            data: [
+                (this.state.userData.snapchat && this.state.userData.snapchatNb) ? this.state.userData.snapchatNb[0] : 0,
+                (this.state.userData.snapchat && this.state.userData.snapchatNb && this.state.userData.snapchatNb.length > 1) ? this.state.userData.snapchatNb[1] : "",
             ]
           }
         ]
@@ -557,14 +635,14 @@ class InfluenceurStatus extends React.Component{
                     </Row>
                     {
                       this.state.userData &&
-                      <Row className="ml-4 mt-4 mx-0 pb-3" xs={1} sm={1} md={2} lg={2} xl={2}>
+                      <Row className="ml-4 mt-4 mx-0 pb-3">
                         <Col>
                           <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avancées</h2>
                           <div>
-                            <HorizontalBar
+                            <Line
                               data={this.getData()}
-                              width={100}
-                              height={300}
+                              width={200}
+                              height={250}
                               options={{ maintainAspectRatio: false }}
                             />
                           </div>
@@ -578,7 +656,7 @@ class InfluenceurStatus extends React.Component{
                         type="Triangle"
                         color="#fff"
                         height={200}
-                        width={200}
+                        width={400}
                         style={{paddingTop: "14rem", marginLeft: '40%'}}
                     />
                   </div>

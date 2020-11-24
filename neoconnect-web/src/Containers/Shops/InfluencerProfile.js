@@ -12,7 +12,6 @@ import Badge from 'react-bootstrap/Badge';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
