@@ -28,7 +28,6 @@ class adsItem extends React.Component{
         if (localStorage.getItem("userType") === "shop")
           this.props.history.push('/page-not-found');
         this.state = {
-            userData: null,
             visible: false,
             adData: null,
             actualId: 0,
@@ -255,10 +254,10 @@ class adsItem extends React.Component{
 
   handleComment = (x) => {
       return (
-        <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3} className="pl-4">
+        <Row key={x.id} xs={2} md={2} lg={2} sm={2} xl={2}>
           <Col xs={2} md={2} lg={2} sm={2} xl={2}>
             <div className="centerBlock" align="center">
-              <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : avatar} roundedCircle />
+              <Image style={{width: '40px', height: '40px'}} src={!x.userPicture || x.userPicture.length === 0 ? avatar : x.userPicture[0].imageData} roundedCircle />
               <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
             </div>
           </Col>
@@ -270,28 +269,14 @@ class adsItem extends React.Component{
       );
   }
 
+  closeModal = (modalName) => {
+    let stateVal = {raison: "", clickedSignal: false, info: ""};
+    stateVal[modalName] = false;
+    this.setState(stateVal);
+  }
+
   handleGlobalAnnonce = (id) => {
     window.location.pathname = `/dashboard/item/${id}`;
-  }
-
-  handleOpen = () => {
-    this.setState({signal: true})
-  }
-
-  handleClose = () => {
-    this.setState({signal: false, raison: "", clickedSignal: false, info: ""})
-  }
-
-  handleOpenNote = () => {
-    this.setState({note: true})
-  }
-
-  handleCloseNote = () => {
-    this.setState({note: false, raison: ""})
-  }
-
-  handleCloseShare = () => {
-    this.setState({share: false})
   }
 
   handleDelete = (id) => {
@@ -317,7 +302,7 @@ class adsItem extends React.Component{
             text='Chargement...'
             >
             <div justify="center" className="infBg">
-              <Modal centered show={this.state.signal} onHide={this.handleClose}>
+              <Modal centered show={this.state.signal} onHide={() => this.closeModal('signal')}>
                <Modal.Header closeButton>
                  <Modal.Title>Signaler cette offre</Modal.Title>
                </Modal.Header>
@@ -335,7 +320,7 @@ class adsItem extends React.Component{
                </Modal.Body>
                <Modal.Footer>
                  {!this.state.raison && this.state.clickedSignal && <small className="text-danger">Veuillez informer une raison</small>}
-                 <Button className="btnCancel" onClick={this.handleClose}>
+                 <Button className="btnCancel" onClick={() => this.closeModal('signal')}>
                    Annuler
                  </Button>
                  <Button className="btnInf" onClick={() => {this.handleAnnonceReport(this)}}>
@@ -343,7 +328,7 @@ class adsItem extends React.Component{
                  </Button>
                </Modal.Footer>
               </Modal>
-              <Modal centered show={this.state.share} onHide={this.handleCloseShare}>
+              <Modal centered show={this.state.share} onHide={() => this.closeModal('share')}>
                <Modal.Header closeButton>
                  <Modal.Title>Partager</Modal.Title>
                </Modal.Header>
@@ -371,7 +356,7 @@ class adsItem extends React.Component{
                  </Button>
                </Modal.Footer>
               </Modal>
-              <Modal centered show={this.state.note} onHide={this.handleCloseNote}>
+              <Modal centered show={this.state.note} onHide={() => this.closeModal('note')}>
                <Modal.Header closeButton>
                  <Modal.Title>Noter cette offre</Modal.Title>
                </Modal.Header>
@@ -379,7 +364,7 @@ class adsItem extends React.Component{
                   <Rate onChange={(e) => this.handleMark(e)} />
                </Modal.Body>
                <Modal.Footer>
-                 <Button className="btnCancel" onClick={this.handleClose}>
+                 <Button className="btnCancel" onClick={() => this.closeModal('note')}>
                    Annuler
                  </Button>
                  <Button className="btnInf" onClick={() => this.handleAnnonceNotation(this.state.adData)}>
@@ -404,7 +389,7 @@ class adsItem extends React.Component{
                       <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
                         <div style={{ textAlign:'left'}}>
                           <h3 style={{marginTop: "1rem", color: 'white', fontWeight: '300', display: "inline"}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
-                          <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
+                          <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => this.setState({signal: true})} className="my-auto border border-danger rounded-circle report"/>
                         </div>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         {
@@ -414,7 +399,7 @@ class adsItem extends React.Component{
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
                         <Row className="m-0 p-0">
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
-                          <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.handleOpenNote()}/>
+                          <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.setState({note: true})}/>
                         </Row>
                         {
                           this.state.applied.some(el => el.idOffer === this.state.adData.id) ?
@@ -427,12 +412,7 @@ class adsItem extends React.Component{
                   <Row className=" pb-4 mx-0">
                     <Col md={8} className="mt-4">
                       <h2 style={{fontWeight: '300', color: 'white'}} className="ml-4" >Avis</h2>
-                      <Row className="mt-4 mb-4 pl-4" xs={3} md={3} lg={3} sm={3} xl={3}>
-                        <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
-                          <div className="centerBlock" align="center">
-                            <Image style={{width: '40px', height: '40px'}} src={!this.state.userData || !this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? avatar : this.state.userData.userPicture[0].imageData} roundedCircle />
-                          </div>
-                        </Col>
+                      <Row className="mt-4 mb-4 pl-4" xs={2} md={2} lg={2} sm={2} xl={2}>
                         <Col xs={8} md={8} lg={8} sm={8} xl={8}>
                           <Form.Control onChange={(e) => {this.setState({commentInput: e.target.value})}} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                         </Col>
