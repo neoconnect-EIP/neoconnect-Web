@@ -122,9 +122,10 @@ class ShopStatus extends React.Component{
         }
     }
 
-    handleClose = (modalName) => {
-      this.state[modalName] = false;
-      this.forceUpdate();
+    closeModal = (modalName) => {
+      let stateVal = {};
+      stateVal[modalName] = false;
+      this.setState(stateVal);
     }
 
     handleChangeInfo = () => {
@@ -275,7 +276,7 @@ class ShopStatus extends React.Component{
                   </Button>
                 </Modal.Footer>
               </Modal>
-                <Modal size="lg" centered show={this.state.visible} onHide={() => {this.handleClose('visible')}}>
+                <Modal size="lg" centered show={this.state.visible} onHide={() => {this.closeModal('visible')}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Modifier vos informations</Modal.Title>
                   </Modal.Header>
@@ -371,7 +372,7 @@ class ShopStatus extends React.Component{
                     </Form>
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button className="btnCancel" onClick={() => {this.handleClose('visible')}}>
+                    <Button className="btnCancel" onClick={() => {this.closeModal('visible')}}>
                       Annuler
                     </Button>
                     <Button className="btnInfDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
@@ -481,7 +482,7 @@ class ShopStatus extends React.Component{
                     />
                   }
               </div>
-              <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.handleClose('showFollowers')}}>
+              <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.closeModal('showFollowers')}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Vos abonnements</Modal.Title>
                 </Modal.Header>
