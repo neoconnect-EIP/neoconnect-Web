@@ -203,7 +203,7 @@ class InfluenceurStatus extends React.Component{
           <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
             <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
               <div className="centerBlock" align="center">
-                <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
+                <Image style={{width: '40px', height: '40px'}}  src={!x.userPicture || x.userPicture.length === 0 ? noAvatar : x.userPicture[0].imageData} roundedCircle />
                 <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
               </div>
             </Col>
