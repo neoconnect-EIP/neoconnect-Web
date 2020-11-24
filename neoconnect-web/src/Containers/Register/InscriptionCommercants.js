@@ -224,10 +224,10 @@ export default class ShopSignUp extends React.Component{
                               <input ref={this.inputOpenFileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {this.handleImgChange(e, thisTmp)}}/>
                               {
                                 this.state.imgChanged ?
-                                <Image className="report" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
+                                <Image className="pointerClick" style={{width: '100px', height: '100px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
                                   src={`data:image/jpeg;base64,${this.state.userPicture}`} onClick={this.showOpenFileDlg} roundedCircle/>
                                  :
-                                <div className="mx-auto report" onClick={this.showOpenFileDlg}
+                                <div className="mx-auto pointerClick" onClick={this.showOpenFileDlg}
                                   style={{backgroundColor: '#7EB681', width: '100px', height: '100px', borderRadius: '50px', display: 'flex'}} >
                                     <Image className="my-auto mx-auto" style={{width: '50px', height: 'auto'}} src={camera} />
                                 </div>

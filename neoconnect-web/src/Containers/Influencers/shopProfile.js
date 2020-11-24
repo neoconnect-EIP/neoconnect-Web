@@ -257,7 +257,7 @@ class shopProfile extends React.Component{
     handleCard = (item) => {
         return (
           <Col key={item.id} xs={12} sm={12} md={12} lg={6} xl={6}>
-            <Card className="mt-2 report" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
+            <Card className="mt-2 pointerClick" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
               <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
               <Card.Body>
                 <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
@@ -465,7 +465,7 @@ class shopProfile extends React.Component{
                                     <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                                   </Col>
                                   <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
-                                    <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
+                                    <SendIcon className="pointerClick"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
                                   </Col>
                                 </Row>
                                 {

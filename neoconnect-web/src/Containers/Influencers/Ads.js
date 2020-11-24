@@ -112,7 +112,7 @@ class Ads extends React.Component {
             <Col className="mb-3" key={ad.id}>
               <Card className="cardlist mb-4">
                 <Card.Img  style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}
-                  variant="top" className="report" src={!ad.productImg || ad.productImg.length === 0 ? noImages : ad.productImg[0].imageData} />
+                  variant="top" className="pointerClick" src={!ad.productImg || ad.productImg.length === 0 ? noImages : ad.productImg[0].imageData} />
                 <Card.Body>
                   <Row>
                     <h5 className="ml-2">{ad.productName}</h5>

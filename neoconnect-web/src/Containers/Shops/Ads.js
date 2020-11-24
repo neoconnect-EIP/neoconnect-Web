@@ -154,7 +154,7 @@ class Ads extends React.Component {
               <Col className="mb-2" key={id}>
                 <Card className="cardlist">
                   <Card.Img style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/shop-dashboard/influencer?id=${inf.idUser}`)}}
-                    variant="top" className="report" src={!inf.userPicture || inf.userPicture.length === 0 ? noAvatar : inf.userPicture[0].imageData} />
+                    variant="top" className="pointerClick" src={!inf.userPicture || inf.userPicture.length === 0 ? noAvatar : inf.userPicture[0].imageData} />
                   <Card.Body>
                     <Row>
                       <h5 className="ml-2">{inf.pseudo}</h5>
@@ -288,7 +288,7 @@ class Ads extends React.Component {
                   </Tooltip>
                 }
               >
-               <EditTwoToneIcon style={{fill: "white"}} className="report my-auto mr-2" onClick={() => this.handleEdit(ad.id)}/>
+               <EditTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-2" onClick={() => this.handleEdit(ad.id)}/>
               </OverlayTrigger>{' '}
               <OverlayTrigger
                 placement={"top"}
@@ -298,7 +298,7 @@ class Ads extends React.Component {
                   </Tooltip>
                 }
               >
-               <DeleteTwoToneIcon style={{fill: "white"}} className="report my-auto mr-3" onClick={() => this.handleVisibleModal(ad)}/>
+               <DeleteTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-3" onClick={() => this.handleVisibleModal(ad)}/>
               </OverlayTrigger>{' '}
               <OverlayTrigger
                 placement={"top"}
@@ -308,7 +308,7 @@ class Ads extends React.Component {
                   </Tooltip>
                 }
               >
-               <CheckTwoToneIcon style={{fill: "white"}} className="report my-auto mr-3" onClick={() => {}}/>
+               <CheckTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-3" onClick={() => {}}/>
               </OverlayTrigger>{' '}
             </Row>
             <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>

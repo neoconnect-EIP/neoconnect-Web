@@ -159,22 +159,22 @@ class FindInfluencers extends React.Component {
               :
               <div>
                 <div className="ml-3">
-                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'mode' ? '#C5D341' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme !== 'mode' ? 'mode' : ''})}}>
+                  <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'mode' ? '#C5D341' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme !== 'mode' ? 'mode' : ''})}}>
                     Mode
                   </Badge>{' '}
-                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'game' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'game' ? 'game' : ''})}}>
+                  <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'game' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'game' ? 'game' : ''})}}>
                     Jeux vidéo
                   </Badge>{' '}
-                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'tech' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'tech' ? 'tech' : ''})}}>
+                  <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'tech' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'tech' ? 'tech' : ''})}}>
                     High Tech
                   </Badge>{' '}
-                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'nourriture' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'nourriture' ? 'nourriture' : ''})}}>
+                  <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'nourriture' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'nourriture' ? 'nourriture' : ''})}}>
                     Nourriture
                   </Badge>{' '}
-                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'cosmetic' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'cosmetic' ? 'cosmetic' : ''})}}>
+                  <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'cosmetic' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'cosmetic' ? 'cosmetic' : ''})}}>
                     Cosmétique
                   </Badge>{' '}
-                  <Badge pill className="report" style={{backgroundColor: this.state.theme === 'sport' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'sport' ? 'sport' : ''})}}>
+                  <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'sport' ? '#C5D341' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'sport' ? 'sport' : ''})}}>
                     Sport
                   </Badge>{' '}
                 </div>

@@ -389,7 +389,7 @@ class adsItem extends React.Component{
                       <h6 style={{color: 'white'}}>{this.state.adData.productType}</h6>
                         <div style={{ textAlign:'left'}}>
                           <h3 style={{marginTop: "1rem", color: 'white', fontWeight: '300', display: "inline"}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
-                          <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => this.setState({signal: true})} className="my-auto border border-danger rounded-circle report"/>
+                          <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => this.setState({signal: true})} className="my-auto border border-danger rounded-circle pointerClick"/>
                         </div>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         {
@@ -399,7 +399,7 @@ class adsItem extends React.Component{
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
                         <Row className="m-0 p-0">
                           <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
-                          <Image className="ml-4 mt-4 report" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.setState({note: true})}/>
+                          <Image className="ml-4 mt-4 pointerClick" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.setState({note: true})}/>
                         </Row>
                         {
                           this.state.applied.some(el => el.idOffer === this.state.adData.id) ?
@@ -417,7 +417,7 @@ class adsItem extends React.Component{
                           <Form.Control onChange={(e) => {this.setState({commentInput: e.target.value})}} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                         </Col>
                         <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
-                          <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
+                          <SendIcon className="pointerClick"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
                         </Col>
                       </Row>
                       {

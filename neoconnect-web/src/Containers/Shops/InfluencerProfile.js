@@ -282,7 +282,7 @@ class InfluencerProfile extends React.Component {
                           <Col xs='auto' md='auto' lg='auto' sm='auto' xl='auto'>
                             <Row className="ml-0">
                               <h1 style={{fontWeight: '300', color: 'white'}}>{this.state.infData.pseudo}</h1>
-                              <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => this.setState({signal: true})} className="my-auto border border-danger rounded-circle report ml-4"/>
+                              <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => this.setState({signal: true})} className="my-auto border border-danger rounded-circle pointerClick ml-4"/>
                               <Badge pill className="pill my-4 ml-2">{this.state.infData.theme}</Badge>
                             </Row>
                               <p className="text-light">{this.state.infData.userDescription}</p>
@@ -316,7 +316,7 @@ class InfluencerProfile extends React.Component {
                                       <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                                     </Col>
                                     <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
-                                      <SendIcon className="report"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
+                                      <SendIcon className="pointerClick"  onClick={this.handleSendMessage} style={{color: "#7FB780", width: "1.5rem", height: "1.5rem"}}/>
                                     </Col>
                                   </Row>
                                   {

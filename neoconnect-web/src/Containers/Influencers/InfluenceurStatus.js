@@ -484,11 +484,11 @@ class InfluenceurStatus extends React.Component{
                              </div>
                             <p style={{color: 'white', fontWeight: '300'}}>Note</p>
                           </Col>
-                          <Col className="mx-auto mt-4 report" align="center" onClick={() => {this.setState({showFollowers: true});}}>
+                          <Col className="mx-auto mt-4 pointerClick" align="center" onClick={() => {this.setState({showFollowers: true});}}>
                             <h3 style={{color: 'white'}}>{this.state.followed.length}</h3>
                             <p style={{color: 'white', fontWeight: '400'}}>Abonnement</p>
                           </Col>
-                          <Col className="mx-auto mt-4 report" align="center" onClick={() => {this.setState({showParrainage: true});}}>
+                          <Col className="mx-auto mt-4 pointerClick" align="center" onClick={() => {this.setState({showParrainage: true});}}>
                             <h3 style={{color: 'white'}}>{this.state.userData.countParrainage}</h3>
                             <p style={{color: 'white', fontWeight: '400'}}>Parrainage</p>
                           </Col>
