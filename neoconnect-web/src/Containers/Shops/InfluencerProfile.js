@@ -31,6 +31,7 @@ import youtube from "../../assets/youtube.svg";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import { showNotif } from '../Utils.js';
+import { displayComment } from '../../Components/Utils.js';
 
 class InfluencerProfile extends React.Component {
     constructor(props) {
@@ -117,23 +118,6 @@ class InfluencerProfile extends React.Component {
         this.setState({ commentInput: ""});
       }
     }
-
-    handleComment = (x) => {
-        return (
-            <Row key={x.id}>
-              <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
-                <div className="centerBlock" align="center">
-                  <Image style={{width: '40px', height: '40px'}}src={!x.userPicture || x.userPicture.length === 0 ? noAvatar : x.userPicture[0].imageData} roundedCircle />
-                  <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
-                </div>
-              </Col>
-              <Col xs={8} md={8} lg={8} sm={8} xl={8}>
-                <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
-                <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
-              </Col>
-            </Row>
-        )
-    };
 
     closeModal = (modalName) => {
       let stateVal = {raison: "", info: "", msg: ""};
@@ -320,7 +304,7 @@ class InfluencerProfile extends React.Component {
                                     </Col>
                                   </Row>
                                   {
-                                    !this.state.infData.comment || this.state.infData.comment.length === 0 ? "" : this.state.infData.comment.map(x => this.handleComment(x))
+                                    !this.state.infData.comment || this.state.infData.comment.length === 0 ? "" : this.state.infData.comment.map(x => displayComment(x))
                                   }
                             </div>
                           </Col>

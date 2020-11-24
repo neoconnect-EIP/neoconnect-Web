@@ -32,6 +32,7 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg";
+import { displayComment } from '../../Components/Utils.js';
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -72,7 +73,7 @@ class shopProfile extends React.Component{
       if (this.state.urlId) {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/shop/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => res.json())
-            .then(res => {console.log(res);this.setState({shopOffers: res})})
+            .then(res => {this.setState({shopOffers: res})})
             .catch(error => showNotif(true, "Erreur",null));
       }
     }
@@ -123,23 +124,6 @@ class shopProfile extends React.Component{
             .then(res => {res.json(); this.handleResponse(res)})
             .catch(error => showNotif(true, "Erreur",null));
         this.setState({visible: false});
-    };
-
-    handleComment = (x) => {
-        return (
-          <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
-            <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
-              <div className="centerBlock" align="center">
-                <Image style={{width: '40px', height: '40px'}} src={!x.userPicture || x.userPicture.length === 0 ? noAvatar : x.userPicture[0].imageData} roundedCircle />
-                <p style={{color: "white", fontWeight: '200'}}>{x.pseudo}</p>
-              </div>
-            </Col>
-            <Col>
-              <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
-              <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
-            </Col>
-          </Row>
-        )
     };
 
     handleMark = (e) => {
@@ -469,7 +453,7 @@ class shopProfile extends React.Component{
                                   </Col>
                                 </Row>
                                 {
-                                  !this.state.shopData.comment || this.state.shopData.comment.length === 0 ? "" : this.state.shopData.comment.map(x => this.handleComment(x))
+                                  !this.state.shopData.comment || this.state.shopData.comment.length === 0 ? "" : this.state.shopData.comment.map(x => displayComment(x))
                                 }
                               </div>
                             </Col>

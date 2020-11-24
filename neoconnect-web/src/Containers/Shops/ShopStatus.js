@@ -24,6 +24,7 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif, themeVal } from '../Utils.js';
+import { displayComment } from '../../Components/Utils.js';
 
 class ShopStatus extends React.Component{
     constructor(props) {
@@ -234,25 +235,6 @@ class ShopStatus extends React.Component{
         })
         .catch(error => showNotif(true, "Erreur",null));
     }
-
-    handleComment = (x) => {
-        return (
-          <Row key={x.id} xs={3} md={3} lg={3} sm={3} xl={3}>
-            <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
-              <div className="centerBlock" align="center">
-                <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
-                <p style={{fontWeight: '200'}}>{x.pseudo}</p>
-              </div>
-            </Col>
-            <Col>
-              <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
-              <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
-            </Col>
-          </Row>
-        )
-    };
-
-
 
     render() {
         return (
@@ -468,7 +450,7 @@ class ShopStatus extends React.Component{
                         </Col>
                         <Col>
                           <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
-                            {!this.state.userData.comment || this.state.userData.comment.length === 0 ? <p style={{color: 'white'}}>Aucun commentaire</p> : this.state.userData.comment.map(x => this.handleComment(x))}
+                            {!this.state.userData.comment || this.state.userData.comment.length === 0 ? <p style={{color: 'white'}}>Aucun commentaire</p> : this.state.userData.comment.map(x => displayComment(x))}
                         </Col>
                       </Row>
                     </div>

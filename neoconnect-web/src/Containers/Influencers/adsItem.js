@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom"
 import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
-import avatar from "../../assets/noImageFindInf.jpg";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -15,6 +14,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import LoadingOverlay from 'react-loading-overlay';
 import { showNotif } from '../Utils.js';
+import { displayComment } from '../../Components/Utils.js';
 import edit from "../../assets/edit.svg";
 import {Rate} from "antd";
 import Loader from 'react-loader-spinner';
@@ -252,23 +252,6 @@ class adsItem extends React.Component{
     }
   }
 
-  handleComment = (x) => {
-      return (
-        <Row key={x.id} xs={2} md={2} lg={2} sm={2} xl={2}>
-          <Col xs={2} md={2} lg={2} sm={2} xl={2}>
-            <div className="centerBlock" align="center">
-              <Image style={{width: '40px', height: '40px'}} src={!x.userPicture || x.userPicture.length === 0 ? avatar : x.userPicture[0].imageData} roundedCircle />
-              <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
-            </div>
-          </Col>
-          <Col>
-            <p style={{color: "white", fontSize: "12px"}}>{`Posté le ${new Date(x.createdAt).toLocaleDateString()}`}</p>
-            <p style={{color: "white", marginTop: "15px"}}>{x.comment}</p>
-          </Col>
-        </Row>
-      );
-  }
-
   closeModal = (modalName) => {
     let stateVal = {raison: "", clickedSignal: false, info: ""};
     stateVal[modalName] = false;
@@ -421,7 +404,7 @@ class adsItem extends React.Component{
                         </Col>
                       </Row>
                       {
-                        this.state.adData && this.state.adData.comment && this.state.adData.comment.length > 0 && this.state.adData.comment.map(x => this.handleComment(x))
+                        this.state.adData && this.state.adData.comment && this.state.adData.comment.length > 0 && this.state.adData.comment.map(x => displayComment(x))
                       }
                     </Col>
                   </Row>
