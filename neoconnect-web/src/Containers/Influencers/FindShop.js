@@ -186,7 +186,7 @@ class FindShop extends React.Component{
                 <Form inline className="ml-auto">
                   <FormControl type="text" placeholder="Exemple: Levis" className="mr-sm-2" value={this.state.search}
                     onChange={e => this.setState({ search: e.target.value })} />
-                  <Button variant="outline-success" disabled={this.state.loadShop} onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
+                  <Button variant="outline-success" disabled={this.state.loadShop || this.state.search.length === 0} onClick={() => {this.handleSearch()}}>Rechercher</Button>
                 </Form>
               </Navbar.Collapse>
             </Navbar>

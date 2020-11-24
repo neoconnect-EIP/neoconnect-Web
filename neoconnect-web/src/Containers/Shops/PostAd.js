@@ -231,7 +231,7 @@ class PostAd extends React.Component {
                           </Form.Group>
                         </Form.Row>
                         {
-                          (this.state.theme == "Mode" || this.state.theme == "Cosmétique") &&
+                          (this.state.theme === "Mode" || this.state.theme === "Cosmétique") &&
                           <Form.Row>
                             <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
                             <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}

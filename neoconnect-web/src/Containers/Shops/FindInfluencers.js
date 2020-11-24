@@ -143,7 +143,7 @@ class FindInfluencers extends React.Component {
                   <Form inline className="ml-auto">
                     <FormControl type="text" placeholder="Exemple: David" className="mr-sm-2" value={this.state.search}
                       onChange={e => this.setState({ search: e.target.value })} />
-                    <Button variant="outline-success" disabled={!this.state.influencersData || this.state.influencersData.length === 0} onClick={() => {this.handleSearch()}} disabled={this.state.search.length === 0}>Rechercher</Button>
+                    <Button variant="outline-success" disabled={!this.state.influencersData || this.state.influencersData.length === 0 || this.state.search.length === 0} onClick={() => {this.handleSearch()}}>Rechercher</Button>
                   </Form>
                 </Navbar.Collapse>
               </Navbar>

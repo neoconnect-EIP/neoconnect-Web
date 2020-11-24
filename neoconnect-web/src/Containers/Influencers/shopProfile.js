@@ -5,7 +5,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import noShop from "../../assets/noShop.jpg";
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
@@ -17,13 +16,9 @@ import Image from 'react-bootstrap/Image';
 import StarRatings from 'react-star-ratings';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import facebook from "../../assets/facebook.svg";
-import facebookOff from "../../assets/facebookOff.svg";
 import twitter from "../../assets/twitter.svg";
-import twitterOff from "../../assets/twitterOff.svg";
 import instagram from "../../assets/instagram.svg";
-import instagramOff from "../../assets/instagramOff.svg";
 import snapchat from "../../assets/snapchat.svg";
-import snapchatOff from "../../assets/snapchatOff.svg";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import place from "../../assets/place.svg";
@@ -357,7 +352,7 @@ class shopProfile extends React.Component{
                                     <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0 ? noAvatar : this.state.shopData.userPicture[0].imageData} roundedCircle/>
                                   </div>
                                 </Col>
-                                <Col className="my-auto" className="my-auto" xs={10} sm={12} md={8} lg={9} xl={10}>
+                                <Col className="my-auto" xs={10} sm={12} md={8} lg={9} xl={10}>
                                   <Row className="mx-0 mt-4" align="center">
                                     <h2  className="my-auto mr-2" style={{color: 'white', fontWeight: '400'}}>{this.state.shopData.full_name}</h2>
                                     <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>

@@ -447,7 +447,6 @@ export default class InfluencerSignUp extends React.Component{
 
     next = () => {
       if (this.checkForm()) {
-        const current = this.state.current + 1;
         if (this.state.current === 0)
           this.checkField(true);
         else

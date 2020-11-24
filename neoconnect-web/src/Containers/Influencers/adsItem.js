@@ -408,7 +408,7 @@ class adsItem extends React.Component{
                         </div>
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         {
-                          (this.state.adData.productSubject == 'Mode' || this.state.adData.productSubject == 'Cosmétique') &&
+                          (this.state.adData.productSubject === 'Mode' || this.state.adData.productSubject === 'Cosmétique') &&
                           <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{ this.state.adData.productSex}</h5>
                         }
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
