@@ -41,7 +41,6 @@ class InfluencerProfile extends React.Component {
           this.props.history.push('/page-not-found');
         this.state = {
             infData: null,
-            userData: null,
             visible: false,
             commentInput: "",
             signal: false,
@@ -66,18 +65,7 @@ class InfluencerProfile extends React.Component {
     }
 
     componentDidMount = () => {
-
       this.getInfData();
-
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-          .then(res => res.json())
-          .then(res => this.setState({userData: res}))
-          .catch(error => showNotif(true, "Erreur",null));
     };
 
     getUrlParams = (search) => {
@@ -135,7 +123,7 @@ class InfluencerProfile extends React.Component {
             <Row key={x.id}>
               <Col xs={2} md={2} lg={2} sm={2} xl={2} className="centerBlock">
                 <div className="centerBlock" align="center">
-                  <Image style={{width: '40px', height: '40px'}} src={x.avatar ? x.avatar : noAvatar} roundedCircle />
+                  <Image style={{width: '40px', height: '40px'}}src={!x.userPicture || x.userPicture.length === 0 ? noAvatar : x.userPicture[0].imageData} roundedCircle />
                   <p style={{fontWeight: '200', color: 'white'}}>{x.pseudo}</p>
                 </div>
               </Col>
@@ -147,16 +135,10 @@ class InfluencerProfile extends React.Component {
         )
     };
 
-    handleOpen = () => {
-      this.setState({signal: true})
-    }
-
-    handleCloseRate = () => {
-      this.setState({visible: false})
-    }
-
-    handleClose = () => {
-      this.setState({signal: false, raison: "", info: ""})
+    closeModal = (modalName) => {
+      let stateVal = {raison: "", info: "", msg: ""};
+      stateVal[modalName] = false;
+      this.setState(stateVal);
     }
 
     handleMark = (e) => {
@@ -223,9 +205,9 @@ class InfluencerProfile extends React.Component {
         return (
             <div className="shopBg">
                 {
-                    this.state.infData && this.state.userData ?
+                    this.state.infData ?
                       <div>
-                        <Modal centered show={this.state.messageModal} onHide={() => {this.setState({messageModal: false})}}>
+                        <Modal centered show={this.state.messageModal} onHide={() => this.closeModal('messageModal')}>
                          <Modal.Header closeButton>
                            <Modal.Title>Contacter</Modal.Title>
                          </Modal.Header>
@@ -241,7 +223,7 @@ class InfluencerProfile extends React.Component {
                           </Form>
                          </Modal.Body>
                          <Modal.Footer>
-                           <Button className="btnCancel" onClick={() => {this.setState({messageModal: false})}}>
+                           <Button className="btnCancel" onClick={() => this.closeModal('messageModal')}>
                              Annuler
                            </Button>
                            <Button className="btnInf" onClick={() => {this.handleSendMsg()}}>
@@ -249,7 +231,7 @@ class InfluencerProfile extends React.Component {
                            </Button>
                          </Modal.Footer>
                         </Modal>
-                        <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
+                        <Modal centered show={this.state.visible} onHide={() => this.closeModal('visible')}>
                          <Modal.Header closeButton>
                            <Modal.Title>Notez cette marque</Modal.Title>
                          </Modal.Header>
@@ -257,7 +239,7 @@ class InfluencerProfile extends React.Component {
                            <Rate onChange={(e) => this.handleMark(e)} />
                          </Modal.Body>
                          <Modal.Footer>
-                           <Button className="btnCancel" onClick={this.handleCloseRate}>
+                           <Button className="btnCancel" onClick={() => this.closeModal('visible')}>
                              Annuler
                            </Button>
                            <Button className="btnShop" onClick={this.handleSendMark}>
@@ -265,7 +247,7 @@ class InfluencerProfile extends React.Component {
                            </Button>
                          </Modal.Footer>
                         </Modal>
-                        <Modal centered show={this.state.signal} onHide={this.handleClose}>
+                        <Modal centered show={this.state.signal} onHide={() => this.closeModal('signal')}>
                          <Modal.Header closeButton>
                            <Modal.Title>Signaler cette influenceur</Modal.Title>
                          </Modal.Header>
@@ -283,7 +265,7 @@ class InfluencerProfile extends React.Component {
                          </Modal.Body>
                          <Modal.Footer>
                            {!this.state.raison && this.state.clickedSignal && <small className="text-danger">Veuillez informer une raison</small>}
-                           <Button className="btnCancel" onClick={this.handleClose}>
+                           <Button className="btnCancel" onClick={() => this.closeModal('signal')}>
                              Annuler
                            </Button>
                            <Button className="btnShop" onClick={() => {this.handleInfReport(this)}}>
@@ -300,7 +282,7 @@ class InfluencerProfile extends React.Component {
                           <Col xs='auto' md='auto' lg='auto' sm='auto' xl='auto'>
                             <Row className="ml-0">
                               <h1 style={{fontWeight: '300', color: 'white'}}>{this.state.infData.pseudo}</h1>
-                              <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report ml-4"/>
+                              <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => this.setState({signal: true})} className="my-auto border border-danger rounded-circle report ml-4"/>
                               <Badge pill className="pill my-4 ml-2">{this.state.infData.theme}</Badge>
                             </Row>
                               <p className="text-light">{this.state.infData.userDescription}</p>
@@ -327,16 +309,10 @@ class InfluencerProfile extends React.Component {
                         </Row>
                         <Row className="ml-0">
                           <Col md={7} className="pl-0">
-                            <Card className="ml-2" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
-                              <Card.Body>
-                                <Card.Title style={{color: 'white', marginLeft: '20px'}}>Avis</Card.Title>
-                                  <Row className="mt-4 mb-4"  xs={3} md={3} lg={3} sm={3} xl={3}>
-                                    <Col xs={2} md={2} lg={2} sm={2} xl={2}>
-                                      <div className="centerBlock" align="center">
-                                        <Image style={{width: '40px', height: '40px'}} src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle />
-                                      </div>
-                                    </Col>
-                                    <Col xs={8} md={8} lg={8} sm={8} xl={8}>
+                            <div className="ml-2 p-3" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
+                                <h2 style={{color: 'white', fontWeight: '300'}}>Avis</h2>
+                                  <Row className="mb-4 pt-2"  xs={2} md={2} lg={2} sm={2} xl={2}>
+                                    <Col xs={9} md={9} lg={9} sm={9} xl={9}>
                                       <Form.Control onChange={this.handleChange} value={this.state.commentInput} className="inputComment" type="text" placeholder="Commenter" />
                                     </Col>
                                     <Col xs={1} md={1} lg={1} sm={1} xl={1} className="my-auto">
@@ -346,8 +322,7 @@ class InfluencerProfile extends React.Component {
                                   {
                                     !this.state.infData.comment || this.state.infData.comment.length === 0 ? "" : this.state.infData.comment.map(x => this.handleComment(x))
                                   }
-                              </Card.Body>
-                            </Card>
+                            </div>
                           </Col>
                           <Col md={5} className="pl-0">
                             <div className="mr-2 p-3" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", backgroundColor: "transparent"}}>
