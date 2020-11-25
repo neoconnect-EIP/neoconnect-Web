@@ -79,8 +79,9 @@ export default class Login extends React.Component{
               localStorage.setItem('userType', res.userType);
               localStorage.setItem('pseudo', this.state.username);
               localStorage.setItem('menuId', res.userType === 'shop' ? 7 : 0);
-              this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur",null));
+              this.handleResponse(res);
+            })
+            .catch(error => {this.setState({isLoading: false});showNotif(true, "Erreur",null)});
       }
       else {
         showNotif(true, "Erreur", "Veuillez fournir le nom d'utilisateur et le mot de passe.");
@@ -103,6 +104,10 @@ export default class Login extends React.Component{
     }
 
     handleForgotPass = () => {
+      if (!this.state.email) {
+        showNotif(true, "Erreur", "Veuillez fournir l'adresse email")
+      }
+      else {
         let body = {
             "email": this.state.email,
         };
@@ -119,14 +124,14 @@ export default class Login extends React.Component{
             .then(res => { res.json(); this.handleForgotResponse(res)})
             .catch(error => showNotif(true, "Erreur",null));
         }
+      }
     };
 
     handleResetPass = () => {
-      if (this.state.newPass !== this.state.newPassSec) {
-        showNotif(true, "Erreur", "Les mots de passe ne se correspondent pas");
+      if (this.state.newPass !== this.state.newPassSec || !this.state.code) {
+        showNotif(true, "Erreur", "Veuillez remplir tout les champs et s'assurer que les mots de passe se correspondent.");
       }
       else {
-
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/resetPassword/${this.state.code}`, {
           method: 'GET',
           headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
@@ -185,16 +190,16 @@ export default class Login extends React.Component{
                </Modal.Header>
                <Modal.Body>
                  {this.state.sent ? <div>
-                    <Form.Label>Code</Form.Label>
+                    <Form.Label>Code*</Form.Label>
                     <Form.Control type="text" onChange={this.handleCode} value={this.state.code}/>
-                    <Form.Label>Nouveau mot de passe</Form.Label>
+                    <Form.Label>Nouveau mot de passe*</Form.Label>
                     <Form.Control type="password" onChange={this.handlenewPass} value={this.state.newPass}/>
-                    <Form.Label>Répétez le mot de passe</Form.Label>
+                    <Form.Label>Répétez le mot de passe*</Form.Label>
                     <Form.Control type="password" onChange={this.handlenewPassSec} value={this.state.newPassSec}/>
                   </div> :
                   <div>
                     <p>Veuillez entrer votre addrese email. Un code à fournir vous sera envoyé</p>
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>Email*</Form.Label>
                     <Form.Control type="email" placeholder="exemple@exemple.fr" onChange={this.handleEmailChange} value={this.state.email}/>
                   </div>
                 }
@@ -202,14 +207,7 @@ export default class Login extends React.Component{
                <Modal.Footer>
                  {!this.state.sent &&
                    <Button className="btnInf" onClick={() => {
-                       if (!this.state.email)
-                       {
-                        showNotif(true, "Erreur", "Veuillez indiquez votre addresse email");
-                       }
-                       else
-                       {
                          this.setState({sent: true})
-                       }
                      }}>
                      Rentrer le code
                    </Button>}
