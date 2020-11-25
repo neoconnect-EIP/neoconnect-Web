@@ -19,8 +19,6 @@ import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import instagram from "../../assets/instagram.svg";
 import snapchat from "../../assets/snapchat.svg";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import place from "../../assets/place.svg";
 import edit from "../../assets/edit.svg";
 import {Rate} from "antd";
@@ -32,7 +30,7 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg";
-import { displayComment } from '../../Components/Utils.js';
+import { displayComment, displaySocialMed } from '../../Components/Utils.js';
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -322,54 +320,12 @@ class shopProfile extends React.Component{
                                 </Col>
                                 <Col className="my-auto" xs={10} sm={12} md={8} lg={9} xl={10}>
                                   <Row className="mx-0 mt-4" align="center">
-                                    <h2  className="my-auto mr-2" style={{color: 'white', fontWeight: '400'}}>{this.state.shopData.full_name}</h2>
+                                    <h2  className="my-auto mr-2" style={{color: 'white', fontWeight: '400'}}>{this.state.shopData.pseudo}</h2>
                                     <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
                                     {
                                       this.state.shopData.theme &&
                                       <Badge pill className="pill my-3 py-auto mx-3">{this.state.shopData.theme}</Badge>
                                     }
-                                    <Row className="ml-0 my-auto">
-                                     {this.state.shopData.facebook && <OverlayTrigger
-                                       placement="bottom"
-                                       overlay={
-                                         <Tooltip>
-                                           {this.state.shopData.facebook}
-                                         </Tooltip>
-                                       }
-                                     >
-                                       <Image className="iconProfileSocial" src={facebook}/>
-                                     </OverlayTrigger>}
-                                     {this.state.shopData.instagram && <OverlayTrigger
-                                       placement="bottom"
-                                       overlay={
-                                         <Tooltip>
-                                           {this.state.shopData.instagram}
-                                         </Tooltip>
-                                       }
-                                     >
-                                     <Image className="iconProfileSocial" src={instagram}/>
-                                     </OverlayTrigger>}
-                                     {this.state.shopData.twitter && <OverlayTrigger
-                                       placement="bottom"
-                                       overlay={
-                                         <Tooltip>
-                                           {this.state.shopData.twitter}
-                                         </Tooltip>
-                                       }
-                                     >
-                                       <Image className="iconProfileSocial" src={twitter}/>
-                                     </OverlayTrigger>}
-                                     {this.state.shopData.snapchat && <OverlayTrigger
-                                       placement="bottom"
-                                       overlay={
-                                         <Tooltip>
-                                           {this.state.shopData.snapchat}
-                                         </Tooltip>
-                                       }
-                                     >
-                                       <Image className="iconProfileSocial" src={snapchat}/>
-                                     </OverlayTrigger>}
-                                    </Row>
                                   </Row>
                                   <Row xs={1} sm={2} md={2} lg={3} xl={3} className="mx-auto w-100">
                                     <Col className="mt-2 px-0" align="center">
@@ -428,6 +384,12 @@ class shopProfile extends React.Component{
                                 <Row className="mx-0 mb-1">
                                   <Image className="iconProfileSocial" src={phone}/>
                                   <p style={{color:'white'}}>{this.state.shopData.phone ? this.state.shopData.phone : "Non fourni"}</p>
+                                </Row>
+                                <Row className="ml-0 my-auto">
+                                  {displaySocialMed(this.state.shopData.facebook, facebook)}
+                                  {displaySocialMed(this.state.shopData.instagram, instagram)}
+                                  {displaySocialMed(this.state.shopData.twitter, twitter)}
+                                  {displaySocialMed(this.state.shopData.snapchat, snapchat)}
                                 </Row>
                               </div>
                               <div className="mx-2 mt-4 p-2" style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
@@ -491,94 +453,3 @@ class shopProfile extends React.Component{
 }
 
 export default withRouter(shopProfile)
-
-// <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}}  className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={3}>
-//   <Col className="my-auto">
-//     <div className="centerBlock" align="center">
-//       <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.shopData.userPicture || this.state.shopData.userPicture.length === 0 ? noAvatar : this.state.shopData.userPicture[0].imageData} roundedCircle/>
-//     </div>
-//   </Col>
-//   <Col>
-//     <Row className="ml-0">
-//       <h1 style={{fontWeight: '300', marginRight: '25px', color: 'white'}}>{this.state.shopData.pseudo}</h1>
-//       <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red'}} onClick={() => {this.handleOpen()}} className="my-auto border border-danger rounded-circle report"/>
-//     </Row>
-//     <Image className="iconProfileSocial" src={place}/> <span style={{color: 'white'}}>{this.state.shopData.city ? this.state.shopData.city : "Non renseigné"}</span>
-//       <Row className="ml-0 mt-2">
-//         {this.state.shopData.facebook && <OverlayTrigger
-//           placement="bottom"
-//           overlay={
-//             <Tooltip>
-//               {this.state.shopData.facebook}
-//             </Tooltip>
-//           }
-//         >
-//           <Image className="iconProfileSocial" src={facebook}/>
-//         </OverlayTrigger>}
-//         {this.state.shopData.instagram && <OverlayTrigger
-//           placement="bottom"
-//           overlay={
-//             <Tooltip>
-//               {this.state.shopData.instagram}
-//             </Tooltip>
-//           }
-//         >
-//         <Image className="iconProfileSocial" src={instagram}/>
-//         </OverlayTrigger>}
-//         {this.state.shopData.twitter && <OverlayTrigger
-//           placement="bottom"
-//           overlay={
-//             <Tooltip>
-//               {this.state.shopData.twitter}
-//             </Tooltip>
-//           }
-//         >
-//           <Image className="iconProfileSocial" src={twitter}/>
-//         </OverlayTrigger>}
-//         {this.state.shopData.snapchat && <OverlayTrigger
-//           placement="bottom"
-//           overlay={
-//             <Tooltip>
-//               {this.state.shopData.snapchat}
-//             </Tooltip>
-//           }
-//         >
-//           <Image className="iconProfileSocial" src={snapchat}/>
-//         </OverlayTrigger>}
-//       </Row>
-//       <Row>
-//         {
-//           this.state.follow === true ?
-//           <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleUnFollow}>Désabonner</Button>:
-//           <Button variant="outline-light" className="mt-4 ml-2" onClick={this.handleFollow}>S'abonner</Button>
-//         }
-//         <Button variant="outline-light" className="mt-4 ml-2" onClick={() => {this.setState({messageModal: true})}}>Contacter</Button>
-//       </Row>
-//   </Col>
-//   <Col className="pt-2">
-//     <Row>
-//       <h2 style={{fontWeight: '300', color: 'white'}}>Note</h2>
-//     </Row>
-//     {!this.state.shopData.average && <p style={{fontWeight: '200'}}>Aucune note</p>}
-//     <Row>
-//       {this.state.shopData.average &&
-//       <p className="pt-1 mr-3" style={{color: "white"}}>{this.state.shopData.average}</p>}
-//       <StarRatings
-//          rating={this.state.shopData.average ? this.state.shopData.average : 0}
-//          starRatedColor="#FFC106"
-//          numberOfStars={5}
-//          name='rating'
-//          starDimension="20px"
-//        />
-//        <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
-//     </Row>
-//   </Col>
-//   <Col>
-//     <h2 style={{fontWeight: '300', color: 'white'}}>Offres</h2>
-//     <p className="text-light">{this.state.shopData.nbOfferPosted}</p>
-//   </Col>
-//   <Col>
-//     <h2 style={{fontWeight: '300', color: 'white'}}>Abonnées</h2>
-//     <p className="text-light">{this.state.shopData.nbFollows}</p>
-//   </Col>
-// </Row>

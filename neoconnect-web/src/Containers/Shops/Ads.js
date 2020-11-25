@@ -13,7 +13,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Image from 'react-bootstrap/Image';
 import Tooltip from 'react-bootstrap/Tooltip';
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import StarRatings from 'react-star-ratings';
@@ -26,6 +25,7 @@ import youtube from "../../assets/youtube.svg";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import { showNotif } from '../Utils.js';
+import { displaySocialMed } from '../../Components/Utils.js';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -168,86 +168,14 @@ class Ads extends React.Component {
                       starDimension="20px"
                     />
                       <Row className="ml-0 mt-2">
-                        {inf.facebook && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.facebook}
-                            </Tooltip>
-                          }
-                        >
-                          <Image className="iconProfileSocial" src={facebook}/>
-                        </OverlayTrigger>}
-                        {inf.instagram && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.instagram}
-                            </Tooltip>
-                          }
-                        >
-                        <Image className="iconProfileSocial" src={instagram}/>
-                        </OverlayTrigger>}
-                        {inf.twitter && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.twitter}
-                            </Tooltip>
-                          }
-                        >
-                          <Image className="iconProfileSocial" src={twitter}/>
-                        </OverlayTrigger>}
-                        {inf.youtube && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.youtube}
-                            </Tooltip>
-                          }
-                        >
-                          <Image className="iconProfileSocial" src={youtube}/>
-                        </OverlayTrigger>}
-                        {inf.snapchat && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.snapchat}
-                            </Tooltip>
-                          }
-                        >
-                          <Image className="iconProfileSocial" src={snapchat}/>
-                        </OverlayTrigger>}
-                        {inf.tiktok && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.tiktok}
-                            </Tooltip>
-                          }
-                        >
-                          <Image className="iconProfileSocial" src={tiktok}/>
-                        </OverlayTrigger>}
-                        {inf.pinterest && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.pinterest}
-                            </Tooltip>
-                          }
-                        >
-                          <Image className="iconProfileSocial" src={pinterest}/>
-                        </OverlayTrigger>}
-                        {inf.twitch && <OverlayTrigger
-                          placement="bottom"
-                          overlay={
-                            <Tooltip>
-                              {inf.twitch}
-                            </Tooltip>
-                          }
-                        >
-                          <Image style={{width: '20px', height: '20px'}} src={twitch}/>
-                        </OverlayTrigger>}
+                        {displaySocialMed(inf.facebook, facebook)}
+                        {displaySocialMed(inf.instagram, instagram)}
+                        {displaySocialMed(inf.twitter, twitter)}
+                        {displaySocialMed(inf.youtube, youtube)}
+                        {displaySocialMed(inf.snapchat, snapchat)}
+                        {displaySocialMed(inf.tiktok, tiktok)}
+                        {displaySocialMed(inf.pinterest, pinterest)}
+                        {displaySocialMed(inf.twitch, twitch)}
                       </Row>
                       <Row className="mt-4">
                         {

@@ -12,8 +12,6 @@ import Badge from 'react-bootstrap/Badge';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import edit from "../../assets/edit.svg";
 import StarRatings from 'react-star-ratings';
@@ -30,7 +28,7 @@ import youtube from "../../assets/youtube.svg";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import { showNotif } from '../Utils.js';
-import { displayComment } from '../../Components/Utils.js';
+import { displayComment, displaySocialMed } from '../../Components/Utils.js';
 
 class InfluencerProfile extends React.Component {
     constructor(props) {
@@ -322,87 +320,14 @@ class InfluencerProfile extends React.Component {
                                   </Col>
                                 </Row>
                                 <Row className="ml-0 mt-2">
-                                  {this.state.infData.facebook && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.facebook}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <Image className="iconProfileSocial" src={facebook}/>
-                                  </OverlayTrigger>}
-                                  {this.state.infData.instagram && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.instagram}
-                                      </Tooltip>
-                                    }
-                                  >
-                                  <Image className="iconProfileSocial" src={instagram}/>
-                                  </OverlayTrigger>}
-                                  {this.state.infData.twitter && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.twitter}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <Image className="iconProfileSocial" src={twitter}/>
-                                  </OverlayTrigger>}
-                                  {this.state.infData.youtube && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.youtube}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <Image className="iconProfileSocial" src={youtube}/>
-                                  </OverlayTrigger>}
-                                  {this.state.infData.snapchat && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.snapchat}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <Image className="iconProfileSocial" src={snapchat}/>
-                                  </OverlayTrigger>}
-                                  {this.state.infData.tiktok && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.tiktok}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <Image className="iconProfileSocial" src={tiktok}/>
-                                  </OverlayTrigger>}
-                                  {this.state.infData.pinterest && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.pinterest}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <Image className="iconProfileSocial" src={pinterest}/>
-                                  </OverlayTrigger>}
-                                  {this.state.infData.twitch && <OverlayTrigger
-                                    placement="bottom"
-                                    overlay={
-                                      <Tooltip>
-                                        {this.state.infData.twitch}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <Image style={{width: '20px', height: '20px'}} src={twitch}/>
-                                  </OverlayTrigger>}
-
+                                  {displaySocialMed(this.state.infData.facebook, facebook)}
+                                  {displaySocialMed(this.state.infData.instagram, instagram)}
+                                  {displaySocialMed(this.state.infData.twitter, twitter)}
+                                  {displaySocialMed(this.state.infData.youtube, youtube)}
+                                  {displaySocialMed(this.state.infData.snapchat, snapchat)}
+                                  {displaySocialMed(this.state.infData.tiktok, tiktok)}
+                                  {displaySocialMed(this.state.infData.pinterest, pinterest)}
+                                  {displaySocialMed(this.state.infData.twitch, twitch)}
                                 </Row>
                             </div>
                           </Col>

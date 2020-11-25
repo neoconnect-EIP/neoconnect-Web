@@ -4,6 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
 import { Line } from 'react-chartjs-2';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export const displayComment = (item) => {
   return (
@@ -20,6 +22,23 @@ export const displayComment = (item) => {
       </Col>
     </Row>
   );
+}
+
+export const displaySocialMed = (socialM , srcImg) => {
+  if (socialM) {
+    return (
+      <OverlayTrigger
+        placement="bottom"
+        overlay={
+          <Tooltip>
+            {socialM}
+          </Tooltip>
+        }
+      >
+        <Image className="iconProfileSocial" src={srcImg}/>
+      </OverlayTrigger>
+    )
+  }
 }
 
 function getData(socialMedia, followers, name, color, legend) {

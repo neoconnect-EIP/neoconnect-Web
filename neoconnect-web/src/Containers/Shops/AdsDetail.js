@@ -7,7 +7,6 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
-import Image from 'react-bootstrap/Image';
 import Carousel from 'react-bootstrap/Carousel';
 import LoadingOverlay from 'react-loading-overlay';
 import { showNotif } from '../Utils.js';
