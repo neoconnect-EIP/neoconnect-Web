@@ -27,7 +27,6 @@ class Ads extends React.Component {
             message: "",
             isLoading: true,
             modalMode: "",
-            type:['', 'Mode', 'Cosmetique', 'Technologie', 'Nourriture', 'Jeux video', 'Sport/Fitness'],
             fb: "",
             validFb: true,
             ig: "",
@@ -111,7 +110,7 @@ class Ads extends React.Component {
           this.state.adsData.map(ad => (
             <Col className="mb-3" key={ad.id}>
               <Card className="cardlist mb-4">
-                <Card.Img  style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/dashboard/item?id=${ad.idOffer}`)}}
+                <Card.Img  style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/dashboard/item/${ad.idOffer}`)}}
                   variant="top" className="pointerClick" src={!ad.productImg || ad.productImg.length === 0 ? noImages : ad.productImg[0].imageData} />
                 <Card.Body>
                   <Row>
@@ -121,7 +120,7 @@ class Ads extends React.Component {
                   <p style={{fontWeight: '300', fontSize: 12}}>{ad.brand}</p>
                   <p style={{fontWeight: '300', fontSize: 18}}>{ad.status  === "accepted" ? "Accepté" : (ad.status  === "pending" ? "En attente" : "Refusé")}</p>
                   <Row className="mt-4">
-                    <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>{' '}
+                    {ad.status  === "pending" && <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>}
                     {ad.status  === "accepted" && <Button className="btnInf ml-2" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>}
                   </Row>
                 </Card.Body>

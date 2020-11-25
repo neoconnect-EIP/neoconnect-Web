@@ -174,9 +174,19 @@ class Actuality extends React.Component{
                     <p>{item.productSubject}</p>
                     <Row className="ml-1">
                       {
-                        item.status ?
-                        <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>:
-                        <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
+                        !item.status && <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
+                      }
+                      {
+                        item.status && item.status === "pending" && <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>
+
+                      }
+                      {
+                          item.status && item.status === "refused" &&
+                          <p>Demande refusé</p>
+                      }
+                      {
+                          item.status && item.status === "accepted" &&
+                          <p>Demande accepté</p>
                       }
                     </Row>
                   </Card.Body>

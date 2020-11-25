@@ -307,16 +307,29 @@ class adsItem extends React.Component{
                           <h3 style={{marginTop: "1rem", color: 'white', fontWeight: '300', display: "inline"}}>{this.state.adData.productName ? this.state.adData.productName : "Sans nom"}</h3>
                           <PriorityHighRoundedIcon style={{width: '15px', height: '15px', color: 'red', display: "inline", marginLeft: '5px'}} onClick={() => this.setState({signal: true})} className="my-auto border border-danger rounded-circle pointerClick"/>
                         </div>
+                        {
+                          this.state.adData.brand && <p style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>De la marque {this.state.adData.brand}</p>
+                        }
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{`${this.state.adData.productDesc ? this.state.adData.productDesc : ""}`}</h5>
                         {
                           (this.state.adData.productSubject === 'Mode' || this.state.adData.productSubject === 'Cosmétique') &&
                           <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{ this.state.adData.productSex}</h5>
                         }
-                        <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
-                        {
-                          this.state.adData.status ?
-                          <Button onClick={() => this.handleDelete(this.state.adData.id)} className="btnInf">Annuler</Button>:
-                          <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
+                        <p style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</p>
+                          {
+                            !this.state.adData.status && <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(this.state.adData)}}>Postuler</Button>
+                          }
+                          {
+                            this.state.adData.status && this.state.adData.status === "pending" && <Button className="btnInf mr-auto" onClick={() => {this.handleDelete(this.state.adData.id)}}>Annuler</Button>
+
+                          }
+                          {
+                              this.state.adData.status && this.state.adData.status === "refused" &&
+                              <p className="text-light">Demande refusé</p>
+                          }
+                          {
+                              this.state.adData.status && this.state.adData.status === "accepted" &&
+                              <p className="text-light">Demande accepté</p>
                           }
                         <Button onClick={() => this.setState({share: true})} className="btnInf ml-2">Partager</Button>
                     </Col>

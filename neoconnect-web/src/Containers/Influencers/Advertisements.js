@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -217,10 +216,19 @@ class Advertisements extends React.Component{
                 <p>{item.productSubject}</p>
                 <Row className="ml-1">
                   {
-                    item.status ?
-                    <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>
-                    :
-                    <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
+                    !item.status && <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
+                  }
+                  {
+                    item.status && item.status === "pending" && <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>
+
+                  }
+                  {
+                      item.status && item.status === "refused" &&
+                      <p>Demande refusé</p>
+                  }
+                  {
+                      item.status && item.status === "accepted" &&
+                      <p>Demande accepté</p>
                   }
                 </Row>
               </Card.Body>

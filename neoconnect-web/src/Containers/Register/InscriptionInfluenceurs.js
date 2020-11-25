@@ -50,7 +50,7 @@ export default class InfluencerSignUp extends React.Component{
               "Bad Request, Please give a pseudo and a password": "Veuillez fournir un pseudo et un mot de passe",
               "Bad Request, User already exist": "Nom d'utilisateur déjà existant",
               "Invalid password, the password must contain at least 1 capital letter, 1 small letter, 1 number and must be between 4 and 12 characters": "Mot de passe invalide, il doit contenir au moins une lettre majuscule, une lettre minuscule, 1 chiffre et doit etre de 4 à 12 caractères.",
-              "Invalid Pseudo, the pseudo must be between 4 and 12 characters": "Pseudo invalide. il doit être entre 4 et 12 caractères."
+              "Invalid Pseudo, the pseudo must be between 3 and 24 characters": "Pseudo invalide. il doit être entre 3 et 12 caractères."
             },
             isActive: false,
             emailPseudoExist: true,
@@ -74,7 +74,7 @@ export default class InfluencerSignUp extends React.Component{
           var msg = await res.json();
           showNotif(true, "Erreur", this.state.errMsg[msg]);
         }
-        this.setState({isActive: true});
+        this.setState({isActive: false});
     }
 
     handleSubmit = () => {
@@ -106,7 +106,7 @@ export default class InfluencerSignUp extends React.Component{
             .then(res => {this.handleResponse(res)})
             .catch(error => {
               showNotif(true, "Erreur",null);
-              this.setState({isActive: true});
+              this.setState({isActive: false});
             });
     };
 
@@ -471,7 +471,7 @@ export default class InfluencerSignUp extends React.Component{
 
     passPseudoValid = () => {
       if (this.state.pseudo.length > 12 || this.state.pseudo.length < 3 || !this.state.pseudo.match("^[A-Za-z0-9]+$")) {
-        this.state.errorMsg = 'Pseudo invalide. il doit être entre 4 et 12 caractères. Il doit contenir que des lettres et chiffres.';
+        this.state.errorMsg = 'Pseudo invalide. il doit être entre 3 et 12 caractères. Il doit contenir que des lettres et chiffres.';
         return (false);
       }
       if (this.state.password !== this.state.password2) {
