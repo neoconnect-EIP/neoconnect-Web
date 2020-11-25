@@ -267,7 +267,6 @@ class Actuality extends React.Component{
                 {
                     (this.state.bestMarkOffer && this.state.bestMarkOffer.length > 0) ? this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf)) :
                     <p className="ml-4 mt-2 text-light">Aucune offre pour le moment</p>
-
                 }
             </Row>
           </div>

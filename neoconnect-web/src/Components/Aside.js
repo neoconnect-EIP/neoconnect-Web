@@ -60,7 +60,7 @@ class Aside extends React.Component{
                       <Button className="btnCancel" onClick={this.handleClose}>
                         Non
                       </Button>
-                      <Button className="btnInfDelete" onClick={this.handleDeconexion}>
+                      <Button className="btnDelete" onClick={this.handleDeconexion}>
                         Oui
                       </Button>
                     </Modal.Footer>

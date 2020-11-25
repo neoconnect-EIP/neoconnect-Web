@@ -253,7 +253,7 @@ class ShopStatus extends React.Component{
                   <Button className="btnCancel" onClick={() => { this.setState({visibleDelete: false})}}>
                     Non
                   </Button>
-                  <Button className="btnInfDelete" onClick={this.handleDelete}>
+                  <Button className="btnDelete" onClick={this.handleDelete}>
                     Oui
                   </Button>
                 </Modal.Footer>
@@ -357,7 +357,7 @@ class ShopStatus extends React.Component{
                     <Button className="btnCancel" onClick={() => {this.closeModal('visible')}}>
                       Annuler
                     </Button>
-                    <Button className="btnInfDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
+                    <Button className="btnDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
                     <Button className="btnShop" onClick={this.handleSubmit}>
                       Sauvegarder
                     </Button>

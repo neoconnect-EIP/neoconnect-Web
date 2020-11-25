@@ -7,6 +7,7 @@ import Actuality from "./Shops/Actuality";
 import Ads from "./Shops/Ads";
 import PostAd from "./Shops/PostAd";
 import EditAd from "./Shops/EditAd";
+import AdsDetail from "./Shops/AdsDetail";
 import InfluencerProfile from "./Shops/InfluencerProfile";
 import "./index.css"
 import Chat from "./Chat";
@@ -37,6 +38,7 @@ export default class ShopDashboard extends React.Component {
                         <Route path="/shop-dashboard/chat" component={Chat}/>
                         <Route path="/shop-dashboard/message" component={Message}/>
                         <Route path="/shop-dashboard/contact" component={Contact}/>
+                        <Route path="/shop-dashboard/item/:id" component={AdsDetail}/>
                     </Switch>
                 </div>
             </div>

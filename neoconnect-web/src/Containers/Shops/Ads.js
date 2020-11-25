@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
-import CheckTwoToneIcon from '@material-ui/icons/CheckTwoTone';
+import MoreHorizTwoToneIcon from '@material-ui/icons/MoreHorizTwoTone';
 import "../../index.css"
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -256,7 +256,7 @@ class Ads extends React.Component {
                             (inf.status === 'pending' ?
                             <div>
                               <Button className="btnInf" onClick={() => {this.acceptDeclineInf(true, inf)}}>Accepter</Button>
-                              <Button className="btnInfDelete ml-4" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button>
+                              <Button className="btnDelete ml-4" onClick={() => {this.acceptDeclineInf(false, inf)}}>Refuser</Button>
                             </div> :
                             <p className="ml-2" style={{fontWeight: '300'}}>Demande refusée</p>
                           )
@@ -275,46 +275,46 @@ class Ads extends React.Component {
         return (
           this.state.adsData.map((ad, id) => (
             <div key={id}>
-            <Row className="ml-4 mt-4 offerBg mr-4">
-              <p className="offerTitle mx-auto my-auto p-2">{ad.productName}</p>
-              <p className="offerTitle mx-auto my-auto p-2">{this.state.type[ad.productSubject]}</p>
-              <p className="offerTitle mx-auto my-auto p-2">{"Créée le " + new Date(ad.createdAt).toLocaleDateString()}</p>
-              <p className="offerTitle mx-auto my-auto p-2">{"Modifiée le " + new Date(ad.updatedAt).toLocaleDateString()}</p>
-              <OverlayTrigger
-                placement={"top"}
-                overlay={
-                  <Tooltip>
-                    Modifier
-                  </Tooltip>
-                }
-              >
-               <EditTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-2" onClick={() => this.handleEdit(ad.id)}/>
-              </OverlayTrigger>{' '}
-              <OverlayTrigger
-                placement={"top"}
-                overlay={
-                  <Tooltip>
-                    Supprimer
-                  </Tooltip>
-                }
-              >
-               <DeleteTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-3" onClick={() => this.handleVisibleModal(ad)}/>
-              </OverlayTrigger>{' '}
-              <OverlayTrigger
-                placement={"top"}
-                overlay={
-                  <Tooltip>
-                    Validé
-                  </Tooltip>
-                }
-              >
-               <CheckTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-3" onClick={() => {}}/>
-              </OverlayTrigger>{' '}
-            </Row>
-            <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-              {this.listInf(ad)}
-            </Row>
-          </div>
+              <Row className="ml-4 mt-4 offerBg mr-4">
+                <p className="offerTitle mx-auto my-auto p-2">{ad.productName}</p>
+                <p className="offerTitle mx-auto my-auto p-2">{this.state.type[ad.productSubject]}</p>
+                <p className="offerTitle mx-auto my-auto p-2">{"Créée le " + new Date(ad.createdAt).toLocaleDateString()}</p>
+                <p className="offerTitle mx-auto my-auto p-2">{"Modifiée le " + new Date(ad.updatedAt).toLocaleDateString()}</p>
+                <OverlayTrigger
+                  placement={"top"}
+                  overlay={
+                    <Tooltip>
+                      Modifier
+                    </Tooltip>
+                  }
+                >
+                 <EditTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-2" onClick={() => this.handleEdit(ad.id)}/>
+                </OverlayTrigger>{' '}
+                <OverlayTrigger
+                  placement={"top"}
+                  overlay={
+                    <Tooltip>
+                      Supprimer
+                    </Tooltip>
+                  }
+                >
+                 <DeleteTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-3" onClick={() => this.handleVisibleModal(ad)}/>
+                </OverlayTrigger>{' '}
+                <OverlayTrigger
+                  placement={"top"}
+                  overlay={
+                    <Tooltip>
+                      Voir les détails
+                    </Tooltip>
+                  }
+                >
+                 <MoreHorizTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-3" onClick={() => {this.props.history.push({pathname: `/shop-dashboard/item/${ad.id}`})}}/>
+                </OverlayTrigger>{' '}
+              </Row>
+              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                {this.listInf(ad)}
+              </Row>
+            </div>
           ))
         )
       }
@@ -339,7 +339,7 @@ class Ads extends React.Component {
                   <Button className="btnCancel" onClick={this.handleClose}>
                     Non
                   </Button>
-                  <Button className="btnInfDelete" onClick={() => this.handleDelete(this.state.actualAd.id)}>
+                  <Button className="btnDelete" onClick={() => this.handleDelete(this.state.actualAd.id)}>
                     Oui
                   </Button>
                 </Modal.Footer>

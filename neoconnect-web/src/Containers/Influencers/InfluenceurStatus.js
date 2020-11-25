@@ -402,7 +402,7 @@ class InfluenceurStatus extends React.Component{
                   <Button className="btnCancel" onClick={() => {this.closeModal('visible')}}>
                     Annuler
                   </Button>
-                  <Button className="btnInfDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
+                  <Button className="btnDelete" onClick={() => {this.setState({visible: false, visibleDelete: true})}}>Supprimer le compte</Button>
                   <Button className="btnInf" onClick={this.handleSubmit}>
                     Sauvegarder
                   </Button>
@@ -417,7 +417,7 @@ class InfluenceurStatus extends React.Component{
                     <Button className="btnCancel" onClick={() => this.closeModal('visibleDelete')}>
                       Non
                     </Button>
-                    <Button className="btnInfDelete" onClick={this.handleDelete}>
+                    <Button className="btnDelete" onClick={this.handleDelete}>
                       Oui
                     </Button>
                   </Modal.Footer>
