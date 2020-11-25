@@ -54,11 +54,6 @@ class adsItem extends React.Component{
           .then(res => {return (res.json())})
           .then(res => this.setState({adData: res}))
           .catch(error => showNotif(true, "Erreur",null));
-
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-          .then(res => res.json())
-          .then(res => {this.setState({applied: res})})
-          .catch(error => showNotif(true, "Erreur",null));
     }
 
     componentDidMount = () => {
@@ -385,7 +380,7 @@ class adsItem extends React.Component{
                           <Image className="ml-4 mt-4 pointerClick" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.setState({note: true})}/>
                         </Row>
                         {
-                          this.state.applied.some(el => el.idOffer === this.state.adData.id) ?
+                          this.state.adData.status ?
                           <Button onClick={() => this.handleDelete(this.state.adData.id)} className="btnInf">Annuler</Button>:
                           <Button onClick={() => this.handleAnnonceSubscribe()} className="btnInf">Postuler</Button>
                           }

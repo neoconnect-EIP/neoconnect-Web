@@ -37,7 +37,6 @@ class Advertisements extends React.Component{
             popular: null,
             bestMark: null,
             tendance: null,
-            applied: [],
             suggestions: null,
             loadOffer: true,
             loadSugg: true,
@@ -66,25 +65,9 @@ class Advertisements extends React.Component{
           });
     }
 
-    getAppliedOffer = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        })
-        .then(res => {
-          if (res.status === 200)
-            return (res.json());
-        })
-        .then(res => this.setState({applied: res}))
-        .catch(error => {
-          showNotif(true, "Erreur", null);
-        });
-    }
-
     getSuggestions() {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/suggestion/`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {
-            console.log("sugg ", res);
             if (res.status === 200)
               return (res.json());
             this.setState({loadSugg: false});
@@ -105,13 +88,12 @@ class Advertisements extends React.Component{
     componentDidMount = () => {
       if (localStorage.getItem("Jwt")) {
         this.getOffer();
-        this.getAppliedOffer();
         this.getSuggestions();
       }
     }
 
     handleGlobalAnnonce = (id) => {
-        this.props.history.push({pathname: `/dashboard/item/${id}`, state: this.state.applied});
+        this.props.history.push({pathname: `/dashboard/item/${id}`});
     }
 
     handleModal = (item) => {
@@ -129,7 +111,8 @@ class Advertisements extends React.Component{
               return (res.json());
           })
           .then(res => {
-            this.getAppliedOffer();
+            this.getOffer();
+            this.getSuggestions();
             showNotif(false, "Réussi", "Vous avez bien postulé à l'annonce");
           })
           .catch(error => {
@@ -233,7 +216,7 @@ class Advertisements extends React.Component{
                 <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
                 <Row className="ml-1">
                   {
-                    this.state.applied.some(el => el.idOffer === item.id) ?
+                    item.status ?
                     <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>
                     :
                     <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
@@ -257,7 +240,8 @@ class Advertisements extends React.Component{
             return (res.json());
         })
         .then(res => {
-          this.getAppliedOffer();
+          this.getOffer();
+          this.getSuggestions();
           showNotif(false, "Réussi", "l'annulation est bien prise en compte");
         })
         .catch(error => {
@@ -266,9 +250,6 @@ class Advertisements extends React.Component{
     };
 
     render() {
-
-      console.log("sugg ", this.state.suggestions);
-      console.log("adsData ", this.state.adsData);
       return (
           <div justify="center" className="infBg"  >
             <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>

@@ -116,32 +116,31 @@ class PostAd extends React.Component {
 
     handleGolobalImg = () => {
         const tmp = [];
-        var image1 = {};
-        var image2 = {};
-        var image3 = {};
-        var image4 = {};
 
         if (this.state.productImgName1) {
-            image1.imageName = this.state.productImgName1;
-            image1.imageData = this.state.productImgData1;
-            tmp.push(image1)
+            tmp.push({
+              imageName: this.state.productImgName1,
+              imageData: this.state.productImgData1
+            })
         }
         if (this.state.productImgName2) {
-            image2.imageName = this.state.productImgName2;
-            image2.imageData = this.state.productImgData2;
-            tmp.push(image2)
+          tmp.push({
+            imageName: this.state.productImgName2,
+            imageData: this.state.productImgData2
+          })
         }
         if (this.state.productImgName3) {
-            image3.imageName = this.state.productImgName3;
-            image3.imageData = this.state.productImgData3;
-            tmp.push(image3)
+          tmp.push({
+            imageName: this.state.productImgName3,
+            imageData: this.state.productImgData3
+          })
         }
         if (this.state.productImgName4) {
-            image4.imageName = this.state.productImgName4;
-            image4.imageData = this.state.productImgData4;
-            tmp.push(image4)
+          tmp.push({
+            imageName: this.state.productImgName4,
+            imageData: this.state.productImgData4
+          })
         }
-
         return tmp
     }
 

@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import { showNotif, themeVal } from '../Utils.js';
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
+import LoadingOverlay from 'react-loading-overlay';
 
 class EditAd extends React.Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class EditAd extends React.Component {
             femme: false,
             theme: "",
             uni: true,
+            isActive: false,
         };
     }
 
@@ -143,32 +145,31 @@ class EditAd extends React.Component {
 
     handleGolobalImg = () => {
         const tmp = [];
-        var image1 = {};
-        var image2 = {};
-        var image3 = {};
-        var image4 = {};
 
         if (this.state.productImgName1) {
-            image1.imageName = this.state.productImgName1;
-            image1.imageData = this.state.productImgData1;
-            tmp.push(image1)
+            tmp.push({
+              imageName: this.state.productImgName1,
+              imageData: this.state.productImgData1
+            })
         }
         if (this.state.productImgName2) {
-            image2.imageName = this.state.productImgName2;
-            image2.imageData = this.state.productImgData2;
-            tmp.push(image2)
+          tmp.push({
+            imageName: this.state.productImgName2,
+            imageData: this.state.productImgData2
+          })
         }
         if (this.state.productImgName3) {
-            image3.imageName = this.state.productImgName3;
-            image3.imageData = this.state.productImgData3;
-            tmp.push(image3)
+          tmp.push({
+            imageName: this.state.productImgName3,
+            imageData: this.state.productImgData3
+          })
         }
         if (this.state.productImgName4) {
-            image4.imageName = this.state.productImgName4;
-            image4.imageData = this.state.productImgData4;
-            tmp.push(image4)
+          tmp.push({
+            imageName: this.state.productImgName4,
+            imageData: this.state.productImgData4
+          })
         }
-
         return tmp
     }
 
@@ -180,17 +181,18 @@ class EditAd extends React.Component {
     };
 
     handleResponse = (res) => {
-        if (res.status === 200)
-            this.setState({isEnd: true});
+      this.setState({isActive: false});
+      if (res.status === 200)
+          this.setState({isEnd: true});
     };
 
     handleSubmit = () => {
       var images = this.handleGolobalImg();
-
       if (!this.state.productName || this.state.productDesc.length > 255 || images.length === 0 || !this.state.theme) {
         showNotif(true, "Erreur", "Veuillez fournir nom, thème, description de l'offre et au moins une image. La description ne dois pas dépasser 255 caractères.");
       }
       else {
+        this.setState({isActive: true});
         let id = this.getUrlParams((window.location.search));
         let body = {
             "productImg": images,
@@ -206,12 +208,17 @@ class EditAd extends React.Component {
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
             .then(res => {res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur",null));
+            .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
       }
     }
 
     render() {
           return (
+            <LoadingOverlay
+              active={this.state.isActive}
+              spinner
+              text='Chargement...'
+              >
               <div justify="center" className="shopBg"  >
                 <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
                   <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Modification d'une offre</Navbar.Brand>
@@ -304,6 +311,7 @@ class EditAd extends React.Component {
                       </Grid>
                   }
               </div>
+            </LoadingOverlay>
           );
       }
   }

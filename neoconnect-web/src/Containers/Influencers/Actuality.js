@@ -62,37 +62,19 @@ class Actuality extends React.Component{
       });
     }
 
-    getAppliedOffer = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/offer/applied/${localStorage.getItem("userId")}`, {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        })
-        .then(res => {
-          if (res.status === 200)
-            return (res.json());
-          this.setState({loading: false});
-        })
-        .then(res => this.setState({applied: res}))
-        .catch(error => {
-          showNotif(true, "Erreur", null);
-          this.setState({loading: false});
-        });
-    }
-
     componentDidMount() {
       if (localStorage.getItem("Jwt")) {
         this.getAllShop();
-        this.getAppliedOffer();
       }
     }
 
     handleGlobalShop = (item) => {
-        this.props.history.push({pathname: `/dashboard/shop/${item.id}`, state: item.follow});
+        this.props.history.push({pathname: `/dashboard/shop/${item.id}`});
 
     }
 
     handleGlobalAnnonce = (id) => {
-      this.props.history.push({pathname: `/dashboard/item/${id}`, state: this.state.applied});
+      this.props.history.push({pathname: `/dashboard/item/${id}`});
     }
 
     handleCard = (item) => {
@@ -151,7 +133,7 @@ class Actuality extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${item.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
             .then(res => {
               if (res.status === 200) {
-                this.getAppliedOffer();
+                this.getAllShop();
                 showNotif(false, "Postulé", "Nous avons bien pris en compte votre demande");
               }
               else {
@@ -171,7 +153,7 @@ class Actuality extends React.Component{
             return (res.json());
         })
         .then(res => {
-          this.getAppliedOffer();
+          this.getAllShop();
           showNotif(false, "Réussi", "l'annulation est bien prise en compte");
         })
         .catch(error => {
@@ -191,7 +173,7 @@ class Actuality extends React.Component{
                     </Card.Text>
                     <Row className="ml-1">
                       {
-                        this.state.applied.some(el => el.idOffer === item.id) ?
+                        item.status ?
                         <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>:
                         <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
                       }

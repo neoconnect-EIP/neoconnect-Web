@@ -159,7 +159,7 @@ class InfluenceurStatus extends React.Component{
         this.setState({isActive: true});
         let body = {
             "codeParrainage": this.state.code,
-        }; 
+        };
 
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/insertParrainage`,
@@ -285,7 +285,6 @@ class InfluenceurStatus extends React.Component{
     }
 
     render() {
-      console.log("this", this.state.userData);
         return (
           <LoadingOverlay
             active={this.state.isActive}
