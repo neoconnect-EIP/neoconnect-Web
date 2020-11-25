@@ -159,10 +159,18 @@ class InfluenceurStatus extends React.Component{
         this.setState({isActive: true});
         let body = {
             "codeParrainage": this.state.code,
-        };
+        }; 
+
         body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/insertParrainage`, { method: 'POST', body: body,headers: {
-                'Content-Type': 'application/json'}})
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/insertParrainage`,
+        {
+          method: 'POST',
+          body: body,
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem("Jwt")}`
+            }
+        })
         .then(res => {
           if (res.status >= 500)
             throw res;
