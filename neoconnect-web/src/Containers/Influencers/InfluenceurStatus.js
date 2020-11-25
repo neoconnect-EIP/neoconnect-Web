@@ -534,7 +534,7 @@ class InfluenceurStatus extends React.Component{
                         </Row>
                       </Col>
                     </Row>
-                    <Row className="ml-4 mt-4 mx-0" xs={1} sm={1} md={2} lg={2} xl={2}>
+                    <Row className="ml-4 mt-4 mx-0 pb-2" xs={1} sm={1} md={2} lg={2} xl={2}>
                       <Col>
                         <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Bio</h2>
                         <p style={{color: 'white'}}>{this.state.userData.userDescription ? this.state.userData.userDescription : "Non fourni"}</p>

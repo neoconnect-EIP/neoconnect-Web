@@ -312,11 +312,11 @@ class Ads extends React.Component {
                     />
                   }
                   {
-                    this.state.adsData && this.state.adsData.length > 0 ?
+                    (this.state.adsData && this.state.adsData.length > 0) ?
                     <Row className="ml-3 mr-3 mt-3"  xs={1} md={2} lg={3} sm={2} xl={4}>
                        {this.listAbonnement()}
                     </Row> :
-                    <p className="ml-2 mt-2 text-light">Aucune offre postulé pour le moment.</p>
+                    <p className="ml-2 mt-2 text-light">{!this.state.isLoading && 'Aucune offre postulé pour le moment.'}</p>
                 }
             </div>
         );
