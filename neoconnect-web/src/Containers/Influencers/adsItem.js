@@ -9,14 +9,11 @@ import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
-import Image from 'react-bootstrap/Image';
 import Carousel from 'react-bootstrap/Carousel';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import LoadingOverlay from 'react-loading-overlay';
 import { showNotif } from '../Utils.js';
 import { displayComment } from '../../Components/Utils.js';
-import edit from "../../assets/edit.svg";
-import {Rate} from "antd";
 import Loader from 'react-loader-spinner';
 
 class adsItem extends React.Component{
@@ -31,13 +28,11 @@ class adsItem extends React.Component{
             visible: false,
             adData: null,
             actualId: 0,
-            mark: null,
             pseudo: '',
             email: '',
             commentInput: "",
             emailMe: '',
             signal: false,
-            note: false,
             info: "",
             share: false,
             raison: "",
@@ -45,7 +40,6 @@ class adsItem extends React.Component{
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
             link: window.location.href,
             suggestions: null,
-            applied: props.location.state ? props.location.state : [],
         };
     }
 
@@ -70,10 +64,6 @@ class adsItem extends React.Component{
             return Object.assign(params, {[key]: decodeURIComponent(val)})
         }, {})
     }
-
-    handleMark = (e) => {
-        this.setState({mark: e})
-    };
 
     handleAnnonceSubscribe = () => {
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.adData.id}`,
@@ -160,26 +150,6 @@ class adsItem extends React.Component{
       else {
         showNotif(true, "Erreur", "Veuillez remplir tout les champs.");
       }
-    }
-
-  handleAnnonceNotation = (item) => {
-    let body = {
-        "mark": this.state.mark,
-    };
-
-    body = JSON.stringify(body);
-    fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/mark/${parseInt(this.state.urlId)}`,
-      {
-        method: 'POST',
-        body: body,
-        headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => res.json())
-      .then(res => {
-        this.setState({note: false});
-        this.getDetailOffer();
-      })
-      .catch(error => showNotif(true, "Erreur",null));
     }
 
   displayImage = (item, id) => {
