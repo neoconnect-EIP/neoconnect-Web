@@ -133,23 +133,6 @@ class adsItem extends React.Component{
       }
     }
 
-    // sendMsg = () => {
-    //   this.setState({isActive: true, share: false});
-    //
-    //   var encodedKey = encodeURIComponent("pseudo");
-    //   var encodedValue = encodeURIComponent(this.state.pseudo);
-    //   var formBody = encodedKey + "=" + encodedValue;
-    //
-    //   fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/inf/search`, {
-    //       method: 'POST',
-    //       body: formBody,
-    //       headers: {
-    //           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    //           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-    //   }).then(res => this.searchRes(res))
-    //     .catch(error => showNotif(true, "Erreur",null));
-    // }
-
   sendEmail = () => {
     if (this.state.emailMe && this.state.email) {
       this.setState({isActive: true, share: false});
@@ -273,6 +256,7 @@ class adsItem extends React.Component{
   };
 
     render() {
+      console.log(this.state.adData);
         return (
           <LoadingOverlay
             active={this.state.isActive}
@@ -334,22 +318,6 @@ class adsItem extends React.Component{
                  </Button>
                </Modal.Footer>
               </Modal>
-              <Modal centered show={this.state.note} onHide={() => this.closeModal('note')}>
-               <Modal.Header closeButton>
-                 <Modal.Title>Noter cette offre</Modal.Title>
-               </Modal.Header>
-               <Modal.Body>
-                  <Rate onChange={(e) => this.handleMark(e)} />
-               </Modal.Body>
-               <Modal.Footer>
-                 <Button className="btnCancel" onClick={() => this.closeModal('note')}>
-                   Annuler
-                 </Button>
-                 <Button className="btnInf" onClick={() => this.handleAnnonceNotation(this.state.adData)}>
-                   Noter
-                 </Button>
-               </Modal.Footer>
-              </Modal>
                 {
                   this.state.adData ?
                   <>
@@ -375,10 +343,6 @@ class adsItem extends React.Component{
                           <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{ this.state.adData.productSex}</h5>
                         }
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
-                        <Row className="m-0 p-0">
-                          <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
-                          <Image className="ml-4 mt-4 pointerClick" src={edit} style={{width: '15px', height: '15px'}} onClick={() => this.setState({note: true})}/>
-                        </Row>
                         {
                           this.state.adData.status ?
                           <Button onClick={() => this.handleDelete(this.state.adData.id)} className="btnInf">Annuler</Button>:
@@ -420,13 +384,3 @@ class adsItem extends React.Component{
 }
 
 export default withRouter(adsItem);
-
-// <Form.Row className='mt-4'>
-//  <Form.Group controlId="formBasicEmail" as={Col} sm={6}>
-//    <Form.Label>Pseudo du destinataire</Form.Label>
-//    <Form.Control value={this.state.pseudo} onChange={(e) => {this.setState({pseudo: e.target.value})}}/>
-//  </Form.Group>
-// </Form.Row>
-// <Button onClick={() => this.sendMsg()} className="btnInf ml-2">Via message privé</Button>
-// <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject == 'mode' ||  this.state.adData.productSubject == 'cosmetic'? `Couleur: ${this.state.adData.color}` : ""}</h5>
-// <h3 style={{marginTop: "2rem", color: 'white', display: "inline"}}>{this.state.adData.brand ? this.state.adData.brand : "Sans marque"}</h3>

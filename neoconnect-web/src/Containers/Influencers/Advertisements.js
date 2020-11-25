@@ -214,6 +214,7 @@ class Advertisements extends React.Component{
               <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
               <Card.Body>
                 <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
+                <p>{item.productSubject}</p>
                 <Row className="ml-1">
                   {
                     item.status ?
@@ -221,8 +222,6 @@ class Advertisements extends React.Component{
                     :
                     <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
                   }
-                  <p>{item.average ? item.average.toFixed(1) + '/5' : "Aucune note"}</p>
-                  {item.average && <StarIcon style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
                 </Row>
               </Card.Body>
             </Card>

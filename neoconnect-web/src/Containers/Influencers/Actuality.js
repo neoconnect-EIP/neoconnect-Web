@@ -171,14 +171,13 @@ class Actuality extends React.Component{
                     <Card.Text>
                       {`${item.productColor ? item.productColor : ""}`}
                     </Card.Text>
+                    <p>{item.productSubject}</p>
                     <Row className="ml-1">
                       {
                         item.status ?
                         <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleDelete(item.id)}}>Annuler</Button>:
                         <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>
                       }
-                      <p>{item.average ? (item.average.toFixed(1) + '/5') : "Aucune note"}</p>
-                      {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}
                     </Row>
                   </Card.Body>
                 </Card>
@@ -246,7 +245,6 @@ class Actuality extends React.Component{
               {this.manageShopCard(star, "Marques les mieux notés", this.state.bestMark)}
               {this.manageOfferCard(heart, "Offres du moment", this.state.tendanceOffer)}
               {this.manageOfferCard(fire, "Offres populaires", this.state.popularOffer)}
-              {this.manageOfferCard(star, "Offres les mieux notés", this.state.bestMarkOffer)}
             </div>
           }
         </div>
@@ -255,3 +253,6 @@ class Actuality extends React.Component{
 }
 
 export default withRouter(Actuality)
+
+// <p>{item.average ? (item.average.toFixed(1) + '/5') : "Aucune note"}</p>
+// {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}

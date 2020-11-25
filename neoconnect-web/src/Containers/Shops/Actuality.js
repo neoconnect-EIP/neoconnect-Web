@@ -133,7 +133,6 @@ class Actuality extends React.Component {
                 {this.manageInfCard(heart, "Influenceurs du moment", this.state.moment)}
                 {this.manageInfCard(fire, "Influenceurs populaires", this.state.popular)}
                 {this.manageInfCard(star, "Influenceurs les mieux notés", this.state.bestMark)}
-
                 </div>
               }
             </div>

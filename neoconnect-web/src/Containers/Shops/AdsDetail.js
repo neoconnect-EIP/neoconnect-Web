@@ -17,7 +17,6 @@ class adsDetail extends React.Component{
     constructor(props) {
         super(props);
 
-        console.log("HELLO");
         if (!localStorage.getItem("Jwt"))
           this.props.history.push('/landing-page/login');
         if (localStorage.getItem("userType") !== "shop")
@@ -107,9 +106,6 @@ class adsDetail extends React.Component{
                           <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{ this.state.adData.productSex}</h5>
                         }
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
-                        <Row className="m-0 p-0">
-                          <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Note: {this.state.adData.average ? (this.state.adData.average.toFixed(1) + '/5') : "Aucune note"}</h4>
-                        </Row>
                         <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Créé le {new Date(this.state.adData.createdAt).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h4>
                         <Button onClick={() => {this.props.history.push(`/shop-dashboard/edit-ad?id=${this.state.urlId}`)}} className="btnShop mt-2">Modifier</Button>
                         <Button onClick={() => {this.setState({visible: true})}} className="btnDelete mt-2 ml-2">Supprimer</Button>

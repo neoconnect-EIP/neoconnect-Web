@@ -9,6 +9,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import { showNotif, themeVal } from '../Utils.js';
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
@@ -39,6 +40,7 @@ class EditAd extends React.Component {
             theme: "",
             uni: true,
             isActive: false,
+            visible: false,
         };
     }
 
@@ -197,7 +199,7 @@ class EditAd extends React.Component {
         let body = {
             "productImg": images,
             "productName": this.state.productName,
-            "productSex": this.state.productSex,
+            "productSex": this.state.homme ? "Homme" : (this.state.femme ? "Femme" : "Unisexe"),
             "productDesc": this.state.productDesc,
             "productSubject": this.state.theme,
         };
@@ -211,6 +213,21 @@ class EditAd extends React.Component {
             .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
       }
     }
+
+    handleDelete = () => {
+        let id = this.getUrlParams((window.location.search));
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${id.id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          if (res.status >= 500)
+            throw res;
+          if (res.status === 200)
+            this.props.history.push('/shop-dashboard/ads')
+        })
+        .catch(error => {console.log(error);showNotif(true, "Erreur",null)});
+    };
 
     render() {
           return (
@@ -294,9 +311,12 @@ class EditAd extends React.Component {
                           </Form.Row>
 
                           <Form.Row className="mt-4">
-                            <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>
-                              Sauvegarder
-                            </Button>
+                            <Col>
+                              <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
+                            </Col>
+                            <Col>
+                              <Button onClick={() => {this.setState({visible: true})}} className="btnDelete">Supprimer</Button>
+                            </Col>
                           </Form.Row>
 
                         </Form>
@@ -311,6 +331,20 @@ class EditAd extends React.Component {
                       </Grid>
                   }
               </div>
+              <Modal centered show={this.state.visible} onHide={() => { this.setState({visible: false})}}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Suppression d'offre</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Êtes-vous sur de vouloir supprimer votre offre ?</Modal.Body>
+                <Modal.Footer>
+                  <Button className="btnCancel" onClick={() => { this.setState({visible: false})}}>
+                    Non
+                  </Button>
+                  <Button className="btnDelete" onClick={this.handleDelete}>
+                    Oui
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </LoadingOverlay>
           );
       }
