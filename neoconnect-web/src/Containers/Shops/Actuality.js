@@ -120,7 +120,8 @@ class Actuality extends React.Component {
                 </Row>
                 <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                   {
-                      this.state.moment && this.state.moment.map(inf => this.cardInf(inf))
+                      (this.state.moment && this.state.moment.length > 0) ? this.state.moment.map(inf => this.cardInf(inf)) :
+                      <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>
                   }
                 </Row>
                 <Row className="pl-4 mt-4 mr-0 ml-0">
@@ -129,7 +130,8 @@ class Actuality extends React.Component {
                 </Row>
                 <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                   {
-                      this.state.moment && this.state.popular.map(inf => this.cardInf(inf))
+                      (this.state.popular && this.state.popular.length > 0) ? this.state.popular.map(inf => this.cardInf(inf)) :
+                      <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>
                   }
                 </Row>
                 <Row className="pl-4 mt-4 mr-0 ml-0">
@@ -138,7 +140,8 @@ class Actuality extends React.Component {
                 </Row>
                 <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                   {
-                      this.state.moment && this.state.bestMark.map(inf => this.cardInf(inf))
+                      (this.state.bestMark && this.state.bestMark.length > 0) ? this.state.bestMark.map(inf => this.cardInf(inf)) :
+                      <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>
                   }
                 </Row>
                 </div>

@@ -266,10 +266,9 @@ class Advertisements extends React.Component{
     };
 
     render() {
-      console.log("this.state.loadSugg", this.state.loadSugg);
-      console.log("this.state.loadOffer", this.state.loadOffer);
-      // console.log("sugg ", this.state.suggestions);
-      // console.log("adsData ", this.state.adsData);
+
+      console.log("sugg ", this.state.suggestions);
+      console.log("adsData ", this.state.adsData);
       return (
           <div justify="center" className="infBg"  >
             <Navbar expand="lg" className="mb-4" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
@@ -321,7 +320,7 @@ class Advertisements extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    this.state.adsData ? this.state.adsData.map(item => this.handleCard(item)) :
+                    (this.state.adsData && this.state.adsData.length > 0) ? this.state.adsData.map(item => this.handleCard(item)) :
                     <p className="ml-4 mt-2 text-light">Aucune offre pour le moment</p>
                 }
               </Row>

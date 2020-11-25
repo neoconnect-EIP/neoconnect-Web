@@ -4,7 +4,7 @@ import "../index.css";
 import Loader from "react-loader-spinner";
 import StarIcon from '@material-ui/icons/Star';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import noShop from "../../assets/noShop.jpg"
+import noShop from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -230,7 +230,8 @@ class Actuality extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    this.state.tendance && this.state.tendance.map(inf => this.handleCard(inf))
+                    (this.state.tendance && this.state.tendance) ? this.state.tendance.map(inf => this.handleCard(inf)) :
+                    <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
                 }
               </Row>
               <Row className="pl-4 mr-0 ml-0">
@@ -239,7 +240,8 @@ class Actuality extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    this.state.popular && this.state.popular.map(inf => this.handleCard(inf))
+                    (this.state.popular && this.state.popular.length > 0) ? this.state.popular.map(inf => this.handleCard(inf)) :
+                    <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
                 }
               </Row>
               <Row className="pl-4 mt-4 mr-0 ml-0">
@@ -248,7 +250,9 @@ class Actuality extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    this.state.bestMark && this.state.bestMark.map(inf => this.handleCard(inf))
+                    (this.state.bestMark && this.state.bestMark.length > 0) ? this.state.bestMark.map(inf => this.handleCard(inf)) :
+                    <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
+
                 }
               </Row>
               <Row className="pl-4 mr-0 ml-0">
@@ -257,7 +261,9 @@ class Actuality extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    this.state.tendanceOffer && this.state.tendanceOffer.map(inf => this.handleCardOffer(inf))
+                    (this.state.tendanceOffer && this.state.tendanceOffer.length > 0) ? this.state.tendanceOffer.map(inf => this.handleCardOffer(inf)) :
+                    <p className="ml-4 mt-2 text-light">Aucune offre pour le moment</p>
+
                 }
               </Row>
               <Row className="pl-4 mr-0 ml-0">
@@ -266,7 +272,9 @@ class Actuality extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    this.state.popularOffer && this.state.popularOffer.map(inf => this.handleCardOffer(inf))
+                    (this.state.popularOffer && this.state.popularOffer.length > 0) ? this.state.popularOffer.map(inf => this.handleCardOffer(inf)) :
+                    <p className="ml-4 mt-2 text-light">Aucune offre pour le moment</p>
+
                 }
               </Row>
               <Row className="pl-4 mt-4 mr-0 ml-0">
@@ -275,7 +283,9 @@ class Actuality extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    this.state.bestMarkOffer && this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf))
+                    (this.state.bestMarkOffer && this.state.bestMarkOffer.length > 0) ? this.state.bestMarkOffer.map(inf => this.handleCardOffer(inf)) :
+                    <p className="ml-4 mt-2 text-light">Aucune offre pour le moment</p>
+
                 }
             </Row>
           </div>

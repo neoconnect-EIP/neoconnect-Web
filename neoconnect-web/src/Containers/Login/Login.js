@@ -81,7 +81,7 @@ export default class Login extends React.Component{
               localStorage.setItem('menuId', res.userType === 'shop' ? 7 : 0);
               this.handleResponse(res);
             })
-            .catch(error => {this.setState({isLoading: false});showNotif(true, "Erreur",null)});
+            .catch(error => {console.log("err ", error);this.setState({isLoading: false});showNotif(true, "Erreur",null)});
       }
       else {
         showNotif(true, "Erreur", "Veuillez fournir le nom d'utilisateur et le mot de passe.");
