@@ -59,7 +59,6 @@ class Actuality extends React.Component {
     }
 
     cardInf = (inf) => {
-
         return (
           <Col key={inf.id} className="mb-3">
             <Card className="cardlist" onClick={() => this.handleGlobalInf(inf.id)} style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
@@ -94,6 +93,23 @@ class Actuality extends React.Component {
         );
     }
 
+    manageInfCard = (icon, title, infs) => {
+      return (
+        <>
+          <Row className="pl-4 mt-4 mr-0 ml-0">
+            <Image src={icon}/>
+            <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>{title}</h4>
+          </Row>
+          <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+            {
+                (infs && infs.length > 0) ? infs.map(inf => this.cardInf(inf)) :
+                <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>
+            }
+          </Row>
+        </>
+      )
+    }
+
     render() {
         return (
           <div justify="center" className="shopBg" style={{minHeight: "100vh"}}>
@@ -114,36 +130,10 @@ class Actuality extends React.Component {
                 />
               :
               <div>
-                <Row className="pl-4 mr-0 ml-0">
-                  <Image src={heart}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs du moment</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      (this.state.moment && this.state.moment.length > 0) ? this.state.moment.map(inf => this.cardInf(inf)) :
-                      <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>
-                  }
-                </Row>
-                <Row className="pl-4 mt-4 mr-0 ml-0">
-                  <Image src={fire}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs populaires</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      (this.state.popular && this.state.popular.length > 0) ? this.state.popular.map(inf => this.cardInf(inf)) :
-                      <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>
-                  }
-                </Row>
-                <Row className="pl-4 mt-4 mr-0 ml-0">
-                  <Image src={star}/>
-                  <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Influenceurs les mieux notés</h4>
-                </Row>
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {
-                      (this.state.bestMark && this.state.bestMark.length > 0) ? this.state.bestMark.map(inf => this.cardInf(inf)) :
-                      <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>
-                  }
-                </Row>
+                {this.manageInfCard(heart, "Influenceurs du moment", this.state.moment)}
+                {this.manageInfCard(fire, "Influenceurs populaires", this.state.popular)}
+                {this.manageInfCard(star, "Influenceurs les mieux notés", this.state.bestMark)}
+
                 </div>
               }
             </div>
