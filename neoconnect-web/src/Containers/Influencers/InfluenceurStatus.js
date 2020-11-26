@@ -249,7 +249,7 @@ class InfluenceurStatus extends React.Component{
                 userPicture: this.handleSplitString(reader.result),
             });
         };
-        if (reader.result)
+        if (file)
           reader.readAsDataURL(file);
     };
 

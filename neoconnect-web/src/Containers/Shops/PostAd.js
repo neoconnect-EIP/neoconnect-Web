@@ -57,7 +57,7 @@ class PostAd extends React.Component {
                 productImgData1: this.handleSplitString(reader.result),
             });
         };
-        if (reader.result)
+        if (file)
           reader.readAsDataURL(file);
     };
 
@@ -71,7 +71,7 @@ class PostAd extends React.Component {
               productImgData2: this.handleSplitString(reader.result),
           });
       };
-      if (reader.result)
+      if (file)
         reader.readAsDataURL(file);
     };
 
@@ -85,7 +85,7 @@ class PostAd extends React.Component {
               productImgData3: this.handleSplitString(reader.result),
           });
       };
-      if (reader.result)
+      if (file)
         reader.readAsDataURL(file);
     }
 
@@ -99,7 +99,7 @@ class PostAd extends React.Component {
                 productImgData4: this.handleSplitString(reader.result),
             });
         };
-        if (reader.result)
+        if (file)
           reader.readAsDataURL(file);
     };
 

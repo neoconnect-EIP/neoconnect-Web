@@ -101,8 +101,9 @@ class EditAd extends React.Component {
                 productImgName1: file.name,
                 productImgData1: this.handleSplitString(reader.result),
             });
+            reader.readAsDataURL(file);
         };
-        if (reader.result)
+        if (file)
           reader.readAsDataURL(file);
     };
 
@@ -116,7 +117,7 @@ class EditAd extends React.Component {
                 productImgData2: this.handleSplitString(reader.result),
             });
         };
-        if (reader.result)
+        if (file)
           reader.readAsDataURL(file);
     };
 
@@ -130,7 +131,7 @@ class EditAd extends React.Component {
                 productImgData3: this.handleSplitString(reader.result),
             });
         };
-        if (reader.result)
+        if (file)
           reader.readAsDataURL(file);
     };
 
@@ -143,8 +144,9 @@ class EditAd extends React.Component {
                 productImgName4: file.name,
                 productImgData4: this.handleSplitString(reader.result),
             });
+            reader.readAsDataURL(file);
         };
-        if (reader.result)
+        if (file)
           reader.readAsDataURL(file);
     };
 
@@ -320,10 +322,10 @@ class EditAd extends React.Component {
 
                           <Form.Row className="mt-4">
                             <Col>
-                              <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
+                              <Button onClick={() => {this.setState({visible: true})}} className="btnDelete">Supprimer</Button>
                             </Col>
                             <Col>
-                              <Button onClick={() => {this.setState({visible: true})}} className="btnDelete">Supprimer</Button>
+                              <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
                             </Col>
                           </Form.Row>
 
