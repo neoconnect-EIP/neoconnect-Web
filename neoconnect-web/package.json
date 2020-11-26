@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "antd": "^3.26.18",
     "bootstrap": "^4.5.0",
+    "chart.js": "^2.9.4",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-chartjs-2": "^2.11.1",
