@@ -156,7 +156,6 @@ class InfluencerProfile extends React.Component {
 
 
     handleMsgRes = async (res) => {
-      var msg = await res.json();
       if (res.status === 200) {
         this.setState({messageModal: false});
         showNotif(false, "Envoyé", "Message envoyé à " + this.state.infData.pseudo);

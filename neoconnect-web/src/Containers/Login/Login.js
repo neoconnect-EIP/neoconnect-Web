@@ -183,7 +183,7 @@ export default class Login extends React.Component{
     render() {
 
         return (
-            <div className="infBg" style={{paddingTop:'200px'}}>
+            <div className="infBg" style={{paddingTop:'200px', overflow: 'auto'}}>
               <Modal centered show={this.state.visible} onHide={this.handleClose}>
                <Modal.Header closeButton>
                  <Modal.Title>{this.state.sent ? "Rénitialisation du mot de passe" : "Mot de passe oublié"}</Modal.Title>

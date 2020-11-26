@@ -99,7 +99,6 @@ export default class Message extends React.Component{
     };
 
     handleMsgRes = async (res, dest) => {
-      var msg = await res.json();
       if (res.status === 200) {
         this.setState({msg: ""});
         this.detailMsg(this.state.chanelDetail.id, this.state.index, this.state.currentDest)
