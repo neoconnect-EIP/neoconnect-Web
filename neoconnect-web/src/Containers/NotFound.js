@@ -12,6 +12,7 @@ export default class NotFound extends React.Component{
             visible: false,
             client: localStorage.getItem("userType"),
         };
+        console.log("props ", props);
     }
 
     render() {
@@ -29,7 +30,7 @@ export default class NotFound extends React.Component{
             <Row className="justify-content-md-center mt-4">
               <Button className="btnShop" onClick={() => {
                this.state.client === "shop" ? this.props.history.push('/shop-dashboard/actuality') : (!this.state.client ? this.props.history.push('/landing-page') : this.props.history.push('/dashboard/actuality'));
-              }}>Retour</Button>
+             }}>Retour à l'accueil</Button>
             </Row>
           </div>
         );

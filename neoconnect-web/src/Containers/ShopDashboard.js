@@ -13,11 +13,13 @@ import "./index.css"
 import Chat from "./Chat";
 import Message from "./Message";
 import Support from "./Support";
+import NotFound from "./NotFound";
 
 export default class ShopDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        console.log("props", props);
     }
 
     render() {
@@ -39,6 +41,7 @@ export default class ShopDashboard extends React.Component {
                         <Route path="/shop-dashboard/message" component={Message}/>
                         <Route path="/shop-dashboard/support" component={Support}/>
                         <Route path="/shop-dashboard/item/:id" component={AdsDetail}/>
+                        <Route component={NotFound}></Route>
                     </Switch>
                 </div>
             </div>
