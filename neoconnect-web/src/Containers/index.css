@@ -1,9 +1,9 @@
 .header {
-    background-color: #292929;
-    width: 100%;
-    /* height: 6rem; */
-    position: fixed;
-    z-index: 5;
+  background-color: #292929;
+  width: 100%;
+  /* height: 6rem; */
+  position: fixed;
+  z-index: 5;
 }
 
 .messageUser:hover {
@@ -113,10 +113,10 @@
 }
 
 .logo {
-    margin: 0.5rem;
-    width: 5rem;
-    height: 5rem;
-    cursor: pointer;
+  margin: 0.5rem;
+  width: 5rem;
+  height: 5rem;
+  cursor: pointer;
 }
 
 .pointerClick {
@@ -137,170 +137,170 @@
 }
 
 .header-btn {
-    float: right;
-    position: relative;
-    margin: 1rem;
-    margin-top: 2rem;
-    font-size: 1.375rem;
-    padding-left: 1rem;
-    background-color: transparent;
-    border: none;
-    border-left: 0.1rem solid white;
+  float: right;
+  position: relative;
+  margin: 1rem;
+  margin-top: 2rem;
+  font-size: 1.375rem;
+  padding-left: 1rem;
+  background-color: transparent;
+  border: none;
+  border-left: 0.1rem solid white;
 }
 
 .header-btn:hover {
-    text-shadow: 0 0 20px #ffffff;
+  text-shadow: 0 0 20px #ffffff;
 }
 
 .header-btn:active {
-    text-shadow: 0 0 20px #ffffff;
+  text-shadow: 0 0 20px #ffffff;
 }
 
 .landing-page-background-img {
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    width: 100%;
-    height: 872px;
-    position: relative;
-    background-attachment: scroll;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  height: 872px;
+  position: relative;
+  background-attachment: scroll;
 }
 
 .landing-page-mid-div {
-    display: block;
-    position: relative;
-    margin: auto;
-    z-index: 2;
-    height: auto;
-    width: 52rem;
-    background-color: white;
-    text-align: center;
+  display: block;
+  position: relative;
+  margin: auto;
+  z-index: 2;
+  height: auto;
+  width: 52rem;
+  background-color: white;
+  text-align: center;
 }
 
 .landing-page-first-img {
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 50px;
-    width: 100%;
-    height: 350px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
+  width: 100%;
+  height: 350px;
 }
 
 .formular {
-    text-align: center;
-    margin-top: 2rem;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 .formular-input {
-    background-color: #d23e3e;
+  background-color: #d23e3e;
 }
 
 .inscription-modal {
-    height: 500px;
-    width: 500px;
-    background-color: white;
-    align-self: center;
-    margin-top: 400px;
+  height: 500px;
+  width: 500px;
+  background-color: white;
+  align-self: center;
+  margin-top: 400px;
 }
 
 .connection-btn {
-    height: 54px;
-    float: right;
-    margin: 3px;
-    marginRight: 15px;
-    background-color: white;
+  height: 54px;
+  float: right;
+  margin: 3px;
+  marginRight: 15px;
+  background-color: white;
 }
 
 .advertisements {
-    text-align: center;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
+  text-align: center;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .advertisements-card {
-    text-align: Left;
+  text-align: Left;
 }
 
 .advertisements-list {
-    margin: 20px;
+  margin: 20px;
 }
 
 .ads {
-    text-align: center;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
+  text-align: center;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .influencer-status {
-    text-align: center;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
+  text-align: center;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .about-faq {
-    text-align: left;
-    padding-top: 30px;
-    color: white;
-    overflow: auto;
-    height: 100%;
+  text-align: left;
+  padding-top: 30px;
+  color: white;
+  overflow: auto;
+  height: 100%;
 }
 
 .input-form {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .input-form Input{
-    width: 350px;
+  width: 350px;
 }
 
 .influencer-status-card-item {
-    box-shadow: 0 0;
+  box-shadow: 0 0;
 }
 
 .influencer-status-card-media {
-    transition-duration: 1s;
-    width: 120px;
-    height: 120px;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+  transition-duration: 1s;
+  width: 120px;
+  height: 120px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .influencer-status-card-media:hover {
-    transition-duration: 1s;
-    width: 150px;
-    height: 150px;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+  transition-duration: 1s;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .posted-ad-send-button {
-    width: 9.375rem;
-    height: 2.5rem;
-    font-size: 1.3rem;
-    border-radius: 10px;
-    margin-top: 1.875rem;
-    background-color: #292929;
+  width: 9.375rem;
+  height: 2.5rem;
+  font-size: 1.3rem;
+  border-radius: 10px;
+  margin-top: 1.875rem;
+  background-color: #292929;
 }
 
 .findShopCard {
-    height: auto;
-    box-shadow: #807e7e 2px 2px 8px;
-    margin: 50px;
-    border-radius: 6px;
-    background-color: #ebebeb;
+  height: auto;
+  box-shadow: #807e7e 2px 2px 8px;
+  margin: 50px;
+  border-radius: 6px;
+  background-color: #ebebeb;
 }
 
 .findShopCard:hover {
-    height: auto;
-    box-shadow: #807e7e 2px 2px 15px ;
-    margin: 50px;
-    border-radius: 6px;
-    background-color: #ebebeb;
+  height: auto;
+  box-shadow: #807e7e 2px 2px 15px ;
+  margin: 50px;
+  border-radius: 6px;
+  background-color: #ebebeb;
 }
 
 .iconProfileSocial {

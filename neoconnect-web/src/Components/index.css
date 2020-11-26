@@ -1,16 +1,16 @@
 .footer {
-    background-color: #292929;
-    /*background: #17212F;*/
-    padding: 40px 0;
+  background-color: #292929;
+  /*background: #17212F;*/
+  padding: 40px 0;
 }
 
 .footer-button {
-    color: white;
-    font-size: 20px;
+  color: white;
+  font-size: 20px;
 }
 
 .footer-button:hover {
-    text-decoration: underline black;
+  text-decoration: underline black;
 }
 
 button.btn.btn-link {
@@ -18,78 +18,78 @@ button.btn.btn-link {
 }
 
 .landing-div {
-    position: relative;
-    background-size: cover;
-    background-position: center center;
-    width: 100%;
-    /* height: 700px; */
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  /* height: 700px; */
 }
 
 .first-div {
-    background-image: url("../assets/backgroundBoutique.jpg");
+  background-image: url("../assets/backgroundBoutique.jpg");
 }
 
 .second-div {
-    background-image: url("../assets/backgroundInf.jpeg");
+  background-image: url("../assets/backgroundInf.jpeg");
 }
 
 .third-div {
-    background-image: url("../assets/dldOurApp.jpg");
+  background-image: url("../assets/dldOurApp.jpg");
 }
 
 .aside {
-    background-color: #292929;
-    width: 200px;
-    height: 100%;
-    padding-top: 0.7rem;
-    position: fixed;
-    box-shadow: 0 0 12px;
-    z-index: 12;
-    overflow-y: auto;
+  background-color: #292929;
+  width: 200px;
+  height: 100%;
+  padding-top: 0.7rem;
+  position: fixed;
+  box-shadow: 0 0 12px;
+  z-index: 12;
+  overflow-y: auto;
 }
 
 .aside-button {
-    background-color: transparent;
-    transition-duration: 2ms;
-    border: none;
-    border-bottom: 0.1rem solid white;
-    text-align: center;
-    font-size: 1.02rem;
-    height: 50px;
-    margin-top: 25px;
-    width: 160px;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 10px;
-    cursor: pointer;
+  background-color: transparent;
+  transition-duration: 2ms;
+  border: none;
+  border-bottom: 0.1rem solid white;
+  text-align: center;
+  font-size: 1.02rem;
+  height: 50px;
+  margin-top: 25px;
+  width: 160px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  cursor: pointer;
 }
 
 .aside-button:hover {
-    background-color: rgb(0, 0, 0, 0.2);
-    transition-duration: 1s;
-    text-align: center;
-    font-size: 1.1rem;
-    margin-top: 25px;
-    width: 200px;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+  background-color: rgb(0, 0, 0, 0.2);
+  transition-duration: 1s;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 25px;
+  width: 200px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .aside-button-fab {
-    width: 200px;
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-    box-shadow: 0 0;
+  width: 200px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 0;
 }
 
 .aside-logo {
-    width: 100px;
-    height: 100px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
+  width: 100px;
+  height: 100px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
 }

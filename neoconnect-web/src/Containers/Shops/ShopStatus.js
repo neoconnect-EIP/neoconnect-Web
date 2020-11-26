@@ -25,57 +25,57 @@ import { showNotif, themeVal } from '../Utils.js';
 import { displayComment, displayLoad } from '../../Components/Utils.js';
 
 class ShopStatus extends React.Component{
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        localStorage.setItem('menuId', 10);
-        if (!localStorage.getItem("Jwt"))
-          this.props.history.push('/landing-page/login');
-        if (localStorage.getItem("userType") !== "shop")
-          this.props.history.push('/page-not-found');
-        this.state = {
-            userData: null,
-            visible: false,
-            fullName: "",
-            pseudo: "",
-            desc: "",
-            instagram: "",
-            snapchat: "",
-            facebook: "",
-            twitter: "",
-            phone: "",
-            email: "",
-            city: "",
-            theme: "",
-            website: "",
-            visibleDelete: false,
-            file: null,
-            userPicture: null,
-            imgChanged: false,
-            isActive: false,
-            followers: [],
-        };
+    localStorage.setItem('menuId', 10);
+    if (!localStorage.getItem("Jwt"))
+      this.props.history.push('/landing-page/login');
+    if (localStorage.getItem("userType") !== "shop")
+      this.props.history.push('/page-not-found');
+    this.state = {
+      userData: null,
+      visible: false,
+      fullName: "",
+      pseudo: "",
+      desc: "",
+      instagram: "",
+      snapchat: "",
+      facebook: "",
+      twitter: "",
+      phone: "",
+      email: "",
+      city: "",
+      theme: "",
+      website: "",
+      visibleDelete: false,
+      file: null,
+      userPicture: null,
+      imgChanged: false,
+      isActive: false,
+      followers: [],
+    };
 
+  }
+
+  handleRes = async (res) => {
+    var msg;
+    if (res.status === 200) {
+      msg = await res.json();
+      this.setState({userData: msg})
     }
-
-    handleRes = async (res) => {
-      var msg;
-      if (res.status === 200) {
-        msg = await res.json();
-        this.setState({userData: msg})
-      }
-      else {
-        msg = await res.json();
-        showNotif(true, "Erreur, Veuillez essayer ultérieurement", msg);
-      }
+    else {
+      msg = await res.json();
+      showNotif(true, "Erreur, Veuillez essayer ultérieurement", msg);
     }
+  }
 
-    getShop = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+  getShop = () => {
+    fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
       })
       .then(res => {this.handleRes(res);})
       .catch(error => showNotif(true, "Erreur, information de profil non reçu", error.statusText));
@@ -83,33 +83,33 @@ class ShopStatus extends React.Component{
 
     getFollowers = () => {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${localStorage.getItem("userId")}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-      })
-      .then(res => {
-        if (res.status === 200)
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
+        })
+        .then(res => {
+          if (res.status === 200)
           return (res.json());
-      })
-      .then(res => {
-        this.setState({followers: res})
-      })
-      .catch(error => showNotif(true, "Erreur", null));
-    }
+        })
+        .then(res => {
+          this.setState({followers: res})
+        })
+        .catch(error => showNotif(true, "Erreur", null));
+      }
 
 
-    componentDidMount = () => {
+      componentDidMount = () => {
         this.getShop();
         this.getFollowers();
-    }
+      }
 
-    handleResponse = (res) => {
-      this.setState({visible: false});
-      this.getShop();
-    }
+      handleResponse = (res) => {
+        this.setState({visible: false});
+        this.getShop();
+      }
 
-    handleResponse = async (res) => {
+      handleResponse = async (res) => {
         if (res.status === 200) {
           this.setState({isActive: false});
           this.getShop();
@@ -119,15 +119,15 @@ class ShopStatus extends React.Component{
           showNotif(true, "Erreur", msg);
           this.setState({isActive: false});
         }
-    }
+      }
 
-    closeModal = (modalName) => {
-      let stateVal = {};
-      stateVal[modalName] = false;
-      this.setState(stateVal);
-    }
+      closeModal = (modalName) => {
+        let stateVal = {};
+        stateVal[modalName] = false;
+        this.setState(stateVal);
+      }
 
-    handleChangeInfo = () => {
+      handleChangeInfo = () => {
         this.setState({
           visible: true,
           fullName: this.state.userData.full_name,
@@ -144,33 +144,33 @@ class ShopStatus extends React.Component{
           website: this.state.userData.website,
           userPicture: this.state.userData.userPicture ? this.state.userData.userPicture[0] : null,
         });
-    }
-
-    displayFollowers = () => {
-      return (
-        this.state.followers.map((val, idx) => (
-          <Container fluid key={idx}>
-            <Row>
-              <Col>
-                <p style={{fontWeight: '200'}}>{val.pseudo}</p>
-              </Col>
-              <Col>
-                <Button variant="outline-dark"  onClick={() => {}}>Voir profil</Button>
-              </Col>
-            </Row>
-        </Container>
-        )
-      ));
-    };
-
-    handleSubmit = () => {
-      if (!this.state.theme || !this.state.email || !this.state.pseudo) {
-        showNotif(true, "Erreur", "Les champs pseudo, email et thème sont obligatoire");
       }
-      else {
-        this.setState({isActive: true, visible: false});
 
-        let body = {
+      displayFollowers = () => {
+        return (
+          this.state.followers.map((val, idx) => (
+            <Container fluid key={idx}>
+              <Row>
+                <Col>
+                  <p style={{fontWeight: '200'}}>{val.pseudo}</p>
+                </Col>
+                <Col>
+                  <Button variant="outline-dark"  onClick={() => {}}>Voir profil</Button>
+                </Col>
+              </Row>
+            </Container>
+          )
+        ));
+      };
+
+      handleSubmit = () => {
+        if (!this.state.theme || !this.state.email || !this.state.pseudo) {
+          showNotif(true, "Erreur", "Les champs pseudo, email et thème sont obligatoire");
+        }
+        else {
+          this.setState({isActive: true, visible: false});
+
+          let body = {
             "userType": this.state.userData.userType,
             "full_name": this.state.fullName,
             "email": this.state.userData.email !== this.state.email ? this.state.email : undefined,
@@ -184,79 +184,79 @@ class ShopStatus extends React.Component{
             "twitter": this.state.userData.twitter !== this.state.twitter ? this.state.twitter : undefined,
             "snapchat": this.state.userData.snapchat !== this.state.snapchat ? this.state.snapchat : undefined,
             "instagram": this.state.userData.instagram !== this.state.instagram ? this.state.instagram : undefined,
+          };
+
+          body = JSON.stringify(body);
+          fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, { method: 'PUT', body: body,headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+            .then(res => {this.handleResponse(res)})
+            .catch(error => showNotif(true, "Erreur",null));
+          }
         };
 
-        body = JSON.stringify(body);
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/me`, { method: 'PUT', body: body,headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-        .then(res => {this.handleResponse(res)})
-        .catch(error => showNotif(true, "Erreur",null));
-      }
-    };
+        handleSplitString = (str) => {
+          var tmp = "";
+          var i = 0;
 
-    handleSplitString = (str) => {
-        var tmp = "";
-        var i = 0;
+          i = str.indexOf(",");
+          tmp = str.substr(i + 1)
+          return tmp
+        };
 
-        i = str.indexOf(",");
-        tmp = str.substr(i + 1)
-        return tmp
-    };
-
-    handleImageChange = (e) => {
-        this.state.imgChanged = true;
-        e.preventDefault();
-        let reader = new FileReader();
-        let file = e.target.files[0];
-        reader.onloadend = () => {
+        handleImageChange = (e) => {
+          this.state.imgChanged = true;
+          e.preventDefault();
+          let reader = new FileReader();
+          let file = e.target.files[0];
+          reader.onloadend = () => {
             this.setState({
-                file: file,
-                userPicture: this.handleSplitString(reader.result),
+              file: file,
+              userPicture: this.handleSplitString(reader.result),
             });
-        };
-        if (file)
+          };
+          if (file)
           reader.readAsDataURL(file);
-    };
+        };
 
-    handleDelete = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/delete`, {
+        handleDelete = () => {
+          fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/delete`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${localStorage.getItem("Jwt")}`
             }
-        })
-        .then(res => {
+          })
+          .then(res => {
             localStorage.clear();
             showNotif(false, "Succès", "Suppression de compte réussi.");
             this.props.history.push('/landing-page')
-        })
-        .catch(error => showNotif(true, "Erreur",null));
-    }
+          })
+          .catch(error => showNotif(true, "Erreur",null));
+        }
 
-    render() {
-        return (
-          <LoadingOverlay
-            active={this.state.isActive}
-            spinner
-            text='Chargement...'
-            >
+        render() {
+          return (
+            <LoadingOverlay
+              active={this.state.isActive}
+              spinner
+              text='Chargement...'
+              >
               <div className="shopBg">
-              <Modal centered show={this.state.visibleDelete} onHide={() => { this.setState({visibleDelete: false})}}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Suppression de compte</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Êtes-vous sur de vouloir supprimer votre compte ?</Modal.Body>
-                <Modal.Footer>
-                  <Button className="btnCancel" onClick={() => { this.setState({visibleDelete: false})}}>
-                    Non
-                  </Button>
-                  <Button className="btnDelete" onClick={this.handleDelete}>
-                    Oui
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                <Modal centered show={this.state.visibleDelete} onHide={() => { this.setState({visibleDelete: false})}}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Suppression de compte</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>Êtes-vous sur de vouloir supprimer votre compte ?</Modal.Body>
+                  <Modal.Footer>
+                    <Button className="btnCancel" onClick={() => { this.setState({visibleDelete: false})}}>
+                      Non
+                    </Button>
+                    <Button className="btnDelete" onClick={this.handleDelete}>
+                      Oui
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
                 <Modal size="lg" centered show={this.state.visible} onHide={() => {this.closeModal('visible')}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Modifier vos informations</Modal.Title>
@@ -329,17 +329,17 @@ class ShopStatus extends React.Component{
                         <Form.Group as={Col} className="mt-4">
                           <FormControl variant="outlined" style={{ color: 'black'}}>
                             <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
-                                Thème
+                              Thème
                             </InputLabel>
                             <Select
-                                style={{color: 'black'}}
-                                labelId="demo-simple-select-outlined-label"
-                                name="theme"
-                                value={themeVal.indexOf(this.state.theme)}
-                                onChange={(e) => {
-                                  this.setState({theme: themeVal[e.target.value]});
-                                }}
-                            >
+                              style={{color: 'black'}}
+                              labelId="demo-simple-select-outlined-label"
+                              name="theme"
+                              value={themeVal.indexOf(this.state.theme)}
+                              onChange={(e) => {
+                                this.setState({theme: themeVal[e.target.value]});
+                              }}
+                              >
                               <MenuItem value={1}>Mode</MenuItem>
                               <MenuItem value={2}>Cosmétique</MenuItem>
                               <MenuItem value={3}>High tech</MenuItem>
@@ -360,116 +360,116 @@ class ShopStatus extends React.Component{
                     <Button className="btnShop" onClick={this.handleSubmit}>
                       Sauvegarder
                     </Button>
-                    </Modal.Footer>
-                  </Modal>
-                  {
-                    this.state.userData ?
-                    <div>
-                      <Row className="mx-0">
-                        <div style={{position: 'absolute', top: 10, right: 20}}>
-                          <Button variant="outline-light" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
-                        </div>
-                        <Col className="mx-auto" style={{marginTop: '60px'}} align="center">
-                          <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
-                            src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
-                          <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
-                          {
-                            this.state.userData.theme &&
-                            <Badge pill className="pill mt-2">{this.state.userData.theme !== 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
-                          }
-                          <Row xs={1} sm={1} md={2} lg={2} xl={2}>
-                            <Col className="mx-auto mt-4" align="center">
-                              <div className="mb-3">
-                                <StarRatings
-                                   rating={this.state.userData.average ? this.state.userData.average : 0}
-                                   starRatedColor="#FFC106"
-                                   numberOfStars={5}
-                                   name='rating'
-                                   starDimension="20px" />
-                               </div>
-                              <p style={{color: 'white', fontWeight: '300'}}>Note</p>
-                            </Col>
-                            <Col className="mx-auto mt-4 pointerClick" align="center" onClick={() => {this.setState({showFollowers: true});}}>
-                              <h3 style={{color: 'white'}}>{this.state.followers.length}</h3>
-                              <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnée</p>
-                            </Col>
+                  </Modal.Footer>
+                </Modal>
+                {
+                  this.state.userData ?
+                  <div>
+                    <Row className="mx-0">
+                      <div style={{position: 'absolute', top: 10, right: 20}}>
+                        <Button variant="outline-light" onClick={this.handleChangeInfo}>Modifer vos informations</Button>
+                      </div>
+                      <Col className="mx-auto" style={{marginTop: '60px'}} align="center">
+                        <Image style={{width: '250px', height: '250px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", marginBottom: '20px'}}
+                          src={!this.state.userData.userPicture || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
+                        <h2 style={{color: 'white', fontWeight: '400'}}>{this.state.userData.full_name}</h2>
+                        {
+                          this.state.userData.theme &&
+                          <Badge pill className="pill mt-2">{this.state.userData.theme !== 'food' ? this.state.userData.theme.charAt(0).toUpperCase() + this.state.userData.theme.slice(1) : 'Nourriture'}</Badge>
+                        }
+                        <Row xs={1} sm={1} md={2} lg={2} xl={2}>
+                          <Col className="mx-auto mt-4" align="center">
+                            <div className="mb-3">
+                              <StarRatings
+                                rating={this.state.userData.average ? this.state.userData.average : 0}
+                                starRatedColor="#FFC106"
+                                numberOfStars={5}
+                                name='rating'
+                                starDimension="20px" />
+                            </div>
+                            <p style={{color: 'white', fontWeight: '300'}}>Note</p>
+                          </Col>
+                          <Col className="mx-auto mt-4 pointerClick" align="center" onClick={() => {this.setState({showFollowers: true});}}>
+                            <h3 style={{color: 'white'}}>{this.state.followers.length}</h3>
+                            <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnée</p>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    <Row className="ml-4 mt-4 mx-0">
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Informations du compte</h2>
+                        <Col>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={account}/>
+                            <p style={{color:'white'}}>{this.state.userData.pseudo}</p>
+                          </Row>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={place}/>
+                            <p style={{color:'white'}}>{this.state.userData.city ? this.state.userData.city : "Non fourni"}</p>
+                          </Row>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={mail}/>
+                            <p style={{color:'white'}}>{this.state.userData.email ? this.state.userData.email : "Non fourni"}</p>
+                          </Row>
+                          <Row className="mx-0 mb-1">
+                            <Image className="iconProfileSocial" src={phone}/>
+                            <p style={{color:'white'}}>{this.state.userData.phone ? this.state.userData.phone : "Non fourni"}</p>
                           </Row>
                         </Col>
-                      </Row>
-                      <Row className="ml-4 mt-4 mx-0">
-                        <Col>
-                          <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Informations du compte</h2>
+                      </Col>
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Réseaux sociaux</h2>
+                        <Row>
                           <Col>
                             <Row className="mx-0 mb-1">
-                              <Image className="iconProfileSocial" src={account}/>
-                              <p style={{color:'white'}}>{this.state.userData.pseudo}</p>
+                              <Image className="iconProfileSocial" src={facebook}/>
+                              <p style={{color: 'white'}}>{this.state.userData.facebook ? this.state.userData.facebook : "Non fourni"}</p>
                             </Row>
                             <Row className="mx-0 mb-1">
-                              <Image className="iconProfileSocial" src={place}/>
-                              <p style={{color:'white'}}>{this.state.userData.city ? this.state.userData.city : "Non fourni"}</p>
+                              <Image className="iconProfileSocial" src={instagram}/>
+                              <p style={{color: 'white'}}>{this.state.userData.instagram ? this.state.userData.instagram : "Non fourni"}</p>
                             </Row>
                             <Row className="mx-0 mb-1">
-                              <Image className="iconProfileSocial" src={mail}/>
-                              <p style={{color:'white'}}>{this.state.userData.email ? this.state.userData.email : "Non fourni"}</p>
+                              <Image className="iconProfileSocial" src={snapchat}/>
+                              <p style={{color: 'white'}}>{this.state.userData.snapchat ? this.state.userData.snapchat : "Non fourni"}</p>
                             </Row>
                             <Row className="mx-0 mb-1">
-                              <Image className="iconProfileSocial" src={phone}/>
-                              <p style={{color:'white'}}>{this.state.userData.phone ? this.state.userData.phone : "Non fourni"}</p>
+                              <Image className="iconProfileSocial" src={twitter}/>
+                              <p style={{color: 'white'}}>{this.state.userData.twitter ? this.state.userData.twitter : "Non fourni"}</p>
                             </Row>
                           </Col>
-                        </Col>
-                        <Col>
-                          <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Réseaux sociaux</h2>
-                          <Row>
-                            <Col>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={facebook}/>
-                                <p style={{color: 'white'}}>{this.state.userData.facebook ? this.state.userData.facebook : "Non fourni"}</p>
-                              </Row>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={instagram}/>
-                                <p style={{color: 'white'}}>{this.state.userData.instagram ? this.state.userData.instagram : "Non fourni"}</p>
-                              </Row>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={snapchat}/>
-                                <p style={{color: 'white'}}>{this.state.userData.snapchat ? this.state.userData.snapchat : "Non fourni"}</p>
-                              </Row>
-                              <Row className="mx-0 mb-1">
-                                <Image className="iconProfileSocial" src={twitter}/>
-                                <p style={{color: 'white'}}>{this.state.userData.twitter ? this.state.userData.twitter : "Non fourni"}</p>
-                              </Row>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                      <Row className="ml-4 mt-4 mx-0">
-                        <Col>
-                          <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Bio</h2>
-                          <p style={{color: 'white'}}>{this.state.userData.userDescription ? this.state.userData.userDescription : "Non fourni"}</p>
-                        </Col>
-                        <Col>
-                          <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
-                            {!this.state.userData.comment || this.state.userData.comment.length === 0 ? <p style={{color: 'white'}}>Aucun commentaire</p> : this.state.userData.comment.map(x => displayComment(x))}
-                        </Col>
-                      </Row>
-                    </div>
-                    :
-                    displayLoad()
-                  }
+                        </Row>
+                      </Col>
+                    </Row>
+                    <Row className="ml-4 mt-4 mx-0">
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Bio</h2>
+                        <p style={{color: 'white'}}>{this.state.userData.userDescription ? this.state.userData.userDescription : "Non fourni"}</p>
+                      </Col>
+                      <Col>
+                        <h2 className="mb-4" style={{color: 'white', fontWeight: '300'}}>Avis</h2>
+                        {!this.state.userData.comment || this.state.userData.comment.length === 0 ? <p style={{color: 'white'}}>Aucun commentaire</p> : this.state.userData.comment.map(x => displayComment(x))}
+                      </Col>
+                    </Row>
+                  </div>
+                  :
+                  displayLoad()
+                }
               </div>
               <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.closeModal('showFollowers')}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Vos abonnements</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                 {
-                   (this.state.followers && this.state.followers.length > 0) ? this.displayFollowers() : <p>Pas d'abonnée</p>
-                 }
-                </Modal.Body>
-              </Modal>
-            </LoadingOverlay>
+                  {
+                    (this.state.followers && this.state.followers.length > 0) ? this.displayFollowers() : <p>Pas d'abonnée</p>
+                }
+              </Modal.Body>
+            </Modal>
+          </LoadingOverlay>
         );
+      }
     }
-}
 
-export default withRouter(ShopStatus);
+    export default withRouter(ShopStatus);

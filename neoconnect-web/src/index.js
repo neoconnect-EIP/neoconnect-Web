@@ -15,17 +15,17 @@ import 'react-notifications-component/dist/theme.css'
 const history = createBrowserHistory();
 
 ReactDOM.render(
-    <>
-      <ReactNotification />
-      <Router history={history}>
-          <Switch>
-              <Route path="/landing-page" component={LandingPage} />
-              <Route path="/page-not-found" component={NotFound} />
-              <Route path="/dashboard" component={Dashboard}/>
-              <Route path="/shop-dashboard" component={ShopDashboard}/>
-              <Redirect from="/" to="/landing-page"/>
-          </Switch>
-      </Router>
-    </>
-    , document.getElementById('root')
+  <>
+    <ReactNotification />
+    <Router history={history}>
+      <Switch>
+        <Route path="/landing-page" component={LandingPage} />
+        <Route path="/page-not-found" component={NotFound} />
+        <Route path="/dashboard" component={Dashboard}/>
+        <Route path="/shop-dashboard" component={ShopDashboard}/>
+        <Redirect from="/" to="/landing-page"/>
+      </Switch>
+    </Router>
+  </>
+, document.getElementById('root')
 );

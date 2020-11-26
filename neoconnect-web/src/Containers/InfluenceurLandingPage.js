@@ -4,17 +4,16 @@ import "./index.css"
 import Aside from "../Components/Aside";
 
 export default class InfluenceurLandingPage extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    render() {
-        return (
-            <div>
-                <Aside data={null}/>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <Aside data={null}/>
+      </div>
+    );
+  }
 }
-

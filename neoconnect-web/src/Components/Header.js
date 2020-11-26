@@ -14,7 +14,7 @@ class Header extends React.Component{
       visible: false,
     };
   }
-
+  
   showModal = () => {
     if (this.state.visible)
     this.setState({ visible: false });
