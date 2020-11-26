@@ -218,7 +218,7 @@ class Actuality extends React.Component{
     return (
       <>
       <Row className="pl-4 mt-4 mr-0 ml-0">
-        <Image src={star}/>
+        <Image src={icon}/>
         <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>{title}</h4>
       </Row>
       <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
