@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
-import Loader from "react-loader-spinner";
 import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
@@ -11,6 +10,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import noImages from "../../assets/noImages.jpg";
 import { showNotif } from '../Utils.js';
+import { displayLoad } from '../../Components/Utils.js';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -305,13 +305,7 @@ class Ads extends React.Component {
                 </Navbar>
                 {
                   this.state.isLoading &&
-                    <Loader
-                        type="Triangle"
-                        color="#fff"
-                        height={200}
-                        width={200}
-                        style={{marginTop: "14rem", marginLeft: '40%'}}
-                    />
+                    displayLoad()
                   }
                   {
                     (this.state.adsData && this.state.adsData.length > 0) ?

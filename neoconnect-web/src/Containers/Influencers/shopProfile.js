@@ -3,8 +3,6 @@ import { withRouter } from "react-router-dom"
 import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noAvatar from "../../assets/noImageFindInf.jpg";
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
@@ -30,7 +28,7 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg";
-import { displayComment, displaySocialMed } from '../../Components/Utils.js';
+import { displayComment, displaySocialMed, displayLoad} from '../../Components/Utils.js';
 import LoadingOverlay from 'react-loading-overlay';
 
 class shopProfile extends React.Component{
@@ -434,13 +432,7 @@ class shopProfile extends React.Component{
                         </div>
                       </div>
                       :
-                      <Loader
-                          type="Triangle"
-                          color="#fff"
-                          height={200}
-                          width={200}
-                          style={{paddingTop: "14rem", marginLeft: '40%'}}
-                      />
+                    displayLoad()
                 }
                 <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
                  <Modal.Header closeButton>

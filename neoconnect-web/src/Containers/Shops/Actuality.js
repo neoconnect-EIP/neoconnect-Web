@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css"
 import StarIcon from '@material-ui/icons/Star';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noImageFindInf from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +15,7 @@ import heart from "../../assets/heart.svg";
 import fire from "../../assets/fire.svg";
 import star from "../../assets/star.svg";
 import { showNotif } from '../Utils.js';
-import Loader from "react-loader-spinner";
+import { displayLoad } from '../../Components/Utils.js';
 
 class Actuality extends React.Component {
     constructor(props) {
@@ -121,13 +120,7 @@ class Actuality extends React.Component {
               </Navbar>
               {
                 this.state.loading ?
-                <Loader
-                    type="Triangle"
-                    color="#fff"
-                    height={200}
-                    width={200}
-                    style={{marginTop: "14rem", marginLeft: '40%'}}
-                />
+                displayLoad()
               :
               <div>
                 {this.manageInfCard(heart, "Influenceurs du moment", this.state.moment)}

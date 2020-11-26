@@ -1,9 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css";
-import Loader from "react-loader-spinner";
 import StarIcon from '@material-ui/icons/Star';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noShop from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -16,6 +14,7 @@ import star from "../../assets/star.svg";
 import heart from "../../assets/heart.svg";
 import noImages from "../../assets/noImages.jpg"
 import { showNotif } from '../Utils.js';
+import { displayLoad } from '../../Components/Utils.js';
 
 class Actuality extends React.Component{
     constructor(props) {
@@ -243,15 +242,7 @@ class Actuality extends React.Component{
               </Navbar.Collapse>
             </Navbar>
             {
-              this.state.loading ?
-              <Loader
-                  type="Triangle"
-                  color="#fff"
-                  height={200}
-                  width={200}
-                  style={{paddingTop: "14rem", marginLeft: '40%'}}
-              />
-            :
+              this.state.loading ? displayLoad() :
             <div>
               {this.manageShopCard(heart, "Marques du moment", this.state.tendance)}
               {this.manageShopCard(fire, "Marques populaires", this.state.popular)}
@@ -266,6 +257,3 @@ class Actuality extends React.Component{
 }
 
 export default withRouter(Actuality)
-
-// <p>{item.average ? (item.average.toFixed(1) + '/5') : "Aucune note"}</p>
-// {item.average && <StarIcon  style={{width: "30px", height: "30px", transform: "translateY(-6px)", color: "gold", marginLeft: '10px'}}/>}

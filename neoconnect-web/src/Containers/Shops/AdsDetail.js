@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -10,8 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import Carousel from 'react-bootstrap/Carousel';
 import LoadingOverlay from 'react-loading-overlay';
 import { showNotif } from '../Utils.js';
-import { displayComment } from '../../Components/Utils.js';
-import Loader from 'react-loader-spinner';
+import { displayComment, displayLoad } from '../../Components/Utils.js';
 
 class adsDetail extends React.Component{
     constructor(props) {
@@ -24,7 +22,7 @@ class adsDetail extends React.Component{
         this.state = {
             visible: false,
             adData: null,
-            isActive: true,
+            isActive: false,
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
         };
     }
@@ -32,8 +30,8 @@ class adsDetail extends React.Component{
     getDetailOffer = () => {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => {return (res.json())})
-          .then(res => this.setState({adData: res, isActive: false}))
-          .catch(error => {showNotif(true, "Erreur",null); this.setState({isActive: false});});
+          .then(res => this.setState({adData: res}))
+          .catch(error => {showNotif(true, "Erreur",null);});
     }
 
     componentDidMount = () => {
@@ -122,14 +120,7 @@ class adsDetail extends React.Component{
                     </Col>
                   </Row>
                 </> :
-                <Loader
-                    type="Triangle"
-                    color="white"
-                    height={200}
-                    width={200}
-                    style={{paddingTop: "14rem", marginLeft: '40%'}}
-
-                />
+                displayLoad()
                 }
             </div>
             <Modal centered show={this.state.visible} onHide={() => { this.setState({visible: false})}}>

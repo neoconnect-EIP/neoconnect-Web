@@ -3,8 +3,6 @@ import { withRouter } from "react-router-dom"
 import {FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import 'antd/dist/antd.css';
 import "../index.css"
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -29,7 +27,7 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif, themeVal } from '../Utils.js';
-import { displayComment, displayGraph } from '../../Components/Utils.js';
+import { displayComment, displayGraph, displayLoad } from '../../Components/Utils.js';
 
 class InfluenceurStatus extends React.Component{
     constructor(props) {
@@ -298,7 +296,6 @@ class InfluenceurStatus extends React.Component{
                   <Modal.Title>Modifier vos informations</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
                   <Form className="mx-4 mt-4">
                     <Form.Row>
                       <Form.Group as={Col}>
@@ -552,13 +549,7 @@ class InfluenceurStatus extends React.Component{
                   </div>
                   :
                   <div>
-                    <Loader
-                        type="Triangle"
-                        color="#fff"
-                        height={200}
-                        width={400}
-                        style={{paddingTop: "14rem", marginLeft: '40%'}}
-                    />
+                    {displayLoad()}
                   </div>
                 }
               </div>

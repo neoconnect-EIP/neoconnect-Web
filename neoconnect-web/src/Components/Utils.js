@@ -6,6 +6,8 @@ import Image from 'react-bootstrap/Image';
 import { Line } from 'react-chartjs-2';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export const displayComment = (item) => {
   return (
@@ -34,7 +36,7 @@ export const displaySocialMed = (socialM , srcImg) => {
             {socialM}
           </Tooltip>
         }
-      >
+        >
         <Image className="iconProfileSocial" src={srcImg}/>
       </OverlayTrigger>
     )
@@ -42,7 +44,7 @@ export const displaySocialMed = (socialM , srcImg) => {
 }
 
 function getData(socialMedia, followers, name, color, legend) {
-   let data = {
+  let data = {
     labels: (legend && legend[0]) ? legend : [],
     datasets: [
       {
@@ -59,16 +61,28 @@ function getData(socialMedia, followers, name, color, legend) {
   return data;
 }
 
+export const displayLoad = () => {
+  return (
+    <Loader
+      type="Triangle"
+      color="#fff"
+      height={200}
+      width={200}
+      style={{ position: 'absolute', top: "45%", left: '45%'}}
+      />
+  );
+}
+
 export const displayGraph = (item) => {
 
   const graphOpt = {
     maintainAspectRatio: false,
     scales: {
-        yAxes: [{
-            ticks: {
-                min: 0,
-            }
-        }]
+      yAxes: [{
+        ticks: {
+          min: 0,
+        }
+      }]
     }
   }
 
@@ -83,7 +97,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
         <Col>
@@ -93,7 +107,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
       </Row>
@@ -105,7 +119,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
         <Col>
@@ -115,7 +129,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
       </Row>
@@ -127,7 +141,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
         <Col>
@@ -137,7 +151,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
       </Row>
@@ -149,7 +163,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
         <Col>
@@ -159,7 +173,7 @@ export const displayGraph = (item) => {
               width={200}
               height={250}
               options={graphOpt}
-            />
+              />
           </div>
         </Col>
       </Row>

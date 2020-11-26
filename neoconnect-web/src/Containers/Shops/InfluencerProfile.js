@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css"
-import Loader from 'react-loader-spinner'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import {Rate} from "antd";
 import SendIcon from '@material-ui/icons/Send';
 import Row from 'react-bootstrap/Row';
@@ -28,7 +26,7 @@ import youtube from "../../assets/youtube.svg";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import { showNotif } from '../Utils.js';
-import { displayComment, displaySocialMed } from '../../Components/Utils.js';
+import { displayComment, displaySocialMed, displayLoad } from '../../Components/Utils.js';
 import LoadingOverlay from 'react-loading-overlay';
 
 class InfluencerProfile extends React.Component {
@@ -347,16 +345,7 @@ class InfluencerProfile extends React.Component {
 
                       </div>
                       :
-                      <div>
-                        <Loader
-                            type="Triangle"
-                            color="white"
-                            height={200}
-                            width={200}
-                            style={{paddingTop: "14rem", marginLeft: '40%'}}
-
-                        />
-                      </div>
+                      displayLoad()
                 }
             </div>
           </LoadingOverlay>

@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom"
 import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import SendIcon from '@material-ui/icons/Send';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
@@ -13,8 +12,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import LoadingOverlay from 'react-loading-overlay';
 import { showNotif } from '../Utils.js';
-import { displayComment } from '../../Components/Utils.js';
-import Loader from 'react-loader-spinner';
+import { displayComment, displayLoad } from '../../Components/Utils.js';
 
 class adsItem extends React.Component{
     constructor(props) {
@@ -359,14 +357,7 @@ class adsItem extends React.Component{
                     </Col>
                   </Row>
                 </> :
-                <Loader
-                    type="Triangle"
-                    color="white"
-                    height={200}
-                    width={200}
-                    style={{paddingTop: "14rem", marginLeft: '40%'}}
-
-                />
+                displayLoad()
                 }
             </div>
           </LoadingOverlay>

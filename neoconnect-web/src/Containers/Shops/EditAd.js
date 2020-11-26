@@ -5,7 +5,6 @@ import "../index.css"
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -194,6 +193,10 @@ class EditAd extends React.Component {
 
     handleSubmit = () => {
       var images = this.handleGolobalImg();
+      console.log("img ", images);
+      console.log("this.state.productDesc ", this.state.productDesc);
+      console.log("this.state.productName ", this.state.productName);
+      console.log("this.state.theme ", this.state.theme);
       if (!this.state.productName || this.state.productDesc.length > 255 || images.length === 0 || !this.state.theme) {
         showNotif(true, "Erreur", "Veuillez fournir nom, thème, description de l'offre et au moins une image. La description ne dois pas dépasser 255 caractères.");
       }

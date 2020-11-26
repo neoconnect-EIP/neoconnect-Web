@@ -2,8 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
 import "../index.css";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -24,7 +22,7 @@ import noAvatar from "../../assets/noImageFindInf.jpg";
 import LoadingOverlay from 'react-loading-overlay';
 import Badge from 'react-bootstrap/Badge';
 import { showNotif, themeVal } from '../Utils.js';
-import { displayComment } from '../../Components/Utils.js';
+import { displayComment, displayLoad } from '../../Components/Utils.js';
 
 class ShopStatus extends React.Component{
     constructor(props) {
@@ -456,13 +454,7 @@ class ShopStatus extends React.Component{
                       </Row>
                     </div>
                     :
-                    <Loader
-                        type="Triangle"
-                        color="#fff"
-                        height={200}
-                        width={200}
-                        style={{paddingTop: "14rem", marginLeft: '40%'}}
-                    />
+                    displayLoad()
                   }
               </div>
               <Modal centered  size={"sm"} show={this.state.showFollowers} onHide={() => {this.closeModal('showFollowers')}}>

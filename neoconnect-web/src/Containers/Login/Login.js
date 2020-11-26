@@ -1,11 +1,10 @@
 import React from 'react';
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import { showNotif } from '../Utils.js';
+import { displayLoad } from '../../Components/Utils.js';
 
 export default class Login extends React.Component{
     constructor(props) {
@@ -216,13 +215,7 @@ export default class Login extends React.Component{
               </Modal>
                 {
                   this.state.isLoading ?
-                    <Loader
-                        type="Triangle"
-                        color="#fff"
-                        height={200}
-                        width={200}
-                        style={{ marginLeft: "50vh"}}
-                    />
+                    displayLoad()
                   :
                   <Row className="justify-content-center">
                     <Form>

@@ -2,8 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css"
 import StarIcon from '@material-ui/icons/Star';
-import Loader from 'react-loader-spinner'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noImageFindInf from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -18,6 +16,7 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { showNotif } from '../Utils.js';
+import { displayLoad } from '../../Components/Utils.js';
 
 class FindInfluencers extends React.Component {
     constructor(props) {
@@ -149,13 +148,7 @@ class FindInfluencers extends React.Component {
               </Navbar>
               {
                 this.state.loading ?
-                <Loader
-                    type="Triangle"
-                    color="#fff"
-                    height={200}
-                    width={200}
-                    style={{marginTop: "14rem", marginLeft: '40%'}}
-                />
+                displayLoad()
               :
               <div>
                 <div className="ml-3">

@@ -4,8 +4,6 @@ import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import MoreHorizTwoToneIcon from '@material-ui/icons/MoreHorizTwoTone';
 import "../../index.css"
-import Loader from 'react-loader-spinner'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -25,7 +23,7 @@ import youtube from "../../assets/youtube.svg";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import { showNotif } from '../Utils.js';
-import { displaySocialMed } from '../../Components/Utils.js';
+import { displaySocialMed, displayLoad } from '../../Components/Utils.js';
 
 class Ads extends React.Component {
     constructor(props) {
@@ -277,13 +275,7 @@ class Ads extends React.Component {
               </Navbar>
               {
                 this.state.adsData ? this.listOffer() :
-                <Loader
-                   type="Triangle"
-                   color="white"
-                   height={200}
-                   width={200}
-                   style={{marginTop: "14rem", marginLeft: '40%'}}
-               />
+                displayLoad()
               }
           </div>
         );

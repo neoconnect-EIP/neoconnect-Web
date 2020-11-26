@@ -19,7 +19,6 @@ export default class ShopDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        console.log("props", props);
     }
 
     render() {

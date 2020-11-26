@@ -3,8 +3,6 @@ import { withRouter } from "react-router-dom"
 import "../../index.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import noImages from "../../assets/noImages.jpg";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -17,6 +15,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Badge from 'react-bootstrap/Badge';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { showNotif } from '../Utils.js';
+import { displayLoad } from '../../Components/Utils.js';
 
 class Advertisements extends React.Component{
     constructor(props) {
@@ -283,13 +282,7 @@ class Advertisements extends React.Component{
             </InputGroup>
             {
               (this.state.loadSugg || this.state.loadOffer) ?
-              <Loader
-                  type="Triangle"
-                  color="#fff"
-                  height={200}
-                  width={200}
-                  style={{marginTop: "2rem", marginLeft: '40%'}}
-              />
+              displayLoad()
             :
             <div>
               <div className="pl-4 ml-3">

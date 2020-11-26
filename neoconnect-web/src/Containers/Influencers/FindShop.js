@@ -2,8 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom"
 import "../index.css"
 import StarIcon from '@material-ui/icons/Star';
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import noShop from "../../assets/noImageFindInf.jpg"
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -16,6 +14,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Navbar from 'react-bootstrap/Navbar';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { showNotif } from '../Utils.js';
+import { displayLoad } from '../../Components/Utils.js';
 
 class FindShop extends React.Component{
     constructor(props) {
@@ -201,13 +200,7 @@ class FindShop extends React.Component{
             </Navbar>
             {
               (this.state.loadSugg || this.state.loadShop) ?
-              <Loader
-                  type="Triangle"
-                  color="#fff"
-                  height={200}
-                  width={200}
-                  style={{marginTop: "2rem", marginLeft: '40%'}}
-              />
+              displayLoad()
             :
             <div>
               <div className="ml-3">
