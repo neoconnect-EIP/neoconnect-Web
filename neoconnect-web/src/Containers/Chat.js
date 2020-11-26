@@ -22,7 +22,6 @@ export default class Chat extends React.Component{
     }
 
     handleResponse = async (res) => {
-      var msg = await res.json();
 
       if (res.status !== 200) {
         showNotif(true, "Erreur", null);
