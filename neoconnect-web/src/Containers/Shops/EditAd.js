@@ -9,12 +9,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
 import { showNotif, themeVal } from '../Utils.js';
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
 import LoadingOverlay from 'react-loading-overlay';
-import camera from "../../assets/camera.svg";
 
 class EditAd extends React.Component {
   constructor(props) {
