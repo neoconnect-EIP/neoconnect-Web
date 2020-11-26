@@ -113,15 +113,18 @@ class Ads extends React.Component {
                 <Card.Img  style={{height: '190px', objectFit: 'cover'}} onClick={() => {this.props.history.push(`/dashboard/item/${ad.idOffer}`)}}
                   variant="top" className="pointerClick" src={!ad.productImg || ad.productImg.length === 0 ? noImages : ad.productImg[0].imageData} />
                 <Card.Body>
-                  <Row>
-                    <h5 className="ml-2">{ad.productName}</h5>
-                    <p className="ml-auto" style={{fontWeight: '300', fontSize: 12}}>{new Date(ad.createdAt).toLocaleDateString()}</p>
+                  <Row className="mx-1">
+                    <h5 className="mr-auto">{`${ad.productType ? ad.productType : ""} ${ad.productName ? ad.productName : "Sans nom"}`}</h5>
+                    <p className="ml-auto">{ad.brand}</p>
                   </Row>
-                  <p style={{fontWeight: '300', fontSize: 12}}>{ad.brand}</p>
+                  <Row className="mx-1">
+                    <p className="mr-auto">{ad.productSubject}</p>
+                    <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(ad.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(ad.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                  </Row>
                   <p style={{fontWeight: '300', fontSize: 18}}>{ad.status  === "accepted" ? "Accepté" : (ad.status  === "pending" ? "En attente" : "Refusé")}</p>
-                  <Row className="mt-4">
+                  <Row className="mx-1 mt-4">
                     {ad.status  === "pending" && <Button className="btnInf" onClick={() => {this.handleDelete(ad.idOffer)}}>Annuler</Button>}
-                    {ad.status  === "accepted" && <Button className="btnInf ml-2" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>}
+                    {ad.status  === "accepted" && <Button className="btnInf" onClick={() => {this.setState({visible: true, shareId: ad.idOffer})}}>Confirmer</Button>}
                   </Row>
                 </Card.Body>
               </Card>

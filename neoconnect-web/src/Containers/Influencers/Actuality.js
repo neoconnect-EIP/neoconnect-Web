@@ -167,11 +167,14 @@ class Actuality extends React.Component{
                 <Card className="mt-4 ml-2 pointerClick" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
                   <Card.Img className="card"  style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
                   <Card.Body>
-                    <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
-                    <Card.Text>
-                      {`${item.productColor ? item.productColor : ""}`}
-                    </Card.Text>
-                    <p>{item.productSubject}</p>
+                      <Row className="mx-1">
+                        <h5 className="mr-auto">{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</h5>
+                        <p className="ml-auto">{item.brand}</p>
+                      </Row>
+                      <Row className="mx-1">
+                        <p className="mr-auto">{item.productSubject}</p>
+                        <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                      </Row>
                     <Row className="ml-1">
                       {
                         !item.status && <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(item)}}>Postuler</Button>

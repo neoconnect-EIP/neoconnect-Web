@@ -45,21 +45,11 @@ class Advertisements extends React.Component{
         };
     }
 
-    getOffer = () => {
-      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+    getOffer = (filter) => {
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/list?${filter ? filter : 'popularity=desc'}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
           .then(res => res.json())
           .then(res => {
-            this.setState({adsSaver: res, loadOffer: false, adsData: res.sort((a, b) => {
-              if (typeof a.productName === 'string' && typeof b.productName === 'string'){
-                if (a.productName.length && b.productName.length){
-                  if (a.productName[0] > b.productName[0]) return 1
-                  else if (a.productName[0] < b.productName[0]) return -1
-                  else return 0
-                }else return 0
-              }else return 0
-            })});
             this.setState({adsData: res, adsSaver: res, loadOffer: false})
-
           })
           .catch(error => {
             showNotif(true, "Erreur",null);
@@ -89,7 +79,7 @@ class Advertisements extends React.Component{
 
     componentDidMount = () => {
       if (localStorage.getItem("Jwt")) {
-        this.getOffer();
+        this.getOffer(null);
         this.getSuggestions();
       }
     }
@@ -113,7 +103,7 @@ class Advertisements extends React.Component{
               return (res.json());
           })
           .then(res => {
-            this.getOffer();
+            this.getOffer(null);
             this.getSuggestions();
             showNotif(false, "Réussi", "Vous avez bien postulé à l'annonce");
           })
@@ -173,7 +163,8 @@ class Advertisements extends React.Component{
     handleSort = (event) => {
       const el = event.target
       const filterText = el.innerText
-      document.getElementsByClassName('active')[0].classList.remove('active')
+      if (document.getElementsByClassName('active').length > 0)
+        document.getElementsByClassName('active')[0].classList.remove('active');
       el.classList.add('active')
       this.setState({sort: filterText})
       if (filterText === 'Marque') {
@@ -186,26 +177,12 @@ class Advertisements extends React.Component{
             }else return 0
           }else return 0
         })})
-      }else if (filterText === 'Order (ASC)') {
-        this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.productName === 'string' && typeof b.productName === 'string'){
-            if (a.productName.length && b.productName.length){
-              if (a.productName[0] > b.productName[0]) return 1
-              else if (a.productName[0] < b.productName[0]) return -1
-              else return 0
-            }else return 0
-          }else return 0
-        })})
-      }else if (filterText === 'Order (DESC)') {
-        this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.productName === 'string' && typeof b.productName === 'string'){
-            if (a.productName.length && b.productName.length){
-              if (a.productName[0] > b.productName[0]) return 1
-              else if (a.productName[0] < b.productName[0]) return -1
-              else return 0
-            }else return 0
-          }else return 0
-        }).reverse()})
+      }else if (filterText === "Date d'ajout croissant") {
+        this.getOffer('order=asc');
+      }else if (filterText === "Popularité") {
+        this.getOffer(null);
+      }else if (filterText === "Date d'ajout décroissant") {
+        this.getOffer('order=desc');
       }
     }
 
@@ -215,8 +192,14 @@ class Advertisements extends React.Component{
             <Card className="mt-4 ml-2 pointerClick" style={{borderColor: 'transparent', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}>
               <Card.Img style={{height: '190px', objectFit: 'cover'}} className="card" onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
               <Card.Body>
-                <Card.Title>{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</Card.Title>
-                <p>{item.productSubject}</p>
+                <Row className="mx-1">
+                  <h5 className="mr-auto">{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</h5>
+                  <p className="ml-auto">{item.brand}</p>
+                </Row>
+                <Row className="mx-1">
+                  <p className="mr-auto">{item.productSubject}</p>
+                    <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                </Row>
                 <Row className="ml-1">
                   {
                     !item.status && <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>Postuler</Button>
@@ -250,7 +233,7 @@ class Advertisements extends React.Component{
             return (res.json());
         })
         .then(res => {
-          this.getOffer();
+          this.getOffer(null);
           this.getSuggestions();
           showNotif(false, "Réussi", "l'annulation est bien prise en compte");
         })
@@ -269,18 +252,18 @@ class Advertisements extends React.Component{
               <DropdownButton
                 disabled={this.state.loadSugg || this.state.loadOffer}
                 as={InputGroup.Prepend}
-                variant="outline-secondary"
-                title="Sort by"
+                variant="outline-light"
+                title="Trier"
                 id="input-group-dropdown-1"
               >
                 <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} active={true} href="#">Popularité</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item onClick={this.handleSort} href="#" className="active">Order (ASC)</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort} href="#">Order (DESC)</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} href="#">Date d'ajout croissant</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort} href="#">Date d'ajout décroissant</Dropdown.Item>
               </DropdownButton>
               <FormControl
-                placeholder="Search"
-                aria-label="Enter your keyword"
+                placeholder="Rechercher"
                 aria-describedby="basic-addon2"
                 value={this.state.searchForm}
                 onChange={this.handleSearchBarChange}
