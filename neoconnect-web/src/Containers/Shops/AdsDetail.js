@@ -106,7 +106,8 @@ class adsDetail extends React.Component{
                           <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{ this.state.adData.productSex}</h5>
                         }
                         <h5 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</h5>
-                        <h4 style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>Créé le {new Date(this.state.adData.createdAt).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h4>
+                        <p className="text-light" style={{fontWeight: '300'}}>{"Ajouté le " + new Date(this.state.adData.createdAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' à ' + new Date(this.state.adData.createdAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                        <p className="text-light" style={{fontWeight: '300'}}>{"Modifié le " + new Date(this.state.adData.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' à ' + new Date(this.state.adData.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
                         <Button onClick={() => {this.props.history.push(`/shop-dashboard/edit-ad?id=${this.state.urlId}`)}} className="btnShop mt-2">Modifier</Button>
                         <Button onClick={() => {this.setState({visible: true})}} className="btnDelete mt-2 ml-2">Supprimer</Button>
                     </Col>

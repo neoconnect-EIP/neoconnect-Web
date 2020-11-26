@@ -198,7 +198,7 @@ class Advertisements extends React.Component{
                 </Row>
                 <Row className="mx-1">
                   <p className="mr-auto">{item.productSubject}</p>
-                    <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                  <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
                 </Row>
                 <Row className="ml-1">
                   {
