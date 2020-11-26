@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import Badge from 'react-bootstrap/Badge';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
@@ -38,6 +39,8 @@ class FindShop extends React.Component{
             suggestions: [],
             loadShop: true,
             loadSugg: true,
+            filter: [],
+            theme: ''
         };
     }
 
@@ -207,12 +210,32 @@ class FindShop extends React.Component{
               />
             :
             <div>
+              <div className="ml-3">
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Mode' ? '#4AA1B1' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme !== 'Mode' ? 'Mode' : ''})}}>
+                  Mode
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Jeux Vidéo' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Jeux Vidéo' ? 'Jeux Vidéo' : ''})}}>
+                  Jeux vidéo
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'High tech' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'High tech' ? 'High tech' : ''})}}>
+                  High Tech
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Nourriture' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Nourriture' ? 'Nourriture' : ''})}}>
+                  Nourriture
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Cosmétique' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Cosmétique' ? 'Cosmétique' : ''})}}>
+                  Cosmétique
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Sport/Fitness' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Sport/Fitness' ? 'Sport/Fitness' : ''})}}>
+                  Sport
+                </Badge>{' '}
+              </div>
               <Row className="pl-4 mt-4 mr-0 mx-0">
                 <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Suggestion de marques</h4>
               </Row>
               <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    (this.state.suggestion && typeof(this.state.suggestions) === 'object' && this.state.suggestion.length > 0) ? this.state.suggestions.map(item => this.handleCard(item)) :
+                    (this.state.suggestions && typeof(this.state.suggestions) === 'object' && this.state.suggestions.length > 0) ? this.state.suggestions.map(item => this.handleCard(item)) :
                     <p className="ml-4 mt-2 text-light">Aucune suggestion pour le moment</p>
 
                 }
@@ -222,7 +245,11 @@ class FindShop extends React.Component{
               </Row>
               <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    (typeof(this.state.shopList) === 'object' && this.state.shopList.length > 0) ? this.state.shopList.map(item => this.handleCard(item)) :
+                    (typeof(this.state.shopList) === 'object' && this.state.shopList.length > 0) ?
+                    this.state.shopList.filter((item) => (item.theme === this.state.theme) || (item.theme === this.state.theme) ||
+                                                          (item.theme === this.state.theme) || (item.theme === this.state.theme) ||
+                                                          (item.theme === this.state.theme) || (item.theme === this.state.theme) ||
+                                                          (!this.state.theme)).map(shop => this.handleCard(shop)) :
                     <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
                 }
               </Row>

@@ -226,7 +226,6 @@ class adsItem extends React.Component{
   };
 
     render() {
-      console.log(this.state.adData);
         return (
           <LoadingOverlay
             active={this.state.isActive}

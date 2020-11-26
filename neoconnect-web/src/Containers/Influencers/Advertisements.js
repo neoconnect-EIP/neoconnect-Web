@@ -14,6 +14,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Badge from 'react-bootstrap/Badge';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { showNotif } from '../Utils.js';
 
@@ -39,6 +40,8 @@ class Advertisements extends React.Component{
             suggestions: null,
             loadOffer: true,
             loadSugg: true,
+            filter: [],
+            theme: ''
         };
     }
 
@@ -294,6 +297,26 @@ class Advertisements extends React.Component{
               />
             :
             <div>
+              <div className="pl-4 ml-3">
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Mode' ? '#4AA1B1' : '#6C757D', color: 'white'}} onClick={() => {this.setState({theme: this.state.theme !== 'Mode' ? 'Mode' : ''})}}>
+                  Mode
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Jeux Vidéo' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Jeux Vidéo' ? 'Jeux Vidéo' : ''})}}>
+                  Jeux vidéo
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'High tech' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={()=> {this.setState({theme: this.state.theme !== 'High tech' ? 'High tech' : ''})}}>
+                  High Tech
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Nourriture' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Nourriture' ? 'Nourriture' : ''})}}>
+                  Nourriture
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Cosmétique' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Cosmétique' ? 'Cosmétique' : ''})}}>
+                  Cosmétique
+                </Badge>{' '}
+                <Badge pill className="pointerClick" style={{backgroundColor: this.state.theme === 'Sport/Fitness' ? '#4AA1B1' : '#6C757D', color: 'white'}} variant="secondary" onClick={() => {this.setState({theme: this.state.theme !== 'Sport/Fitness' ? 'Sport/Fitness' : ''})}}>
+                  Sport
+                </Badge>{' '}
+              </div>
               <Row className="pl-4 mt-4 mr-0 ml-0">
                 <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>Suggestion d'offre</h4>
               </Row>
@@ -308,7 +331,11 @@ class Advertisements extends React.Component{
               </Row>
               <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
                 {
-                    (this.state.adsData && this.state.adsData.length > 0) ? this.state.adsData.map(item => this.handleCard(item)) :
+                    (this.state.adsData && this.state.adsData.length > 0) ?
+                    this.state.adsData.filter((item) => (item.productSubject === this.state.theme) || (item.productSubject === this.state.theme) ||
+                                                          (item.productSubject === this.state.theme) || (item.productSubject === this.state.theme) ||
+                                                          (item.productSubject === this.state.theme) || (item.productSubject === this.state.theme) ||
+                                                          (!this.state.theme)).map(offer => this.handleCard(offer)) :
                     <p className="ml-4 mt-2 text-light">Aucune offre pour le moment</p>
                 }
               </Row>

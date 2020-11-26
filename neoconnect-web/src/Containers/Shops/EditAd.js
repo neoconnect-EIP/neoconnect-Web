@@ -226,7 +226,7 @@ class EditAd extends React.Component {
           if (res.status === 200)
             this.props.history.push('/shop-dashboard/ads')
         })
-        .catch(error => {console.log(error);showNotif(true, "Erreur",null)});
+        .catch(error => {showNotif(true, "Erreur",null)});
     };
 
     render() {
