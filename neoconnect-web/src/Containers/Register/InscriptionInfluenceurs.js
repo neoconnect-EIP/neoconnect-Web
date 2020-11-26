@@ -160,7 +160,8 @@ export default class InfluencerSignUp extends React.Component{
               userPicture: this.handleSplitString(reader.result),
           });
       };
-      reader.readAsDataURL(file);
+      if (reader.result)
+        reader.readAsDataURL(file);
 
   }
 
