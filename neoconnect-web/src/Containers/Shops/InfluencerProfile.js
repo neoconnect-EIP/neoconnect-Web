@@ -29,6 +29,7 @@ import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import { showNotif } from '../Utils.js';
 import { displayComment, displaySocialMed } from '../../Components/Utils.js';
+import LoadingOverlay from 'react-loading-overlay';
 
 class InfluencerProfile extends React.Component {
     constructor(props) {
@@ -44,6 +45,7 @@ class InfluencerProfile extends React.Component {
             signal: false,
             raison: "",
             info: "",
+            isActive: false,
             msg: "",
             messageModal: false,
             clickedSignal: false
@@ -84,35 +86,40 @@ class InfluencerProfile extends React.Component {
         this.setState({mark: e})
     };
 
-    handleResponse = (res) => {
-        if (res && res.status === 200)
-          this.getInfData();
-    };
-
     handleSendMark = () => {
+        this.setState({isActive: true});
         let id = this.getUrlParams((window.location.search));
         let body = {
             "mark": this.state.mark,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur",null));
-        this.setState({visible: false});
+          .then(res => {
+            if (res.status === 200)
+              return (res.json());
+            this.setState({isActive: false});
+          })
+          .then(res => {this.setState({isActive: false, visible: false});this.getInfData();})
+          .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
     };
 
 
     handleSendMessage = () => {
       if (this.state.commentInput && this.state.commentInput.length > 0 && this.state.commentInput.replace(/  +/g, ' ').length > 1) {
+        this.setState({isActive: true});
         let id = this.getUrlParams((window.location.search));
         let body = {
             "comment": this.state.commentInput,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/comment/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur",null));
-        this.setState({ commentInput: ""});
+          .then(res => {
+            if (res.status === 200)
+              return (res.json());
+            this.setState({isActive: false});
+          })
+          .then(res => {this.setState({isActive: false, commentInput: ""});this.getInfData();})
+          .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
       }
     }
 
@@ -149,22 +156,20 @@ class InfluencerProfile extends React.Component {
 
 
     handleMsgRes = async (res) => {
-      var msg;
+      var msg = await res.json();
       if (res.status === 200) {
-        msg = await res.json();
-
         this.setState({messageModal: false});
         showNotif(false, "Envoyé", "Message envoyé à " + this.state.infData.pseudo);
       }
       else {
-        msg = await res.json();
-        showNotif(true, "Erreur", "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText));
+        showNotif(true, "Erreur", null);
       }
+      this.setState({isActive: false});
     }
 
     handleSendMsg() {
-
       if (this.state.msg) {
+        this.setState({isActive: true});
         let body = {
             "message": this.state.msg,
             "userId": this.state.infData.id.toString(), //destinataire
@@ -177,13 +182,21 @@ class InfluencerProfile extends React.Component {
             headers: {'Content-Type': 'application/json',
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
-            .then(res => this.handleMsgRes(res)
-          ).catch(error => showNotif(true, "Erreur",null));
+          .then(res => this.handleMsgRes(res))
+          .catch(error => {
+            this.setState({isActive: false});
+            showNotif(true, "Erreur", null);
+          });
       }
     }
 
     render() {
         return (
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
             <div className="shopBg">
                 {
                     this.state.infData ?
@@ -347,6 +360,7 @@ class InfluencerProfile extends React.Component {
                       </div>
                 }
             </div>
+          </LoadingOverlay>
         );
     }
 }

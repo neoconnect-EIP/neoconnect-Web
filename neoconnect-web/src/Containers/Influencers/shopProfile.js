@@ -31,6 +31,7 @@ import Container from 'react-bootstrap/Container';
 import StarIcon from '@material-ui/icons/Star';
 import noImages from "../../assets/noImages.jpg";
 import { displayComment, displaySocialMed } from '../../Components/Utils.js';
+import LoadingOverlay from 'react-loading-overlay';
 
 class shopProfile extends React.Component{
     constructor(props) {
@@ -53,6 +54,7 @@ class shopProfile extends React.Component{
             info: "",
             messageModal: false,
             msg: "",
+            isActive: false,
             clickedSignal: false,
             urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
         };
@@ -95,21 +97,21 @@ class shopProfile extends React.Component{
         this.setState({commentInput: e.target.value});
     };
 
-    handleResponse = (res) => {
-        if (res && res.status === 200)
-          this.getShopData();
-    };
-
     handleSendMessage = () => {
       if (this.state.commentInput && this.state.commentInput.length > 0 && this.state.commentInput.replace(/  +/g, ' ').length > 1) {
+        this.setState({isActive: true});
         let body = {
             "comment": this.state.commentInput,
         };
         body = JSON.stringify(body);
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/comment/${this.state.urlId}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => { res.json(); this.handleResponse(res)})
-            .catch(error => showNotif(true, "Erreur",null));
-        this.setState({ commentInput: ""});
+          .then(res => {
+            if (res.status === 200)
+              return (res.json());
+            this.setState({isActive: false});
+          })
+          .then(res => {this.setState({isActive: false, commentInput: ""});this.getShopData();})
+          .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
       }
     };
 
@@ -171,8 +173,7 @@ class shopProfile extends React.Component{
     }
 
     handleMsgRes = async (res) => {
-      var msg;
-      msg = await res.json();
+      var msg = await res.json();
       if (res.status === 200) {
         this.setState({messageModal: false});
         showNotif(false, "Envoyé", "Message envoyé à " + this.state.shopData.pseudo);
@@ -180,11 +181,12 @@ class shopProfile extends React.Component{
       else {
         showNotif(true,  "Erreur", msg);
       }
+      this.setState({isActive: false});
     }
 
     handleSendMsg() {
-
       if (this.state.msg) {
+        this.setState({isActive: true});
         let body = {
             "message": this.state.msg,
             "userId": this.state.shopData.id.toString(),
@@ -197,39 +199,43 @@ class shopProfile extends React.Component{
             headers: {'Content-Type': 'application/json',
             "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
           })
-            .then(res => this.handleMsgRes(res)
-          ).catch(error => showNotif(true, "Erreur",null));
+          .then(res => this.handleMsgRes(res))
+          .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
       }
     }
 
     handleFollow = () => {
+      this.setState({isActive: true});
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/follow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {
-              if (res.status === 200) {
-                this.state.shopData.nbFollows += 1;
-                this.setState({visible: false});
-                this.getShopData();
-              }
-              else {
-                showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
-              }
-            })
-            .catch(error => showNotif(true, "Erreur",null));
+          .then(res => {
+            if (res.status === 200) {
+              this.state.shopData.nbFollows += 1;
+              this.setState({visible: false, isActive: false});
+              this.getShopData();
+            }
+            else {
+              this.setState({isActive: false});
+              showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
+            }
+          })
+          .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
     }
 
     handleUnFollow = () => {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-            .then(res => {
-              if (res.status === 200) {
-                this.state.shopData.nbFollows -= 1;
-                this.setState({visible: false});
-                this.getShopData();
-              }
-              else {
-                showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
-              }
-            })
-            .catch(error => showNotif(true, "Erreur",null));
+      this.setState({isActive: true});
+      fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/unfollow/${this.state.shopData.id}`, { method: 'PUT', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
+          .then(res => {
+            if (res.status === 200) {
+              this.state.shopData.nbFollows -= 1;
+              this.setState({visible: false});
+              this.getShopData();
+            }
+            else {
+              showNotif(true, "Erreur, Veuillez essayer ultérieurement", "Un erreur s'est produit. Veuillez essayer ultérieurement.");
+            }
+            this.setState({isActive: false});
+          })
+          .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
     }
 
     handleGlobalAnnonce = (id) => {
@@ -256,6 +262,11 @@ class shopProfile extends React.Component{
 
     render() {
         return (
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
             <div className="infBg">
                 {
                   this.state.shopData ?
@@ -448,6 +459,7 @@ class shopProfile extends React.Component{
                  </Modal.Footer>
                 </Modal>
             </div>
+          </LoadingOverlay>
         );
     }
 }
