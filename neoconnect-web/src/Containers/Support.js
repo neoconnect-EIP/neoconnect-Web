@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import LoadingOverlay from 'react-loading-overlay';
 import { showNotif, emailValid } from './Utils.js';
 
-export default class Contact extends React.Component{
+export default class Support extends React.Component{
     constructor(props) {
         super(props);
         localStorage.setItem('menuId', 14);

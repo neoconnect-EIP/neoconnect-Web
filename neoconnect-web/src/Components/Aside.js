@@ -103,7 +103,7 @@ class Aside extends React.Component{
                                 <QuestionAnswerIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 6 ? "sideBarTxt-active" : "sideBarTxt"}>Contact</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className={this.state.menuId === 14 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 14});this.handlePage("/shop-dashboard/contact")}}>
+                            <Nav.Item className={this.state.menuId === 14 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 14});this.handlePage("/shop-dashboard/support")}}>
                                 <PersonPinIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 14 ? "sideBarTxt-active" : "sideBarTxt"}>Support</Nav.Link>
                             </Nav.Item>
@@ -150,7 +150,7 @@ class Aside extends React.Component{
                                 <QuestionAnswerIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 6 ? "sideBarTxt-active" : "sideBarTxt"}>Contact</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className={this.state.menuId === 14 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 14});this.handlePage("/dashboard/contact")}}>
+                            <Nav.Item className={this.state.menuId === 14 ? "nav-item-sidebar-active" : "nav-item-sidebar"} onClick={() => {this.setState({menuId: 14});this.handlePage("/dashboard/support")}}>
                                 <PersonPinIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 14 ? "sideBarTxt-active" : "sideBarTxt"}>Support</Nav.Link>
                             </Nav.Item>

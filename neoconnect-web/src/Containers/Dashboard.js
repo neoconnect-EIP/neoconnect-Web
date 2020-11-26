@@ -11,7 +11,7 @@ import adsItem from "./Influencers/adsItem";
 import shopProfile from "./Influencers/shopProfile";
 import actuality from "./Influencers/Actuality";
 import Message from "./Message";
-import Contact from "./Contact";
+import Support from "./Support";
 
 export default class Dashboard extends React.Component {
     constructor(props) {
@@ -36,7 +36,7 @@ export default class Dashboard extends React.Component {
                       <Route path="/dashboard/actuality" component={actuality}/>
                       <Route path="/dashboard/chat" component={Chat}/>
                       <Route path="/dashboard/message" component={Message}/>
-                      <Route path="/dashboard/contact" component={Contact}/>
+                      <Route path="/dashboard/support" component={Support}/>
                   </Switch>
                 </div>
             </div>
