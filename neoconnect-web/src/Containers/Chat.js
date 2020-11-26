@@ -3,7 +3,7 @@ import {Grid, Input, TextField} from "@material-ui/core";
 import "./index.css"
 import {Icon} from "antd";
 import Button from 'react-bootstrap/Button';
-import { showNotif } from './Utils.js';
+import { showNotif, emailValid } from './Utils.js';
 import LoadingOverlay from 'react-loading-overlay';
 
 export default class Chat extends React.Component{
@@ -36,9 +36,11 @@ export default class Chat extends React.Component{
 
 
     handleSend = () => {
-      if (!this.state.pseudo || !this.state.email || !this.state.subject || !this.state.message || !this.state.to) {
+      if (!this.state.email || !this.state.subject || !this.state.message || !this.state.to) {
         showNotif(true, "Erreur", 'Veuillez remplir tout les champs.')
       }
+      else if(!emailValid(this.state.email) || !emailValid(this.state.to))
+        showNotif(true, "Erreur", 'Veuillez remplir des addresses email valide.')
       else {
         this.setState({isActive: true});
         var body = {

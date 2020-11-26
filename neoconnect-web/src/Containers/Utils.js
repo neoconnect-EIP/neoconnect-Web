@@ -20,3 +20,10 @@ export const showNotif = (error, title, msg) => {
 }
 
 export const themeVal = ['', 'Mode', 'Cosmétique', 'High tech', 'Nourriture', 'Jeux Vidéo', 'Sport/Fitness'];
+
+export const emailValid = (email) => {
+  if (!RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$").test(email)) {
+    return (false);
+  }
+  return (true);
+}

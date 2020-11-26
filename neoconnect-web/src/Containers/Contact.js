@@ -4,7 +4,7 @@ import { Input, TextField, Grid, FormControl, InputLabel, Select, MenuItem } fro
 import "../index.css"
 import Button from 'react-bootstrap/Button';
 import LoadingOverlay from 'react-loading-overlay';
-import { showNotif } from './Utils.js';
+import { showNotif, emailValid } from './Utils.js';
 
 export default class Contact extends React.Component{
     constructor(props) {
@@ -51,9 +51,11 @@ export default class Contact extends React.Component{
     }
 
     handleSubmit = () => {
-      if (!this.state.pseudo || !this.state.email || !this.state.subject || !this.state.message) {
+      if (!this.state.email || !this.state.subject || !this.state.message) {
         showNotif(true, "Erreur", 'Veuillez remplir tout les champs.')
       }
+      else if(!emailValid(this.state.email))
+        showNotif(true, "Erreur", 'Veuillez remplir une addresses email valide.')
       else {
         this.setState({isActive: true});
         let body = {
