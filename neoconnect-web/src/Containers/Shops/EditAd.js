@@ -9,10 +9,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
 import { showNotif, themeVal } from '../Utils.js';
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core/';
 import LoadingOverlay from 'react-loading-overlay';
+import camera from "../../assets/camera.svg";
 
 class EditAd extends React.Component {
   constructor(props) {
@@ -195,10 +197,6 @@ class EditAd extends React.Component {
 
   handleSubmit = () => {
     var images = this.handleGolobalImg();
-    console.log("img ", images);
-    console.log("this.state.productDesc ", this.state.productDesc);
-    console.log("this.state.productName ", this.state.productName);
-    console.log("this.state.theme ", this.state.theme);
     if (!this.state.productName || this.state.productDesc.length > 255 || images.length === 0 || !this.state.theme) {
       showNotif(true, "Erreur", "Veuillez fournir nom, thème, description de l'offre et au moins une image. La description ne dois pas dépasser 255 caractères.");
     }
@@ -313,7 +311,7 @@ class EditAd extends React.Component {
                   <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
                     Images*
                   </Form.Label>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
+                  <Form.File style={{color:'white'}} label="choisir une image" accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
                   <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage2(e)}/>
                   <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage3(e)}/>
                   <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage4(e)}/>

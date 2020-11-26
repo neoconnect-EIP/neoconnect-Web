@@ -352,3 +352,10 @@
   background-color: rgba(185,185,185,0.15);
   border-radius: 15px;
 }
+
+.imgInputBg {
+  background-color: #87b97c;
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+}
