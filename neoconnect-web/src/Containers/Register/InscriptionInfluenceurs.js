@@ -113,9 +113,9 @@ export default class InfluencerSignUp extends React.Component{
   checkField = (pseudo) => {
     let body;
     if (pseudo === true)
-    body = {"pseudo": this.state.pseudo};
+      body = {"pseudo": this.state.pseudo};
     else
-    body = {"email": this.state.email};
+      body = {"email": this.state.email};
     body = JSON.stringify(body);
     fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/checkField`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
     .then(res => {

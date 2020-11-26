@@ -199,7 +199,7 @@ export default class Message extends React.Component{
                   </Col>
                 </Row>
               </Col> :
-              <Col md={8} className="ml-4 pl-4 mt-4">
+              <Col md={8} className="ml-4 pl-4 mt-4 pt-2">
                 <h3 style={{color: 'white', fontWeight: '300'}}>Auncun message sélectionné </h3>
               </Col>}
             </Row>
