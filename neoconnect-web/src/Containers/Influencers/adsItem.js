@@ -66,6 +66,7 @@ class adsItem extends React.Component{
     }
 
     handleAnnonceSubscribe = () => {
+      this.setState({isActive: true});
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/apply/${this.state.adData.id}`,
           {
             method: 'PUT',
@@ -74,12 +75,15 @@ class adsItem extends React.Component{
           .then(res => {
             if (res.status === 200)
               return (res.json());
+            this.setState({isActive: false});
           })
           .then(res => {
+            this.setState({isActive: false});
             this.getDetailOffer();
           })
           .catch(error => {
             showNotif(true, "Erreur", null);
+            this.setState({isActive: false});
           });
         // this.props.history.push("/dashboard/advertisements")
     }
@@ -170,10 +174,15 @@ class adsItem extends React.Component{
           "comment": this.state.commentInput,
       };
       body = JSON.stringify(body);
+      this.setState({isActive: true});
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/comment/${this.state.urlId}`, {method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-          .then(res => { res.json(); this.getDetailOffer();})
+          .then(res => {
+            if (res.status === 200)
+              return (res.json());
+            this.setState({isActive: false});
+          })
+          .then(res => {this.setState({isActive: false, commentInput: ""});this.getDetailOffer();})
           .catch(error => showNotif(true, "Erreur",null));
-      this.setState({ commentInput: ""})
   }
 
   handleAnnonceReport = () => {
