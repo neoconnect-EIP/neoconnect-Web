@@ -69,7 +69,7 @@ class Aside extends React.Component{
                 {
                     this.props.isShop ?
                         <div className="aside">
-                          <Nav className="col-md-12 d-block sidebar h-100" justify={true}>
+                          <Nav className="col-md-12 d-block sidebar h-100" style={{minHeight: '585px'}}  justify={true}>
                             <div className="sidebar-sticky"></div>
                             <Nav.Item>
                                 <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
@@ -107,7 +107,7 @@ class Aside extends React.Component{
                                 <PersonPinIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 14 ? "sideBarTxt-active" : "sideBarTxt"}>Support</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className="nav-item-sidebar" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", width: '100%'}}>
+                            <Nav.Item className="nav-item-sidebar" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", width: '92%'}}>
                                   <ExitToAppIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                  <Nav.Link className="sideBarTxt">Déconnexion</Nav.Link>
                             </Nav.Item>
@@ -116,7 +116,7 @@ class Aside extends React.Component{
                         </div>
                         :
                         <div className="aside">
-                          <Nav className="col-md-12 d-block sidebar h-100" justify={true}>
+                          <Nav className="col-md-12 d-block sidebar h-100" style={{minHeight: '585px'}} justify={true}>
                             <div className="sidebar-sticky"></div>
                             <Nav.Item>
                                 <img className="aside-logo" src={NeoconnectLogo} onClick={this.landing} alt="LOGO NOT FOUND"/>
@@ -154,7 +154,7 @@ class Aside extends React.Component{
                                 <PersonPinIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                 <Nav.Link className={this.state.menuId === 14 ? "sideBarTxt-active" : "sideBarTxt"}>Support</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className="nav-item-sidebar" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", width: '100%'}}>
+                            <Nav.Item className="nav-item-sidebar" onClick={this.handleModal} style={{position: "absolute", bottom: "20px", width: '92%'}}>
                                   <ExitToAppIcon className="mt-2 mr-3" style={{float: "left", color: "white", marginLeft: "10px"}}/>
                                  <Nav.Link className="sideBarTxt">Déconnexion</Nav.Link>
                             </Nav.Item>
