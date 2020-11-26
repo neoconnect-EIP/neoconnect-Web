@@ -316,7 +316,7 @@ class adsItem extends React.Component{
                         }
                         <p style={{marginTop: "1rem", color: 'white', fontWeight: '300'}}>{this.state.adData.productSubject}</p>
                           {
-                            !this.state.adData.status && <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleAnnonceSubscribe(this.state.adData)}}>Postuler</Button>
+                            !this.state.adData.status && <Button className="mr-auto btnInf" onClick={() => {this.handleAnnonceSubscribe(this.state.adData)}}>Postuler</Button>
                           }
                           {
                             this.state.adData.status && this.state.adData.status === "pending" && <Button className="btnInf mr-auto" onClick={() => {this.handleDelete(this.state.adData.id)}}>Annuler</Button>

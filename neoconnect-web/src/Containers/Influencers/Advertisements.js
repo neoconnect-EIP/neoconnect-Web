@@ -167,16 +167,12 @@ class Advertisements extends React.Component{
         document.getElementsByClassName('active')[0].classList.remove('active');
       el.classList.add('active')
       this.setState({sort: filterText})
-      if (filterText === 'Marque') {
-        this.setState({adsData: this.state.adsData.sort((a, b) => {
-          if (typeof a.brand === 'string' && typeof b.brand === 'string'){
-            if (a.brand.length && b.brand.length){
-              if (a.brand[0] > b.brand[0]) return 1
-              else if (a.brand[0] < b.brand[0]) return -1
-              else return 0
-            }else return 0
-          }else return 0
-        })})
+      if (filterText === 'Homme') {
+        this.getOffer('productSex=Homme');
+      }else if (filterText === "Femme") {
+        this.getOffer('productSex=Femme');
+      }else if (filterText === "Unisexe") {
+        this.getOffer('productSex=Unisexe');
       }else if (filterText === "Date d'ajout croissant") {
         this.getOffer('order=asc');
       }else if (filterText === "Popularité") {
@@ -256,11 +252,13 @@ class Advertisements extends React.Component{
                 title="Trier"
                 id="input-group-dropdown-1"
               >
-                <Dropdown.Item onClick={this.handleSort} href="#">Marque</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort}>Homme</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort}>Femme</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort}>Unisexe</Dropdown.Item>
                 <Dropdown.Item onClick={this.handleSort} active={true} href="#">Popularité</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item onClick={this.handleSort} href="#">Date d'ajout croissant</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort} href="#">Date d'ajout décroissant</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort}>Date d'ajout croissant</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleSort}>Date d'ajout décroissant</Dropdown.Item>
               </DropdownButton>
               <FormControl
                 placeholder="Rechercher"
