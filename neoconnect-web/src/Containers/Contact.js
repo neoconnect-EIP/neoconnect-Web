@@ -37,15 +37,14 @@ export default class Contact extends React.Component{
     }
 
     handleResponse = async (res) => {
-        var msg;
-        if (res.status === 200) {
-          msg = await res.json();
-          this.setState({mailSend: true});
-          showNotif(false, "Envoyé", msg)
+      var msg = await res.json();
+
+      if (res.status === 200) {
+        this.setState({mailSend: true});
+        showNotif(false, "Envoyé", msg)
         this.setState({subject: "", pseudo: "", email: "", message: ""});
-        }
+      }
       else {
-          msg = await res.json();
           showNotif(true, "Erreur", msg);
       }
       this.setState({isActive: false});
@@ -56,6 +55,7 @@ export default class Contact extends React.Component{
         showNotif(true, "Erreur", 'Veuillez remplir tout les champs.')
       }
       else {
+        this.setState({isActive: true});
         let body = {
             'pseudo': this.state.pseudo,
             'email': this.state.email,
@@ -68,7 +68,7 @@ export default class Contact extends React.Component{
         fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/contact`,
         { method: 'POST', body: body, headers: {'Content-Type': 'application/json'}})
         .then(res => {this.handleResponse(res)})
-        .catch(error => showNotif(true, "Erreur, Veuillez essayer ultérieurement", null));
+        .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur, Veuillez essayer ultérieurement", null)});
       }
     };
 

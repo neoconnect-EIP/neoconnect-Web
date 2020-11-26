@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import noAvatar from "../assets/noImageFindInf.jpg";
 import SendIcon from '@material-ui/icons/Send';
 import { showNotif } from './Utils.js';
+import LoadingOverlay from 'react-loading-overlay';
 
 export default class Message extends React.Component{
     constructor(props) {
@@ -22,6 +23,7 @@ export default class Message extends React.Component{
             currentDest: "",
             messages: null,
             chanelDetail: null,
+            isActive: false
           };
     }
 
@@ -97,26 +99,25 @@ export default class Message extends React.Component{
     };
 
     handleMsgRes = async (res, dest) => {
-      var msg;
+      var msg = await res.json();
       if (res.status === 200) {
-        msg = await res.json();
         this.setState({msg: ""});
         this.detailMsg(this.state.chanelDetail.id, this.state.index, this.state.currentDest)
       }
       else {
-        msg = await res.json();
-        showNotif(true, "Erreur", "Une erreur s'est produite, veuillez essayer ultérieurement: " + (msg ? msg : res.statusText));
+        showNotif(true, "Erreur", null);
       }
+      this.setState({isActive: false});
     }
 
     handleSendMessage = () => {
+      this.setState({isActive: true});
       let dest = (this.state.chanelDetail.user_1 === this.state.userId.toString() ? this.state.chanelDetail.user_2 : this.state.chanelDetail.user_1);
       let body = {
           'message': this.state.msg,
           'userId': dest,
       };
       body = JSON.stringify(body);
-
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/message`,
         {
           method: 'POST',
@@ -125,7 +126,7 @@ export default class Message extends React.Component{
           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
         })
         .then(res => this.handleMsgRes(res, dest))
-        .catch(error => showNotif(true, "Erreur",null));
+        .catch(error => {this.setState({isActive: false});showNotif(true, "Erreur",null)});
     };
 
     listContact = () => {
@@ -174,31 +175,37 @@ export default class Message extends React.Component{
     render() {
 
         return (
-          <div className={this.state.client === 'shop' ? 'shopBg' : 'infBg'}>
-            <Row className="mx-0">
-              <Col md={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
-                <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">Messagerie</h1>
-                {this.state.channels && this.listContact()}
-              </Col>
-              {this.state.index !== -1 ? <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
-              <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">{this.state.currentDest}</h1>
-               <div style={{height: '80%',  overflow: 'scroll'}}>
-                {this.state.messages && this.messageDetail()}
-               </div>
-                <Row className="mt-4 mb-4 align-items-end">
-                 <Col md={10}>
-                   <Form.Control onChange={this.handleChange} value={this.state.msg} className="inputComment" type="text" placeholder="Message" />
-                 </Col>
-                 <Col md={1} className="my-auto" type="submit">
-                   <SendIcon onClick={this.handleSendMessage} style={{color: "#3E415E", width: "1.5rem", height: "1.5rem"}}/>
-                 </Col>
-               </Row>
-             </Col> :
-             <Col md={8} className="ml-4 pl-4 mt-4">
-             <h3 style={{color: 'white', fontWeight: '300'}}>Auncun message sélectionné </h3>
-            </Col>}
-           </Row>
-          </div>
+          <LoadingOverlay
+            active={this.state.isActive}
+            spinner
+            text='Chargement...'
+            >
+            <div className={this.state.client === 'shop' ? 'shopBg' : 'infBg'}>
+              <Row className="mx-0">
+                <Col md={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
+                  <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">Messagerie</h1>
+                  {this.state.channels && this.listContact()}
+                </Col>
+                {this.state.index !== -1 ? <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
+                <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">{this.state.currentDest}</h1>
+                 <div style={{height: '80%',  overflow: 'scroll'}}>
+                  {this.state.messages && this.messageDetail()}
+                 </div>
+                  <Row className="mt-4 mb-4 align-items-end">
+                   <Col md={10}>
+                     <Form.Control onChange={this.handleChange} value={this.state.msg} className="inputComment" type="text" placeholder="Message" />
+                   </Col>
+                   <Col md={1} className="my-auto" type="submit">
+                     <SendIcon onClick={this.handleSendMessage} style={{color: "#3E415E", width: "1.5rem", height: "1.5rem"}}/>
+                   </Col>
+                 </Row>
+               </Col> :
+               <Col md={8} className="ml-4 pl-4 mt-4">
+               <h3 style={{color: 'white', fontWeight: '300'}}>Auncun message sélectionné </h3>
+              </Col>}
+             </Row>
+            </div>
+          </LoadingOverlay>
         );
     }
 }
