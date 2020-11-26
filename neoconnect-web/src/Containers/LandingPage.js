@@ -6,7 +6,6 @@ import InfluencerSignUp from "./Register/InscriptionInfluenceurs";
 import ShopSignUp from "./Register/InscriptionCommercants";
 import Login from "./Login/Login";
 import About from "./About";
-import Contributors from "./Contributor";
 import Support from "./Support";
 import chatShop from "../assets/chatShop.svg";
 import queueShop from "../assets/queueShop.svg";
@@ -137,7 +136,6 @@ export default class LandingPage extends React.Component{
           <Switch>
             <Route path="/landing-page/login" exact component={Login}/>
             <Route path="/landing-page/about" component={About}/>
-            <Route path="/landing-page/contributors" component={Contributors}/>
             <Route path="/landing-page/influencer-sign-up" component={InfluencerSignUp}/>
             <Route path="/landing-page/shop-sign-up" component={ShopSignUp}/>
             <Route path="/landing-page/contact" component={Support}/>

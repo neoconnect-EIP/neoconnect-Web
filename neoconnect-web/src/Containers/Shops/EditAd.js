@@ -311,7 +311,7 @@ class EditAd extends React.Component {
                   <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
                     Images*
                   </Form.Label>
-                  <Form.File style={{color:'white'}} label="choisir une image" accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
+                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
                   <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage2(e)}/>
                   <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage3(e)}/>
                   <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage4(e)}/>
