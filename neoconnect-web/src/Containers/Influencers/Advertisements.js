@@ -245,21 +245,35 @@ class Advertisements extends React.Component{
               <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Liste des offres</Navbar.Brand>
             </Navbar>
             <InputGroup className="mb-3" style={{ paddingLeft: "5%", paddingRight: "5%", marginTop: "1rem" }}>
-              <DropdownButton
-                disabled={this.state.loadSugg || this.state.loadOffer}
-                as={InputGroup.Prepend}
-                variant="outline-light"
-                title="Trier"
-                id="input-group-dropdown-1"
-              >
-                <Dropdown.Item onClick={this.handleSort}>Homme</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort}>Femme</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort}>Unisexe</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort} active={true} href="#">Popularité</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={this.handleSort}>Date d'ajout croissant</Dropdown.Item>
-                <Dropdown.Item onClick={this.handleSort}>Date d'ajout décroissant</Dropdown.Item>
-              </DropdownButton>
+              {(this.state.theme === "Mode" || this.state.theme === "Cosmétique") ?
+                <DropdownButton
+                  disabled={this.state.loadSugg || this.state.loadOffer}
+                  as={InputGroup.Prepend}
+                  variant="outline-light"
+                  title="Trier"
+                  id="input-group-dropdown-1"
+                >
+                  <Dropdown.Item onClick={this.handleSort}>Homme</Dropdown.Item>
+                  <Dropdown.Item onClick={this.handleSort}>Femme</Dropdown.Item>
+                  <Dropdown.Item onClick={this.handleSort}>Unisexe</Dropdown.Item>
+                  <Dropdown.Item onClick={this.handleSort} active={true} href="#">Popularité</Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={this.handleSort}>Date d'ajout croissant</Dropdown.Item>
+                  <Dropdown.Item onClick={this.handleSort}>Date d'ajout décroissant</Dropdown.Item>
+                </DropdownButton> :
+                <DropdownButton
+                  disabled={this.state.loadSugg || this.state.loadOffer}
+                  as={InputGroup.Prepend}
+                  variant="outline-light"
+                  title="Trier"
+                  id="input-group-dropdown-1"
+                >
+                  <Dropdown.Item onClick={this.handleSort} active={true} href="#">Popularité</Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={this.handleSort}>Date d'ajout croissant</Dropdown.Item>
+                  <Dropdown.Item onClick={this.handleSort}>Date d'ajout décroissant</Dropdown.Item>
+                </DropdownButton>
+              }
               <FormControl
                 placeholder="Rechercher"
                 aria-describedby="basic-addon2"

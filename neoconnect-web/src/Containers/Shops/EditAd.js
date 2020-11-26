@@ -203,7 +203,8 @@ class EditAd extends React.Component {
         let body = {
             "productImg": images,
             "productName": this.state.productName,
-            "productSex": this.state.homme ? "Homme" : (this.state.femme ? "Femme" : "Unisexe"),
+            "productSex": (this.state.theme === 'Mode' || this.state.theme === 'Mode' === 'Cosmétique') ?
+            (this.state.homme ? "Homme" : (this.state.femme ? "Femme" : "Unisexe")) : null,
             "productDesc": this.state.productDesc,
             "productSubject": this.state.theme,
         };
