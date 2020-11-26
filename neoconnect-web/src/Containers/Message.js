@@ -22,7 +22,6 @@ export default class Message extends React.Component{
             currentDest: "",
             messages: null,
             chanelDetail: null,
-            userData: null
           };
     }
 
@@ -141,7 +140,7 @@ export default class Message extends React.Component{
 
             <Row  key={user.id} className="pl-2 mr-2 messageUser" onClick={() => {this.detailMsg(user.id, id, user.pseudo)}}>
                 <Image className="py-auto mb-2 mt-2" style={{width: '65px', height: '65px', objectFit: 'cover', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}}
-                src={!this.state.userData || this.state.userData.userPicture.length === 0 ? noAvatar : this.state.userData.userPicture[0].imageData} roundedCircle/>
+                  src={!user.userPicture || user.userPicture.length === 0 ? noAvatar : user.userPicture[0].imageData} roundedCircle/>
               <p className="my-auto ml-4" style={{color: 'white'}}>{user.pseudo ? user.pseudo : user.id}</p>
             </Row>
         ))
