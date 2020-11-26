@@ -12,6 +12,10 @@
   border-radius: 40px;
 }
 
+._loading_overlay_wrapper {
+  min-height: 100vh;
+}
+
 .messageUserOn {
   background-color: rgba(255, 255, 255, 0.1);
   cursor: pointer;
@@ -21,11 +25,6 @@
 .shopBg {
   min-height: 100vh;
   background: linear-gradient(180deg, rgba(58,59,91,1) 0%, rgba(139,168,143,1) 70%, rgb(176, 196, 179) 100%);
-}
-
-.shopBgX {
-  height: 100%;
-  background: linear-gradient(180deg, rgba(58,59,91,1) 0%, rgba(139,168,143,1) 89%, rgba(139,168,143,1) 100%);
 }
 
 .shopBgCard {

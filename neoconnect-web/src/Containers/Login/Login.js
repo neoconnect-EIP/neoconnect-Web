@@ -45,7 +45,6 @@ export default class Login extends React.Component{
         this.setState({password: e.target.value});
     }
 
-
     handleResponse = (res) => {
         if (res.userType) {
             this.setState({isLoading: false})
@@ -100,7 +99,6 @@ export default class Login extends React.Component{
         this.setState({sent: true});
         showNotif(false, "Envoyé", "Nous avons envoyé un email à l'adresse fournis");
       }
-
     }
 
     handleForgotPass = () => {
@@ -240,7 +238,7 @@ export default class Login extends React.Component{
                            Mot de passe oublié
                          </Form.Text>
                       </Form.Group>
-                      <Button className="btnShop" onClick={this.handleSubmit} disabled={this.state.isLoading}>
+                      <Button className="btnShop mb-3" onClick={this.handleSubmit} disabled={this.state.isLoading}>
                         Se connecter
                       </Button>
                     </Form>

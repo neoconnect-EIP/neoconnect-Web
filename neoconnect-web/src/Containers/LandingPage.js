@@ -29,7 +29,7 @@ export default class LandingPage extends React.Component{
 
     render() {
         return (
-            <div>
+            <div style={{height: '100%'}}>
                 <Header />
                 {
                     this.props.location["pathname"] === "/landing-page" ?
@@ -133,7 +133,7 @@ export default class LandingPage extends React.Component{
                             <Footer/>
                           </div>
                         :
-                        <div style={{backgroundImage: "url(https://media.cdn-equinox.com/website/Images/Club-Assets/Clubs/Dallas/RiverOaks/April1/RiverOaks_Shop_2048x900.jpg)", backgroundSize: "cover", backgroundPosition: "center center", width: "100%", marginTop: '86px', position: "fixed", height: 'calc(100% - 86px)'}}>
+                        <div>
                                 <Switch>
                                     <Route path="/landing-page/login" exact component={Login}/>
                                     <Route path="/landing-page/about" component={About}/>

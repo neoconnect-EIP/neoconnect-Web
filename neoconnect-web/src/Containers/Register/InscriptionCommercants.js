@@ -442,35 +442,37 @@ export default class ShopSignUp extends React.Component{
             spinner
             text='Chargement...'
             >
-            <Grid container direction="row" justify="center" alignItems="center" className="shopBg" style={{height: "100%"}}>
-                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "white", backdropFilter: "blur(8px)"}}>
+            <div className="shopBg" style={{paddingTop:'200px'}}>
+              <Grid container direction="row">
+                  <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "white", backdropFilter: "blur(8px)"}}>
 
-                    <Form className="formular" onSubmit={this.handleSubmit} style={{margin: "2rem"}}>
-                        <Grid container className="steps-action" justify="center">
-                            <Grid item>
-                                {
-                                    this.getStepContent(this.state.current)
-                                }
-                            </Grid>
-                            <Grid item xs={12} style={{textAlign: "center"}}>
-                                <Button disabled={this.state.current < 1} className="btnShop" onClick={this.prev} style={{marginRight: "2rem"}}>
-                                    Précédent
-                                </Button>
-                                {
-                                    this.state.current < 3 ?
-                                        <Button className="btnShop" onClick={this.next}>
-                                            Suivant
-                                        </Button>
-                                        :
-                                        <Button onClick={this.handleSubmit} className="btnShop">
-                                            S'inscrire
-                                        </Button>
-                                }
-                            </Grid>
-                        </Grid>
-                    </Form>
-                </Grid>
-            </Grid>
+                      <Form className="formular" onSubmit={this.handleSubmit} style={{margin: "2rem"}}>
+                          <Grid container className="steps-action" justify="center">
+                              <Grid item>
+                                  {
+                                      this.getStepContent(this.state.current)
+                                  }
+                              </Grid>
+                              <Grid item xs={12} style={{textAlign: "center"}}>
+                                  <Button disabled={this.state.current < 1} className="btnShop" onClick={this.prev} style={{marginRight: "2rem"}}>
+                                      Précédent
+                                  </Button>
+                                  {
+                                      this.state.current < 3 ?
+                                          <Button className="btnShop" onClick={this.next}>
+                                              Suivant
+                                          </Button>
+                                          :
+                                          <Button onClick={this.handleSubmit} className="btnShop">
+                                              S'inscrire
+                                          </Button>
+                                  }
+                              </Grid>
+                          </Grid>
+                      </Form>
+                  </Grid>
+              </Grid>
+            </div>
           </LoadingOverlay>
         );
     }

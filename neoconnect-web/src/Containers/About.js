@@ -12,7 +12,7 @@ export default class About extends React.Component{
 
     render() {
         return (
-            <Grid className="about-faq shopBgX" container style={{backdropFilter: "blur(8px) brightness(50%)"}}>
+            <Grid className="about-faq shopBg" container style={{backdropFilter: "blur(8px) brightness(50%)"}}>
                 <Grid item xs={12} style={{marginBottom: "50px"}}>
                     <h2 style={{textAlign: "center", color: "white"}}>FAQ</h2>
                 </Grid>

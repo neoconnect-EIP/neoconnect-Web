@@ -514,35 +514,37 @@ export default class InfluencerSignUp extends React.Component{
             spinner
             text='Chargement...'
             >
-            <Grid container direction="row" justify="center" alignItems="center" className="infBg" style={{height: "100%"}}>
-                <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "white", backdropFilter: "blur(8px)"}}>
-                    <div style={{margin: "4rem"}}>
+            <div className="infBg" style={{paddingTop:'200px', overflow: 'auto'}}>
+              <Grid container direction="row" >
+                  <Grid className="landing-page-mid-div" style={{transform: "translateY(-35px)", borderRadius: "12px", backgroundColor: "white", backdropFilter: "blur(8px)"}}>
+                      <div style={{margin: "4rem"}}>
 
-                        <Grid container className="steps-action" justify="center" style={{color: "white"}}>
-                            <Grid>
-                                {
-                                    this.getStepContent(this.state.current)
-                                }
-                            </Grid>
-                            <Grid item xs={12} style={{textAlign: "center"}}>
-                                <Button disabled={this.state.current < 1}  onClick={this.prev} className="btnInf" style={{marginRight: "2rem"}}>
-                                    Précédent
-                                </Button>
-                                {
-                                  this.state.current < 3 ?
-                                      <Button className="btnInf" onClick={() => {this.next()}}>
-                                          Suivant
-                                      </Button>
-                                      :
-                                      <Button onClick={() => {this.handleSubmit()}} className="btnInf">
-                                          S'inscrire
-                                      </Button>
-                                }
-                            </Grid>
-                        </Grid>
-                    </div>
-                </Grid>
-            </Grid>
+                          <Grid container className="steps-action" justify="center" style={{color: "white"}}>
+                              <Grid>
+                                  {
+                                      this.getStepContent(this.state.current)
+                                  }
+                              </Grid>
+                              <Grid item xs={12} style={{textAlign: "center"}}>
+                                  <Button disabled={this.state.current < 1}  onClick={this.prev} className="btnInf" style={{marginRight: "2rem"}}>
+                                      Précédent
+                                  </Button>
+                                  {
+                                    this.state.current < 3 ?
+                                        <Button className="btnInf" onClick={() => {this.next()}}>
+                                            Suivant
+                                        </Button>
+                                        :
+                                        <Button onClick={() => {this.handleSubmit()}} className="btnInf">
+                                            S'inscrire
+                                        </Button>
+                                  }
+                              </Grid>
+                          </Grid>
+                      </div>
+                  </Grid>
+              </Grid>
+            </div>
           </LoadingOverlay>
         );
     }
