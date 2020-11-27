@@ -189,11 +189,12 @@ class Advertisements extends React.Component{
               <Card.Body>
                 <Row className="mx-1">
                   <h5 className="mr-auto">{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</h5>
-                  <p className="ml-auto">{item.brand}</p>
                 </Row>
                 <Row className="mx-1">
-                  <p className="mr-auto">{item.productSubject}</p>
-                  <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                  <Col className="mx-0 px-0">
+                    <p className="mr-auto">{item.productSubject}</p>
+                    <p style={{fontWeight: '300', fontSize: '12px'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                  </Col>
                 </Row>
                 <Row className="ml-1">
                   {

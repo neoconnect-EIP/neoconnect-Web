@@ -119,7 +119,7 @@ class Ads extends React.Component {
               </Row>
               <Row className="mx-1">
                 <p className="mr-auto">{ad.productSubject}</p>
-                <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(ad.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(ad.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                <p className="ml-auto" style={{fontWeight: '300', fontSize: '12px'}}>{new Date(ad.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'})}</p>
               </Row>
               <p style={{fontWeight: '300', fontSize: 18}}>{ad.status  === "accepted" ? "Accepté" : (ad.status  === "pending" ? "En attente" : "Refusé")}</p>
               <Row className="mx-1 mt-4">

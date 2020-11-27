@@ -99,7 +99,7 @@ class Actuality extends React.Component {
           <Image src={icon}/>
           <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>{title}</h4>
         </Row>
-        <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+        <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={3}>
           {
             (infs && infs.length > 0) ? infs.map(inf => this.cardInf(inf)) :
             <p className="ml-4 mt-2 text-light">Aucun influenceur pour le moment</p>

@@ -173,7 +173,7 @@ class FindInfluencers extends React.Component {
               </div>
               {
                 (this.state.influencersData && this.state.influencersData.length > 0) ?
-                <Row className="pt-4 pl-3 pr-2 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
+                <Row className="pt-4 pl-3 pr-2 mx-0" xs={1} md={2} lg={3} sm={2} xl={3}>
                   {
                     this.state.influencersData.filter((item) => (item.theme === this.state.theme) || (item.theme === this.state.theme) ||
                     (item.theme === this.state.theme) || (item.theme === this.state.theme) ||

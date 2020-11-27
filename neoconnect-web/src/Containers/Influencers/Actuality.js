@@ -167,12 +167,13 @@ class Actuality extends React.Component{
                 <Card.Img className="card"  style={{height: '190px', objectFit: 'cover'}}  onClick={() => this.handleGlobalAnnonce(item.id)} variant="top" src={item.productImg === null || item.productImg.length === 0 ? noImages : item.productImg[0].imageData}  alt="MISSING JPG"/>
                 <Card.Body>
                   <Row className="mx-1">
-                    <h5 className="mr-auto">{`${item.productType ? item.productType : ""} ${item.productName ? item.productName : "Sans nom"}`}</h5>
-                    <p className="ml-auto">{item.brand}</p>
+                    <h5 className="mr-auto">{`${item.productName ? item.productName : "Sans nom"}`}</h5>
                   </Row>
                   <Row className="mx-1">
-                    <p className="mr-auto">{item.productSubject}</p>
-                    <p className="ml-auto" style={{fontWeight: '300'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                    <Col className="mx-0 px-0">
+                      <p className="mr-auto">{item.productSubject}</p>
+                      <p style={{fontWeight: '300', fontSize: '12px'}}>{new Date(item.updatedAt).toLocaleDateString('fr-FR', {dateStyle: 'short'}) + ' ' + new Date(item.updatedAt).toLocaleTimeString('fr-FR', {timeStyle: 'short'})}</p>
+                    </Col>
                   </Row>
                   <Row className="ml-1">
                     {
@@ -221,7 +222,7 @@ class Actuality extends React.Component{
         <Image src={icon}/>
         <h4 className="ml-4" style={{color: 'white', fontWeight: '400'}}>{title}</h4>
       </Row>
-      <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+      <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={3}>
         {
           (shops && shops.length > 0) ? shops.map(inf => this.handleCard(inf)) :
           <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
