@@ -90,7 +90,7 @@ class FindShop extends React.Component{
     searchRes = async (res) => {
       if (res.status === 200){
         var shops = await res.json();
-        this.handleGlobalAnnonce(shops.id);
+        this.handleGlobalAnnonce(shops);
       }
       else {
         showNotif(true, "Non trouvé", "Aucune marque correspond à " + this.state.search);
@@ -108,7 +108,8 @@ class FindShop extends React.Component{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
           "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
-        }).then(res => this.searchRes(res))
+        })
+        .then(res => this.searchRes(res))
         .catch(error => showNotif(true, "Erreur",null));
       }
 

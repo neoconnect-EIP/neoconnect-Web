@@ -45,6 +45,7 @@ class shopProfile extends React.Component{
       activeIndex: 0,
       visible: false,
       signal: false,
+      loading: true,
       markData: null,
       commentInput: "",
       mark: null,
@@ -61,9 +62,14 @@ class shopProfile extends React.Component{
   getShopData = () => {
     if (this.state.urlId) {
       fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/shop/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-      .then(res => res.json())
-      .then(res => {this.setState({shopData: res})})
-      .catch(error => showNotif(true, "Erreur",null));
+      .then(res => {
+        if (res.status === 200)
+          return res.json();
+        showNotif(true, "Erreur", "La marque n'existe pas.");
+        this.setState({loading: false})
+      })
+      .then(res => {this.setState({shopData: res, loading: false})})
+      .catch(error => {this.setState({loading: false});showNotif(true, "Erreur",null)});
     }
   }
 
@@ -278,7 +284,7 @@ class shopProfile extends React.Component{
             >
             <div className="infBg">
               {
-                this.state.shopData ?
+                this.state.shopData &&
                 <div>
                   <Modal centered show={this.state.messageModal} onHide={() => {this.setState({messageModal: false})}}>
                     <Modal.Header closeButton>
@@ -445,8 +451,11 @@ class shopProfile extends React.Component{
                       </Row>
                     </div>
                   </div>
-                  :
-                  displayLoad()
+                  }
+                  {
+                    this.state.loading && displayLoad()
+
+                  }
                 }
                 <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
                   <Modal.Header closeButton>
