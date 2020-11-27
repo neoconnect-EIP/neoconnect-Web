@@ -306,7 +306,7 @@ export default class InfluencerSignUp extends React.Component{
             <Icon type="user" style={{ color: 'black', marginRight: "8px", transform: "translateY(15px)"}}/>
             <FormControl variant="outlined" style={{width: "21.7rem", color: 'black'}}>
               <InputLabel id="demo-simple-select-outlined-label" style={{color: 'black'}}>
-                Sexe
+                Sexe*
               </InputLabel>
               <Select
                 style={{color: 'black'}}
@@ -486,8 +486,8 @@ export default class InfluencerSignUp extends React.Component{
   }
 
   checkTheme = () => {
-    if (!this.state.theme) {
-      this.state.errorMsg = 'Veuillez sélectionner le thème.';
+    if (!this.state.theme || !this.state.sexe) {
+      this.state.errorMsg = 'Veuillez sélectionner le thème et le sexe.';
       return (false);
     }
     return true;
@@ -496,13 +496,13 @@ export default class InfluencerSignUp extends React.Component{
   checkForm = () => {
     switch (this.state.current) {
       case 0:
-      if (!this.emailValid() || !this.passPseudoValid()) return false;
-      else return (true);
+        if (!this.emailValid() || !this.passPseudoValid()) return false;
+        else return (true);
       case 2:
-      if (!this.checkTheme()) return false;
-      else return (true);
+        if (!this.checkTheme()) return false;
+        else return (true);
       default:
-      return (true);
+        return (true);
     }
   }
 
