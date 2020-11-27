@@ -40,7 +40,7 @@ class Ads extends React.Component {
       actualAd: null,
       message: "",
       modalMode: "",
-      productImg: "",
+      productImg: [],
       productName: "",
       productSex: "",
       productDesc: "",
@@ -130,8 +130,6 @@ class Ads extends React.Component {
     };
 
     body = JSON.stringify(body);
-
-
     fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/choiceApply`, {
       method: 'POST',
       body: body,
@@ -145,8 +143,6 @@ class Ads extends React.Component {
     }
 
     listInf = (ad) => {
-
-      if (ad.apply && ad.apply.length > 0) {
         return (
           ad.apply.map((inf, id) => (
             <Col className="mb-2" key={id}>
@@ -193,12 +189,6 @@ class Ads extends React.Component {
             </Col>
           ))
         )
-      }
-      else {
-        return (
-          <p className="text-light mb-0 ml-2">Aucun candidature pour le moment.</p>
-        );
-      }
     }
 
     listOffer = () => {
@@ -242,9 +232,13 @@ class Ads extends React.Component {
                   <MoreHorizTwoToneIcon style={{fill: "white"}} className="pointerClick my-auto mr-3" onClick={() => {this.props.history.push({pathname: `/shop-dashboard/item/${ad.id}`})}}/>
                 </OverlayTrigger>{' '}
               </Row>
-              <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                {this.listInf(ad)}
-              </Row>
+              {
+                (ad.apply && ad.apply.length > 0) ?
+                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                  {this.listInf(ad)}
+                </Row> :
+                <p className="text-light mb-0 ml-4 mt-2 pl-2">Aucun candidature pour le moment.</p>
+              }
             </div>
           ))
         )

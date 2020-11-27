@@ -86,7 +86,7 @@ class EditAd extends React.Component {
 
     i = str.indexOf(",");
     tmp = str.substr(i + 1)
-    return tmp
+    return tmp;
   };
 
   handleImage1 = (e) => {
@@ -312,13 +312,9 @@ class EditAd extends React.Component {
               </Form.Group>
             </Form.Row>
 
-            <Form.Row className="mt-4">
-              <Col>
-                <Button onClick={() => {this.setState({visible: true})}} className="btnDelete">Supprimer</Button>
-              </Col>
-              <Col>
-                <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
-              </Col>
+            <Form.Row className="mt-4 px-auto">
+                <Button onClick={() => {this.setState({visible: true})}} className="btnDelete mx-auto">Supprimer</Button>
+                <Button className="btnShop mx-auto" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
             </Form.Row>
           </Form>
         </div>
