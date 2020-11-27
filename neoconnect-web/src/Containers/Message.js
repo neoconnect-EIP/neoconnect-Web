@@ -180,13 +180,13 @@ export default class Message extends React.Component{
             text='Chargement...'
             >
             <div className={this.state.client === 'shop' ? 'shopBg' : 'infBg'}>
-              <Row className="mx-0">
-                <Col md={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
+              <Row className="mx-0"  xs={1} sm={1}  md={2} lg={2} xl={2}>
+                <Col xs={12} sm={12}  md={4} lg={3} xl={3} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
                   <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">Messagerie</h1>
                   {this.state.channels && this.listContact()}
                 </Col>
                 {this.state.index !== -1 ?
-                <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
+                <Col xs={12} sm={12}  md={8} lg={8} xl={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
                 <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">{this.state.currentDest}</h1>
                 <div style={{height: '80%',  overflow: 'scroll'}}>
                   {this.state.messages && this.messageDetail()}
@@ -200,7 +200,7 @@ export default class Message extends React.Component{
                   </Col>
                 </Row>
               </Col> :
-              <Col md={8} className="ml-4 pl-4 mt-4 pt-2">
+              <Col xs={12} sm={12}  md={6} lg={8} xl={8} className="ml-4 pl-4 mt-4 pt-2">
                 <h3 style={{color: 'white', fontWeight: '300'}}>Auncun message sélectionné </h3>
               </Col>}
             </Row>
