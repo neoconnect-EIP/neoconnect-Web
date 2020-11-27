@@ -30,7 +30,6 @@ class PostAd extends React.Component {
       productDesc: "",
       productBrand: localStorage.getItem("pseudo"),
       current: 0,
-      isEnd: false,
       homme: false,
       femme: false,
       theme: 0,
@@ -58,7 +57,7 @@ class PostAd extends React.Component {
       });
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
   handleImage2 = (e) => {
@@ -72,7 +71,7 @@ class PostAd extends React.Component {
       });
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
   handleImage3 = (e) => {
@@ -86,7 +85,7 @@ class PostAd extends React.Component {
       });
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   }
 
   handleImage4 = (e) => {
@@ -100,7 +99,7 @@ class PostAd extends React.Component {
       });
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
   handleChange = (e) => {
@@ -113,9 +112,9 @@ class PostAd extends React.Component {
   handleResponse = (res) => {
 
     this.setState({isActive: false});
-    if (res.status === 200)
-      this.setState({isEnd: true})
-
+    if (res.status === 200) {
+      showNotif(false, "Succès", "Votre offre a bien été créée.")
+    }
   };
 
   handleGolobalImg = () => {
@@ -188,93 +187,80 @@ class PostAd extends React.Component {
           <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
             <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Création d'une offre</Navbar.Brand>
           </Navbar>
-          {
-            !this.state.isEnd ?
-            <Form className="mx-auto mt-4" style={{width: '40%'}}>
-              <Form.Row>
-                <Form.Group as={Col}>
-                  <Form.Label style={{color:'white'}}>Marque</Form.Label>
-                  <p style={{color:'white'}}>{this.state.productBrand}</p>
-                </Form.Group>
-                <Form.Group as={Col} className="mt-1">
-                  <FormControl variant="outlined" style={{ color: 'white'}}>
-                    <InputLabel id="demo-simple-select-outlined-label" style={{color: 'white'}}>
-                      Thème*
-                    </InputLabel>
-                    <Select
-                      style={{color: 'white'}}
-                      labelId="demo-simple-select-outlined-label"
-                      name="theme"
-                      value={themeVal.indexOf(this.state.theme)}
-                      onChange={(e) => {
-                        this.setState({theme: themeVal[e.target.value]});
-                      }}
-                      >
-                      <MenuItem value={1}>Mode</MenuItem>
-                      <MenuItem value={2}>Cosmétique</MenuItem>
-                      <MenuItem value={3}>High tech</MenuItem>
-                      <MenuItem value={4}>Nourriture</MenuItem>
-                      <MenuItem value={5}>Jeux vidéo</MenuItem>
-                      <MenuItem value={6}>Sport/Fitness</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Form.Group>
-              </Form.Row>
+          <Form className="mx-auto mt-4" style={{width: '40%'}}>
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label style={{color:'white'}}>Marque</Form.Label>
+                <p style={{color:'white'}}>{this.state.productBrand}</p>
+              </Form.Group>
+              <Form.Group as={Col} className="mt-1">
+                <FormControl variant="outlined" style={{ color: 'white'}}>
+                  <InputLabel id="demo-simple-select-outlined-label" style={{color: 'white'}}>
+                    Thème*
+                  </InputLabel>
+                  <Select
+                    style={{color: 'white'}}
+                    labelId="demo-simple-select-outlined-label"
+                    name="theme"
+                    value={themeVal.indexOf(this.state.theme)}
+                    onChange={(e) => {
+                      this.setState({theme: themeVal[e.target.value]});
+                    }}
+                    >
+                    <MenuItem value={1}>Mode</MenuItem>
+                    <MenuItem value={2}>Cosmétique</MenuItem>
+                    <MenuItem value={3}>High tech</MenuItem>
+                    <MenuItem value={4}>Nourriture</MenuItem>
+                    <MenuItem value={5}>Jeux vidéo</MenuItem>
+                    <MenuItem value={6}>Sport/Fitness</MenuItem>
+                  </Select>
+                </FormControl>
+              </Form.Group>
+            </Form.Row>
 
-              <Form.Row>
-                <Form.Group as={Col} sm={12}>
-                  <Form.Label style={{color:'white'}}>Nom*</Form.Label>
-                  <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
-                </Form.Group>
-              </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} sm={12}>
+                <Form.Label style={{color:'white'}}>Nom*</Form.Label>
+                <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
+              </Form.Group>
+            </Form.Row>
 
+            <Form.Row>
+              <Form.Group as={Col} sm={12}>
+                <Form.Label style={{color:'white'}}>Description*</Form.Label>
+                <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
+              </Form.Group>
+            </Form.Row>
+            {
+              (this.state.theme === "Mode" || this.state.theme === "Cosmétique") &&
               <Form.Row>
-                <Form.Group as={Col} sm={12}>
-                  <Form.Label style={{color:'white'}}>Description*</Form.Label>
-                  <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
-                </Form.Group>
+                <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
+                <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
+                  onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "Fomme"})}}/>
+                <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
+                  onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "Femme"})}}/>
+                <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
+                  onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "Unisexe"})}}/>
               </Form.Row>
-              {
-                (this.state.theme === "Mode" || this.state.theme === "Cosmétique") &&
-                <Form.Row>
-                  <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
-                  <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
-                    onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "Fomme"})}}/>
-                  <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
-                    onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "Femme"})}}/>
-                  <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
-                    onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "Unisexe"})}}/>
-                </Form.Row>
-              }
-              <Form.Row>
-                <Form.Group as={Col}>
-                  <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
-                    Images*
-                  </Form.Label>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage2(e)}/>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage3(e)}/>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage4(e)}/>
-                </Form.Group>
-              </Form.Row>
+            }
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
+                  Images*
+                </Form.Label>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage2(e)}/>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage3(e)}/>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage4(e)}/>
+              </Form.Group>
+            </Form.Row>
 
-              <Form.Row className="mt-4">
-                <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>
-                  Publier l'offre
-                </Button>
-              </Form.Row>
-
-            </Form>
-            :
-            <Grid container style={{marginTop: "7.5rem", padding: "15rem"}}>
-              <Grid item xs={12}>
-                <h1 style={{textAlign: "center"}}>Offre posté avec succès</h1>
-              </Grid>
-              <Grid item xs={12} style={{textAlign: "center"}}>
-                <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
-              </Grid>
-            </Grid>
-          }
+            <Form.Row className="mt-4">
+              <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>
+                Publier l'offre
+              </Button>
+            </Form.Row>
+          </Form>
         </div>
       </LoadingOverlay>
     );

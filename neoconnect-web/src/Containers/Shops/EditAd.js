@@ -32,7 +32,6 @@ class EditAd extends React.Component {
       productSex: "",
       productDesc: "",
       current: 0,
-      isEnd: false,
       isLoading: true,
       homme: false,
       femme: false,
@@ -67,7 +66,7 @@ class EditAd extends React.Component {
     })
     .then(res => {
       if (res.status === 200)
-        return res.json();
+      return res.json();
     })
     .then(res => this.statesetter(res))
     .catch(error => {showNotif(true, "Erreur", null)});
@@ -75,13 +74,31 @@ class EditAd extends React.Component {
 
   getUrlParams = (search) => {
     if (search === "")
-      return null;
+    return null;
     let hashes = search.slice(search.indexOf('?') + 1).split('&')
     return hashes.reduce((params, hash) => {
       let [key, val] = hash.split('=')
       return Object.assign(params, {[key]: decodeURIComponent(val)})
     }, {})
   }
+
+  convertImgToBase64(url, callback, outputFormat){
+    var canvas = document.createElement('CANVAS');
+    var ctx = canvas.getContext('2d');
+    var img = new Image;
+    img.crossOrigin = 'Anonymous';
+    img.onload = function(){
+      canvas.height = img.height;
+      canvas.width = img.width;
+      ctx.drawImage(img,0,0);
+      var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+      callback.call(this, dataURL);
+      // Clean up
+      canvas = null;
+    };
+    img.src = url;
+  }
+
 
   handleSplitString = (str) => {
     var tmp = "";
@@ -104,7 +121,7 @@ class EditAd extends React.Component {
       reader.readAsDataURL(file);
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
   handleImage2 = (e) => {
@@ -118,7 +135,7 @@ class EditAd extends React.Component {
       });
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
   handleImage3 = (e) => {
@@ -132,7 +149,7 @@ class EditAd extends React.Component {
       });
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
   handleImage4 = (e) => {
@@ -147,7 +164,7 @@ class EditAd extends React.Component {
       reader.readAsDataURL(file);
     };
     if (file)
-      reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   };
 
   handleGolobalImg = () => {
@@ -189,20 +206,21 @@ class EditAd extends React.Component {
 
   handleResponse = (res) => {
     this.setState({isActive: false});
-    if (res.status === 200)
-      this.setState({isEnd: true});
+    if (res.status === 200) {
+      showNotif(false, "Succès", "Modification d'offre prise en compte.")
+    }
   };
 
   handleSubmit = () => {
     var images = this.handleGolobalImg();
-    if (!this.state.productName || this.state.productDesc.length > 255 || images.length === 0 || !this.state.theme) {
-      showNotif(true, "Erreur", "Veuillez fournir nom, thème, description de l'offre et au moins une image. La description ne dois pas dépasser 255 caractères.");
+    if (!this.state.productName || this.state.productDesc.length > 255 || !this.state.theme) {
+      showNotif(true, "Erreur", "Veuillez fournir nom, thème, description de l'offre. La description ne dois pas dépasser 255 caractères.");
     }
     else {
       this.setState({isActive: true});
       let id = this.getUrlParams((window.location.search));
       let body = {
-        "productImg": images,
+        "productImg": images.length > 0 ? images : undefined,
         "productName": this.state.productName,
         "productSex": (this.state.theme === 'Mode' || this.state.theme === 'Mode' === 'Cosmétique') ?
         (this.state.homme ? "Homme" : (this.state.femme ? "Femme" : "Unisexe")) : null,
@@ -228,9 +246,9 @@ class EditAd extends React.Component {
     })
     .then(res => {
       if (res.status >= 500)
-        throw res;
+      throw res;
       if (res.status === 200)
-        this.props.history.push('/shop-dashboard/ads')
+      this.props.history.push('/shop-dashboard/ads')
     })
     .catch(error => {showNotif(true, "Erreur",null)});
   };
@@ -246,96 +264,83 @@ class EditAd extends React.Component {
           <Navbar expand="lg" style={{width: '100%', boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)"}}>
             <Navbar.Brand style={{fontSize: '26px', fontWeight: '300', color: 'white'}}>Modification d'une offre</Navbar.Brand>
           </Navbar>
-          {
-            !this.state.isEnd ?
-            <Form className="mx-auto mt-4" style={{width: '40%'}}>
-              <Form.Row>
-                <Form.Group as={Col}>
-                  <Form.Label style={{color:'white'}}>Marque</Form.Label>
-                  <p style={{color:'white'}}>{this.state.productBrand}</p>
-                </Form.Group>
-                <Form.Group as={Col} className="mt-1">
-                  <FormControl variant="outlined" style={{ color: 'white'}}>
-                    <InputLabel id="demo-simple-select-outlined-label" style={{color: 'white'}}>
-                      Thème*
-                    </InputLabel>
-                    <Select
-                      style={{color: 'white'}}
-                      labelId="demo-simple-select-outlined-label"
-                      name="theme"
-                      value={themeVal.indexOf(this.state.theme)}
-                      onChange={(e) => {
-                        this.setState({theme: themeVal[e.target.value]});
-                      }}
-                      >
-                      <MenuItem value={1}>Mode</MenuItem>
-                      <MenuItem value={2}>Cosmétique</MenuItem>
-                      <MenuItem value={3}>High tech</MenuItem>
-                      <MenuItem value={4}>Nourriture</MenuItem>
-                      <MenuItem value={5}>Jeux vidéo</MenuItem>
-                      <MenuItem value={6}>Sport/Fitness</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Form.Group>
-              </Form.Row>
+          <Form className="mx-auto mt-4" style={{width: '40%'}}>
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label style={{color:'white'}}>Marque</Form.Label>
+                <p style={{color:'white'}}>{this.state.productBrand}</p>
+              </Form.Group>
+              <Form.Group as={Col} className="mt-1">
+                <FormControl variant="outlined" style={{ color: 'white'}}>
+                  <InputLabel id="demo-simple-select-outlined-label" style={{color: 'white'}}>
+                    Thème*
+                  </InputLabel>
+                  <Select
+                    style={{color: 'white'}}
+                    labelId="demo-simple-select-outlined-label"
+                    name="theme"
+                    value={themeVal.indexOf(this.state.theme)}
+                    onChange={(e) => {
+                      this.setState({theme: themeVal[e.target.value]});
+                    }}
+                    >
+                    <MenuItem value={1}>Mode</MenuItem>
+                    <MenuItem value={2}>Cosmétique</MenuItem>
+                    <MenuItem value={3}>High tech</MenuItem>
+                    <MenuItem value={4}>Nourriture</MenuItem>
+                    <MenuItem value={5}>Jeux vidéo</MenuItem>
+                    <MenuItem value={6}>Sport/Fitness</MenuItem>
+                  </Select>
+                </FormControl>
+              </Form.Group>
+            </Form.Row>
 
-              <Form.Row>
-                <Form.Group as={Col} sm={12}>
-                  <Form.Label style={{color:'white'}}>Nom*</Form.Label>
-                  <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
-                </Form.Group>
-              </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} sm={12}>
+                <Form.Label style={{color:'white'}}>Nom*</Form.Label>
+                <Form.Control placeholder="Nom de votre offre" value={this.state.productName} onChange={e => {this.setState({productName: e.target.value})}}/>
+              </Form.Group>
+            </Form.Row>
 
+            <Form.Row>
+              <Form.Group as={Col} sm={12}>
+                <Form.Label style={{color:'white'}}>Description*</Form.Label>
+                <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
+              </Form.Group>
+            </Form.Row>
+            {
+              (this.state.theme === "Mode" || this.state.theme === "Cosmétique") &&
               <Form.Row>
-                <Form.Group as={Col} sm={12}>
-                  <Form.Label style={{color:'white'}}>Description*</Form.Label>
-                  <Form.Control placeholder="Description de votre offre" value={this.state.productDesc} onChange={e => {this.setState({productDesc: e.target.value})}}/>
-                </Form.Group>
+                <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
+                <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
+                  onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "Homme"})}}/>
+                <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
+                  onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "Femme"})}}/>
+                <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
+                  onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "Unisexe"})}}/>
               </Form.Row>
-              {
-                (this.state.theme === "Mode" || this.state.theme === "Cosmétique") &&
-                <Form.Row>
-                  <Form.Label sm={12} style={{color: 'white', marginRight: 30, marginLeft: 5}}>Cible</Form.Label>
-                  <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Homme" checked={this.state.homme}
-                    onChange={() => { this.setState({homme: true, femme: false, uni: false, productSex: "Homme"})}}/>
-                  <Form.Check style={{color: 'white', marginRight: 10}} type="radio" label="Femme" checked={this.state.femme}
-                    onChange={() => { this.setState({homme: false, femme: true, uni: false, productSex: "Femme"})}}/>
-                  <Form.Check style={{color: 'white'}} type="radio" label="Unisexe" checked={this.state.uni}
-                    onChange={() => { this.setState({homme: false, femme: false, uni: true, productSex: "Unisexe"})}}/>
-                </Form.Row>
-              }
-              <Form.Row>
-                <Form.Group as={Col}>
-                  <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
-                    Images*
-                  </Form.Label>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage2(e)}/>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage3(e)}/>
-                  <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage4(e)}/>
-                </Form.Group>
-              </Form.Row>
+            }
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label as="legend" style={{color: 'white', fontSize: 18}}>
+                  Images*
+                </Form.Label>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage1(e)}/>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage2(e)}/>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage3(e)}/>
+                <Form.File style={{color:'white'}} accept="image/*" className="mt-2" onChange={e => this.handleImage4(e)}/>
+              </Form.Group>
+            </Form.Row>
 
-              <Form.Row className="mt-4">
-                <Col>
-                  <Button onClick={() => {this.setState({visible: true})}} className="btnDelete">Supprimer</Button>
-                </Col>
-                <Col>
-                  <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
-                </Col>
-              </Form.Row>
-
-            </Form>
-            :
-            <Grid container style={{marginTop: "7.5rem", padding: "15rem"}}>
-              <Grid item xs={12}>
-                <h1 style={{textAlign: "center"}}>Offre modifié avec succès</h1>
-              </Grid>
-              <Grid item xs={12} style={{textAlign: "center"}}>
-                <CheckCircleOutlineIcon style={{width: "200px", height: "200px", marginTop: "20px", marginBottom: "20px", color: "#292929"}}/>
-              </Grid>
-            </Grid>
-          }
+            <Form.Row className="mt-4">
+              <Col>
+                <Button onClick={() => {this.setState({visible: true})}} className="btnDelete">Supprimer</Button>
+              </Col>
+              <Col>
+                <Button className="mx-auto btnShop" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
+              </Col>
+            </Form.Row>
+          </Form>
         </div>
         <Modal centered show={this.state.visible} onHide={() => { this.setState({visible: false})}}>
           <Modal.Header closeButton>

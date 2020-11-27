@@ -185,7 +185,8 @@ export default class Message extends React.Component{
                   <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">Messagerie</h1>
                   {this.state.channels && this.listContact()}
                 </Col>
-                {this.state.index !== -1 ? <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
+                {this.state.index !== -1 ?
+                <Col md={8} className="ml-4 pl-4 mt-4" style={{boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.14)", height: '95vh'}}>
                 <h1 style={{color: 'white', fontWeight: '300'}} className="mb-4">{this.state.currentDest}</h1>
                 <div style={{height: '80%',  overflow: 'scroll'}}>
                   {this.state.messages && this.messageDetail()}
