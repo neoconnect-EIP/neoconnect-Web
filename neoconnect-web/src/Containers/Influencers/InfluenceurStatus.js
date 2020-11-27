@@ -183,7 +183,7 @@ class InfluenceurStatus extends React.Component{
             this.state.followed.map((val, idx) => (
               <Container fluid key={idx}>
                 <Row>
-                  <Col>
+                  <Col className="pointerClick" onClick={() => {this.props.history.push({pathname: `/dashboard/shop/${val.id}`});}}>
                     <p style={{fontWeight: '200'}}>{val.pseudo}</p>
                   </Col>
                   <Col>

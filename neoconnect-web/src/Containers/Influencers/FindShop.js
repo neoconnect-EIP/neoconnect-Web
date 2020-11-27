@@ -113,7 +113,7 @@ class FindShop extends React.Component{
       }
 
       handleGlobalAnnonce = (item) => {
-        this.props.history.push({pathname: `/dashboard/shop/${item.id}`, state: item.follow});
+        this.props.history.push({pathname: `/dashboard/shop/${item.id}`});
       }
 
       handleClose = () => {
@@ -229,13 +229,13 @@ class FindShop extends React.Component{
                   <Row className="pl-4 mt-4 mr-0 mx-0">
                     <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Suggestion de marques</h4>
                   </Row>
-                  <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
-                    {
-                      (this.state.suggestions && typeof(this.state.suggestions) === 'object' && this.state.suggestions.length > 0) ? this.state.suggestions.map(item => this.handleCard(item, true)) :
-                      <p className="ml-4 mt-2 text-light">Aucune suggestion pour le moment</p>
-
-                    }
-                  </Row>
+                  {
+                    (this.state.suggestions && typeof(this.state.suggestions) === 'object' && this.state.suggestions.length > 0) ?
+                    <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
+                      {this.state.suggestions.map(item => this.handleCard(item, true))}
+                    </Row> :
+                    <p className="ml-4 mt-2 pl-2 text-light">Aucune suggestion pour le moment</p>
+                  }
                   <Row className="pl-4 mt-4 mr-0 mx-0">
                     <h4 className="ml-2" style={{color: 'white', fontWeight: '400'}}>Tout les marques</h4>
                   </Row>

@@ -45,7 +45,7 @@ export const displaySocialMed = (socialM , srcImg) => {
 
 function getData(socialMedia, followers, name, color, legend) {
   let data = {
-    labels: (legend && legend[0]) ? legend : [],
+    labels: (socialMedia && legend && legend[0]) ? legend : [],
     datasets: [
       {
         label: name,
@@ -54,7 +54,7 @@ function getData(socialMedia, followers, name, color, legend) {
         borderWidth: 2,
         hoverBackgroundColor: color,
         hoverBorderColor: color,
-        data: followers ? followers : []
+        data: (socialMedia && followers) ? followers : []
       }
     ]
   };
