@@ -42,7 +42,7 @@ class EditAd extends React.Component {
   }
 
   statesetter = (res) => {
-    if (res.id == localStorage.getItem("userId")) {
+    if (res.idUser == localStorage.getItem("userId")) {
       this.setState({
         productBrand: res.brand,
         productImg: res.productImg,

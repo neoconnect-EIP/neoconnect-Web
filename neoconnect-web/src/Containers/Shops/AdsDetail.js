@@ -38,7 +38,7 @@ class adsDetail extends React.Component{
       this.setState({loading: false})
     })
     .then(res => {
-      if (res.id == localStorage.getItem("userId"))
+      if (res.idUser == localStorage.getItem("userId"))
         this.setState({adData: res, loading: false, right: true})
       else {
         this.setState({loading: false})
