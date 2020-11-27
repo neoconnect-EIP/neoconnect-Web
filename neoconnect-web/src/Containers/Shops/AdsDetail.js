@@ -24,6 +24,7 @@ class adsDetail extends React.Component{
       adData: null,
       isActive: false,
       loading: true,
+      right: false,
       urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
     };
   }
@@ -36,7 +37,14 @@ class adsDetail extends React.Component{
       showNotif(true, "Erreur", "L'offre n'existe pas.");
       this.setState({loading: false})
     })
-    .then(res => this.setState({adData: res, loading: false}))
+    .then(res => {
+      if (res.id == localStorage.getItem("userId"))
+        this.setState({adData: res, loading: false, right: true})
+      else {
+        this.setState({loading: false})
+        showNotif(true, "Erreur", "L'offre ne vous appartient pas")
+      }
+    })
     .catch(error => {this.setState({loading: false});showNotif(true, "Erreur",null);});
   }
 

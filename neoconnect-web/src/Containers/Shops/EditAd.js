@@ -37,22 +37,30 @@ class EditAd extends React.Component {
       uni: true,
       isActive: false,
       visible: false,
+      right: false
     };
   }
 
   statesetter = (res) => {
-    this.setState({
-      productBrand: res.brand,
-      productImg: res.productImg,
-      productName: res.productName,
-      productSex: res.productSex,
-      productDesc: res.productDesc,
-      theme: res.productSubject,
-      isLoading: false,
-      homme: res.productSex === "Homme" ? true : false,
-      femme: res.productSex === "Femme" ? true : false,
-      uni: res.productSex === "Unisexe" ? true : false,
-    })
+    if (res.id == localStorage.getItem("userId")) {
+      this.setState({
+        productBrand: res.brand,
+        productImg: res.productImg,
+        productName: res.productName,
+        productSex: res.productSex,
+        productDesc: res.productDesc,
+        theme: res.productSubject,
+        isLoading: false,
+        homme: res.productSex === "Homme" ? true : false,
+        femme: res.productSex === "Femme" ? true : false,
+        uni: res.productSex === "Unisexe" ? true : false,
+        right: true,
+      })
+    }
+    else {
+      showNotif(true, "Erreur", "L'offre ne vous appartient pas")
+    }
+
   };
 
   componentDidMount() {
@@ -313,8 +321,8 @@ class EditAd extends React.Component {
             </Form.Row>
 
             <Form.Row className="mt-4 px-auto">
-                <Button onClick={() => {this.setState({visible: true})}} className="btnDelete mx-auto">Supprimer</Button>
-                <Button className="btnShop mx-auto" onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
+                <Button onClick={() => {this.setState({visible: true})}} disabled={!this.state.right} className="btnDelete mx-auto">Supprimer</Button>
+                <Button className="btnShop mx-auto" disabled={!this.state.right} onClick={() => {this.handleSubmit()}}>Sauvegarder</Button>
             </Form.Row>
           </Form>
         </div>
