@@ -71,7 +71,7 @@ class FindShop extends React.Component{
       })
       .then(res => {
         if (typeof(res) == 'object')
-        this.setState({suggestions: res, loadSugg: false});
+          this.setState({suggestions: res, loadSugg: false});
         else {
           this.setState({loadSugg: false});
         }
@@ -157,7 +157,10 @@ class FindShop extends React.Component{
           .catch(error => showNotif(true,  "Erreur",null));
         }
 
-        handleCard = (item) => {
+        handleCard = (item, sugg) => {
+          let elem = item;
+          if  (sugg === true)
+            elem = this.state.shopList.find(elem => elem.id == item.id);
           return (
             <Col className="mb-3" key={item.id}>
               {
@@ -171,7 +174,7 @@ class FindShop extends React.Component{
                 </Card.Title>
                 <Row className="ml-1">
                   {
-                    item.follow ===  true ?
+                    elem.follow ===  true ?
                     <Button variant="outline-secondary" className="mr-auto" onClick={() => {this.handleUnfollow(item.id)}}>Désabonner</Button> :
                       <Button variant="outline-dark" className="mr-auto" onClick={() => {this.handleOpen(item)}}>S'abonner</Button>
                     }
@@ -228,7 +231,7 @@ class FindShop extends React.Component{
                   </Row>
                   <Row className="mt-3 mx-0" xs={1} md={2} lg={3} sm={2} xl={4}>
                     {
-                      (this.state.suggestions && typeof(this.state.suggestions) === 'object' && this.state.suggestions.length > 0) ? this.state.suggestions.map(item => this.handleCard(item)) :
+                      (this.state.suggestions && typeof(this.state.suggestions) === 'object' && this.state.suggestions.length > 0) ? this.state.suggestions.map(item => this.handleCard(item, true)) :
                       <p className="ml-4 mt-2 text-light">Aucune suggestion pour le moment</p>
 
                     }
@@ -242,7 +245,7 @@ class FindShop extends React.Component{
                       this.state.shopList.filter((item) => (item.theme === this.state.theme) || (item.theme === this.state.theme) ||
                       (item.theme === this.state.theme) || (item.theme === this.state.theme) ||
                       (item.theme === this.state.theme) || (item.theme === this.state.theme) ||
-                      (!this.state.theme)).map(shop => this.handleCard(shop)) :
+                      (!this.state.theme)).map(shop => this.handleCard(shop, false)) :
                       <p className="ml-4 mt-2 text-light">Aucune marque pour le moment</p>
                     }
                   </Row>
