@@ -88,7 +88,7 @@ class InfluencerProfile extends React.Component {
     this.setState({isActive: true});
     let id = this.getUrlParams((window.location.search));
     let body = {
-      "mark": this.state.mark,
+      "mark": this.state.mark ? this.state.mark : 0,
     };
     body = JSON.stringify(body);
     fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${id.id}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
@@ -266,7 +266,7 @@ class InfluencerProfile extends React.Component {
                   </Modal>
                   <Row style={{boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)", borderRadius: "0.25rem"}} className="mb-4 p-2 pl-4" xs={1} sm={1} md={2} lg={3} xl={4}>
                     <Col className="my-auto">
-                      <div className="centerBlock" align="center">
+                      <div className="centerBlock mb-2" align="center">
                         <Image className="img-fluid" style={{width: '160px', height: '160px', boxShadow: "0px 8px 10px 1px rgba(0, 0, 0, 0.14)"}} src={!this.state.infData.userPicture || this.state.infData.userPicture.length === 0 ? noAvatar : this.state.infData.userPicture[0].imageData} roundedCircle/>
                       </div>
                     </Col>
@@ -283,20 +283,21 @@ class InfluencerProfile extends React.Component {
                       <h3 className="text-light" align="center">{this.state.infData.nbOfferApplied}</h3>
                       <h3 className="text-light" align="center" style={{fontWeight: '300'}}>Offres effectué</h3>
                     </Col>
-                    <Col align="center" className="my-auto">
-                      <Row className="pl-1 mx-auto mt-2">
-                        {this.state.infData.average &&
-                          <p className="pt-1 mr-3" style={{color: 'white'}}>{this.state.infData.average}</p>}
-                            <StarRatings
-                              rating={this.state.infData.average ? this.state.infData.average : 0}
-                              starRatedColor="#FFC106"
-                              numberOfStars={5}
-                              name='rating'
-                              starDimension="20px"
-                              />
-                            <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
-                          </Row>
-                        </Col>
+                    <Col className="my-auto px-0">
+                      {this.state.infData.average &&
+                        <h3 className="ml-4" style={{color: 'white'}}>{this.state.infData.average.toFixed(1) + '/5'}</h3>
+                      }
+                        <Row className="mx-auto mt-2">
+                          <StarRatings
+                            rating={this.state.infData.average ? this.state.infData.average : 0}
+                            starRatedColor="#FFC106"
+                            numberOfStars={5}
+                            name='rating'
+                            starDimension="20px"
+                            />
+                          <Image className="iconProfileSocial ml-4 mt-2 editIcon" src={edit} onClick={() => {this.setState({visible: true})}} style={{width:'15px', height: '15px'}}/>
+                        </Row>
+                      </Col>
                       </Row>
                       <Row className="ml-0">
                         <Col md={7} className="pl-0">

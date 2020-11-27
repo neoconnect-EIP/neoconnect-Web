@@ -113,15 +113,26 @@ class shopProfile extends React.Component{
     }
   };
 
+  handleMarkRes = async (res) => {
+    if (res.status !== 200) {
+      var msg = await res.json();
+      showNotif(true, "Erreur", msg);
+    }
+    else {
+      showNotif(false, "Réussi", "notation prise en compte.");
+      this.setState({visible: false});
+      this.getShopData();
+    }
+  }
+
   handleSendMark = () => {
     let body = {
-      "mark": this.state.mark,
+      "mark": this.state.mark ? this.state.mark : 0,
     };
     body = JSON.stringify(body);
     fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/user/mark/${this.state.urlId}`, { method: 'POST', body: body, headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-    .then(res => {res.json(); this.handleResponse(res)})
+    .then(res => {this.handleMarkRes(res)})
     .catch(error => showNotif(true, "Erreur",null));
-    this.setState({visible: false});
   };
 
   handleMark = (e) => {
@@ -337,15 +348,18 @@ class shopProfile extends React.Component{
                             }
                           </Row>
                           <Row xs={1} sm={2} md={2} lg={3} xl={3} className="mx-auto w-100">
-                            <Col className="mt-2 px-0" align="center">
-                              <h3 style={{color: 'white'}}>{this.state.shopData.nbFollows}</h3>
-                              <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnée</p>
+                            <Col className="mt-2 px-0">
+                              <h3 className="ml-4" style={{color: 'white'}}>{this.state.shopData.nbFollows}</h3>
+                              <p style={{color: 'white', fontWeight: '400'}}>Abonnées</p>
                             </Col>
-                            <Col className="mt-2 px-0" align="center">
-                              <h3 style={{color: 'white'}}>{this.state.shopData.nbOfferPosted}</h3>
-                              <p style={{color: 'white', fontWeight: '400'}}>Nombre d'offres</p>
+                            <Col className="mt-2 px-0">
+                              <h3 className="ml-3" style={{color: 'white'}}>{this.state.shopData.nbOfferPosted}</h3>
+                              <p style={{color: 'white', fontWeight: '400'}}>Offres</p>
                             </Col>
-                            <Col className="mt-2 px-0" align="center">
+                            <Col className="mt-2 px-0">
+                              {this.state.shopData.average &&
+                                <h3 className="ml-3" style={{color: 'white'}}>{this.state.shopData.average.toFixed(1) + '/5'}</h3>
+                              }
                               <Row className="mb-3">
                                 <StarRatings
                                   rating={this.state.shopData.average ? this.state.shopData.average : 0}
