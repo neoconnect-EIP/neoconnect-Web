@@ -1,10 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Grid} from '@material-ui/core/';
 import "../index.css"
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -81,24 +79,6 @@ class EditAd extends React.Component {
       return Object.assign(params, {[key]: decodeURIComponent(val)})
     }, {})
   }
-
-  convertImgToBase64(url, callback, outputFormat){
-    var canvas = document.createElement('CANVAS');
-    var ctx = canvas.getContext('2d');
-    var img = new Image;
-    img.crossOrigin = 'Anonymous';
-    img.onload = function(){
-      canvas.height = img.height;
-      canvas.width = img.width;
-      ctx.drawImage(img,0,0);
-      var dataURL = canvas.toDataURL(outputFormat || 'image/png');
-      callback.call(this, dataURL);
-      // Clean up
-      canvas = null;
-    };
-    img.src = url;
-  }
-
 
   handleSplitString = (str) => {
     var tmp = "";

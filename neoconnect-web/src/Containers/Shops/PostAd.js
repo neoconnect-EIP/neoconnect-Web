@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom"
-import { Grid} from '@material-ui/core/';
 import "../index.css"
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
