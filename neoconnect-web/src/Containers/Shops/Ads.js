@@ -194,6 +194,11 @@ class Ads extends React.Component {
           ))
         )
       }
+      else {
+        return (
+          <p className="text-light mb-0 ml-2">Aucun candidature pour le moment.</p>
+        );
+      }
     }
 
     listOffer = () => {
@@ -255,7 +260,7 @@ class Ads extends React.Component {
 
     render() {
       return (
-        <div justify="center" className="shopBg">
+        <div justify="center" className="shopBgDark">
           <Modal centered show={this.state.visible} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Suppression</Modal.Title>

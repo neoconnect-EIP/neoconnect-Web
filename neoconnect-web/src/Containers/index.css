@@ -27,6 +27,12 @@
   background: linear-gradient(180deg, rgba(58,59,91,1) 0%, rgba(139,168,143,1) 70%, rgb(176, 196, 179) 100%);
 }
 
+.shopBgDark {
+  height: 100vh;
+  overflow: auto;
+  background: linear-gradient(180deg, rgba(58,59,91,1) 10%, rgba(139,168,143,1) 90%, rgb(176, 196, 179) 100%);
+}
+
 .shopBgCard {
   background: linear-gradient(180deg, rgba(58,59,91,1) 0%, rgba(139,168,143,1) 70%, rgba(139,168,143,1) 100%);
 }
@@ -351,6 +357,7 @@
 .offerBg {
   background-color: rgba(185,185,185,0.15);
   border-radius: 15px;
+  boxShadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.14);
 }
 
 .imgInputBg {
