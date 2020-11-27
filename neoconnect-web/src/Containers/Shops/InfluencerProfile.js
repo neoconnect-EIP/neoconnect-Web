@@ -46,7 +46,8 @@ class InfluencerProfile extends React.Component {
       isActive: false,
       msg: "",
       messageModal: false,
-      clickedSignal: false
+      clickedSignal: false,
+      loading: true,
     };
   }
 
@@ -57,9 +58,14 @@ class InfluencerProfile extends React.Component {
       method: 'GET',
       headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}
     })
-    .then(res => res.json())
-    .then(res => {this.setState({infData: res})})
-    .catch(error => showNotif(true, "Erreur",null));
+    .then(res => {
+      if (res.status === 200)
+        return (res.json());
+      showNotif(true, "Erreur", "L'influenceur n'existe pas.");
+      this.setState({loading: false});
+    })
+    .then(res => {this.setState({infData: res, loading: false})})
+    .catch(error => {this.setState({loading: false});showNotif(true, "Erreur",null)});
   }
 
   componentDidMount = () => {
@@ -196,7 +202,7 @@ class InfluencerProfile extends React.Component {
             >
             <div className="shopBg">
               {
-                this.state.infData ?
+                this.state.infData &&
                 <div>
                   <Modal centered show={this.state.messageModal} onHide={() => this.closeModal('messageModal')}>
                     <Modal.Header closeButton>
@@ -343,10 +349,8 @@ class InfluencerProfile extends React.Component {
                           </div>
                         </Col>
                       </Row>
-
-                    </div>
-                    :
-                    displayLoad()
+                    </div>}
+                    {this.state.loading && displayLoad()}
                   }
                 </div>
               </LoadingOverlay>

@@ -23,15 +23,21 @@ class adsDetail extends React.Component{
       visible: false,
       adData: null,
       isActive: false,
+      loading: true,
       urlId: localStorage.getItem("Jwt") ? parseInt(this.props.match.params.id) : 0,
     };
   }
 
   getDetailOffer = () => {
     fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/offer/${this.state.urlId}`, { method: 'GET', headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${localStorage.getItem("Jwt")}`}})
-    .then(res => {return (res.json())})
-    .then(res => this.setState({adData: res}))
-    .catch(error => {showNotif(true, "Erreur",null);});
+    .then(res => {
+      if (res.status === 200)
+        return res.json();
+      showNotif(true, "Erreur", "L'offre n'existe pas.");
+      this.setState({loading: false})
+    })
+    .then(res => this.setState({adData: res, loading: false}))
+    .catch(error => {this.setState({loading: false});showNotif(true, "Erreur",null);});
   }
 
   componentDidMount = () => {
@@ -81,7 +87,7 @@ class adsDetail extends React.Component{
         >
         <div justify="center" className="shopBg">
           {
-            this.state.adData ?
+            this.state.adData &&
             <>
             <Row className="p-4 mx-0">
               <Col md={6}>
@@ -119,9 +125,10 @@ class adsDetail extends React.Component{
                 }
               </Col>
             </Row>
-            </> :
-            displayLoad()
-          }
+            </>}
+            {
+              this.state.loading &&displayLoad()
+            }
         </div>
         <Modal centered show={this.state.visible} onHide={() => { this.setState({visible: false})}}>
           <Modal.Header closeButton>
