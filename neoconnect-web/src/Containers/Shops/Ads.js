@@ -112,7 +112,7 @@ class Ads extends React.Component {
     var msg = await res.json();
 
     if (res.status === 200) {
-      showNotif(false, "Envoyé", "Nous avons bien pris en compte votrem" + (choice ? "acceptation" :  "refus") + " . Une notification sera envoyé à " + inf.pseudoUser);
+      showNotif(false, "Envoyé", "Nous avons bien pris en compte votrem" + (choice ? "acceptation" :  "refus") + " . Une notification sera envoyé à " + inf.pseudo);
       this.getOffers();
     }
     else {

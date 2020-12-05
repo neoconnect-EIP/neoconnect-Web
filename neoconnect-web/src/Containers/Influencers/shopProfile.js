@@ -456,7 +456,6 @@ class shopProfile extends React.Component{
                     this.state.loading && displayLoad()
 
                   }
-                }
                 <Modal centered show={this.state.visible} onHide={this.handleCloseRate}>
                   <Modal.Header closeButton>
                     <Modal.Title>Notez cette marque</Modal.Title>
