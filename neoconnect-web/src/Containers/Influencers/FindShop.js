@@ -93,7 +93,7 @@ class FindShop extends React.Component{
         this.handleGlobalAnnonce(shops);
       }
       else {
-        showNotif(true, "Non trouvé", "Aucune marque correspond à " + this.state.search);
+        showNotif(true, "Non trouvé", "Aucune marque ne correspond à " + this.state.search);
       }
     }
 
