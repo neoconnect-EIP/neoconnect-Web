@@ -356,7 +356,7 @@ class shopProfile extends React.Component{
                           <Row xs={1} sm={2} md={2} lg={3} xl={3} className="mx-auto w-100">
                             <Col className="mt-2 px-0">
                               <h3 className="ml-4" style={{color: 'white'}}>{this.state.shopData.nbFollows}</h3>
-                              <p style={{color: 'white', fontWeight: '400'}}>Abonnées</p>
+                              <p style={{color: 'white', fontWeight: '400'}}>Abonnés</p>
                             </Col>
                             <Col className="mt-2 px-0">
                               <h3 className="ml-3" style={{color: 'white'}}>{this.state.shopData.nbOfferPosted}</h3>

@@ -391,7 +391,7 @@ class ShopStatus extends React.Component{
                           </Col>
                           <Col className="mx-auto mt-4 pointerClick" align="center" onClick={() => {this.setState({showFollowers: true});}}>
                             <h3 style={{color: 'white'}}>{this.state.followers.length}</h3>
-                            <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonnée</p>
+                            <p style={{color: 'white', fontWeight: '400'}}>Nombre d'abonné</p>
                           </Col>
                         </Row>
                       </Col>
@@ -463,7 +463,7 @@ class ShopStatus extends React.Component{
                 </Modal.Header>
                 <Modal.Body>
                   {
-                    (this.state.followers && this.state.followers.length > 0) ? this.displayFollowers() : <p>Pas d'abonnée</p>
+                    (this.state.followers && this.state.followers.length > 0) ? this.displayFollowers() : <p>Pas d'abonné</p>
                 }
               </Modal.Body>
             </Modal>

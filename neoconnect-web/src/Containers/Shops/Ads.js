@@ -112,7 +112,7 @@ class Ads extends React.Component {
     var msg = await res.json();
 
     if (res.status === 200) {
-      showNotif(false, "Envoyé", "Nous avons bien pris en compte votrem" + (choice ? "acceptation" :  "refus") + " . Une notification sera envoyé à " + inf.pseudo);
+      showNotif(false, "Envoyé", "Nous avons bien pris en compte votre " + (choice ? "acceptation" :  "refus") + " . Une notification sera envoyé à " + inf.pseudo);
       this.getOffers();
     }
     else {
@@ -234,10 +234,10 @@ class Ads extends React.Component {
               </Row>
               {
                 (ad.apply && ad.apply.length > 0) ?
-                <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
-                  {this.listInf(ad)}
-                </Row> :
-                <p className="text-light mb-0 ml-4 mt-2 pl-2">Aucun candidature pour le moment.</p>
+                 <Row className="ml-3 mr-3 mt-3" xs={1} md={2} lg={3} sm={2} xl={4}>
+                   {this.listInf(ad)}
+                 </Row> :
+                <p className="text-light mb-0 ml-4 mt-2 pl-2">Aucune candidature pour le moment.</p>
               }
             </div>
           ))
